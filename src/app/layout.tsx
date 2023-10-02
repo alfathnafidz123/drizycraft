@@ -6,7 +6,7 @@ import '@/styles/globals.css';
 import '@/styles/colors.css';
 
 import { siteConfig } from '@/constant/config';
-import { AuthProvider } from '@/context/auth-context';
+import Footer from '@/layout/footer';
 import Navbar from '@/layout/navbar';
 
 // !STARTERCONF Change these default meta
@@ -58,10 +58,9 @@ export default function RootLayout({
   return (
     <html>
       <body>
-        <AuthProvider>
-          <Navbar />
-          {children}
-        </AuthProvider>
+        <Navbar />
+        {children}
+        <Footer />
       </body>
     </html>
   );

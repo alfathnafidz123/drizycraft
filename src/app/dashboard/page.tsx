@@ -1,20 +1,16 @@
-import { CountryInterface } from '@/interfaces/dashboard.interfaces';
-
-async function getCountries(): Promise<CountryInterface[]> {
-  const res = await fetch(`http://localhost:3000/api/country?q=ind`);
-  const countries = await res.json();
-  return countries;
-}
+import AboutSection from '@/components/home/about.section';
+import FeaturesSection from '@/components/home/features.section';
+import JumbotronSection from '@/components/home/jumbotron.section';
+import PricingSection from '@/components/home/pricing.section';
 
 const DashboardPage = async () => {
-  const countries = await getCountries();
-
   return (
-    <div className='flex w-80 flex-col gap-2 p-5'>
-      {countries.map((item, i) => (
-        <div key={i}>{item.name}</div>
-      ))}
-    </div>
+    <>
+      <JumbotronSection />
+      <FeaturesSection />
+      <AboutSection />
+      <PricingSection />
+    </>
   );
 };
 
