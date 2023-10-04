@@ -41,7 +41,7 @@ export default function HomePage() {
             </ArrowLink>
           </p>
 
-          <ButtonLink className='mt-6' href='/dashboard' variant='light'>
+          <ButtonLink className='mt-6' href='/components' variant='light'>
             See all components
           </ButtonLink>
 
