@@ -1,5 +1,5 @@
 const JumbotronSection = () => {
-  return <section className="mt-[100px] mb-[100px]">
+  return <section className="pt-[200px] mb-[100px]">
   <div className="container mx-auto">
     <div className="flex justify-center h-[325px] gap-[100px]">
       <div className="flex flex-wrap w-[440px] bg-[#D9D9D9] rounded-[12px]">
