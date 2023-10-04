@@ -42,7 +42,7 @@ export default function HomePage() {
           </p>
 
           <ButtonLink className='mt-6' href='/dashboard' variant='light'>
-            Go to dashboard
+            Dashbord
           </ButtonLink>
 
           <UnstyledLink
