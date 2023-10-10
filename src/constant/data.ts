@@ -2,27 +2,27 @@ import { cancel, check } from '~/images';
 
 export const navigationLinks = [
   {
-    name: 'Home',
-    hash: '#home',
+    name: "Home",
+    hash: "/home",
   },
   {
-    name: 'About Us',
-    hash: '#about',
+    name: "About Us",
+    hash: "/about",
   },
   {
-    name: 'Features',
-    hash: '#Features',
+    name: "Features",
+    hash: "/Features",
   },
   {
-    name: 'Contact',
-    hash: '#contact',
+    name: "Contact",
+    hash: "/contact",
   },
 ];
 
 export const features = [
   {
-    title: 'Free',
-    value: '150.000,00',
+    title: "Basic",
+    value: "150.000",
     featureItem: [
       { title: 'Lorem ipsum dolor sit amet.', imgUrl: check },
       { title: 'Lorem ipsum dolor sit amet.', imgUrl: check },
@@ -32,8 +32,8 @@ export const features = [
     ],
   },
   {
-    title: 'VIP',
-    value: '250.000,00',
+    title: "Standard",
+    value: "250.000",
     featureItem: [
       { title: 'Lorem ipsum dolor sit amet.', imgUrl: check },
       { title: 'Lorem ipsum dolor sit amet.', imgUrl: check },
@@ -43,8 +43,8 @@ export const features = [
     ],
   },
   {
-    title: 'VVIP',
-    value: '350.000,00',
+    title: "Premium",
+    value: "350.000",
     featureItem: [
       { title: 'Lorem ipsum dolor sit amet.', imgUrl: check },
       { title: 'Lorem ipsum dolor sit amet.', imgUrl: check },
