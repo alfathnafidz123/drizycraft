@@ -5,12 +5,12 @@ import Image from "next/image";
 const PricingSection = () => {
   return (
     <section className="flex flex-col justify-center items-center mt-[50px] mb-[100px] px-4">
-      <h1 className="mb-[60px]">Choose Your Package</h1>
+      <h1 className="mb-[60px] font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-b from-[#0151c6] to-[#217df7]">Choose Your Package</h1>
 
       <div className="flex flex-col md:flex-row justify-center items-center md:gap-[150px] gap-[150px] mt-[50px] flex-wrap">
         {features.map((feature, i) => (
           <div key={i} className="group relative flex flex-col justify-start items-center flex-wrap">
-            <div className="text-center bg-blue-500 rounded-[12px] px-6 max-md:px-8 py-3 absolute md:-top-11 -top-10 left-0 pb-[25px]">
+            <div className="text-center bg-gradient-to-r from-[#0151c6] to-[#217df7] rounded-[12px] px-6 max-md:px-8 py-3 absolute md:-top-11 -top-10 left-0 pb-[25px]">
               <h3 className="text-slate-300 group-hover:text-white group-hover:-translate-y-2 transition duration-200 ease-in-out">{feature.title}</h3>
             </div>
 
@@ -27,7 +27,7 @@ const PricingSection = () => {
             </div>
 
             <div className="absolute -bottom-9 right-0">
-              <Button className="bg-blue-500 px-10 pb-2 pt-[20px] rounded-[12px] border-none hover:bg-blue-800 transition duration-200 ease-in">
+              <Button className="bg-gradient-to-r from-[#0151c6] to-[#217df7] px-10 pb-2 pt-[20px] rounded-[12px] border-none transition duration-200 ease-in">
                 <span className="text-xl font-semibold max-md:text-lg">Choose</span>
               </Button>
             </div>
