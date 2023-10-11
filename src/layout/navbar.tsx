@@ -11,9 +11,9 @@ import { quadra } from '~/images';
 
 const Navbar = () => {
   return (
-    <nav className='absolute z-[3] flex w-full items-center px-[80px] py-10 bg-tranparrent'>
+    <nav className='absolute z-[3] flex w-full items-center md:px-[80px] py-10 bg-tranparrent'>
       <div className='container mx-auto flex items-center justify-between px-4'>
-        <div className='text-3xl font-bold text-white'>
+        <div className='text-3xl font-bold text-white pr-[90px]'>
           <Image src={quadra} alt='' width={50} height={50} className='object-contain' />
         </div>
         {/* <div className='text-3xl font-bold text-gray-700'>
