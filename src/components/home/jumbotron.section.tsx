@@ -1,5 +1,5 @@
 const JumbotronSection = () => {
-  return <div className='pt-[7rem]'>JumboTron</div>;
+  return <div className='pt-[10rem]'>JumboTron</div>;
 };
 
 export default JumbotronSection;
