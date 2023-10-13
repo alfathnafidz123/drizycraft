@@ -1,19 +1,15 @@
+import Button from "@/components/buttons/Button";
+
 const JumbotronSection = () => {
   return <section className="pt-[200px] mb-[100px]">
-  <div className="container mx-auto">
-    <div className="flex justify-center h-[325px] gap-[100px]">
-      <div className="flex flex-wrap w-[440px] bg-[#D9D9D9] rounded-[12px]">
-        <div className="px-4">
-          <h1 className="pt-4">Lorem, ipsum dolor.</h1>
-          <p className="text-base">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          <p className="py-4 text-lg">Lorem ipsum dolor sit, amet consectetur adipisicing elit. A deserunt et corrupti quis sapiente. Iste necessitatibus, commodi explicabo rerum cupiditate, reprehenderit nihil a quis non cum, et sunt libero corrupti!</p>
-        </div>
-        <div className="flex flex-grow justify-end items-end mb-[31px] mr-[31px]">
-          <a href="" className="flex items-center justify-center w-[200px] h-[50px] text-[24px] border-2 border-[#000]  rounded-[12px]">Button</a>
-        </div>
+  <div className="flex flex-row justify-center items-center gap-[100px]">
+    <div className="grid w-[440px] h-[325px] bg-[#D9D9D9] rounded-[12px] content-between">
+      <h2 className="p-4">Lorem, ipsum dolor.</h2>
+      <div className="flex justify-end items-end pb-[30px] pr-[20px]">
+      <Button className="flex w-[200px] h-[50px] bg-transparent text-black !text-[24px] items-center justify-center rounded-[20px] border-2 border-black">Button</Button>
       </div>
-      <div className="w-[700px] bg-[#D9D9D9] rounded-[12px]"></div>
     </div>
+    <div className="w-[700px] h-[325px] bg-[#D9D9D9] rounded-[12px]"></div>
   </div>
 </section>
 };
