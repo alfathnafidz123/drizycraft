@@ -1,11 +1,11 @@
 import About from "@/components/about/about";
-import Service from "@/components/about/service";
+import Client from "@/components/about/client";
 
 const AboutPage = async () => {
   return (
     <>
     <About />
-    <Service />
+    <Client />
     </>
   );
 };

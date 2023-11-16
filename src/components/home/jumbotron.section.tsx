@@ -1,16 +1,20 @@
 import Button from "@/components/buttons/Button";
+import Image from 'next/image'
 
 const JumbotronSection = () => {
-  return <section className="pt-[200px] mb-[100px]">
-  <div className="flex flex-row justify-center items-center gap-[100px]">
-    <div className="grid w-[440px] h-[325px] bg-[#D9D9D9] rounded-[12px] content-between">
-      <h2 className="p-4">Lorem, ipsum dolor.</h2>
-      <div className="flex justify-end items-end pb-[30px] pr-[20px]">
-      <Button className="flex w-[200px] h-[50px] bg-transparent text-black !text-[24px] items-center justify-center rounded-[20px] border-2 border-black">Button</Button>
+  return <section className="pt-[125px] mb-[100px]">
+    <div className="flex flex-col px-[20px] md:flex-row md:gap-[190px] md:items-center md:justify-center">
+      <div className="flex flex-col items-center justify-center md:max-w-[520px] md:items-start md:pt-24">
+        <h2 className="font-bold text-xl md:text-3xl">Lorem Ipsum Dolor Sit Amet</h2>
+        <p className="text-center mt-[12px] mb-[12px] text-sm md:text-start md:text-base">consectetur a dipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <Button className="bg-[#0151C6] border-none text-lg px-6 rounded-xl transition duration-200 hover:bg-[#0151C6]/70 md:px-8">
+          Button
+        </Button>  
+      </div>
+      <div className="mt-10">
+      <Image className="" src="/images/edu.png" width={500} height={358} alt="edu"/>
       </div>
     </div>
-    <div className="w-[700px] h-[325px] bg-[#D9D9D9] rounded-[12px]"></div>
-  </div>
 </section>
 };
 
