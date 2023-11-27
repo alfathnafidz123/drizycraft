@@ -1,21 +1,21 @@
+import Button from "@/components/buttons/Button";
+import Image from 'next/image'
+
 const JumbotronSection = () => {
-  return <section className="pt-[200px] mb-[100px]">
-    <div className="container mx-auto">
-      <div className="flex justify-center h-[325px] gap-[100px]">
-        <div className="flex flex-wrap w-[440px] bg-[#D9D9D9] rounded-[12px]">
-          <div className="px-4">
-            <h1 className="pt-4">Lorem, ipsum dolor.</h1>
-            <p className="text-base">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            <p className="py-4 text-lg">Lorem ipsum dolor sit, amet consectetur adipisicing elit. A deserunt et corrupti quis sapiente. Iste necessitatibus, commodi explicabo rerum cupiditate, reprehenderit nihil a quis non cum, et sunt libero corrupti!</p>
-          </div>
-          <div className="flex flex-grow justify-end items-end mb-[31px] mr-[31px]">
-            <a href="" className="flex items-center justify-center w-[200px] h-[50px] text-[24px] border-2 border-[#000]  rounded-[12px]">Button</a>
-          </div>
-        </div>
-        <div className="w-[700px] bg-[#D9D9D9] rounded-[12px]"></div>
+  return <section className="pt-[125px] mb-[100px]">
+    <div className="flex flex-col px-[20px] md:flex-row md:gap-[190px] md:items-center md:justify-center">
+      <div className="flex flex-col items-center justify-center md:max-w-[520px] md:items-start md:pt-24">
+        <h2 className="font-bold text-xl md:text-3xl">Lorem Ipsum Dolor Sit Amet</h2>
+        <p className="text-center mt-[12px] mb-[12px] text-sm md:text-start md:text-base">consectetur a dipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <Button className="bg-[#0151C6] border-none text-lg px-6 rounded-xl transition duration-200 hover:bg-[#0151C6]/70 md:px-8">
+          Button
+        </Button>  
+      </div>
+      <div className="mt-10">
+      <Image className="" src="/images/edu.png" width={500} height={358} alt="edu"/>
       </div>
     </div>
-  </section>
+</section>
 };
 
 export default JumbotronSection;

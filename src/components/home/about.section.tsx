@@ -1,19 +1,18 @@
+import Image from "next/image";
+
 const AboutSection = () => {
-  return <section className="mt-[100px]">
-  <div className="h-[400px] flex justify-between">
-    <div className="w-[720px] p-4 text-end">
-      <h1>Lorem ipsum dolor sit amet.</h1>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem provident labore facilis, corporis ea aliquid sint iste nisi quibusdam illum?</p>
-      </div>
-    <div className="w-[720px] bg-[#D9D9D9]"></div>
+  return <section className="mt-[100px] mb-[100px]">
+  <div className="flex flex-col justify-center items-center">
+    <h1 className="">About Us</h1>
+  </div>
+  <div className="flex flex-col justify-center items-center md:flex-row-reverse md:gap-[100px]">
+    <Image src="/images/about1.png" height={400} width={400} alt=""/>
+    <p className="px-6 pt-4 text-justify md:max-w-[500px]">Lorem ipsum dolor sit amet consectetur a dipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
   </div>
 
-  <div className="h-[400px] flex justify-between">
-    <div className="w-[720px] bg-[#D9D9D9]"></div>
-    <div className="w-[720px] p-4">
-      <h1>Lorem ipsum dolor sit amet.</h1>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem provident labore facilis, corporis ea aliquid sint iste nisi quibusdam illum?</p>
-      </div>
+  <div className="flex flex-col justify-center items-center md:flex-row md:gap-[100px]">
+    <Image src="/images/about1.png" height={400} width={400} alt=""/>
+    <p className="px-6 pt-4 text-justify md:max-w-[500px]">Lorem ipsum dolor sit amet consectetur a dipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
   </div>
 </section>;
 };
