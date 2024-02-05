@@ -5,6 +5,7 @@ import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
 
+import StoreProvider from '@/app/StoreProvider';
 import { siteConfig } from '@/constant/config';
 import Footer from '@/layout/footer';
 import Navbar from '@/layout/navbar';
@@ -41,12 +42,12 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: [`${siteConfig.url}/images/og.jpg`],
   },
-  // authors: [
-  //   {
-  //     name: 'Theodorus Clarence',
-  //     url: 'https://theodorusclarence.com',
-  //   },
-  // ],
+  authors: [
+    {
+      name: 'Dionisius Aditya',
+      url: 'https://github.com/dionisius77',
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -57,9 +58,11 @@ export default function RootLayout({
   return (
     <html className='!scroll-smooth'>
       <body className=''>
-        <Navbar />
-        {children}
-        <Footer />
+        <StoreProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </StoreProvider>
       </body>
     </html>
   );

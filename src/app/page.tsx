@@ -1,7 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import Head from 'next/head';
 import * as React from 'react';
+
+import { setToken } from '@/lib/slices/user';
+import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import ArrowLink from '@/components/links/ArrowLink';
 import ButtonLink from '@/components/links/ButtonLink';
@@ -22,6 +26,16 @@ import Logo from '~/svg/Logo.svg';
 // to customize the default configuration.
 
 export default function HomePage() {
+  const { token } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    dispatch(setToken({ token: 'testing token' }));
+  }, []);
+
+  // eslint-disable-next-line no-console
+  console.log(token);
+
   return (
     <main>
       <Head>
