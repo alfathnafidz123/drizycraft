@@ -2,67 +2,65 @@ import { BsWhatsapp, BsInstagram, BsLinkedin } from 'react-icons/bs'
 
 const Footer = () => {
   return (
-    <footer className="h-[368px] w-full bg-[#0158C6]">
-      <div className="flex">
-        <h1
-          className="w-full mt-[50px] h-[100px] text-[24px] text-semibold  text-center text-white"
-        >Let’s Get Started and Use Our Product Today
-        </h1>
-      </div>
-
-      <div>
-        <div className="flex justify-between">
-          <div className="ml-[50px] h-[50px] w-[200px]">
-            <a href="">
-              <img src="/images/quadra.png" width='50' height='50' />
-            </a>
-          </div>
-
-          <ul className="w-[470px] flex gap-[30px]">
-            <li className="font-poppins font-bold text-[16px] text-white pr-[42.23px]">
-              <a href="#">Home</a>
-            </li>
-            <li className="font-poppins font-bold text-[16px] text-white pr-[30px]">
-              <a href="#">Features</a>
-            </li>
-            <li className="font-poppins font-bold text-[16px] text-white pr-[30px]">
-              <a href="#">Contact</a>
-            </li>
-            <li className="font-poppins font-bold text-[16px] text-white">
-              <a href="#">About</a>
-            </li>
-
-
-          </ul>
-
-          <div className="flex pr-[50px] ">
-            <div className="flex">
-              <a href="#" target="_blank" className="text-white text-bold text-[30px] pr-[20px] ">
-                {/* Whatsapp */}
-                <BsWhatsapp />
-              </a>
-
-              < a href="#" target="_blank" className="text-white text-bold text-[30px] pr-[20px]">
-                {/* Instagram */}
-                <BsInstagram />
-              </a>
-              <a href="#" target="_blank" className="text-white text-bold text-[30px]">
-                {/* LinkedIn */}
-                <BsLinkedin />
-              </a>
-
-
+    <footer className="flex flex-col items-center px-16 pt-12 pb-7 text-white bg-[#1A214C] max-md:px-5">
+      <form className="flex flex-col mt-16 w-full max-w-[1173px] max-md:mt-10 max-md:max-w-full">
+        <div className="flex gap-5 justify-between items-start max-md:flex-wrap max-md:max-w-full">
+          <nav className="flex flex-col flex-1 text-sm leading-6 whitespace-nowrap">
+            <h2 className="text-lg font-bold leading-5">Find</h2>
+            <div className="mt-11 max-md:mt-10">Blogs</div>
+            <div className="mt-6">Newest</div>
+            <div className="mt-6">Popular</div>
+          </nav>
+          <nav className="flex flex-col flex-1 text-sm leading-6 whitespace-nowrap">
+            <h2 className="text-lg font-bold leading-5">Categories</h2>
+            <div className="mt-10">Shadow box</div>
+            <div className="mt-6">Paper Cut Template</div>
+            <div className="mt-5">Sublimation</div>
+            <div className="mt-6">Vector</div>
+          </nav>
+          <nav className="flex flex-col flex-1 text-sm leading-6">
+            <h2 className="text-lg font-bold leading-5">Legal</h2>
+            <div className="mt-10 max-md:mt-10">License</div>
+            <div className="mt-6 whitespace-nowrap">Terms & Conditions</div>
+            <div className="mt-6">Privacy Policy</div>
+          </nav>
+          <nav className="flex flex-col text-sm flex-1 leading-6 whitespace-nowrap">
+            <h2 className="text-lg font-bold leading-5">Help</h2>
+            <div className="mt-10">Help Center</div>
+            <div className="mt-6">FAQ</div>
+            <div className="mt-6">Contact Us</div>
+            <div className="mt-6">About Us</div>
+          </nav>
+          <nav className="flex flex-col flex-1 self-stretch">
+            <div className="flex flex-col px-2.5">
+              <h2 className="text-lg leading-5">Follow us</h2>
+              <div className="flex gap-5 justify-between mt-5 text-xl whitespace-nowrap">
+                <a href="#" aria-label="Facebook">
+                </a>
+                <a href="#" aria-label="Twitter">
+                  
+                </a>
+                <a href="#" aria-label="Youtube">
+                  
+                </a>
+                <a href="#" aria-label="Instagram">
+                  
+                </a>
+              </div>
             </div>
-
-          </div>
+            <img
+              loading="lazy"
+              src=""
+              className="self-center mt-12 aspect-[2.78] w-[207px] max-md:mt-10"
+              alt="Blog Finder Logo"
+            />
+          </nav>
         </div>
-        <div className=" font-poppins pt-[50px] px-[50px]">
-          <div className="flex justify-end border-t-2  border-white text-[14px] pt-[20px] pb-[46px] text-end text-white ">
-            <p className="pr-[10px] font-medium">Copyright</p> <span className="text-[24px] " >©</span> <p className="pl-[10px] pr-[10px] font-medium "> 2023</p> <p className="font-medium">Right Deserved</p>
-          </div>
+        <div className="shrink-0 mt-11 h-px bg-white bg-opacity-30 max-md:mt-10 max-md:max-w-full" />
+        <div className="self-center mt-6 text-sm leading-6 text-center">
+          ©2024 Drizy Studio - All rights reserved.
         </div>
-
-      </div>
+      </form>
 
     </footer>
   );

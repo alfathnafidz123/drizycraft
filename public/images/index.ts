@@ -1,5 +1,3 @@
-import check from './check-mark.png';
-import cancel from './cancel.png';
-import quadra from './quadra-blue.png'
+import logodrizy from './drizylogo.png'; 
 
-export { check, cancel, quadra };
+export {logodrizy}
