@@ -1,13 +1,13 @@
 'use client';
 
-import { logodrizy } from '~/images'
+import { logodrizy } from '~/images';
 
 const Navbar = () => {
-
+  console.log(logodrizy);
   return (
-    <nav className='fixed top-0 z-10 flex w-full items-center md:px-[80px] py-10 bg-white shadow-xl'>
+    <nav className='fixed top-0 z-10 flex w-full items-center bg-white py-10 shadow-xl md:px-[80px]'>
       <div className='container mx-auto flex items-center justify-between px-4'>
-        <img src={logodrizy} alt='Logo' className='object-contain' />
+        <img src={logodrizy.src} alt='Logo' className='object-contain' />
       </div>
     </nav>
   );
