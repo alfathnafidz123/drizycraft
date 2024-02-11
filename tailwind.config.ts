@@ -6,8 +6,16 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        primary: ['Inter', ...defaultTheme.fontFamily.sans],
-        poppins: ['poppins,'],
+        primary: ['Katide Regular'],
+        'montserrat': ['Montserrat', 'sans-serif'],
+        'katide-thin': ['Katide Thin', 'sans-serif'],
+        'katide-light': ['Katide Light', 'sans-serif'],
+        'katide-regular': ['Katide Regular', 'sans-serif'],
+        'katide-medium': ['Katide Medium', 'sans-serif'],
+        'katide-semibold': ['Katide SemiBold', 'sans-serif'],
+        'katide-bold': ['Katide Bold', 'sans-serif'],
+        'katide-extrabold': ['Katide ExtraBold', 'sans-serif'],
+        'katide-heavy': ['Katide Heavy', 'sans-serif'],
       },
       colors: {
         primary: {
@@ -25,6 +33,7 @@ export default {
           950: 'rgb(var(--tw-color-primary-950) / <alpha-value>)',
         },
         dark: '#222222',
+        seasons:'#E1E3F4',
       },
       keyframes: {
         flicker: {
