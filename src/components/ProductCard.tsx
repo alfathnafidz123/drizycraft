@@ -1,16 +1,17 @@
-
 function ProductCard() {
   return (
-    <div className='main-container w-[281px] h-[335px] relative mx-1'>
+    <div className='main-container w-[281px] h-[335px] relative mx-1 shadow-2xl'>
       <div className='flex w-[64px] h-[37px] pt-[12px] pr-[24px] pb-[12px] pl-[24px] gap-[8px] justify-center items-center flex-nowrap rounded-[8px] border-solid border-2 border-[#b1b1b1] relative z-[9] mt-[285.868px] mr-0 mb-0 ml-[205px]'>
-        <div className='w-[26px] h-[24px] shrink-0 bg-[url()] bg-cover bg-no-repeat relative z-10' />
+        <div className='w-[26px] h-[24px] shrink-0 relative z-10' style={{ backgroundImage: `url('/images/cartProduct.png')` }} />
       </div>
 
       {/* badge sale */}
-      <div className='w-[83.578px] h-[43.543px] bg-[url()] bg-cover bg-no-repeat absolute top-[-1px] right-[12.422px] overflow-hidden z-[8]' />
+      {/* <div className='w-[83.578px] h-[43.543px] absolute top-[-1px] right-[12.422px] overflow-hidden z-[8]' style={{ backgroundImage: `url('/images/sale-product.png')` }} /> */}
 
       <div className='flex w-[281px] h-[335px] pt-[12px] pr-[12px] pb-[12px] pl-[12px] flex-col gap-[24px] items-start flex-nowrap bg-[#fff] rounded-[12px] absolute top-0 left-0 shadow-xl'>
-        <div className='h-[172px] self-stretch shrink-0 bg-[url(https://img.freepik.com/premium-photo/background-from-ripe-juicy-strawberries-fruit-summer-background_1048944-8456341.jpg?w=360)] bg-cover bg-no-repeat rounded-[6px] relative z-[1]' />
+        <div className='h-[172px] self-stretch shrink-0 bg-cover bg-no-repeat rounded-[6px] relative z-[1]'
+          style={{ backgroundImage: `url(/images/crafters1.png)` }}
+        />
         <span className="flex w-[257px] h-[54px] justify-start items-start self-stretch shrink-0 text-[16px] font-semibold leading-[17.6px] text-[#1a204c] relative text-left overflow-hidden z-[2]">
           Girl and Fox by The Forest
           <br />
@@ -24,8 +25,8 @@ function ProductCard() {
           </span>
         </button>
       </div>
-      <div className='w-[39px] h-[39px] bg-[url()] bg-cover bg-no-repeat absolute top-[5px] left-[7px] z-[6]' />
-      <div className='w-[39px] h-[39px] bg-[] bg-cover bg-no-repeat absolute top-[5px] left-[55px] z-[7]' />
+      <button className='w-[40px] h-[40px] bg-no-repeat absolute top-[5px] left-[7px] z-[6]' style={{ backgroundImage: `url('/images/pintCrafter.png')` }} />
+      <button className='w-[44px] h-[44px] absolute top-[5px] left-[55px] z-[7]' style={{ backgroundImage: `url('/images/waCrafter.png')` }} />
     </div>
   );
 }
