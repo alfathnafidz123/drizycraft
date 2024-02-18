@@ -1,0 +1,12 @@
+.dropdown {
+  display: none;
+}
+.crafter:checked + .dropdown-crafter {
+  display: absolute;
+  top: 16px;
+  z-index: 10;
+  width: 285px;
+  border-radius: 0 0 30px 30px;
+  background-color: #e4f6fb;
+  padding-left: 4px;
+}
