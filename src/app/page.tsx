@@ -11,6 +11,7 @@ import AffiliateBanner from '@/components/AffiliateBanner';
 import ProductCard from '@/components/ProductCard';
 import ProductCategories from '@/components/ProductCategories';
 import { search } from '~/images';
+import Testimonies from '@/components/testimonies';
 
 import { coffeeHolder } from '~/images';
 import SeasonCategories from '@/components/SeasonCategories';
@@ -40,7 +41,7 @@ export default function HomePage() {
 
       <section className='flex items-center justify-center bg-white py-9 text-base font-bold leading-4 text-white max-md:px-5'>
         <div className='flex w-full max-w-[1400px] flex-col max-md:max-w-full'>
-          <div className='self-center whitespace-nowrap text-2xl text-indigo-950'>
+          <div className='self-center whitespace-nowrap text-2xl text-indigo-950 font-katide-bold'>
             Browse Product Categories
           </div>
           <div className='mt-12 flex flex-wrap pl-[8%]'>
@@ -58,7 +59,7 @@ export default function HomePage() {
 
       <section className='flex items-center justify-center bg-[#E1E3F4] py-9 text-base font-bold leading-4 text-white'>
         <div className='flex w-full max-w-[1400px] flex-col max-md:max-w-full'>
-          <div className='self-center whitespace-nowrap text-2xl text-indigo-950'>
+          <div className='self-center whitespace-nowrap text-2xl text-indigo-950 font-katide-bold'>
             Browse Season Categories
           </div>
           <div className='flex pl-[10%]'>
@@ -116,18 +117,8 @@ export default function HomePage() {
             <div className="mt-[4%] text-[24px] font-katide-bold leading-10 text-indigo-950 max-md:mt-10">
               Best Seller
             </div>
-            {/* <div className="pl-5 justify-end items-center flex">
-              <div className="text-right text-indigo-950 text-base font-bold mx-16 mt-12 leading-none">
-                Explore Crafters
-              </div>
-              <img
-                loading='lazy'
-                src=''
-                className='aspect-[0.43] w-1.5 self-start fill-blue-600'
-              />
-            </div> */}
           </div>
-          <div className=' flex sm:flex-row md:gap-4 lg:flex-col lg:flex-nowrap xl:flex-row xl:flex-nowrap'>
+          <div className=' flex mt-10 sm:flex-row md:gap-4 lg:flex-col lg:flex-nowrap xl:flex-row xl:flex-nowrap'>
             <ProductCard />
             <ProductCard />
             <ProductCard />
@@ -209,6 +200,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <Testimonies/>
 
       <section>
         <div className='header flex items-center justify-center bg-blue-400 px-16 py-12 max-md:px-5'>
