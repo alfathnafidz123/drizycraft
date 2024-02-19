@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa6';
 
@@ -16,7 +17,12 @@ interface SubMenuState {
   seasonal: boolean;
   craft: boolean;
 }
-const Navbar = () => {
+interface NavbarProps {
+  openModalLogin: () => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ openModalLogin }) => {
+  const router = useRouter();
   const [showMenu, setShowMenu] = useState<MenuState>({
     crafter: false,
     vector: false,
@@ -50,10 +56,16 @@ const Navbar = () => {
       return updatedState;
     });
   };
+  const handleLogoClick = () => {
+    // Use router to navigate to the login page
+    router.push('/');
+  };
   return (
-    <nav className='container fixed top-0 z-20 mx-auto flex w-full items-center bg-white py-3.5 shadow-xl'>
-      <div className='container mx-auto flex items-center justify-between px-4'>
-        <img src={logodrizy.src} alt='Logo' className='object-contain' />
+    <nav className='container sticky top-0 z-20 flex w-full items-center bg-white py-3.5 shadow-xl'>
+      <div className='container mx-auto flex items-center justify-evenly px-4'>
+        <a onClick={handleLogoClick}>
+          <img src={logodrizy.src} alt='Logo' className='object-contain' />
+        </a>
         <div className='flex flex-col gap-4'>
           <div className='flex flex-row items-center justify-between pl-2'>
             <label
@@ -79,15 +91,18 @@ const Navbar = () => {
               <div className='flex rounded-full bg-[#008ECC]'>
                 <img
                   src={search.src}
-                  className='w-[32px] flex-grow transition-all duration-300 group-hover:hidden'
+                  className='w-[32px] flex-grow transition-all duration-300 group-hover:w-0 group-hover:opacity-0'
                   alt='search'
                 />
-                <p className='hidden scale-0 px-4 py-2 text-white transition-all duration-300 group-hover:flex group-hover:scale-100'>
-                  Search
-                </p>
+                <div className='w-0 overflow-hidden transition-all duration-300 group-hover:w-[80px]'>
+                  <p className='px-4 py-2 text-center text-white'>Search</p>
+                </div>
               </div>
             </div>
-            <button className='rounded-full bg-[#e4f6fb] px-6 py-3 font-semibold text-[#008ECC]'>
+            <button
+              className='rounded-full bg-[#e4f6fb] px-6 py-3 font-semibold text-[#008ECC]'
+              onClick={openModalLogin}
+            >
               LOGIN
             </button>
             <button className='rounded-full bg-[#e4f6fb] px-6 py-3 font-semibold text-[#008ECC]'>
@@ -137,7 +152,16 @@ const Navbar = () => {
                       </label>
                     </div>
                     <div className='my-8 flex font-semibold'>
-                      <p>Craft Design SVGs</p>
+                      <label>
+                        Craft Design SVGs
+                        <button
+                          id='crafter'
+                          className='crafter'
+                          onClick={() => {
+                            toggleSubMenu('craft');
+                          }}
+                        ></button>
+                      </label>
                     </div>
                   </div>
                   {showMenu.crafter && showSubMenu.seasonal ? (
@@ -179,31 +203,40 @@ const Navbar = () => {
                     <div className='flex'>
                       <div className='flex flex-col whitespace-nowrap bg-white px-8'>
                         <div className='my-8 font-semibold'>
-                          <p>Summer SVG</p>
+                          <p>Free SVGs</p>
                         </div>
                         <div className='my-8 font-semibold'>
-                          <p>Fall SVG</p>
+                          <p>Shadow Box SVG</p>
                         </div>
                         <div className='my-8 font-semibold'>
-                          <p>Halloween SVG</p>
+                          <p>Cricut SVG</p>
                         </div>
                         <div className='my-8 font-semibold'>
-                          <p>Thanksgiving SVG</p>
+                          <p>SVG cut files</p>
                         </div>
                       </div>
                       <div className='h-full w-[1px] bg-[#E5E7EB]'></div>
                       <div className='flex flex-col whitespace-nowrap bg-white px-8'>
                         <div className='my-8 font-semibold'>
-                          <p>Winter SVG</p>
+                          <p>Printable Craft</p>
                         </div>
                         <div className='my-8 font-semibold'>
-                          <p>Christmas SVG</p>
+                          <p>Papercut Templates</p>
                         </div>
                         <div className='my-8 font-semibold'>
-                          <p>Easter SVG</p>
+                          <p>Monogram Designs</p>
                         </div>
                         <div className='my-8 font-semibold'>
-                          <p>Spring SVG</p>
+                          <p>Card Making</p>
+                        </div>
+                      </div>
+                      <div className='h-full w-[1px] bg-[#E5E7EB]'></div>
+                      <div className='flex flex-col whitespace-nowrap bg-white px-8'>
+                        <div className='my-8 font-semibold'>
+                          <p>Tshirt Designs</p>
+                        </div>
+                        <div className='my-8 font-semibold'>
+                          <p>Sticker SVG</p>
                         </div>
                       </div>
                     </div>
@@ -229,7 +262,7 @@ const Navbar = () => {
                   showMenu.vector ? 'block' : 'hidden'
                 } absolute top-16 z-10 w-[285px] rounded-bl-3xl rounded-br-3xl bg-[#E4F6FB] px-4`}
               >
-                <div className='flex'>
+                <div className='flex flex-col'>
                   <div className='my-8 flex font-semibold'>
                     <p>Illustration</p>
                   </div>

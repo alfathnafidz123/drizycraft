@@ -1,8 +1,22 @@
-const ProductCategories = () => {
+/* eslint-disable @next/next/no-img-element */
+import { StaticImageData } from 'next/image';
+
+interface ProductCategoriesProps {
+  name: string;
+  image: StaticImageData;
+}
+
+const ProductCategories: React.FC<ProductCategoriesProps> = ({
+  name,
+  image,
+}) => {
   return (
-    <button className='mb-6 h-16 w-52 rounded-[32px] bg-[url(https://img.freepik.com/premium-photo/background-from-ripe-juicy-strawberries-fruit-summer-background_1048944-8456341.jpg?w=360)] object-cover'>
-      <div className="h-16 w-52 rounded-[32px] flex justify-center items-center bg-[#4065D1]/50 font-katide-bold hover:bg-[#4065D1]/80">
-        Free SVGs
+    <button className='relative mb-6 h-16 w-52 overflow-hidden rounded-[32px]'>
+      <div className='font-katide-bold absolute top-0 z-10 flex h-full w-full items-center justify-center rounded-[32px] bg-[#4065D1]/50 hover:bg-[#4065D1]/80'>
+        {name}
+      </div>
+      <div className='absolute top-0 z-0'>
+        <img src={image.src} alt={name} />
       </div>
     </button>
   );

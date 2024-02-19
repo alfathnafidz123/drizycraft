@@ -3,18 +3,38 @@
 'use client';
 
 import * as React from 'react';
+import Slider, { CustomArrowProps } from 'react-slick';
 
-import { setToken } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import AffiliateBanner from '@/components/AffiliateBanner';
-import ProductCard from '@/components/ProductCard';
 import ProductCategories from '@/components/ProductCategories';
-import { search } from '~/images';
+import SeasonCategories from '@/components/SeasonCategories';
+import ProductSlider from '@/components/slider/ProductSlider';
+import TrendingTag from '@/components/tag/TrendingTag';
 import Testimonies from '@/components/testimonies';
 
-import { coffeeHolder } from '~/images';
-import SeasonCategories from '@/components/SeasonCategories';
+import {
+  avatarExample,
+  cartProduct,
+  categories1,
+  categories2,
+  categories3,
+  categories4,
+  categories5,
+  categories6,
+  categories7,
+  categories8,
+  categories9,
+  categories10,
+  crafterItem1,
+  gridCrafter,
+  gridSlide,
+  sale,
+  search,
+  seasonCategory,
+  starBadge,
+} from '~/images';
 
 // !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
 // Before you begin editing, follow all comments with `STARTERCONF`,
@@ -24,33 +44,268 @@ export default function HomePage() {
   const { token } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
-  React.useEffect(() => {
-    dispatch(setToken({ token: 'testing token' }));
-  }, []);
+  const CustomPrevArrow: React.FC<CustomArrowProps> = ({ onClick }) => (
+    <div
+      className='slick-arrow slick-prev'
+      style={{ left: '10px', zIndex: 1 }}
+      onClick={onClick}
+    >
+      &lt;
+    </div>
+  );
 
-  // eslint-disable-next-line no-console
-  console.log(coffeeHolder.src);
+  const CustomNextArrow: React.FC<CustomArrowProps> = ({ onClick }) => (
+    <div
+      className='slick-arrow slick-next'
+      style={{ right: '10px', zIndex: 1 }}
+      onClick={onClick}
+    >
+      &gt;
+    </div>
+  );
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    prevArrow: <CustomPrevArrow />,
+    nextArrow: <CustomNextArrow />,
+    autoplay: true,
+  };
+  const categoryData = [
+    { name: 'Free SVGs 1', image: categories1 },
+    { name: 'Shadow Box SVG', image: categories2 },
+    { name: 'Cricut SVG', image: categories3 },
+    { name: 'SVG Cut File', image: categories4 },
+    { name: 'Monogram Designs', image: categories5 },
+    { name: 'Sticker SVG', image: categories6 },
+    { name: 'Printable Craft', image: categories7 },
+    { name: 'Card Making', image: categories8 },
+    { name: 'Tshirt Design', image: categories9 },
+    { name: 'Papercut Template', image: categories10 },
+  ];
+
+  const seasonCategoryData = [
+    { name: 'Fall', image: seasonCategory },
+    { name: 'Halloween', image: seasonCategory },
+    { name: 'Winter', image: seasonCategory },
+    { name: 'Christmas', image: seasonCategory },
+    { name: 'Spring', image: seasonCategory },
+    { name: 'Summer', image: seasonCategory },
+  ];
+  const crafterSlider = [
+    { name: 'crafterItem1', image: crafterItem1, price: 5 },
+    {
+      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
+      image: crafterItem1,
+      price: 5,
+    },
+    {
+      name: 'A5 Cricut Christmas Card with Adorable Stocking - Warm Winter Wishes',
+      image: crafterItem1,
+      price: 5,
+    },
+    {
+      name: 'Winter Village with Aurora 3D Shadow Box - Northern Lights 3D Light Box',
+      image: crafterItem1,
+      price: 5,
+    },
+    {
+      name: 'Girl and Fox by The Forest 3D Shadow Box - Winter SVG Paper Cut',
+      image: crafterItem1,
+      price: 5,
+    },
+  ];
 
   return (
     <main>
-      <section className='bg-sky-200'>
-        <div className="items-center flex min-h-screen justify-center text-center text-[64px] font-katide-heavy leading-[120%] text-indigo-950">
-          Combating Loneliness<br></br>with Creative Projects
+      <section className='flex flex-col items-center justify-center bg-sky-200 py-36 text-center'>
+        <div className='font-katide-heavy mb-16 text-[64px] leading-[120%] text-indigo-950'>
+          <p>Combating Loneliness</p>
+          <p>with Creative Projects</p>
+        </div>
+        <div className='group mb-4 flex min-w-[600px] items-center gap-4 rounded-full border border-solid border-blue-500 border-opacity-25 bg-[#F1F2FB] p-4 pl-6 text-left text-sm font-normal leading-4 tracking-tighter text-[#6F6F6F]'>
+          <input
+            placeholder='Search for unique craft designs, categories, occasions...'
+            className='flex-grow truncate border-none bg-[#F1F2FB] text-sm outline-none focus:outline-none'
+          ></input>
+          <div className='flex rounded-full bg-[#008ECC]'>
+            <img
+              src={search.src}
+              className='w-[32px] flex-grow transition-all duration-300 group-hover:w-0 group-hover:opacity-0'
+              alt='search'
+            />
+            <div className='w-0 overflow-hidden transition-all duration-300 group-hover:w-[80px]'>
+              <p className='px-4 py-2 text-center text-white'>Search</p>
+            </div>
+          </div>
+        </div>
+        <div className='flex items-center gap-2'>
+          <p className='text-[#008ECC]'>Trending:</p>
+          <TrendingTag name='Shadow Box Svg' />
+          <TrendingTag name='Cricut SVG' />
+          <TrendingTag name='Sublimation' />
+          <TrendingTag name='Free Svg' />
+          <TrendingTag name='Papercut' />
+        </div>
+        <div className='h-76 mt-20 w-full px-40'>
+          <div className='grid h-full w-full grid-cols-8 grid-rows-2 gap-4'>
+            <div className='bg-div1 relative col-span-3 row-span-2 rounded-2xl border-8 border-[#61A9FA] transition-all duration-300 hover:border-white'>
+              <img
+                src={gridCrafter.src}
+                className='absolute h-full w-full rounded-lg bg-cover'
+                alt='Crafter'
+              />
+              <div className='bg-opacity-15 hover:bg-opacity-35 group absolute flex h-full w-full flex-col justify-between bg-blue-500/25 p-4 text-left hover:bg-white/50 '>
+                <p className='font-medium opacity-0 transition-all duration-300 group-hover:opacity-100'>
+                  <span className='block font-semibold'>
+                    Have you tried Drizy's designs in your projects?
+                  </span>
+                  Share your creations in our gallery and and earn a valuable
+                  Drizy Coin for more shopping!
+                </p>
+                <div className='flex items-center justify-between'>
+                  <p className='font-semibold'>Project from crafters</p>
+                  <div className='flex'>
+                    <img
+                      src={avatarExample.src}
+                      className='ml-[-8px] rounded-full border-[3px] border-white'
+                      alt='avatar'
+                    />
+                    <img
+                      src={avatarExample.src}
+                      className='ml-[-8px] rounded-full border-[3px] border-white'
+                      alt='avatar'
+                    />
+                    <img
+                      src={avatarExample.src}
+                      className='ml-[-8px] rounded-full border-[3px] border-white'
+                      alt='avatar'
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className='group relative col-span-2 col-start-5 row-span-1 row-start-1 overflow-hidden rounded-2xl bg-[#61A9FA] transition-all duration-300 hover:bg-[#4065D1]'>
+              <div className='absolute flex h-full w-full'>
+                <div className='h-full w-1/2 bg-[#4065D1] transition-transform duration-300 ease-in-out group-hover:translate-x-full group-hover:transform group-hover:bg-[#2A3B80]'></div>
+              </div>
+              <div className='absolute flex h-full w-full'>
+                <div className='flex w-1/2 flex-col items-center justify-center p-2'>
+                  <div className='flex h-full w-full items-center justify-center rounded-2xl border border-[#FFBB3C] group-hover:border-[#FFBB3C]/[0]'>
+                    <img
+                      src={starBadge.src}
+                      alt='star badge'
+                      className='transition-all duration-300 group-hover:scale-110'
+                    />
+                  </div>
+                </div>
+                <div className='flex w-1/2 flex-col items-center justify-center gap-1 text-white'>
+                  <p className='text-2xl font-bold'>15</p>
+                  <p className='text-md'>Exclusive Partners</p>
+                  <p className='text-sm font-light'>Find out more!</p>
+                </div>
+              </div>
+            </div>
+            <div className='group relative col-span-3 col-start-4 row-span-1 row-start-2 rounded-2xl bg-[#6f82a6]'>
+              <div className='absolute flex h-full w-full flex-col items-start justify-center gap-2 px-8 py-4 text-white transition-all duration-300 group-hover:opacity-0'>
+                <p className='text-xl font-semibold'>The Craft Community</p>
+                <p className='text-sm'>21,000+ friendly home crafters</p>
+                <div className='flex w-full items-center justify-between'>
+                  <div className='flex'>
+                    <img
+                      src={avatarExample.src}
+                      className='ml-[-8px] h-[36px] rounded-full border-[3px] border-white'
+                      alt='avatar'
+                    />
+                    <img
+                      src={avatarExample.src}
+                      className='ml-[-8px] h-[36px] rounded-full border-[3px] border-white'
+                      alt='avatar'
+                    />
+                    <img
+                      src={avatarExample.src}
+                      className='ml-[-8px] h-[36px] rounded-full border-[3px] border-white'
+                      alt='avatar'
+                    />
+                  </div>
+                  <div>
+                    <button className='flex justify-center rounded-full bg-[#55668c] p-2'>
+                      Click here to request to join!
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className='absolute flex h-full w-full flex-col items-start justify-center gap-2 px-8 py-4 text-white opacity-0 transition-all duration-300 group-hover:opacity-100'>
+                <p className='text-left text-xs'>
+                  Before anything, why not join the{' '}
+                  <span className='font-semibold'>
+                    Drizy Studio community on Facebook
+                  </span>
+                  , a group of 21,000+ friendly home crafters who are all there
+                  to help each other succeed & get free product updates
+                </p>
+                <button className='flex justify-center self-center rounded-full bg-[#55668c] p-2 transition-all duration-500 group-hover:bg-[#61A9FA]'>
+                  Click here to request to join!
+                </button>
+              </div>
+            </div>
+            <div className='relative col-span-2 col-start-7 row-span-2 row-start-1 rounded-2xl border-4 border-[#61A9FA] bg-white p-2'>
+              <Slider {...settings}>
+                <div className='slide'>
+                  <div className='!important flex h-full items-center justify-center'>
+                    <img src={gridSlide.src} alt='slider' />
+                  </div>
+                </div>
+                <div className='slide'>
+                  <div className='!important flex h-full items-center justify-center'>
+                    <img src={gridSlide.src} alt='slider' />
+                  </div>
+                </div>
+                <div className='slide'>
+                  <div className='!important flex h-full items-center justify-center'>
+                    <img src={gridSlide.src} alt='slider' />
+                  </div>
+                </div>
+              </Slider>
+              <span className='relative z-[2] flex h-[54px] w-[257px] shrink-0 items-start justify-start self-stretch overflow-hidden text-left text-[16px] font-semibold leading-[17.6px] text-[#1a204c]'>
+                Girl and Fox by The Forest
+                <br />
+                3D Shadow Box - Winter
+                <br />
+                SVG Paper Cut
+              </span>
+              <div className='mt-2 flex gap-2'>
+                <button className='flex h-[37px] flex-grow items-center justify-center rounded-[8px] bg-[#2a3b80] px-16 py-4'>
+                  <span className='font-katide-bold z-[5] text-[20px] leading-[16px] text-white'>
+                    $1
+                  </span>
+                </button>
+                <button className='flex h-[37px] items-center justify-center gap-[8px] rounded-[8px] border-2 border-gray-400 bg-white pb-[12px] pl-[24px] pr-[24px] pt-[12px]'>
+                  <img src={cartProduct.src} alt='cart'></img>
+                </button>
+              </div>
+              <div className='absolute left-1 top-[-50px]'>
+                <img src={sale.src} alt='sale' />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       <section className='flex items-center justify-center bg-white py-9 text-base font-bold leading-4 text-white max-md:px-5'>
         <div className='flex w-full max-w-[1400px] flex-col max-md:max-w-full'>
-          <div className='self-center whitespace-nowrap text-2xl text-indigo-950 font-katide-bold'>
+          <div className='font-katide-bold self-center whitespace-nowrap text-2xl text-indigo-950'>
             Browse Product Categories
           </div>
           <div className='mt-12 flex flex-wrap pl-[8%]'>
-            {[...Array(10)].map((_, index) => (
+            {categoryData.map((data, index) => (
               <div
                 key={index}
                 className='w-full sm:w-[48%] md:w-[32%] lg:w-[24%] xl:w-[19%]'
               >
-                <ProductCategories />
+                <ProductCategories name={data.name} image={data.image} />
               </div>
             ))}
           </div>
@@ -59,77 +314,56 @@ export default function HomePage() {
 
       <section className='flex items-center justify-center bg-[#E1E3F4] py-9 text-base font-bold leading-4 text-white'>
         <div className='flex w-full max-w-[1400px] flex-col max-md:max-w-full'>
-          <div className='self-center whitespace-nowrap text-2xl text-indigo-950 font-katide-bold'>
+          <div className='font-katide-bold self-center whitespace-nowrap text-2xl text-indigo-950'>
             Browse Season Categories
           </div>
-          <div className='flex pl-[10%]'>
-            <SeasonCategories />
+          <div className='flex justify-center'>
+            {seasonCategoryData?.map((data, index) => (
+              <SeasonCategories
+                name={data.name}
+                key={index}
+                image={data.image}
+              />
+            ))}
           </div>
         </div>
       </section>
 
       <section>
-        <div className="flex flex-col px-[10%] pt-2 pb-12 font-bold bg-[#AAD3FF] max-md:px-5">
-          <div className="flex justify-between max-md:flex-wrap max-md:max-w-full ">
-            <div className="mt-[4%] text-[24px] font-katide-bold leading-10 text-indigo-950 max-md:mt-10">
+        <div className='flex flex-col bg-[#AAD3FF] pb-12 pt-2 font-bold max-md:px-5'>
+          <div className='flex justify-between px-20 max-md:max-w-full max-md:flex-wrap '>
+            <div className='font-katide-bold mt-[4%] text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
               Crafters
             </div>
-            {/* <div>
-              <img
-                loading='lazy'
-                src={coffeeHolder.src}
-                className='aspect-square w-[76px]'
-                alt='coffee holder'
-              />
-            </div> */}
-            {/* <div className="flex px-[6%] py-3 mt-2 bg-[#EE4C73] rounded-lg border border-orange-200 border-solid shadow-2xl max-md:flex-wrap max-md:px-5 max-md:max-w-full" style={{ boxShadow: '2.16px 8.65px 12.97px rgba(0, 0, 0, 0.35)', }}>
-              <div className="flex-auto my-auto text-base max-md:max-w-full" >
-                <span className="text-white">Upgrade your membership </span>
-                <span className="italic text-amber-400">
-                  for unlimited downloads
-                </span>
-              </div>
-              <button className="justify-center px-5 py-2.5 text-sm leading-6 whitespace-nowrap bg-amber-400 rounded-lg border-orange-200 border-solid shadow border-[1.422px] text-indigo-950" style={{ boxShadow: '1.54px 6.15px 9.22px rgba(0, 0, 0, 0.35)' }}>
-                DRIZY VIP+
-              </button>
-            </div> */}
-            <div className="pl-5 justify-end items-center flex">
-              <div className="text-right text-indigo-950 text-base font-bold mx-16 mt-12 leading-none">
+            <div className='flex items-center justify-end pl-5'>
+              <div className='mx-16 mt-12 text-right text-base font-bold leading-none text-indigo-950'>
                 Explore Crafters
               </div>
-              <img
-                loading='lazy'
-                src=''
-                className='aspect-[0.43] w-1.5 self-start fill-blue-600'
-              />
             </div>
           </div>
-          <div className="flex sm:flex-row md:gap-4 lg:flex-col lg:flex-nowrap xl:flex-nowrap xl:flex-row">
-            <ProductCard />
+          <div className='ml-10'>
+            <ProductSlider items={crafterSlider} />
           </div>
         </div>
       </section>
 
-
       <section>
-        <div className="flex flex-col px-[10%] pt-2 pb-12 font-bold bg-[#E1E3F4] max-md:px-5">
-          <div className="flex justify-between max-md:flex-wrap max-md:max-w-full ">
-            <div className="mt-[4%] text-[24px] font-katide-bold leading-10 text-indigo-950 max-md:mt-10">
+        <div className='flex flex-col bg-[#E1E3F4] pb-12 pt-2 font-bold max-md:px-5'>
+          <div className='flex justify-between px-20 max-md:max-w-full max-md:flex-wrap'>
+            <div className='font-katide-bold mt-[4%] text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
               Best Seller
             </div>
           </div>
-          <div className=' flex mt-10 sm:flex-row md:gap-4 lg:flex-col lg:flex-nowrap xl:flex-row xl:flex-nowrap'>
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+          <div className='ml-10'>
+            <ProductSlider items={crafterSlider} />
           </div>
         </div>
       </section>
 
       <section>
-        <div className="flex flex-col px-[10%] pt-2 pb-12 font-bold bg-[#AAD3FF] max-md:px-5">
-          <div className="flex justify-between max-md:flex-wrap max-md:max-w-full ">
-            <div className="mt-[4%] text-[24px] font-katide-bold leading-10 text-indigo-950 max-md:mt-10">
+        <div className='flex flex-col bg-[#AAD3FF] pb-12 pt-2 font-bold max-md:px-5'>
+          <div className='flex justify-between px-20 max-md:max-w-full max-md:flex-wrap '>
+            <div className='font-katide-bold mt-[4%] text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
               Bundles
             </div>
             {/* <div className="pl-5 justify-end items-center flex">
@@ -143,18 +377,16 @@ export default function HomePage() {
               />
             </div> */}
           </div>
-          <div className=' flex sm:flex-row md:gap-4 lg:flex-col lg:flex-nowrap xl:flex-row xl:flex-nowrap'>
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+          <div className='ml-10'>
+            <ProductSlider items={crafterSlider} />
           </div>
         </div>
       </section>
 
       <section>
-        <div className="flex flex-col px-[10%] pt-2 pb-12 font-bold bg-[#FFBB3C] max-md:px-5">
-          <div className="flex justify-between max-md:flex-wrap max-md:max-w-full ">
-            <div className="mt-[4%] text-[24px] font-katide-bold leading-10 text-indigo-950 max-md:mt-10">
+        <div className='flex flex-col bg-[#FFBB3C] pb-12 pt-2 font-bold max-md:px-5'>
+          <div className='flex justify-between px-20 max-md:max-w-full max-md:flex-wrap '>
+            <div className='font-katide-bold mt-[4%] text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
               Exclusive Partners
             </div>
             {/* <div className="pl-5 justify-end items-center flex">
@@ -168,18 +400,16 @@ export default function HomePage() {
               />
             </div> */}
           </div>
-          <div className=' flex sm:flex-row md:gap-4 lg:flex-col lg:flex-nowrap xl:flex-row xl:flex-nowrap'>
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+          <div className='ml-10'>
+            <ProductSlider items={crafterSlider} />
           </div>
         </div>
       </section>
 
       <section>
-        <div className="flex flex-col px-[10%] pt-2 pb-12 font-bold bg-[#fff] max-md:px-5">
-          <div className="flex justify-between max-md:flex-wrap max-md:max-w-full ">
-            <div className="mt-[4%] text-[24px] font-katide-bold leading-10 text-indigo-950 max-md:mt-10">
+        <div className='flex flex-col bg-[#fff] pb-12 pt-2 font-bold max-md:px-5'>
+          <div className='flex justify-between px-20 max-md:max-w-full max-md:flex-wrap '>
+            <div className='font-katide-bold mt-[4%] text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
               Vector
             </div>
             {/* <div className="pl-5 justify-end items-center flex">
@@ -193,15 +423,13 @@ export default function HomePage() {
               />
             </div> */}
           </div>
-          <div className=' flex sm:flex-row md:gap-4 lg:flex-col lg:flex-nowrap xl:flex-row xl:flex-nowrap'>
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+          <div className='ml-10'>
+            <ProductSlider items={crafterSlider} />
           </div>
         </div>
       </section>
 
-      <Testimonies/>
+      <Testimonies />
 
       <section>
         <div className='header flex items-center justify-center bg-blue-400 px-16 py-12 max-md:px-5'>

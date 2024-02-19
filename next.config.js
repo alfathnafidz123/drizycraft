@@ -4,15 +4,13 @@ const nextConfig = {
     dirs: ['src'],
   },
 
-  reactStrictMode: true,
+  reactStrictMode: false,
   swcMinify: true,
 
   // Uncoment to add domain whitelist
   images: {
     domains: ['http://localhost:3000'],
   },
-
-
 };
 
 module.exports = nextConfig;

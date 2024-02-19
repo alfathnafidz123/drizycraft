@@ -1,44 +1,62 @@
-function ProductCard() {
+/* eslint-disable @next/next/no-img-element */
+import { StaticImageData } from 'next/image';
+
+import { cartProduct } from '~/images';
+
+interface ProductCardProps {
+  image: StaticImageData;
+  name: string;
+  price: number;
+  discountPrice?: number;
+  isSale?: boolean;
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({
+  name,
+  image,
+  price,
+  discountPrice,
+  isSale,
+}) => {
   return (
-
-    <div className='group main-container w-[281px] h-[335px] relative mx-1 shadow-2xl'>
-      <div className='flex w-[64px] h-[37px] pt-[12px] pr-[24px] pb-[12px] pl-[24px] gap-[8px] justify-center items-center flex-nowrap rounded-[8px] border-solid border-2 border-[#b1b1b1] relative z-[9] mt-[285.868px] mr-0 mb-0 ml-[205px]'>
-        <div className='w-[26px] h-[24px] shrink-0 relative z-10' style={{ backgroundImage: `url('/images/cartProduct.png')` }} />
-      </div>
-
-      {/* badge sale */}
-      {/* <div className='w-[83.578px] h-[43.543px] absolute top-[-1px] right-[12.422px] overflow-hidden z-[8]' style={{ backgroundImage: `url('/images/sale-product.png')` }} /> */}
-
-      <div className='flex w-[281px] h-[335px] pt-[12px] pr-[12px] pb-[12px] pl-[12px] flex-col gap-[24px] items-start flex-nowrap bg-[#fff] rounded-[12px] absolute top-0 left-0 shadow-xl hover:border-[2px] border-[#61A9FA] transition-none'>
-        <div className='h-[172px] self-stretch shrink-0 bg-cover bg-no-repeat rounded-[6px] relative z-[1]'
-          style={{ backgroundImage: `url(/images/crafters1.png)` }}
-        />
-        <span className="flex w-[257px] h-[54px] justify-start items-start self-stretch shrink-0 text-[16px] font-semibold leading-[17.6px] text-[#1a204c] relative text-left overflow-hidden z-[2]">
-          Girl and Fox by The Forest
-          <br />
-          3D Shadow Box - Winter
-          <br />
-          SVG Paper Cut
+    <div className='group relative m-8 mx-1 h-[335px] w-[281px] shadow-2xl'>
+      <div className='absolute left-0 top-0 flex h-[335px] w-[281px] flex-col flex-nowrap items-start gap-[24px] rounded-[12px] border-[#61A9FA] bg-[#fff] pb-[12px] pl-[12px] pr-[12px] pt-[12px] shadow-xl transition-none hover:border-[2px]'>
+        <img src={image.src} alt={name} />
+        <span className='relative z-[2] flex h-[54px] w-[257px] shrink-0 items-start justify-start self-stretch overflow-hidden text-left text-[16px] font-semibold leading-[17.6px] text-[#1a204c]'>
+          {name}
         </span>
-
-        <button className='flex w-[182px] h-[37px] pt-[12px] pr-[24px] pb-[12px] pl-[24px] gap-[8px] justify-center items-center shrink-0 flex-nowrap bg-[#2a3b80] rounded-[8px] z-[3] pointer group-hover:bg-[#4065D1]'>
-          <span className="text-[20px] font-katide-bold leading-[16px] text-[#fff] z-[5] group-hover:scale-0">
-            $1
-          </span>
-          <span className="hidden group-hover:flex absolute justify-center items-center text-[16px] font-katide-bold leading-[16px] bg-[#4065D1] rounded-[8px]">
-            <span className="text-[#fff]">BUY NOW</span>
-          </span>
-        </button>
-
-        <button className='w-[40px] h-[40px] bg-no-repeat absolute top-[5px] left-[7px] z-[6] opacity-100 group-hover:opacity-0' style={{ backgroundImage: `url('/images/pintCrafter.png')` }} />
-        <button className='w-[40px] h-[40px] bg-no-repeat absolute top-[5px] left-[7px] z-[6] opacity-0 group-hover:opacity-100' style={{ backgroundImage: `url('/images/hoverpint.png')` }} />
-        <button className='w-[44px] h-[44px] bg-no-repeat absolute top-[5px] left-[50px] z-[7] opacity-100 group-hover:opacity-0' style={{ backgroundImage: `url('/images/waCrafter.png')` }} />
-        <button className='w-[40px] h-[40px] bg-no-repeat absolute top-[5px] left-[55px] z-[7] opacity-0 group-hover:opacity-100' style={{ backgroundImage: `url('/images/hoverwa.png')` }} />
-        
+        <div className='flex'>
+          <button className='pointer z-[3] flex h-[37px] w-[182px] shrink-0 flex-nowrap items-center justify-center gap-[8px] rounded-[8px] bg-[#2a3b80] pb-[12px] pl-[24px] pr-[24px] pt-[12px] group-hover:bg-[#4065D1]'>
+            <span className='font-katide-bold z-[5] text-[20px] leading-[16px] text-[#fff] group-hover:scale-0'>
+              $1
+            </span>
+            <span className='font-katide-bold absolute hidden items-center justify-center rounded-[8px] bg-[#4065D1] text-[16px] leading-[16px] group-hover:flex'>
+              <span className='text-[#fff]'>BUY NOW</span>
+            </span>
+          </button>
+          <button className='flex h-[37px] items-center justify-center gap-[8px] rounded-[8px] border-2 border-gray-400 bg-white pb-[12px] pl-[24px] pr-[24px] pt-[12px]'>
+            <img src={cartProduct.src} alt='cart'></img>
+          </button>
+        </div>
+        <button
+          className='absolute left-[7px] top-[5px] z-[6] h-[40px] w-[40px] bg-no-repeat opacity-100 group-hover:opacity-0'
+          style={{ backgroundImage: `url('/images/pintCrafter.png')` }}
+        />
+        <button
+          className='absolute left-[7px] top-[5px] z-[6] h-[40px] w-[40px] bg-no-repeat opacity-0 group-hover:opacity-100'
+          style={{ backgroundImage: `url('/images/hoverpint.png')` }}
+        />
+        <button
+          className='absolute left-[50px] top-[5px] z-[7] h-[44px] w-[44px] bg-no-repeat opacity-100 group-hover:opacity-0'
+          style={{ backgroundImage: `url('/images/waCrafter.png')` }}
+        />
+        <button
+          className='absolute left-[55px] top-[5px] z-[7] h-[40px] w-[40px] bg-no-repeat opacity-0 group-hover:opacity-100'
+          style={{ backgroundImage: `url('/images/hoverwa.png')` }}
+        />
       </div>
     </div>
   );
-}
+};
 
 export default ProductCard;
-
