@@ -1,4 +1,5 @@
 import { BsWhatsapp, BsInstagram, BsLinkedin } from 'react-icons/bs'
+import { GuaranteeBadge } from '~/images';
 
 const Footer = () => {
   return (
@@ -50,9 +51,9 @@ const Footer = () => {
             </div>
             <img
               loading="lazy"
-              src=""
-              className="self-center mt-12 aspect-[2.78] w-[207px] max-md:mt-10"
-              alt="Blog Finder Logo"
+              src={GuaranteeBadge.src}
+              className=""
+              alt="Guarantee Badge"
             />
           </nav>
         </div>
