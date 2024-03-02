@@ -5,6 +5,11 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa6';
 
+import { resetUser, setOpenModal } from '@/lib/slices/user';
+import { useAppDispatch, useAppSelector } from '@/lib/store';
+
+import ModalLogin from '@/components/modals/login';
+
 import { cart, drizzyCoin, logodrizy, newMember, search } from '~/images';
 
 interface MenuState {
@@ -17,11 +22,10 @@ interface SubMenuState {
   seasonal: boolean;
   craft: boolean;
 }
-interface NavbarProps {
-  openModalLogin: () => void;
-}
 
-const Navbar: React.FC<NavbarProps> = ({ openModalLogin }) => {
+const Navbar: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const isLogin = useAppSelector((state) => state.user?.token);
   const router = useRouter();
   const [showMenu, setShowMenu] = useState<MenuState>({
     crafter: false,
@@ -34,6 +38,12 @@ const Navbar: React.FC<NavbarProps> = ({ openModalLogin }) => {
     craft: false,
   });
 
+  const openModalLogin = () => {
+    dispatch(setOpenModal(true));
+  };
+  const logout = () => {
+    dispatch(resetUser());
+  };
   const toggleMenu = (key: keyof MenuState) => {
     setShowMenu((prevState) => {
       const updatedState: MenuState = {
@@ -57,11 +67,11 @@ const Navbar: React.FC<NavbarProps> = ({ openModalLogin }) => {
     });
   };
   const handleLogoClick = () => {
-    // Use router to navigate to the login page
     router.push('/');
   };
   return (
-    <nav className='container sticky top-0 z-20 flex w-full items-center bg-white py-3.5 shadow-xl'>
+    <nav className='container sticky top-0 z-20 flex w-screen items-center bg-white py-3.5 shadow-xl'>
+      <ModalLogin />
       <div className='container mx-auto flex items-center justify-evenly px-4'>
         <a onClick={handleLogoClick}>
           <img src={logodrizy.src} alt='Logo' className='object-contain' />
@@ -101,9 +111,10 @@ const Navbar: React.FC<NavbarProps> = ({ openModalLogin }) => {
             </div>
             <button
               className='rounded-full bg-[#e4f6fb] px-6 py-3 font-semibold text-[#008ECC]'
-              onClick={openModalLogin}
+              // eslint-disable-next-line @typescript-eslint/no-empty-function
+              onClick={!isLogin ? openModalLogin : logout}
             >
-              LOGIN
+              {isLogin ? 'PROFILE' : 'LOGIN'}
             </button>
             <button className='rounded-full bg-[#e4f6fb] px-6 py-3 font-semibold text-[#008ECC]'>
               <img src={cart.src} alt='cart' />

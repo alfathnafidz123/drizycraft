@@ -1,62 +1,61 @@
-'use client';
+// 'use client';
+import { Metadata } from 'next';
 import * as React from 'react';
 
 import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
 
-import ModalLogin from '@/components/modals/login';
-
 import StoreProvider from '@/app/StoreProvider';
+import { siteConfig } from '@/constant/config';
 import Footer from '@/layout/footer';
 import Navbar from '@/layout/navbar';
 
 // !STARTERCONF Change these default meta
 // !STARTERCONF Look at @/constant/config to change them
-// export const metadata: Metadata = {
-//   title: {
-//     default: siteConfig.title,
-//     template: `%s | ${siteConfig.title}`,
-//   },
-//   description: siteConfig.description,
-//   robots: { index: true, follow: true },
-//   // !STARTERCONF this is the default favicon, you can generate your own from https://realfavicongenerator.net/
-//   // ! copy to /favicon folder
-//   icons: {
-//     icon: '/favicon/favicon.ico',
-//     shortcut: '/favicon/favicon-16x16.png',
-//     apple: '/favicon/apple-touch-icon.png',
-//   },
-//   manifest: `/favicon/site.webmanifest`,
-//   openGraph: {
-//     url: siteConfig.url,
-//     title: siteConfig.title,
-//     description: siteConfig.description,
-//     siteName: siteConfig.title,
-//     images: [`${siteConfig.url}/images/og.jpg`],
-//     type: 'website',
-//     locale: 'en_US',
-//   },
-//   twitter: {
-//     card: 'summary_large_image',
-//     title: siteConfig.title,
-//     description: siteConfig.description,
-//     images: [`${siteConfig.url}/images/og.jpg`],
-//   },
-//   authors: [
-//     {
-//       name: 'Dionisius Aditya',
-//       url: 'https://github.com/dionisius77',
-//     },
-//   ],
-// };
+export const metadata: Metadata = {
+  title: {
+    default: siteConfig.title,
+    template: `%s | ${siteConfig.title}`,
+  },
+  description: siteConfig.description,
+  robots: { index: true, follow: true },
+  // !STARTERCONF this is the default favicon, you can generate your own from https://realfavicongenerator.net/
+  // ! copy to /favicon folder
+  icons: {
+    icon: '/favicon/favicon.ico',
+    shortcut: '/favicon/favicon-16x16.png',
+    apple: '/favicon/apple-touch-icon.png',
+  },
+  manifest: `/favicon/site.webmanifest`,
+  openGraph: {
+    url: siteConfig.url,
+    title: siteConfig.title,
+    description: siteConfig.description,
+    siteName: siteConfig.title,
+    images: [`${siteConfig.url}/images/og.jpg`],
+    type: 'website',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: siteConfig.title,
+    description: siteConfig.description,
+    images: [`${siteConfig.url}/images/og.jpg`],
+  },
+  authors: [
+    {
+      name: 'Dionisius Aditya',
+      url: 'https://github.com/dionisius77',
+    },
+  ],
+};
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [isLoginShow, setLoginShow] = React.useState(false);
   return (
     <html className='!scroll-smooth'>
       <link
@@ -73,11 +72,7 @@ export default function RootLayout({
 
       <body className=''>
         <StoreProvider>
-          <ModalLogin
-            isOpen={isLoginShow}
-            onClose={() => setLoginShow(false)}
-          />
-          <Navbar openModalLogin={() => setLoginShow(true)} />
+          <Navbar />
           {children}
           <Footer />
         </StoreProvider>

@@ -23,6 +23,16 @@ import GuaranteeBadge from './guarantee-badge-group.png';
 import loginImage from './login-image.png';
 import newMember from './newMember.png';
 import pintCrafter from './pintCrafter.png';
+import project1 from './project-1.png';
+import projectGrid from './projectGrid.png';
+import projectImage from './projectImage.png';
+import projectLike from './projectLike.png';
+import projectShare from './projectShare.png';
+import projectShare1 from './projectShare1.png';
+import projectSign from './projectSign.png';
+import projectStars from './projectStars.png';
+import projectSubscribe from './projectSubscribe.png';
+import projectUpload from './projectUpload.png';
 import sale from './sale.png';
 import saleProduct from './sale-product.png';
 import search from './search.png';
@@ -58,6 +68,16 @@ export {
   logodrizy,
   newMember,
   pintCrafter,
+  project1,
+  projectGrid,
+  projectImage,
+  projectLike,
+  projectShare,
+  projectShare1,
+  projectSign,
+  projectStars,
+  projectSubscribe,
+  projectUpload,
   sale,
   saleProduct,
   search,
