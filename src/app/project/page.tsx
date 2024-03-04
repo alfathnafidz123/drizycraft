@@ -18,6 +18,7 @@ import {
   projectUpload,
 } from '~/images';
 
+
 // !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
 // Before you begin editing, follow all comments with `STARTERCONF`,
 // to customize the default configuration.
@@ -49,9 +50,7 @@ export default function Register() {
             <img src={projectSign.src} />
             <p className='self-center pl-5'>
               <b>Sign up:</b>
-              <span className='cursor-pointer text-[#4065D1]'>
-                Create an account
-              </span>
+              <span className='cursor-pointer text-[#4065D1]'> Create an account</span>
             </p>
           </div>
           <div className='mt-6 flex flex-row'>
@@ -59,16 +58,14 @@ export default function Register() {
             <p className='self-center pl-5'>
               <b>Subscribe:</b> Select one of our membership plans. <br />
               Don't worry, we offer a <b>free trial</b> for you.
-              <span className='cursor-pointer text-[#4065D1]'>
-                Just click here!
-              </span>
+              <span className='cursor-pointer text-[#4065D1]'> Just click here!</span>
             </p>
           </div>
           <div className='mt-6 flex flex-row'>
             <img src={projectShare.src} />
             <p className='self-center pl-5'>
               <b>Share:</b> Upload pictures of your projects to earn
-              <b>Drizy Coins.</b>
+              <b> Drizy Coins.</b>
             </p>
           </div>
         </div>
@@ -96,6 +93,7 @@ export default function Register() {
 
         <Project />
       </section>
+
     </main>
   );
 }

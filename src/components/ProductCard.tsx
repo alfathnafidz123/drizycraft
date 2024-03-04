@@ -1,7 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import { StaticImageData } from 'next/image';
 
-import { cartProduct } from '~/images';
+import {
+  cartProduct,
+  hoverPinterest,
+  hoverWA,
+  pintCrafter,
+  waCrafter,
+} from '~/images';
 
 interface ProductCardProps {
   image: StaticImageData;
@@ -38,21 +44,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <img src={cartProduct.src} alt='cart'></img>
           </button>
         </div>
-        <button
-          className='absolute left-[7px] top-[5px] z-[6] h-[40px] w-[40px] bg-no-repeat opacity-100 group-hover:opacity-0'
-          style={{ backgroundImage: `url('/images/pintCrafter.png')` }}
+        <img
+          src={pintCrafter.src}
+          className='absolute left-[7px] top-[5px] z-[6] h-[40px] w-[40px] bg-no-repeat opacity-100 group-hover:opacity-0 cursor-pointer'
         />
-        <button
-          className='absolute left-[7px] top-[5px] z-[6] h-[40px] w-[40px] bg-no-repeat opacity-0 group-hover:opacity-100'
-          style={{ backgroundImage: `url('/images/hoverpint.png')` }}
+        <img
+          src={hoverPinterest.src}
+          className='absolute left-[7px] top-[5px] z-[6] h-[40px] w-[40px] bg-no-repeat opacity-0 group-hover:opacity-100 cursor-pointer'
         />
-        <button
-          className='absolute left-[50px] top-[5px] z-[7] h-[44px] w-[44px] bg-no-repeat opacity-100 group-hover:opacity-0'
-          style={{ backgroundImage: `url('/images/waCrafter.png')` }}
+        <img
+          src={waCrafter.src}
+          className='absolute left-[55px] top-[5px] z-[7] h-[40px] w-[40px] bg-no-repeat opacity-100 group-hover:opacity-0 cursor-pointer'
         />
-        <button
-          className='absolute left-[55px] top-[5px] z-[7] h-[40px] w-[40px] bg-no-repeat opacity-0 group-hover:opacity-100'
-          style={{ backgroundImage: `url('/images/hoverwa.png')` }}
+        <img
+          src={hoverWA.src}
+          className='absolute left-[55px] top-[5px] z-[7] h-[40px] w-[40px] bg-no-repeat opacity-0 group-hover:opacity-100 cursor-pointer'
         />
       </div>
     </div>
