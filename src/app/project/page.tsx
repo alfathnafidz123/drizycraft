@@ -7,7 +7,9 @@ import * as React from 'react';
 import { setToken } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
+import ModalProjectDetail from '@/components/modals/projectDetail';
 import ModalUploadProject from '@/components/modals/uploadProject';
+import ModalUploadSuccess from '@/components/modals/uploadSuccess';
 import Project from '@/components/Project';
 
 import {
@@ -18,10 +20,6 @@ import {
   projectUpload,
 } from '~/images';
 
-// !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
-// Before you begin editing, follow all comments with `STARTERCONF`,
-// to customize the default configuration.
-
 export default function Register() {
   const { token } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -29,12 +27,23 @@ export default function Register() {
   React.useEffect(() => {
     dispatch(setToken({ token: 'testing token' }));
   }, []);
-  const [isLoginShow, setLoginShow] = React.useState(false);
+  const [isPopUpShow, setIsPopUpShow] = React.useState(false);
+  const [isUploadSuccessShow, setIsUploadSuccessShow] = React.useState(false);
+  const [isProjectDetailShow, setIsProjectDetailShow] = React.useState(false);
   return (
     <main>
       <ModalUploadProject
-        isOpen={isLoginShow}
-        onClose={() => setLoginShow(false)}
+        isOpen={isPopUpShow}
+        onClose={() => setIsPopUpShow(false)}
+        onSuccess={() => setIsUploadSuccessShow(true)}
+      />
+      <ModalProjectDetail
+        isOpen={isProjectDetailShow}
+        onClose={() => setIsProjectDetailShow(false)}
+      />
+      <ModalUploadSuccess
+        isOpen={isUploadSuccessShow}
+        onClose={() => setIsUploadSuccessShow(false)}
       />
       <section className='flex flex-row justify-between'>
         <div className='flex-col p-[6%] pl-[10%]'>
@@ -68,16 +77,15 @@ export default function Register() {
             <img src={projectShare.src} />
             <p className='self-center pl-5'>
               <b>Share:</b> Upload pictures of your projects to earn
-              <b>Drizy Coins.</b>
+              <b> Drizy Coins.</b>
             </p>
           </div>
         </div>
         <img src={projectImage.src} className='p-[6%]' />
       </section>
-
-      <section className='flex gap-5 bg-[#EBECF5] p-[6%] pl-[10%]'>
+      <section className='flex flex-wrap justify-center gap-5 bg-[#EBECF5] p-20'>
         <div
-          onClick={() => setLoginShow(true)}
+          onClick={() => setIsPopUpShow(true)}
           className='h-[456px] w-[369px] cursor-pointer rounded-xl bg-white bg-opacity-30 px-8 py-8 text-center text-indigo-950 text-opacity-20 shadow-lg hover:bg-white'
         >
           <div className='flex flex-col rounded-xl border-2 border-dashed border-black border-opacity-10 py-12'>
@@ -94,7 +102,14 @@ export default function Register() {
           </div>
         </div>
 
-        <Project />
+        <Project onClick={() => setIsProjectDetailShow(true)} />
+        <Project onClick={() => setIsProjectDetailShow(true)} />
+        <Project onClick={() => setIsProjectDetailShow(true)} />
+        <Project onClick={() => setIsProjectDetailShow(true)} />
+        <Project onClick={() => setIsProjectDetailShow(true)} />
+        <Project onClick={() => setIsProjectDetailShow(true)} />
+        <Project onClick={() => setIsProjectDetailShow(true)} />
+        <Project onClick={() => setIsProjectDetailShow(true)} />
       </section>
     </main>
   );
