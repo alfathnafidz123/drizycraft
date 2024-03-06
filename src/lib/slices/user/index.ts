@@ -3,19 +3,20 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface IUserData {
   id: string;
-  phoneNumber: string;
+  username: string;
   email: string;
-  birthDate: string;
-  name: string;
+  displayName: string;
 }
 
 interface IUserState {
   dataUser?: IUserData;
   token?: string;
+  openModal?: boolean;
 }
 const initialState: IUserState = {
   dataUser: undefined,
   token: undefined,
+  openModal: false,
 };
 
 interface TokenPayload {
@@ -30,6 +31,10 @@ interface UserPayload {
   };
 }
 
+interface ModalPayload {
+  payload: boolean;
+}
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -41,9 +46,13 @@ const userSlice = createSlice({
     setDataUser: (state, { payload }: UserPayload) => {
       state.dataUser = payload.userData;
     },
+    setOpenModal: (state, { payload }: ModalPayload) => {
+      state.openModal = payload;
+    },
   },
 });
 
-export const { resetUser, setDataUser, setToken } = userSlice.actions;
+export const { resetUser, setDataUser, setToken, setOpenModal } =
+  userSlice.actions;
 
 export default userSlice.reducer;

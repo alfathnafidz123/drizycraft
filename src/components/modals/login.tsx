@@ -2,20 +2,37 @@
 // components/Modal.tsx
 
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import { FaFacebookF } from 'react-icons/fa6';
 import { FcGoogle } from 'react-icons/fc';
 
+import { setDataUser, setOpenModal, setToken } from '@/lib/slices/user';
+import { useAppDispatch, useAppSelector } from '@/lib/store';
+
+import { login } from '@/app/api/auth/login';
+
 import { loginImage } from '~/images';
 
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-const ModalLogin: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+const ModalLogin: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const isOpen = useAppSelector((state) => state.user?.openModal);
   const closeModal = () => {
-    onClose && onClose();
+    dispatch(setOpenModal(false));
+  };
+
+  const [payload, setPayload] = useState('');
+  const [password, setPassword] = useState('');
+  const handleLogin = async () => {
+    try {
+      const response = await login({ payload, password });
+      const { user, token } = response;
+      dispatch(setDataUser({ userData: user }));
+      dispatch(setToken({ token }));
+      dispatch(setOpenModal(false));
+    } catch (error) {
+      // console.error('Login failed:', error);
+      // Handle the error as needed
+    }
   };
 
   return (
@@ -37,7 +54,10 @@ const ModalLogin: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               <p className='text-grey-900'>
                 New User?
                 <Link href='/register'>
-                  <span className='text=[#1A214C] ml-5 text-lg font-semibold'>
+                  <span
+                    onClick={() => dispatch(setOpenModal(false))}
+                    className='text=[#1A214C] ml-5 text-lg font-semibold'
+                  >
                     Register
                   </span>
                 </Link>
@@ -49,11 +69,15 @@ const ModalLogin: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               </p>
               <input
                 type='text'
+                value={payload}
+                onChange={(e) => setPayload(e.target.value)}
                 className='border-grey-700 my-2 w-[300px] rounded-full border p-4'
                 placeholder='Username or email address'
               ></input>
               <input
-                type='text'
+                type='password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className='border-grey-700 my-2 w-[300px] rounded-full border p-4'
                 placeholder='Password'
               ></input>
@@ -65,7 +89,10 @@ const ModalLogin: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 <p className='text-grey-700'>Remember me</p>
               </div>
               <div className='mb-8 flex items-center gap-8'>
-                <button className='rounded-full bg-[#1A214C] px-6 py-2 font-semibold text-white'>
+                <button
+                  onClick={handleLogin}
+                  className='rounded-full bg-[#1A214C] px-6 py-2 font-semibold text-white'
+                >
                   LOGIN
                 </button>
                 <p className='text-grey-700'>Lost your password?</p>

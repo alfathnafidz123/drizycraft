@@ -14,27 +14,28 @@ import categories9 from './categories-9.png';
 import categories10 from './categories-10.png';
 import crafter1 from './crafter.svg';
 import crafterItem1 from './crafters1.svg';
-import coffeeHolder from './floating-coffee-holder.png';
+import logodrizy from './drizylogo.svg';
 import drizzyCoin from './drizzyCoin.png';
+import coffeeHolder from './floating-coffee-holder.png';
 import gridCrafter from './grid-crafter.png';
 import gridSlide from './grid-slide.png';
 import GuaranteeBadge from './guarantee-badge-group.png';
-import hoverPinterest from './hoverpint.svg'
-import hoverWA from './hoverwa.svg'
-import logodrizy from './drizylogo.svg';
+import hoverPinterest from './hoverpint.svg';
+import hoverWA from './hoverwa.svg';
 import loginImage from './login-image.png';
 import newMember from './newMember.png';
 import pintCrafter from './pintCrafter.svg';
 import project1 from './project-1.png';
-import projectSign from './projectSign.svg';
-import projectSubscribe from './projectSubscribe.svg';
-import projectShare from './projectShare.svg';
-import projectStars from './projectStars.svg';
-import projectLike from './projectLike.svg';
-import projectShare1 from './projectShare1.svg';
+import projectGrid from './projectGrid.png';
 import projectImage from './projectImage.svg';
+import projectLike from './projectLike.svg';
+import projectPinterest from './projectPint.svg';
+import projectShare from './projectShare.svg';
+import projectShare1 from './projectShare1.svg';
+import projectSign from './projectSign.svg';
+import projectStars from './projectStars.svg';
+import projectSubscribe from './projectSubscribe.svg';
 import projectUpload from './projectUpload.svg';
-import projectPinterest from './projectPint.svg'
 import sale from './sale.png';
 import saleProduct from './sale-product.png';
 import search from './search.png';
@@ -73,15 +74,16 @@ export {
   newMember,
   pintCrafter,
   project1,
+  projectGrid,
   projectImage,
-  projectShare,
-  projectSign,
-  projectSubscribe,
-  projectStars,
   projectLike,
-  projectShare1,
-  projectUpload,
   projectPinterest,
+  projectShare,
+  projectShare1,
+  projectSign,
+  projectStars,
+  projectSubscribe,
+  projectUpload,
   sale,
   saleProduct,
   search,

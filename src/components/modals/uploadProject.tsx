@@ -9,11 +9,19 @@ import { IoSearch } from 'react-icons/io5';
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSuccess: () => void;
 }
 
-const ModalUploadProject: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+const ModalUploadProject: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  onSuccess,
+}) => {
   const closeModal = () => {
     onClose && onClose();
+  };
+  const successUpload = () => {
+    onSuccess && onSuccess();
   };
 
   return (
@@ -49,7 +57,13 @@ const ModalUploadProject: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                     </p>
                   </div>
                 </div>
-                <button className='flex max-w-[100px] items-center gap-2 rounded-full bg-[#61A9FA] px-6 py-3 font-semibold text-white'>
+                <button
+                  onClick={() => {
+                    onClose();
+                    successUpload();
+                  }}
+                  className='flex max-w-[100px] items-center gap-2 rounded-full bg-[#61A9FA] px-6 py-3 font-semibold text-white'
+                >
                   Upload
                 </button>
               </div>
