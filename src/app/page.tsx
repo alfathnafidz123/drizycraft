@@ -150,8 +150,8 @@ export default function HomePage() {
           <TrendingTag name='Papercut' />
         </div>
         <div className='h-76 mt-20 w-full px-40'>
-          <div className='grid h-full w-full grid-cols-8 grid-rows-2 gap-4'>
-            <div className='bg-div1 relative col-span-3 row-span-2 rounded-2xl border-8 border-[#61A9FA] transition-all duration-300 hover:border-white'>
+          <div className='flex h-[40vh] w-full gap-4'>
+            <div className='bg-div1 relative z-20 h-full w-6/12 rounded-2xl border-8 border-[#61A9FA] transition-all duration-300 hover:border-white'>
               <img
                 src={gridCrafter.src}
                 className='absolute h-full w-full rounded-lg bg-cover'
@@ -165,8 +165,8 @@ export default function HomePage() {
                   Share your creations in our gallery and and earn a valuable
                   Drizy Coin for more shopping!
                 </p>
-                <div className='flex items-center justify-between'>
-                  <p className='font-semibold'>Project from crafters</p>
+                <div className='flex w-9/12 items-center justify-between'>
+                  <p className='w-1/3 font-semibold'>Project from crafters</p>
                   <div className='flex'>
                     <img
                       src={avatarExample.src}
@@ -187,71 +187,73 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <div className='group relative col-span-2 col-start-5 row-span-1 row-start-1 overflow-hidden rounded-2xl bg-[#61A9FA] transition-all duration-300 hover:bg-[#4065D1]'>
-              <div className='absolute flex h-full w-full'>
-                <div className='h-full w-1/2 bg-[#4065D1] transition-transform duration-300 ease-in-out group-hover:translate-x-full group-hover:transform group-hover:bg-[#2A3B80]'></div>
-              </div>
-              <div className='absolute flex h-full w-full'>
-                <div className='flex w-1/2 flex-col items-center justify-center p-2'>
-                  <div className='flex h-full w-full items-center justify-center rounded-2xl border border-[#FFBB3C] group-hover:border-[#FFBB3C]/[0]'>
-                    <img
-                      src={starBadge.src}
-                      alt='star badge'
-                      className='transition-all duration-300 group-hover:scale-110'
-                    />
+            <div className='flex w-3/12 flex-col gap-4'>
+              <div className='group relative h-1/2 overflow-hidden rounded-2xl bg-[#61A9FA] transition-all duration-300 hover:bg-[#4065D1]'>
+                <div className='absolute flex h-full w-full'>
+                  <div className='h-full w-1/2 bg-[#4065D1] transition-transform duration-300 ease-in-out group-hover:translate-x-full group-hover:transform group-hover:bg-[#2A3B80]'></div>
+                </div>
+                <div className='absolute flex h-full w-full'>
+                  <div className='flex w-1/2 flex-col items-center justify-center p-2'>
+                    <div className='flex h-full w-full items-center justify-center rounded-2xl border border-[#FFBB3C] group-hover:border-[#FFBB3C]/[0]'>
+                      <img
+                        src={starBadge.src}
+                        alt='star badge'
+                        className='transition-all duration-300 group-hover:scale-110'
+                      />
+                    </div>
+                  </div>
+                  <div className='flex w-1/2 flex-col items-center justify-center gap-1 text-white'>
+                    <p className='text-2xl font-bold'>15</p>
+                    <p className='text-md'>Exclusive Partners</p>
+                    <p className='text-sm font-light'>Find out more!</p>
                   </div>
                 </div>
-                <div className='flex w-1/2 flex-col items-center justify-center gap-1 text-white'>
-                  <p className='text-2xl font-bold'>15</p>
-                  <p className='text-md'>Exclusive Partners</p>
-                  <p className='text-sm font-light'>Find out more!</p>
+              </div>
+              <div className='group relative col-span-3 col-start-4 row-span-1 row-start-2 ml-[-14vh] h-1/2 rounded-2xl bg-[#6f82a6]'>
+                <div className='absolute flex h-full w-full flex-col items-start justify-center gap-2 px-8 py-4 text-white transition-all duration-300 group-hover:opacity-0'>
+                  <p className='text-xl font-semibold'>The Craft Community</p>
+                  <p className='text-sm'>21,000+ friendly home crafters</p>
+                  <div className='flex w-full items-center justify-between'>
+                    <div className='flex'>
+                      <img
+                        src={avatarExample.src}
+                        className='ml-[-8px] h-[36px] rounded-full border-[3px] border-white'
+                        alt='avatar'
+                      />
+                      <img
+                        src={avatarExample.src}
+                        className='ml-[-8px] h-[36px] rounded-full border-[3px] border-white'
+                        alt='avatar'
+                      />
+                      <img
+                        src={avatarExample.src}
+                        className='ml-[-8px] h-[36px] rounded-full border-[3px] border-white'
+                        alt='avatar'
+                      />
+                    </div>
+                    <div>
+                      <button className='flex justify-center rounded-full bg-[#55668c] p-2'>
+                        Click here to request to join!
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div className='absolute flex h-full w-full flex-col items-start justify-center gap-2 px-8 py-4 text-white opacity-0 transition-all duration-300 group-hover:opacity-100'>
+                  <p className='text-left text-xs'>
+                    Before anything, why not join the{' '}
+                    <span className='font-semibold'>
+                      Drizy Studio community on Facebook
+                    </span>
+                    , a group of 21,000+ friendly home crafters who are all
+                    there to help each other succeed & get free product updates
+                  </p>
+                  <button className='flex justify-center self-center rounded-full bg-[#55668c] p-2 transition-all duration-500 group-hover:bg-[#61A9FA]'>
+                    Click here to request to join!
+                  </button>
                 </div>
               </div>
             </div>
-            <div className='group relative col-span-3 col-start-4 row-span-1 row-start-2 rounded-2xl bg-[#6f82a6]'>
-              <div className='absolute flex h-full w-full flex-col items-start justify-center gap-2 px-8 py-4 text-white transition-all duration-300 group-hover:opacity-0'>
-                <p className='text-xl font-semibold'>The Craft Community</p>
-                <p className='text-sm'>21,000+ friendly home crafters</p>
-                <div className='flex w-full items-center justify-between'>
-                  <div className='flex'>
-                    <img
-                      src={avatarExample.src}
-                      className='ml-[-8px] h-[36px] rounded-full border-[3px] border-white'
-                      alt='avatar'
-                    />
-                    <img
-                      src={avatarExample.src}
-                      className='ml-[-8px] h-[36px] rounded-full border-[3px] border-white'
-                      alt='avatar'
-                    />
-                    <img
-                      src={avatarExample.src}
-                      className='ml-[-8px] h-[36px] rounded-full border-[3px] border-white'
-                      alt='avatar'
-                    />
-                  </div>
-                  <div>
-                    <button className='flex justify-center rounded-full bg-[#55668c] p-2'>
-                      Click here to request to join!
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className='absolute flex h-full w-full flex-col items-start justify-center gap-2 px-8 py-4 text-white opacity-0 transition-all duration-300 group-hover:opacity-100'>
-                <p className='text-left text-xs'>
-                  Before anything, why not join the{' '}
-                  <span className='font-semibold'>
-                    Drizy Studio community on Facebook
-                  </span>
-                  , a group of 21,000+ friendly home crafters who are all there
-                  to help each other succeed & get free product updates
-                </p>
-                <button className='flex justify-center self-center rounded-full bg-[#55668c] p-2 transition-all duration-500 group-hover:bg-[#61A9FA]'>
-                  Click here to request to join!
-                </button>
-              </div>
-            </div>
-            <div className='relative col-span-2 col-start-7 row-span-2 row-start-1 rounded-2xl border-4 border-[#61A9FA] bg-white p-2'>
+            <div className='relative col-span-2 col-start-7 row-span-2 row-start-1 h-full w-3/12 rounded-2xl border-4 border-[#61A9FA] bg-white p-2'>
               <Slider {...settings}>
                 <div className='slide'>
                   <div className='!important flex h-full items-center justify-center'>
