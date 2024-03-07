@@ -187,7 +187,7 @@
     position: relative;
   }
 
-  .bg-div1::before {
+  .bg-div1::after {
     content: '';
     display: block;
     width: calc(20% + 3px);
@@ -196,11 +196,10 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    z-index: 10;
     transition: all 0.3s ease;
   }
 
-  .bg-div1:hover::before {
+  .bg-div1:hover::after {
     border-color: #fff;
   }
 }
