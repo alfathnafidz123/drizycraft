@@ -1,3 +1,6 @@
+import account from './account.png';
+import accountIllustration from './account-illustration.png';
+import address from './address.png';
 import affiliatebanner from './affiliatebanner.svg';
 import avatarExample from './avatar-example.png';
 import cart from './cart.png';
@@ -14,16 +17,20 @@ import categories9 from './categories-9.png';
 import categories10 from './categories-10.png';
 import crafter1 from './crafter.svg';
 import crafterItem1 from './crafters1.svg';
+import download from './download.png';
 import logodrizy from './drizylogo.svg';
 import drizzyCoin from './drizzyCoin.png';
 import coffeeHolder from './floating-coffee-holder.png';
 import gridCrafter from './grid-crafter.png';
 import gridSlide from './grid-slide.png';
 import GuaranteeBadge from './guarantee-badge-group.png';
+import history from './history.png';
 import hoverPinterest from './hoverpint.svg';
 import hoverWA from './hoverwa.svg';
 import loginImage from './login-image.png';
 import newMember from './newMember.png';
+import orders from './orders.png';
+import paymentMethod from './paymentMethod.png';
 import pintCrafter from './pintCrafter.svg';
 import project1 from './project-1.png';
 import projectGrid from './projectGrid.png';
@@ -42,10 +49,14 @@ import search from './search.png';
 import searchBlue from './search-blue.png';
 import seasonCategory from './season-category.png';
 import starBadge from './star-badge.png';
+import subscription from './subscription.png';
 import testimony from './testimony.png';
 import waCrafter from './waCrafter.svg';
 
 export {
+  account,
+  accountIllustration,
+  address,
   affiliatebanner,
   avatarExample,
   cart,
@@ -63,15 +74,19 @@ export {
   coffeeHolder,
   crafter1,
   crafterItem1,
+  download,
   drizzyCoin,
   gridCrafter,
   gridSlide,
   GuaranteeBadge,
+  history,
   hoverPinterest,
   hoverWA,
   loginImage,
   logodrizy,
   newMember,
+  orders,
+  paymentMethod,
   pintCrafter,
   project1,
   projectGrid,
@@ -90,6 +105,7 @@ export {
   searchBlue,
   seasonCategory,
   starBadge,
+  subscription,
   testimony,
   waCrafter,
 };
