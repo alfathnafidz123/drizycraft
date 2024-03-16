@@ -17,6 +17,7 @@ import categories9 from './categories-9.png';
 import categories10 from './categories-10.png';
 import crafter1 from './crafter.svg';
 import crafterItem1 from './crafters1.svg';
+import defaultAvatar from './default-avatar.png';
 import download from './download.png';
 import logodrizy from './drizylogo.svg';
 import drizzyCoin from './drizzyCoin.png';
@@ -74,6 +75,7 @@ export {
   coffeeHolder,
   crafter1,
   crafterItem1,
+  defaultAvatar,
   download,
   drizzyCoin,
   gridCrafter,
