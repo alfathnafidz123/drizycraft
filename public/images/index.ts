@@ -1,3 +1,4 @@
+import aboutHeader from './aboutHeader.png';
 import account from './account.png';
 import accountIllustration from './account-illustration.png';
 import address from './address.png';
@@ -17,12 +18,20 @@ import categories9 from './categories-9.png';
 import categories10 from './categories-10.png';
 import ContactUs from './contact-us.svg';
 import crafter1 from './crafter.svg';
+import crafterProduct from './crafters-product.svg';
 import crafterItem1 from './crafters1.svg';
 import defaultAvatar from './default-avatar.png';
+import designBundles from './designBundles.svg';
 import download from './download.png';
+import drizyteam1 from './drizy-team-1.png';
+import drizyteam2 from './drizy-team-2.png';
+import drizyteam3 from './drizy-team-3.png';
 import logodrizy from './drizylogo.svg';
 import drizzyCoin from './drizzyCoin.png';
 import coffeeHolder from './floating-coffee-holder.png';
+import fontDesign from './font-design.png';
+import freepik from './freepik.png';
+import goDaddy from './goDaddy.png';
 import gridCrafter from './grid-crafter.png';
 import gridSlide from './grid-slide.png';
 import GuaranteeBadge from './guarantee-badge-group.png';
@@ -49,15 +58,18 @@ import projectSubscribe from './projectSubscribe.svg';
 import projectUpload from './projectUpload.svg';
 import sale from './sale.png';
 import saleProduct from './sale-product.png';
+import samsung from './samsung.png';
 import search from './search.png';
 import searchBlue from './search-blue.png';
 import seasonCategory from './season-category.png';
 import starBadge from './star-badge.png';
 import subscription from './subscription.png';
 import testimony from './testimony.png';
+import vectorDesign from './vector-design.png';
 import waCrafter from './waCrafter.svg';
 
 export {
+  aboutHeader,
   account,
   accountIllustration,
   address,
@@ -79,9 +91,17 @@ export {
   ContactUs,
   crafter1,
   crafterItem1,
+  crafterProduct,
   defaultAvatar,
+  designBundles,
   download,
+  drizyteam1,
+  drizyteam2,
+  drizyteam3,
   drizzyCoin,
+  fontDesign,
+  freepik,
+  goDaddy,
   gridCrafter,
   gridSlide,
   GuaranteeBadge,
@@ -109,11 +129,13 @@ export {
   projectUpload,
   sale,
   saleProduct,
+  samsung,
   search,
   searchBlue,
   seasonCategory,
   starBadge,
   subscription,
   testimony,
+  vectorDesign,
   waCrafter,
 };

@@ -70,7 +70,7 @@ const Navbar: React.FC = () => {
     router.push('/');
   };
   return (
-    <nav className='container sticky top-0 z-20 flex items-center bg-white py-3.5 shadow-xl'>
+    <nav className='sticky top-0 z-20 flex items-center bg-white py-3.5 shadow-xl'>
       <ModalLogin />
       <div className='container mx-auto flex items-center justify-evenly px-4'>
         <a onClick={handleLogoClick}>
