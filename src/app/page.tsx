@@ -151,7 +151,7 @@ export default function HomePage() {
         </div>
         <div className='h-76 mt-20 w-full px-40'>
           <div className='flex h-[40vh] w-full gap-4'>
-            <div className='bg-div1 relative z-20 h-full w-6/12 rounded-2xl border-8 border-[#61A9FA] transition-all duration-300 hover:border-white'>
+            <div className='bg-div1 relative z-[10] h-full w-6/12 rounded-2xl border-8 border-[#61A9FA] transition-all duration-300 hover:border-white'>
               <img
                 src={gridCrafter.src}
                 className='absolute h-full w-full rounded-lg bg-cover'
