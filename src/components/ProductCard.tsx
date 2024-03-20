@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { StaticImageData } from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import {
   cartProduct,
@@ -24,8 +25,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
   discountPrice,
   isSale,
 }) => {
+  const router = useRouter();
   return (
-    <div className='group relative m-8 mx-1 h-[335px] w-[281px] shadow-2xl'>
+    <div
+      className='group relative m-8 mx-1 h-[335px] w-[281px] shadow-2xl'
+      onClick={() => {
+        router.push('/product');
+      }}
+    >
       <div className='absolute left-0 top-0 flex h-[335px] w-[281px] flex-col flex-nowrap items-start gap-[24px] rounded-[12px] border-[#61A9FA] bg-[#fff] pb-[12px] pl-[12px] pr-[12px] pt-[12px] shadow-xl transition-none hover:border-[2px]'>
         <img src={image.src} alt={name} />
         <span className='relative z-[2] flex h-[54px] w-[257px] shrink-0 items-start justify-start self-stretch overflow-hidden text-left text-[16px] font-semibold leading-[17.6px] text-[#1a204c]'>
@@ -46,19 +53,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </div>
         <img
           src={pintCrafter.src}
-          className='absolute left-[7px] top-[5px] z-[6] h-[40px] w-[40px] bg-no-repeat opacity-100 group-hover:opacity-0 cursor-pointer'
+          className='absolute left-[7px] top-[5px] z-[6] h-[40px] w-[40px] cursor-pointer bg-no-repeat opacity-100 group-hover:opacity-0'
         />
         <img
           src={hoverPinterest.src}
-          className='absolute left-[7px] top-[5px] z-[6] h-[40px] w-[40px] bg-no-repeat opacity-0 group-hover:opacity-100 cursor-pointer'
+          className='absolute left-[7px] top-[5px] z-[6] h-[40px] w-[40px] cursor-pointer bg-no-repeat opacity-0 group-hover:opacity-100'
         />
         <img
           src={waCrafter.src}
-          className='absolute left-[55px] top-[5px] z-[7] h-[40px] w-[40px] bg-no-repeat opacity-100 group-hover:opacity-0 cursor-pointer'
+          className='absolute left-[55px] top-[5px] z-[7] h-[40px] w-[40px] cursor-pointer bg-no-repeat opacity-100 group-hover:opacity-0'
         />
         <img
           src={hoverWA.src}
-          className='absolute left-[55px] top-[5px] z-[7] h-[40px] w-[40px] bg-no-repeat opacity-0 group-hover:opacity-100 cursor-pointer'
+          className='absolute left-[55px] top-[5px] z-[7] h-[40px] w-[40px] cursor-pointer bg-no-repeat opacity-0 group-hover:opacity-100'
         />
       </div>
     </div>

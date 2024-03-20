@@ -15,8 +15,10 @@ import categories7 from './categories-7.png';
 import categories8 from './categories-8.png';
 import categories9 from './categories-9.png';
 import categories10 from './categories-10.png';
+import ContactUs from './contact-us.svg';
 import crafter1 from './crafter.svg';
 import crafterItem1 from './crafters1.svg';
+import defaultAvatar from './default-avatar.png';
 import download from './download.png';
 import logodrizy from './drizylogo.svg';
 import drizzyCoin from './drizzyCoin.png';
@@ -27,6 +29,8 @@ import GuaranteeBadge from './guarantee-badge-group.png';
 import history from './history.png';
 import hoverPinterest from './hoverpint.svg';
 import hoverWA from './hoverwa.svg';
+import license1 from './license1.svg';
+import license2 from './license2.svg';
 import loginImage from './login-image.png';
 import newMember from './newMember.png';
 import orders from './orders.png';
@@ -52,9 +56,6 @@ import starBadge from './star-badge.png';
 import subscription from './subscription.png';
 import testimony from './testimony.png';
 import waCrafter from './waCrafter.svg';
-import license1 from './license1.svg';
-import license2 from './license2.svg';
-import ContactUs from './contact-us.svg';
 
 export {
   account,
@@ -75,9 +76,10 @@ export {
   categories9,
   categories10,
   coffeeHolder,
+  ContactUs,
   crafter1,
   crafterItem1,
-  ContactUs,
+  defaultAvatar,
   download,
   drizzyCoin,
   gridCrafter,
@@ -86,10 +88,10 @@ export {
   history,
   hoverPinterest,
   hoverWA,
-  loginImage,
-  logodrizy,
   license1,
   license2,
+  loginImage,
+  logodrizy,
   newMember,
   orders,
   paymentMethod,
