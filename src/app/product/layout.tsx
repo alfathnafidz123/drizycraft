@@ -1,16 +1,11 @@
 import { Metadata } from 'next';
-import Image from 'next/image';
 import * as React from 'react';
 
 import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
 
-import ProfileMenu from '@/components/sidebar/sidebar';
-
 import { siteConfig } from '@/constant/config';
-
-import { accountIllustration, defaultAvatar } from '~/images';
 
 // !STARTERCONF Change these default meta
 // !STARTERCONF Look at @/constant/config to change them
@@ -57,38 +52,5 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <main>
-      <section className='flex gap-4 p-20'>
-        <div className='flex basis-3/12 flex-col gap-12 pr-16'>
-          <p className='text-3xl font-semibold'>My Account</p>
-          <Image
-            className='w-[300px]'
-            src={accountIllustration.src}
-            alt='Sign Up'
-            width={300}
-            height={300}
-          />
-        </div>
-        <div className='flex basis-2/12 flex-col gap-8'>
-          <ProfileMenu />
-          <div className='flex flex-col items-center gap-4 overflow-hidden rounded-lg border p-4 shadow-lg'>
-            <p className='font-semibold text-[#1A214C]'>My profile picture</p>
-            <Image
-              src={defaultAvatar.src}
-              width={98}
-              height={98}
-              alt='Avatar'
-            />
-            <button className='rounded-full bg-[#E4F6FB] px-8 py-2 font-semibold text-[#4065D1]'>
-              Change picture
-            </button>
-          </div>
-        </div>
-        <div className='flex h-1/2 flex-grow flex-col items-center justify-center gap-4 rounded-xl bg-[#F4F4F4] p-8 shadow-lg'>
-          {children}
-        </div>
-      </section>
-    </main>
-  );
+  return <>{children}</>;
 }

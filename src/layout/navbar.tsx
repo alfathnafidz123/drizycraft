@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa6';
 
-import { resetUser, setOpenModal } from '@/lib/slices/user';
+import { setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import ModalLogin from '@/components/modals/login';
@@ -41,8 +41,8 @@ const Navbar: React.FC = () => {
   const openModalLogin = () => {
     dispatch(setOpenModal(true));
   };
-  const logout = () => {
-    dispatch(resetUser());
+  const openProfile = () => {
+    router.push('/profile/account');
   };
   const toggleMenu = (key: keyof MenuState) => {
     setShowMenu((prevState) => {
@@ -112,7 +112,7 @@ const Navbar: React.FC = () => {
             <button
               className='rounded-full bg-[#e4f6fb] px-6 py-3 font-semibold text-[#008ECC]'
               // eslint-disable-next-line @typescript-eslint/no-empty-function
-              onClick={!isLogin ? openModalLogin : logout}
+              onClick={!isLogin ? openModalLogin : openProfile}
             >
               {isLogin ? 'PROFILE' : 'LOGIN'}
             </button>
