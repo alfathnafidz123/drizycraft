@@ -68,7 +68,11 @@ export default function Contact() {
               Your message
             </label>
             <input
+<<<<<<< Updated upstream
               type='gi'
+=======
+              type='text'
+>>>>>>> Stashed changes
               className='border-grey-100 border-[1px] rounded-xl m-[3%] p-[15%]'
               placeholder=''
               required
@@ -76,7 +80,11 @@ export default function Contact() {
           </div>
 
           <div className='mt-8 flex w-full'>
+<<<<<<< Updated upstream
             <button className='rounded-full bg-[#4065D1] px-[30%] py-[1%] font-semibold text-[#e4f6fb] m-[3%]'>
+=======
+            <button className='rounded-full bg-[#4065D1] px-[30%] py-[2%] font-semibold text-[#e4f6fb] m-[3%]'>
+>>>>>>> Stashed changes
               Submit
             </button>
           </div>

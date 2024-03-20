@@ -52,6 +52,9 @@ import starBadge from './star-badge.png';
 import subscription from './subscription.png';
 import testimony from './testimony.png';
 import waCrafter from './waCrafter.svg';
+import license1 from './license1.svg';
+import license2 from './license2.svg';
+import ContactUs from './contact-us.svg';
 
 export {
   account,
@@ -74,6 +77,7 @@ export {
   coffeeHolder,
   crafter1,
   crafterItem1,
+  ContactUs,
   download,
   drizzyCoin,
   gridCrafter,
@@ -84,6 +88,8 @@ export {
   hoverWA,
   loginImage,
   logodrizy,
+  license1,
+  license2,
   newMember,
   orders,
   paymentMethod,

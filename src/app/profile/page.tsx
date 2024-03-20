@@ -42,6 +42,15 @@ export default function Register() {
     if (activeMenu == 0) {
       return (
         <>
+        <div>
+          <p>Addresses</p>
+        </div>
+        </>
+      );
+    }
+    if (activeMenu == 1) {
+      return (
+        <>
           <div className='flex flex-col'>
             <label className='pl-4 text-[#1A214C]'>
               New Password <span className='text-red-500'>*</span>
