@@ -1,17 +1,16 @@
 'use client';
 import { useState } from 'react';
-
-import { catalogcrafter, crafterItem1 } from '~/images';
-
-import ProductCard from '@/components/ProductCard';
-
 import { CiYoutube } from 'react-icons/ci';
 import { FaBehance } from 'react-icons/fa';
 import { FaFacebookF } from 'react-icons/fa';
 import { FaPinterest } from 'react-icons/fa';
 import { FaInstagram } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
 import { FaChevronDown } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
+
+import ProductCard from '@/components/ProductCard';
+
+import { catalogcrafter, crafterItem1 } from '~/images';
 
 export default function CatalogCrafter() {
   const [isShortByDropdownOpen, setIsShortByDropdownOpen] = useState(false);
@@ -45,17 +44,17 @@ export default function CatalogCrafter() {
     setIsSeasonsDropdownOpen(!isSeasonsDropdownOpen);
   };
 
-  const handleShortBySelect = (event) => {
+  const handleShortBySelect = (event: any) => {
     const option = event.target.value;
     setSelectedShortByOption(option);
   };
 
-  const handleCategorySelect = (event) => {
+  const handleCategorySelect = (event: any) => {
     const option = event.target.value;
     setSelectedCategoryOption(option);
   };
 
-  const handleSeasonsSelect = (event) => {
+  const handleSeasonsSelect = (event: any) => {
     const option = event.target.value;
     setSelectedSeasonsOption(option);
   };
@@ -291,7 +290,6 @@ export default function CatalogCrafter() {
               name={product.name}
               image={product.image}
               price={product.price}
-              className=''
             />
           ))}
         </div>
