@@ -1,29 +1,37 @@
+import {
+  FaAngular,
+  FaCss3,
+  FaDocker,
+  FaHtml5,
+  FaJs,
+  FaReact,
+} from 'react-icons/fa';
+
 import { cancel, check } from '~/images';
-import { FaAngular, FaCss3, FaDocker, FaHtml5, FaJava, FaJs, FaPhp, FaReact } from 'react-icons/fa'
 
 export const navigationLinks = [
   {
-    name: "Home",
-    hash: "/",
+    name: 'Home',
+    hash: '/',
   },
   {
-    name: "About Us",
-    hash: "/about",
+    name: 'About Us',
+    hash: '/about',
   },
   {
-    name: "Features",
-    hash: "/features",
+    name: 'Features',
+    hash: '/features',
   },
   {
-    name: "Contact",
-    hash: "/contact",
+    name: 'Contact',
+    hash: '/contact',
   },
 ];
 
 export const features = [
   {
-    title: "Basic",
-    value: "150.000",
+    title: 'Basic',
+    value: '150.000',
     featureItem: [
       { title: 'Lorem ipsum dolor sit amet.', imgUrl: check },
       { title: 'Lorem ipsum dolor sit amet.', imgUrl: check },
@@ -33,8 +41,8 @@ export const features = [
     ],
   },
   {
-    title: "Standard",
-    value: "250.000",
+    title: 'Standard',
+    value: '250.000',
     featureItem: [
       { title: 'Lorem ipsum dolor sit amet.', imgUrl: check },
       { title: 'Lorem ipsum dolor sit amet.', imgUrl: check },
@@ -44,8 +52,8 @@ export const features = [
     ],
   },
   {
-    title: "Premium",
-    value: "350.000",
+    title: 'Premium',
+    value: '350.000',
     featureItem: [
       { title: 'Lorem ipsum dolor sit amet.', imgUrl: check },
       { title: 'Lorem ipsum dolor sit amet.', imgUrl: check },
@@ -60,65 +68,70 @@ export const featuresContent = [
   {
     number: '01',
     icon: FaHtml5,
-    title: 'Lorem Ipsum'
+    title: 'Lorem Ipsum',
   },
   {
     number: '02',
     icon: FaCss3,
-    title: 'Lorem Ipsum'
+    title: 'Lorem Ipsum',
   },
   {
     number: '03',
     icon: FaDocker,
-    title: 'Lorem Ipsum'
+    title: 'Lorem Ipsum',
   },
   {
     number: '04',
     icon: FaReact,
-    title: 'Lorem Ipsum'
+    title: 'Lorem Ipsum',
   },
   {
     number: '05',
     icon: FaAngular,
-    title: 'Lorem Ipsum'
+    title: 'Lorem Ipsum',
   },
   {
     number: '06',
     icon: FaJs,
-    title: 'Lorem Ipsum'
+    title: 'Lorem Ipsum',
   },
-]
+];
 
 export const featureDetailContent = [
   {
     icon: FaHtml5,
     title: 'Lorem Ipsum',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur dolorum ad omnis odit! Quos natus explicabo repudiandae perspiciatis cum asperiores!'
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur dolorum ad omnis odit! Quos natus explicabo repudiandae perspiciatis cum asperiores!',
   },
   {
     icon: FaCss3,
     title: 'Lorem Ipsum',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur dolorum ad omnis odit! Quos natus explicabo repudiandae perspiciatis cum asperiores!'
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur dolorum ad omnis odit! Quos natus explicabo repudiandae perspiciatis cum asperiores!',
   },
   {
     icon: FaDocker,
     title: 'Lorem Ipsum',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur dolorum ad omnis odit! Quos natus explicabo repudiandae perspiciatis cum asperiores!'
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur dolorum ad omnis odit! Quos natus explicabo repudiandae perspiciatis cum asperiores!',
   },
   {
     icon: FaReact,
     title: 'Lorem Ipsum',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur dolorum ad omnis odit! Quos natus explicabo repudiandae perspiciatis cum asperiores!'
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur dolorum ad omnis odit! Quos natus explicabo repudiandae perspiciatis cum asperiores!',
   },
   {
     icon: FaAngular,
     title: 'Lorem Ipsum',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur dolorum ad omnis odit! Quos natus explicabo repudiandae perspiciatis cum asperiores!'
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur dolorum ad omnis odit! Quos natus explicabo repudiandae perspiciatis cum asperiores!',
   },
   {
     icon: FaJs,
     title: 'Lorem Ipsum',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur dolorum ad omnis odit! Quos natus explicabo repudiandae perspiciatis cum asperiores!'
+    description:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur dolorum ad omnis odit! Quos natus explicabo repudiandae perspiciatis cum asperiores!',
   },
-]
-
+];

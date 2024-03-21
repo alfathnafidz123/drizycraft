@@ -4,6 +4,7 @@ import accountIllustration from './account-illustration.png';
 import address from './address.png';
 import affiliatebanner from './affiliatebanner.svg';
 import avatarExample from './avatar-example.png';
+import cancel from './cancel.svg';
 import cart from './cart.png';
 import cartProduct from './cartProduct.png';
 import catalogcrafter from './catalogcrafter.svg';
@@ -17,6 +18,7 @@ import categories7 from './categories-7.png';
 import categories8 from './categories-8.png';
 import categories9 from './categories-9.png';
 import categories10 from './categories-10.png';
+import check from './check.svg';
 import ContactUs from './contact-us.svg';
 import crafter1 from './crafter.svg';
 import crafterProduct from './crafters-product.svg';
@@ -36,6 +38,8 @@ import goDaddy from './goDaddy.png';
 import gridCrafter from './grid-crafter.png';
 import gridSlide from './grid-slide.png';
 import GuaranteeBadge from './guarantee-badge-group.png';
+import helpcenter1 from './helpcenter1.svg';
+import helpcenter2 from './helpcenter2.svg';
 import history from './history.png';
 import hoverPinterest from './hoverpint.svg';
 import hoverWA from './hoverwa.svg';
@@ -68,8 +72,6 @@ import subscription from './subscription.png';
 import testimony from './testimony.png';
 import vectorDesign from './vector-design.png';
 import waCrafter from './waCrafter.svg';
-import helpcenter1 from './helpcenter1.svg';
-import helpcenter2 from './helpcenter2.svg';
 
 export {
   aboutHeader,
@@ -78,6 +80,7 @@ export {
   address,
   affiliatebanner,
   avatarExample,
+  cancel,
   cart,
   cartProduct,
   catalogcrafter,
@@ -91,6 +94,7 @@ export {
   categories8,
   categories9,
   categories10,
+  check,
   coffeeHolder,
   ContactUs,
   crafter1,

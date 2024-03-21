@@ -1,5 +1,6 @@
-import { sectionProps } from '@/interfaces/features.interface'
 import React from 'react'
+
+import { sectionProps } from '@/interfaces/features.interface'
 
 const Hero = ({ sectionStyle }: sectionProps) => {
   return (
