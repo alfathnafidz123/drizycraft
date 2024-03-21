@@ -6,6 +6,7 @@ import affiliatebanner from './affiliatebanner.svg';
 import avatarExample from './avatar-example.png';
 import cart from './cart.png';
 import cartProduct from './cartProduct.png';
+import catalogcrafter from './catalogcrafter.svg';
 import categories1 from './categories-1.png';
 import categories2 from './categories-2.png';
 import categories3 from './categories-3.png';
@@ -67,6 +68,8 @@ import subscription from './subscription.png';
 import testimony from './testimony.png';
 import vectorDesign from './vector-design.png';
 import waCrafter from './waCrafter.svg';
+import helpcenter1 from './helpcenter1.svg';
+import helpcenter2 from './helpcenter2.svg';
 
 export {
   aboutHeader,
@@ -77,6 +80,7 @@ export {
   avatarExample,
   cart,
   cartProduct,
+  catalogcrafter,
   categories1,
   categories2,
   categories3,
@@ -105,6 +109,8 @@ export {
   gridCrafter,
   gridSlide,
   GuaranteeBadge,
+  helpcenter1,
+  helpcenter2,
   history,
   hoverPinterest,
   hoverWA,
