@@ -1,4 +1,3 @@
-'use client';
 import { ContactUs } from '~/images';
 
 export default function Contact() {
@@ -9,7 +8,7 @@ export default function Contact() {
       </p>
 
       <section className='flex p-20'>
-        <div className='flex basis-5/12 flex-col gap-12 text-[#1A214C] pr-16'>
+        <div className='flex basis-5/12 flex-col gap-12 pr-16 text-[#1A214C]'>
           <p className='font-katide-bold text-[20px]'>
             DAISY IS HERE TO HELP YOU!
           </p>
@@ -25,69 +24,53 @@ export default function Contact() {
           <img className='' src={ContactUs.src} alt='Contact Us' />
         </div>
 
-        <div className='ml-[10%] flex flex-col gap-4 rounded-xl bg-white p-8 shadow-lg w-[569px] h-[701px] text-[14px]'>
+        <div className='ml-[10%] flex h-[701px] w-[569px] flex-col gap-4 rounded-xl bg-white p-8 text-[14px] shadow-lg'>
           <div className='m-[8%]'>
-          <div className='flex flex-col flex-grow'>
-            <label className='pl-4 text-[#1A214C]'>
-              Your name
-            </label>
-            <input
-              type='text'
-              className='border-grey-100 border-[1px] rounded-full m-[3%]'
-              placeholder=''
-              required
-            ></input>
-          </div>
+            <div className='flex flex-grow flex-col'>
+              <label className='pl-4 text-[#1A214C]'>Your name</label>
+              <input
+                type='text'
+                className='border-grey-100 m-[3%] rounded-full border-[1px]'
+                placeholder=''
+                required
+              ></input>
+            </div>
 
-          <div className='flex flex-col flex-grow pt-[3%]'>
-            <label className='pl-4 text-[#1A214C]'>
-              Your email
-            </label>
-            <input
-              type='email'
-              className='border-grey-100 border-[1px] rounded-full m-[3%]'
-              placeholder=''
-              required
-            ></input>
-          </div>
+            <div className='flex flex-grow flex-col pt-[3%]'>
+              <label className='pl-4 text-[#1A214C]'>Your email</label>
+              <input
+                type='email'
+                className='border-grey-100 m-[3%] rounded-full border-[1px]'
+                placeholder=''
+                required
+              ></input>
+            </div>
 
-          <div className='flex flex-col flex-grow pt-[3%]'>
-            <label className='pl-4 text-[#1A214C]'>
-              Subject
-            </label>
-            <input
-              type='text'
-              className='border-grey-100 border-[1px] rounded-full m-[3%]'
-              placeholder=''
-              required
-            ></input>
-          </div>
+            <div className='flex flex-grow flex-col pt-[3%]'>
+              <label className='pl-4 text-[#1A214C]'>Subject</label>
+              <input
+                type='text'
+                className='border-grey-100 m-[3%] rounded-full border-[1px]'
+                placeholder=''
+                required
+              ></input>
+            </div>
 
-          <div className='flex flex-col flex-grow pt-[3%]'>
-            <label className='pl-4 text-[#1A214C]'>
-              Your message
-            </label>
-            <input
-<<<<<<< Updated upstream
-              type='gi'
-=======
-              type='text'
->>>>>>> Stashed changes
-              className='border-grey-100 border-[1px] rounded-xl m-[3%] p-[15%]'
-              placeholder=''
-              required
-            ></input>
-          </div>
+            <div className='flex flex-grow flex-col pt-[3%]'>
+              <label className='pl-4 text-[#1A214C]'>Your message</label>
+              <input
+                type='input'
+                className='border-grey-100 m-[3%] rounded-xl border-[1px] p-[15%]'
+                placeholder=''
+                required
+              ></input>
+            </div>
 
-          <div className='mt-8 flex w-full'>
-<<<<<<< Updated upstream
-            <button className='rounded-full bg-[#4065D1] px-[30%] py-[1%] font-semibold text-[#e4f6fb] m-[3%]'>
-=======
-            <button className='rounded-full bg-[#4065D1] px-[30%] py-[2%] font-semibold text-[#e4f6fb] m-[3%]'>
->>>>>>> Stashed changes
-              Submit
-            </button>
-          </div>
+            <div className='mt-8 flex w-full'>
+              <button className='m-[3%] rounded-full bg-[#4065D1] px-[30%] py-[1%] font-semibold text-[#e4f6fb]'>
+                Submit
+              </button>
+            </div>
           </div>
         </div>
       </section>

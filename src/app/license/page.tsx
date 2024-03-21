@@ -1,4 +1,3 @@
-'use client';
 import { license1, license2 } from '~/images';
 
 export default function License() {
