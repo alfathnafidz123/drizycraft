@@ -73,13 +73,13 @@ const Navbar: React.FC = () => {
     <nav className='sticky top-0 z-20 flex h-[139px] items-center bg-white shadow-xl'>
       <ModalLogin />
       <div className='flex w-full items-center justify-center px-[138px]'>
-        <div className='grid w-full grid-cols-10 grid-rows-1 gap-4'>
-          <div className='col-span-2'>
+        <div className='grid w-full grid-cols-12 grid-rows-1 gap-4'>
+          <div className='col-span-3'>
             <a onClick={handleLogoClick}>
               <img src={logodrizy.src} alt='Logo' className='object-contain' />
             </a>
           </div>
-          <div className='col-span-8 col-start-3'>
+          <div className='col-span-9 col-start-4'>
             <div className='flex flex-col gap-4'>
               <div className='flex flex-row items-center justify-between pl-2'>
                 <label
