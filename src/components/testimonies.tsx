@@ -41,8 +41,8 @@ const Testimonies = () => {
         <div className='flex gap-5 max-md:flex-col max-md:gap-0'>
           <div className='flex w-4/12 flex-col pt-14'>
             <Slider {...settings}>
-              <div className='slide'>
-                <div className='!important flex h-[421px] w-[375px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg'>
+              <div className='slide p-4'>
+                <div className='!important flex h-[430px] w-[375px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg'>
                   <div className='flex h-full flex-col items-start p-8 text-[14px]'>
                     <img src={testimony.src} alt='Quote' className='mb-8' />
                     <p>
@@ -69,8 +69,8 @@ const Testimonies = () => {
                   </div>
                 </div>
               </div>
-              <div className='slide p-12'>
-                <div className='!important flex h-[421px] w-[375px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg'>
+              <div className='slide p-4'>
+                <div className='!important flex h-[430px] w-[375px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg'>
                   <div className='flex h-full flex-col items-start p-8 text-[14px]'>
                     <img src={testimony.src} alt='Quote' className='mb-8' />
                     <p>
@@ -93,8 +93,8 @@ const Testimonies = () => {
                   </div>
                 </div>
               </div>
-              <div className='slide p-12'>
-                <div className='!important flex h-[421px] w-[375px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg'>
+              <div className='slide p-4'>
+                <div className='!important flex h-[430px] w-[375px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg'>
                   <div className='flex h-full flex-col items-start p-8 text-[14px]'>
                     <img src={testimony.src} alt='Quote' className='mb-8' />
                     <p>
@@ -118,8 +118,8 @@ const Testimonies = () => {
                   </div>
                 </div>
               </div>
-              <div className='slide p-12'>
-                <div className='!important flex h-[421px] w-[375px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg'>
+              <div className='slide p-4'>
+                <div className='!important flex h-[430px] w-[375px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg'>
                   <div className='flex h-full flex-col items-start p-8 text-[14px]'>
                     <img src={testimony.src} alt='Quote' className='mb-8' />
                     <p>
