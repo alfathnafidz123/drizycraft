@@ -9,10 +9,10 @@ interface TrendingTagProps {
 
 const TrendingTag = ({ name }: TrendingTagProps) => {
   return (
-    <div className='group flex items-center rounded-full border border-[#8BC0E7] p-2 px-4 font-semibold text-[#4065D1]'>
+    <div className='font-katide-bold group flex items-center rounded-full border border-[#8BC0E7] text-[10px] text-[#4065D1]'>
       <img
         src={searchBlue.src}
-        className='mr-2 w-0 scale-0 transition-all duration-300 group-hover:w-[16px] group-hover:scale-100'
+        className='mr-2 w-0 scale-0 transition-all duration-300 group-hover:ml-2 group-hover:w-[16px] group-hover:scale-90'
         alt='search'
       />
       <p className='mr-2'>{name}</p>

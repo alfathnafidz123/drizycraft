@@ -25,13 +25,14 @@ const ProductSlider: React.FC<SwipeToSlideProps> = ({ items }) => {
     swipeToSlide: true,
     nextArrow: <></>,
     prevArrow: <></>,
+    variableWidth: true,
   };
   return (
     <div className='slider-container'>
       <Slider {...settings}>
         {items.map((item, index) => {
           return (
-            <div key={index}>
+            <div key={index} className='pb-8'>
               <ProductCard
                 name={item.name}
                 image={item?.image}
