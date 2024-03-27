@@ -151,9 +151,9 @@ export default function HomePage() {
           <TrendingTag name='Free Svg' />
           <TrendingTag name='Papercut' />
         </div>
-        <div className='h-76 mt-20 w-full px-40'>
+        <div className='h-76 mt-20 w-full px-[138px]'>
           <div className='flex h-[40vh] w-full gap-4'>
-            <div className='bg-div1 relative z-[10] h-full w-6/12 rounded-2xl border-8 border-[#61A9FA] transition-all duration-300 hover:border-white'>
+            <div className='relative z-[10] h-full w-5/12 rounded-2xl border-8 border-[#61A9FA] transition-all duration-300 hover:border-white'>
               <img
                 src={gridCrafter.src}
                 className='absolute h-full w-full rounded-lg bg-cover'
@@ -189,7 +189,7 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <div className='flex w-3/12 flex-col gap-4'>
+            <div className='flex w-4/12 flex-col gap-4'>
               <div className='group relative h-1/2 overflow-hidden rounded-2xl bg-[#61A9FA] transition-all duration-300 hover:bg-[#4065D1]'>
                 <div className='absolute flex h-full w-full'>
                   <div className='h-full w-1/2 bg-[#4065D1] transition-transform duration-300 ease-in-out group-hover:translate-x-full group-hover:transform group-hover:bg-[#2A3B80]'></div>
@@ -211,7 +211,7 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
-              <div className='group relative col-span-3 col-start-4 row-span-1 row-start-2 ml-[-14vh] h-1/2 rounded-2xl bg-[#6f82a6]'>
+              <div className='group relative col-span-3 col-start-4 row-span-1 row-start-2  h-1/2 rounded-2xl bg-[#6f82a6]'>
                 <div className='absolute flex h-full w-full flex-col items-start justify-center gap-2 px-8 py-4 text-white transition-all duration-300 group-hover:opacity-0'>
                   <p className='text-xl font-semibold'>The Craft Community</p>
                   <p className='text-sm'>21,000+ friendly home crafters</p>
@@ -299,16 +299,13 @@ export default function HomePage() {
       </section>
 
       <section className='flex items-center justify-center bg-white py-9 text-base font-bold leading-4 text-white max-md:px-5'>
-        <div className='flex w-full max-w-[1400px] flex-col max-md:max-w-full'>
+        <div className='flex w-full flex-col max-md:max-w-full'>
           <div className='font-katide-bold self-center whitespace-nowrap text-2xl text-indigo-950'>
             Browse Product Categories
           </div>
-          <div className='mt-12 flex flex-wrap pl-[8%]'>
+          <div className='mt-12 flex flex-wrap justify-between px-[138px]'>
             {categoryData.map((data, index) => (
-              <div
-                key={index}
-                className='w-full sm:w-[48%] md:w-[32%] lg:w-[24%] xl:w-[19%]'
-              >
+              <div key={index} className='flex p-2 sm:w-1/2 md:w-1/3 lg:w-1/5'>
                 <ProductCategories name={data.name} image={data.image} />
               </div>
             ))}
@@ -317,8 +314,8 @@ export default function HomePage() {
       </section>
 
       <section className='flex items-center justify-center bg-[#E1E3F4] py-9 text-base font-bold leading-4 text-white'>
-        <div className='flex w-full max-w-[1400px] flex-col max-md:max-w-full'>
-          <div className='font-katide-bold self-center whitespace-nowrap text-2xl text-indigo-950'>
+        <div className='flex w-full flex-col max-md:max-w-full'>
+          <div className='font-katide-bold mb-16 self-center whitespace-nowrap text-2xl text-indigo-950'>
             Browse Season Categories
           </div>
           <div className='flex justify-center'>
@@ -333,10 +330,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section>
-        <div className='flex flex-col bg-[#AAD3FF] pb-12 pt-2 font-bold max-md:px-5'>
-          <div className='flex justify-between px-20 max-md:max-w-full max-md:flex-wrap '>
-            <div className='font-katide-bold mt-[4%] text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
+      <section className='bg-[#AAD3FF]'>
+        <div className='flex flex-col pb-12 pl-[138px] pt-2 font-bold'>
+          <div className='flex justify-between pr-[138px] max-md:max-w-full max-md:flex-wrap'>
+            <div className='font-katide-bold mb-8 mt-16 text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
               Crafters
             </div>
             <div className='flex items-center justify-end pl-5'>
@@ -345,29 +342,29 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-          <div className='ml-10'>
+          <div className='h-[400px]'>
             <ProductSlider items={crafterSlider} />
           </div>
         </div>
       </section>
 
-      <section>
-        <div className='flex flex-col bg-[#E1E3F4] pb-12 pt-2 font-bold max-md:px-5'>
-          <div className='flex justify-between px-20 max-md:max-w-full max-md:flex-wrap'>
-            <div className='font-katide-bold mt-[4%] text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
+      <section className='bg-[#E1E3F4]'>
+        <div className='flex flex-col pb-12 pl-[138px] pt-2 font-bold max-md:px-5'>
+          <div className='flex justify-between max-md:max-w-full max-md:flex-wrap'>
+            <div className='font-katide-bold mb-8 mt-16 text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
               Best Seller
             </div>
           </div>
-          <div className='ml-10'>
+          <div className='h-[400px]'>
             <ProductSlider items={crafterSlider} />
           </div>
         </div>
       </section>
 
-      <section>
-        <div className='flex flex-col bg-[#AAD3FF] pb-12 pt-2 font-bold max-md:px-5'>
-          <div className='flex justify-between px-20 max-md:max-w-full max-md:flex-wrap '>
-            <div className='font-katide-bold mt-[4%] text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
+      <section className='bg-[#AAD3FF]'>
+        <div className='flex flex-col pb-12 pl-[138px] pt-2 font-bold max-md:px-5'>
+          <div className='flex justify-between pr-[138px] max-md:max-w-full max-md:flex-wrap'>
+            <div className='font-katide-bold mb-8 mt-16 text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
               Bundles
             </div>
             {/* <div className="pl-5 justify-end items-center flex">
@@ -381,16 +378,16 @@ export default function HomePage() {
               />
             </div> */}
           </div>
-          <div className='ml-10'>
+          <div className='h-[400px]'>
             <ProductSlider items={crafterSlider} />
           </div>
         </div>
       </section>
 
-      <section>
-        <div className='flex flex-col bg-[#FFBB3C] pb-12 pt-2 font-bold max-md:px-5'>
-          <div className='flex justify-between px-20 max-md:max-w-full max-md:flex-wrap '>
-            <div className='font-katide-bold mt-[4%] text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
+      <section className='bg-[#FFBB3C]'>
+        <div className='flex flex-col pb-12 pl-[138px] pt-2 font-bold max-md:px-5'>
+          <div className='flex justify-between pr-[138px] max-md:max-w-full max-md:flex-wrap'>
+            <div className='font-katide-bold mb-8 mt-16 text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
               Exclusive Partners
             </div>
             {/* <div className="pl-5 justify-end items-center flex">
@@ -404,16 +401,16 @@ export default function HomePage() {
               />
             </div> */}
           </div>
-          <div className='ml-10'>
+          <div className='h-[400px]'>
             <ProductSlider items={crafterSlider} />
           </div>
         </div>
       </section>
 
-      <section>
-        <div className='flex flex-col bg-[#fff] pb-12 pt-2 font-bold max-md:px-5'>
-          <div className='flex justify-between px-20 max-md:max-w-full max-md:flex-wrap '>
-            <div className='font-katide-bold mt-[4%] text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
+      <section className='bg-[#fff]'>
+        <div className='flex flex-col pb-12 pl-[138px] pt-2 font-bold max-md:px-5'>
+          <div className='flex justify-between pr-[138px] max-md:max-w-full max-md:flex-wrap'>
+            <div className='font-katide-bold mb-8 mt-16 text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
               Vector
             </div>
             {/* <div className="pl-5 justify-end items-center flex">
@@ -427,7 +424,7 @@ export default function HomePage() {
               />
             </div> */}
           </div>
-          <div className='ml-10'>
+          <div className='h-[400px]'>
             <ProductSlider items={crafterSlider} />
           </div>
         </div>

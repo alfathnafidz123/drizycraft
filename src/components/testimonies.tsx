@@ -3,21 +3,21 @@
 import Slider from 'react-slick';
 
 import {
+  AO,
   avatarExample,
-  testimony,
+  canva,
+  creativeFabrica,
+  designBundles,
+  elegco,
   endlessCrafting,
   expandingCrafting,
-  optimizedSVG,
-  elegco,
-  creativeFabrica,
   freepik,
-  designBundles,
-  canva,
-  jiffy,
-  AO,
   goDaddy,
-  wordBank,
+  jiffy,
+  optimizedSVG,
   samsung,
+  testimony,
+  wordBank,
 } from '~/images';
 
 const Testimonies = () => {
@@ -33,15 +33,15 @@ const Testimonies = () => {
     fade: true,
   };
   return (
-    <div className='flex flex-col items-center bg-slate-200 px-12 pb-6 pt-12 max-md:px-5'>
-      <div className='mt-3 w-full max-w-[1132px]'>
+    <div className='flex flex-col items-center bg-slate-200 px-[138px] pb-6 pt-12 max-md:px-5'>
+      <div className='mt-3 w-full'>
         <div className='font-katide-bold flex justify-center text-[24px] leading-6 text-indigo-950'>
           Let’s Crafting!
         </div>
-        <div className='max-md: flex gap-5 max-md:flex-col max-md:gap-0'>
-          <div className='flex w-[500px] flex-col pt-14'>
+        <div className='flex gap-5 max-md:flex-col max-md:gap-0'>
+          <div className='flex w-4/12 flex-col pt-14'>
             <Slider {...settings}>
-              <div className='slide p-12'>
+              <div className='slide'>
                 <div className='!important flex h-[421px] w-[375px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg'>
                   <div className='flex h-full flex-col items-start p-8 text-[14px]'>
                     <img src={testimony.src} alt='Quote' className='mb-8' />
@@ -92,7 +92,7 @@ const Testimonies = () => {
                     </div>
                   </div>
                 </div>
-              </div>{' '}
+              </div>
               <div className='slide p-12'>
                 <div className='!important flex h-[421px] w-[375px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg'>
                   <div className='flex h-full flex-col items-start p-8 text-[14px]'>
@@ -117,7 +117,7 @@ const Testimonies = () => {
                     </div>
                   </div>
                 </div>
-              </div>{' '}
+              </div>
               <div className='slide p-12'>
                 <div className='!important flex h-[421px] w-[375px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg'>
                   <div className='flex h-full flex-col items-start p-8 text-[14px]'>
@@ -147,7 +147,7 @@ const Testimonies = () => {
             </Slider>
           </div>
 
-          <div className='ml-5 flex w-[63%] flex-col max-md:ml-0 max-md:w-full'>
+          <div className='ml-5 flex w-6/12 flex-col max-md:ml-0 max-md:w-full'>
             <div className='flex flex-col text-sm max-md:mt-10 max-md:max-w-full'>
               <div className='mt-24 flex justify-between gap-5 max-md:mt-10 max-md:max-w-full max-md:flex-wrap'>
                 <img

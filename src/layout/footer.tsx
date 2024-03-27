@@ -1,20 +1,19 @@
 'use client';
 import { useRouter } from 'next/navigation';
-
-import { GuaranteeBadge } from '~/images';
-
 import {
   FaFacebookF,
-  FaXTwitter,
-  FaPinterest,
   FaInstagram,
+  FaPinterest,
+  FaXTwitter,
 } from 'react-icons/fa6';
+
+import { GuaranteeBadge } from '~/images';
 
 const Footer = () => {
   const router = useRouter();
   return (
-    <footer className='flex flex-col items-center bg-[#1A214C] px-16 pb-7 pt-12 text-white'>
-      <div className='mt-16 flex w-full max-w-[1173px] flex-col'>
+    <footer className='flex flex-col items-center bg-[#1A214C] pb-7 pt-12 text-white'>
+      <div className='mt-16 flex w-full flex-col px-[138px]'>
         <div className='flex'>
           <nav className='flex flex-1 flex-col '>
             <div className='font-katide-bold text-[18px]'>Find</div>
