@@ -28,7 +28,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const router = useRouter();
   return (
     <div
-      className='group relative m-8 mx-1 h-[335px] w-[281px] shadow-2xl'
+      className='group relative m-8 mx-1 ml-[13px] h-[335px] w-[281px] shadow-2xl'
       onClick={() => {
         router.push('/product');
       }}

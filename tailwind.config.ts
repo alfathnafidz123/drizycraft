@@ -16,6 +16,7 @@ export default {
         'katide-bold': ['Katide Bold', 'sans-serif'],
         'katide-extrabold': ['Katide ExtraBold', 'sans-serif'],
         'katide-heavy': ['Katide Heavy', 'sans-serif'],
+        'hastle': ['Hastle', 'sans-serif'],
       },
       colors: {
         primary: {

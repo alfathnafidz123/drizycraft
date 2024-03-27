@@ -70,9 +70,9 @@ const Navbar: React.FC = () => {
     router.push('/');
   };
   return (
-    <nav className='sticky top-0 z-20 flex items-center bg-white py-3.5 shadow-xl'>
+    <nav className='sticky top-0 z-20 flex h-[139px] items-center bg-white shadow-xl'>
       <ModalLogin />
-      <div className='container mx-auto flex items-center justify-evenly px-4'>
+      <div className='container mx-auto flex items-center justify-evenly'>
         <a onClick={handleLogoClick}>
           <img src={logodrizy.src} alt='Logo' className='object-contain' />
         </a>
@@ -89,11 +89,11 @@ const Navbar: React.FC = () => {
                 value='all'
                 className='hidden'
               />
-              <span className='flex gap-2'>
+              <span className='font-katide-bold flex text-[14px] '>
                 All product <FaChevronDown />
               </span>
             </label>
-            <div className='group flex min-w-[400px] items-center gap-4 rounded-full border border-solid border-blue-500 border-opacity-25 p-2 pl-4 text-left text-sm font-normal leading-4 tracking-tighter text-[#6F6F6F]'>
+            <div className='group flex h-[42px] w-[480px] items-center gap-4 rounded-full border border-solid border-blue-500 border-opacity-25 p-2 pl-4 text-left text-sm font-normal leading-4 tracking-tighter text-[#6F6F6F]'>
               <input
                 placeholder='Search for unique craft designs, categories, occasions...'
                 className='flex-grow truncate border-none text-sm outline-none'
@@ -110,24 +110,24 @@ const Navbar: React.FC = () => {
               </div>
             </div>
             <button
-              className='rounded-full bg-[#e4f6fb] px-6 py-3 font-semibold text-[#008ECC]'
+              className='font-katide-bold h-[39px] w-[93px] rounded-full bg-[#e4f6fb] text-[14px] text-[#008ECC]'
               // eslint-disable-next-line @typescript-eslint/no-empty-function
               onClick={!isLogin ? openModalLogin : openProfile}
             >
               {isLogin ? 'PROFILE' : 'LOGIN'}
             </button>
-            <button className='rounded-full bg-[#e4f6fb] px-6 py-3 font-semibold text-[#008ECC]'>
+            <button className='rounded-full bg-[#e4f6fb] px-2 py-2 text-[#008ECC]'>
               <img src={cart.src} alt='cart' />
             </button>
-            <button className='flex items-center gap-2 rounded-full border border-solid border-gray-300 px-6 py-3 font-semibold text-gray-300'>
+            <button className='flex items-center gap-2 rounded-full border border-solid px-1 py-1 h-[39px] border-gray-300 font-katide-semibold text-[10px] text-gray-300'>
               <img src={drizzyCoin.src} alt='cart' />
-              <span className='text-[#008ECC]'>11</span>
+              <span className='text-[#008ECC] font-katide-semibold text-[14px]'>11</span>
               COIN
             </button>
           </div>
-          <div className='flex flex-row justify-between gap-4'>
+          <div className='font-katide-semibold flex flex-row justify-between gap-4 text-[14px]'>
             <div className='relative'>
-              <label className='flex items-center gap-2 rounded-full bg-[#e4f6fb] px-6 py-3 font-semibold'>
+              <label className=' flex h-[40px] w-[102px] items-center gap-2 rounded-full bg-[#e4f6fb] '>
                 <button
                   id='crafter'
                   className='crafter'
@@ -135,7 +135,8 @@ const Navbar: React.FC = () => {
                     toggleMenu('crafter');
                   }}
                 ></button>
-                Crafters <FaChevronDown />
+                Crafters
+                <FaChevronDown className='' />
               </label>
               <div
                 className={`${
@@ -144,13 +145,13 @@ const Navbar: React.FC = () => {
               >
                 <div className='flex gap-8'>
                   <div className='flex flex-col whitespace-nowrap px-8'>
-                    <div className='my-8 flex font-semibold'>
+                    <div className='my-8 flex'>
                       <p>Featured</p>
                     </div>
-                    <div className='my-8 flex font-semibold'>
+                    <div className='my-8 flex'>
                       <p>Premium SVG</p>
                     </div>
-                    <div className='my-8 flex font-semibold'>
+                    <div className='my-8 flex'>
                       <label>
                         Seasonal
                         <button
@@ -162,7 +163,7 @@ const Navbar: React.FC = () => {
                         ></button>
                       </label>
                     </div>
-                    <div className='my-8 flex font-semibold'>
+                    <div className='my-8 flex'>
                       <label>
                         Craft Design SVGs
                         <button
@@ -178,31 +179,31 @@ const Navbar: React.FC = () => {
                   {showMenu.crafter && showSubMenu.seasonal ? (
                     <div className='flex'>
                       <div className='flex flex-col whitespace-nowrap bg-white px-8'>
-                        <div className='my-8 font-semibold'>
+                        <div className='my-8'>
                           <p>Summer SVG</p>
                         </div>
-                        <div className='my-8 font-semibold'>
+                        <div className='my-8'>
                           <p>Fall SVG</p>
                         </div>
-                        <div className='my-8 font-semibold'>
+                        <div className='my-8'>
                           <p>Halloween SVG</p>
                         </div>
-                        <div className='my-8 font-semibold'>
+                        <div className='my-8'>
                           <p>Thanksgiving SVG</p>
                         </div>
                       </div>
                       <div className='h-full w-[1px] bg-[#E5E7EB]'></div>
                       <div className='flex flex-col whitespace-nowrap bg-white px-8'>
-                        <div className='my-8 font-semibold'>
+                        <div className='my-8'>
                           <p>Winter SVG</p>
                         </div>
-                        <div className='my-8 font-semibold'>
+                        <div className='my-8'>
                           <p>Christmas SVG</p>
                         </div>
-                        <div className='my-8 font-semibold'>
+                        <div className='my-8'>
                           <p>Easter SVG</p>
                         </div>
-                        <div className='my-8 font-semibold'>
+                        <div className='my-8'>
                           <p>Spring SVG</p>
                         </div>
                       </div>
@@ -213,40 +214,40 @@ const Navbar: React.FC = () => {
                   {showMenu.crafter && showSubMenu.craft ? (
                     <div className='flex'>
                       <div className='flex flex-col whitespace-nowrap bg-white px-8'>
-                        <div className='my-8 font-semibold'>
+                        <div className='my-8'>
                           <p>Free SVGs</p>
                         </div>
-                        <div className='my-8 font-semibold'>
+                        <div className='my-8'>
                           <p>Shadow Box SVG</p>
                         </div>
-                        <div className='my-8 font-semibold'>
+                        <div className='my-8'>
                           <p>Cricut SVG</p>
                         </div>
-                        <div className='my-8 font-semibold'>
+                        <div className='my-8'>
                           <p>SVG cut files</p>
                         </div>
                       </div>
                       <div className='h-full w-[1px] bg-[#E5E7EB]'></div>
                       <div className='flex flex-col whitespace-nowrap bg-white px-8'>
-                        <div className='my-8 font-semibold'>
+                        <div className='my-8'>
                           <p>Printable Craft</p>
                         </div>
-                        <div className='my-8 font-semibold'>
+                        <div className='my-8'>
                           <p>Papercut Templates</p>
                         </div>
-                        <div className='my-8 font-semibold'>
+                        <div className='my-8'>
                           <p>Monogram Designs</p>
                         </div>
-                        <div className='my-8 font-semibold'>
+                        <div className='my-8'>
                           <p>Card Making</p>
                         </div>
                       </div>
                       <div className='h-full w-[1px] bg-[#E5E7EB]'></div>
                       <div className='flex flex-col whitespace-nowrap bg-white px-8'>
-                        <div className='my-8 font-semibold'>
+                        <div className='my-8'>
                           <p>Tshirt Designs</p>
                         </div>
-                        <div className='my-8 font-semibold'>
+                        <div className='my-8'>
                           <p>Sticker SVG</p>
                         </div>
                       </div>
@@ -258,7 +259,7 @@ const Navbar: React.FC = () => {
               </div>
             </div>
             <div className='relative'>
-              <label className='flex items-center gap-2 rounded-full bg-[#e4f6fb] px-6 py-3 font-semibold'>
+              <label className=' flex h-[40px] w-[96px] items-center gap-2 rounded-full bg-[#e4f6fb] '>
                 <button
                   id='crafter'
                   className='crafter'
@@ -274,32 +275,32 @@ const Navbar: React.FC = () => {
                 } absolute top-16 z-10 w-[285px] rounded-bl-3xl rounded-br-3xl bg-[#E4F6FB] px-4`}
               >
                 <div className='flex flex-col'>
-                  <div className='my-8 flex font-semibold'>
+                  <div className='my-8 flex'>
                     <p>Illustration</p>
                   </div>
-                  <div className='my-8 flex font-semibold'>
+                  <div className='my-8 flex'>
                     <p>Icon</p>
                   </div>
-                  <div className='my-8 flex font-semibold'>
+                  <div className='my-8 flex'>
                     <p>Print Template</p>
                   </div>
                   {showMenu.vector && showSubMenu.craft && <div></div>}
                 </div>
               </div>
             </div>
-            <button className='flex items-center gap-2 rounded-full bg-[#e4f6fb] px-6 py-3 font-semibold'>
-              Deals
+            <button className=' flex h-[40px] items-center gap-2 rounded-full bg-[#e4f6fb] px-6 py-3 '>
+              Bundles
             </button>
-            <button className='flex items-center gap-2 rounded-full bg-[#e4f6fb] px-6 py-3 font-semibold'>
+            <button className='flex h-[40px] w-[116px] items-center gap-2 rounded-full bg-[#e4f6fb] px-4 py-3'>
               Free SVGs
             </button>
-            <button className='flex items-center gap-2 rounded-full bg-[#e4f6fb] px-6 py-3 font-semibold'>
+            <button className='flex h-[40px] items-center gap-2 rounded-full bg-[#e4f6fb] px-6 py-3'>
               Blog
             </button>
-            <button className='flex items-center gap-2 rounded-full bg-[#008ECC] px-6 py-3 font-semibold text-white'>
+            <button className='flex h-[40px] items-center gap-2 rounded-full bg-[#008ECC] px-6 py-3 text-white'>
               Project
             </button>
-            <button className='flex items-center gap-2 rounded-full bg-[#EE4C73] px-6 py-3 font-semibold text-white'>
+            <button className='flex h-[40px] w-[178px] items-center gap-2 rounded-full bg-[#EE4C73] px-8 py-4 text-white'>
               <img src={newMember.src} alt='Membership' />
               Membership
             </button>

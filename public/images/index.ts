@@ -4,7 +4,7 @@ import accountIllustration from './account-illustration.png';
 import address from './address.png';
 import affiliatebanner from './affiliatebanner.svg';
 import avatarExample from './avatar-example.png';
-import cart from './cart.png';
+import cart from './cart.svg';
 import cartProduct from './cartProduct.png';
 import catalogcrafter from './catalogcrafter.svg';
 import categories1 from './categories-1.png';
@@ -28,21 +28,21 @@ import drizyteam1 from './drizy-team-1.png';
 import drizyteam2 from './drizy-team-2.png';
 import drizyteam3 from './drizy-team-3.png';
 import logodrizy from './drizylogo.svg';
-import drizzyCoin from './drizzyCoin.png';
+import drizzyCoin from './drizzyCoin.svg';
 import coffeeHolder from './floating-coffee-holder.png';
 import fontDesign from './font-design.png';
-import freepik from './freepik.png';
-import goDaddy from './goDaddy.png';
+import freepik from './freepik.svg';
+import goDaddy from './goDaddy.svg';
 import gridCrafter from './grid-crafter.png';
 import gridSlide from './grid-slide.png';
-import GuaranteeBadge from './guarantee-badge-group.png';
+import GuaranteeBadge from './guarantee-badge-group.svg';
 import history from './history.png';
 import hoverPinterest from './hoverpint.svg';
 import hoverWA from './hoverwa.svg';
 import license1 from './license1.svg';
 import license2 from './license2.svg';
 import loginImage from './login-image.png';
-import newMember from './newMember.png';
+import newMember from './newMember.svg';
 import orders from './orders.png';
 import paymentMethod from './paymentMethod.png';
 import pintCrafter from './pintCrafter.svg';
@@ -59,7 +59,7 @@ import projectSubscribe from './projectSubscribe.svg';
 import projectUpload from './projectUpload.svg';
 import sale from './sale.png';
 import saleProduct from './sale-product.png';
-import samsung from './samsung.png';
+import samsung from './samsung.svg';
 import search from './search.png';
 import searchBlue from './search-blue.png';
 import seasonCategory from './season-category.png';
@@ -70,8 +70,18 @@ import vectorDesign from './vector-design.png';
 import waCrafter from './waCrafter.svg';
 import helpcenter1 from './helpcenter1.svg';
 import helpcenter2 from './helpcenter2.svg';
+import optimizedSVG from './optimizedSVG.svg';
+import expandingCrafting from './expandingCrafting.svg';
+import endlessCrafting from './endlessCrafting.svg';
+import elegco from './elegco.svg';
+import creativeFabrica from './creativeFabrica.svg';
+import canva from './canva.svg';
+import jiffy from './jiffy.svg';
+import AO from './AO.svg';
+import wordBank from './wordBank.svg';
 
 export {
+  AO,
   aboutHeader,
   account,
   accountIllustration,
@@ -91,11 +101,13 @@ export {
   categories8,
   categories9,
   categories10,
+  canva,
   coffeeHolder,
   ContactUs,
   crafter1,
   crafterItem1,
   crafterProduct,
+  creativeFabrica,
   defaultAvatar,
   designBundles,
   download,
@@ -103,6 +115,7 @@ export {
   drizyteam2,
   drizyteam3,
   drizzyCoin,
+  elegco,
   fontDesign,
   freepik,
   goDaddy,
@@ -144,4 +157,9 @@ export {
   testimony,
   vectorDesign,
   waCrafter,
+  optimizedSVG,
+  expandingCrafting,
+  endlessCrafting,
+  jiffy,
+  wordBank,
 };

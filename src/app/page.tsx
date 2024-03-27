@@ -120,12 +120,12 @@ export default function HomePage() {
 
   return (
     <main>
-      <section className='flex flex-col items-center justify-center bg-sky-200 py-36 text-center'>
+      <section className='flex flex-col items-center justify-center bg-sky-200 pb-10 pt-[67px] text-center'>
         <div className='font-katide-heavy mb-16 text-[64px] leading-[120%] text-indigo-950'>
           <p>Combating Loneliness</p>
           <p>with Creative Projects</p>
         </div>
-        <div className='group mb-4 flex min-w-[600px] items-center gap-4 rounded-full border border-solid border-blue-500 border-opacity-25 bg-[#F1F2FB] p-4 pl-6 text-left text-sm font-normal leading-4 tracking-tighter text-[#6F6F6F]'>
+        <div className='group mb-4 flex h-[60px] w-[480px] items-center gap-4 rounded-full border border-solid border-blue-500 border-opacity-25 bg-[#F1F2FB] p-4 pl-6 text-left text-sm font-normal leading-4 tracking-tighter text-[#6F6F6F]'>
           <input
             placeholder='Search for unique craft designs, categories, occasions...'
             className='flex-grow truncate border-none bg-[#F1F2FB] text-sm outline-none focus:outline-none'
@@ -142,7 +142,9 @@ export default function HomePage() {
           </div>
         </div>
         <div className='flex items-center gap-2'>
-          <p className='text-[#008ECC]'>Trending:</p>
+          <p className='font-katide-bold text-[10px] text-[#008ECC]'>
+            Trending:
+          </p>
           <TrendingTag name='Shadow Box Svg' />
           <TrendingTag name='Cricut SVG' />
           <TrendingTag name='Sublimation' />
