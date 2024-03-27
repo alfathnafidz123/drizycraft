@@ -3,7 +3,10 @@ import account from './account.png';
 import accountIllustration from './account-illustration.png';
 import address from './address.png';
 import affiliatebanner from './affiliatebanner.svg';
+import AO from './AO.svg';
 import avatarExample from './avatar-example.png';
+import cancel from './cancel.svg';
+import canva from './canva.svg';
 import cart from './cart.svg';
 import cartProduct from './cartProduct.png';
 import catalogcrafter from './catalogcrafter.svg';
@@ -17,10 +20,12 @@ import categories7 from './categories-7.png';
 import categories8 from './categories-8.png';
 import categories9 from './categories-9.png';
 import categories10 from './categories-10.png';
+import check from './check.svg';
 import ContactUs from './contact-us.svg';
 import crafter1 from './crafter.svg';
 import crafterProduct from './crafters-product.svg';
 import crafterItem1 from './crafters1.svg';
+import creativeFabrica from './creativeFabrica.svg';
 import defaultAvatar from './default-avatar.png';
 import designBundles from './designBundles.svg';
 import download from './download.png';
@@ -29,6 +34,9 @@ import drizyteam2 from './drizy-team-2.png';
 import drizyteam3 from './drizy-team-3.png';
 import logodrizy from './drizylogo.svg';
 import drizzyCoin from './drizzyCoin.svg';
+import elegco from './elegco.svg';
+import endlessCrafting from './endlessCrafting.svg';
+import expandingCrafting from './expandingCrafting.svg';
 import coffeeHolder from './floating-coffee-holder.png';
 import fontDesign from './font-design.png';
 import freepik from './freepik.svg';
@@ -36,13 +44,17 @@ import goDaddy from './goDaddy.svg';
 import gridCrafter from './grid-crafter.png';
 import gridSlide from './grid-slide.png';
 import GuaranteeBadge from './guarantee-badge-group.svg';
+import helpcenter1 from './helpcenter1.svg';
+import helpcenter2 from './helpcenter2.svg';
 import history from './history.png';
 import hoverPinterest from './hoverpint.svg';
 import hoverWA from './hoverwa.svg';
+import jiffy from './jiffy.svg';
 import license1 from './license1.svg';
 import license2 from './license2.svg';
 import loginImage from './login-image.png';
 import newMember from './newMember.svg';
+import optimizedSVG from './optimizedSVG.svg';
 import orders from './orders.png';
 import paymentMethod from './paymentMethod.png';
 import pintCrafter from './pintCrafter.svg';
@@ -68,26 +80,18 @@ import subscription from './subscription.png';
 import testimony from './testimony.png';
 import vectorDesign from './vector-design.png';
 import waCrafter from './waCrafter.svg';
-import helpcenter1 from './helpcenter1.svg';
-import helpcenter2 from './helpcenter2.svg';
-import optimizedSVG from './optimizedSVG.svg';
-import expandingCrafting from './expandingCrafting.svg';
-import endlessCrafting from './endlessCrafting.svg';
-import elegco from './elegco.svg';
-import creativeFabrica from './creativeFabrica.svg';
-import canva from './canva.svg';
-import jiffy from './jiffy.svg';
-import AO from './AO.svg';
 import wordBank from './wordBank.svg';
 
 export {
-  AO,
   aboutHeader,
   account,
   accountIllustration,
   address,
   affiliatebanner,
+  AO,
   avatarExample,
+  cancel,
+  canva,
   cart,
   cartProduct,
   catalogcrafter,
@@ -101,7 +105,7 @@ export {
   categories8,
   categories9,
   categories10,
-  canva,
+  check,
   coffeeHolder,
   ContactUs,
   crafter1,
@@ -116,6 +120,8 @@ export {
   drizyteam3,
   drizzyCoin,
   elegco,
+  endlessCrafting,
+  expandingCrafting,
   fontDesign,
   freepik,
   goDaddy,
@@ -127,11 +133,13 @@ export {
   history,
   hoverPinterest,
   hoverWA,
+  jiffy,
   license1,
   license2,
   loginImage,
   logodrizy,
   newMember,
+  optimizedSVG,
   orders,
   paymentMethod,
   pintCrafter,
@@ -157,9 +165,5 @@ export {
   testimony,
   vectorDesign,
   waCrafter,
-  optimizedSVG,
-  expandingCrafting,
-  endlessCrafting,
-  jiffy,
   wordBank,
 };

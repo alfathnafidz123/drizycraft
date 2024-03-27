@@ -1,5 +1,6 @@
-import Button from "@/components/buttons/Button";
 import Image from 'next/image'
+
+import Button from "@/components/buttons/Button";
 
 const JumbotronSection = () => {
   return <section className="pt-[125px] mb-[100px]">

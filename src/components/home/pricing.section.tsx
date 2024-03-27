@@ -1,6 +1,8 @@
-import Button from "@/components/buttons/Button";
-import { features } from "@/constant/data";
 import Image from "next/image";
+
+import Button from "@/components/buttons/Button";
+
+import { features } from "@/constant/data";
 
 const PricingSection = () => {
   return (
