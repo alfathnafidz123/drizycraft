@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
+import localFont from 'next/font/local';
 import Image from 'next/image';
 import * as React from 'react';
 import { FiUpload } from 'react-icons/fi';
@@ -41,6 +42,7 @@ import {
   starBadge,
 } from '~/images';
 
+const myFont = localFont({ src: '../../public/fonts/Hastle.woff2' });
 export default function HomePage() {
   const { token } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -505,9 +507,13 @@ export default function HomePage() {
           <div className='mt-6 flex w-[708px] max-w-full flex-col'>
             <p className='line-[20px] self-center text-center text-base text-indigo-950 max-md:max-w-full'>
               <span className=''>Get </span>
-              <span className='font-bold text-indigo-950'>10% off</span>
+              <span className={`font-bold text-indigo-950 ${myFont.className}`}>
+                10% off
+              </span>
               <span className=''> your order and abundle of </span>
-              <span className='font-bold'>INSTANT FREEBIES! </span>
+              <span className={`font-bold text-indigo-950 ${myFont.className}`}>
+                INSTANT FREEBIES!
+              </span>
             </p>
             <div className='mt-7 flex justify-between gap-0 whitespace-nowrap text-sm max-md:max-w-full max-md:flex-wrap'>
               <input
