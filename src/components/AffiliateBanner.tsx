@@ -1,16 +1,20 @@
+import localFont from 'next/font/local';
+const myFont = localFont({ src: '../../public/fonts/Hastle.woff2' });
 const AffiliateBanner = () => {
   return (
     <div
       className='font-montserrat z-20 flex flex-col justify-center bg-[#3D5DD1] text-center text-white'
       style={{
-        backgroundImage: `url('/images/AffiliateBanner.svg')`,
+        backgroundImage: `url('/images/affiliatebanner.svg')`,
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
       }}
     >
       <div className='relative flex min-h-[321px] w-full flex-col items-center justify-center overflow-hidden px-16 py-12 max-md:max-w-full max-md:px-5'>
         <div className='mb-6 mt-12 flex w-[341px] max-w-full flex-col items-center max-md:mt-10'>
-          <div className='whitespace-nowrap text-2xl leading-9'>
+          <div
+            className={`whitespace-nowrap text-2xl leading-9 ${myFont.className}`}
+          >
             Share &amp; Earn
           </div>
           <p className='font-hastle mt-4 w-[254px] text-xs leading-5'>
