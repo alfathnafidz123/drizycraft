@@ -37,9 +37,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
             ? 'group relative h-[335px] w-[294px]'
             : 'group relative h-[380px] w-1/4'
         }
-        onClick={() => {
-          router.push('/product');
-        }}
       >
         <div
           className={
@@ -53,7 +50,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
             {name}
           </span>
           <div className='flex w-full justify-between gap-2'>
-            <button className='pointer z-[3] flex h-[37px] flex-grow flex-nowrap items-center justify-center gap-[8px] rounded-[8px] bg-[#2a3b80] pb-[12px] pl-[24px] pr-[24px] pt-[12px] group-hover:bg-[#4065D1]'>
+            <button
+              onClick={() => {
+                router.push('/product');
+              }}
+              className='pointer z-[3] flex h-[37px] flex-grow flex-nowrap items-center justify-center gap-[8px] rounded-[8px] bg-[#2a3b80] pb-[12px] pl-[24px] pr-[24px] pt-[12px] group-hover:bg-[#4065D1]'
+            >
               <span className='font-katide-bold z-[5] text-[20px] leading-[16px] text-[#fff] group-hover:scale-0'>
                 $1
               </span>

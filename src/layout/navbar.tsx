@@ -8,6 +8,7 @@ import { FaChevronDown } from 'react-icons/fa6';
 import { setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
+import SectionContainer from '@/components/container/sectionContainer';
 import ModalLogin from '@/components/modals/login';
 
 import { cart, drizzyCoin, logodrizy, newMember, search } from '~/images';
@@ -70,9 +71,12 @@ const Navbar: React.FC = () => {
     router.push('/');
   };
   return (
-    <nav className='sticky top-0 z-20 flex h-[139px] items-center bg-white shadow-xl'>
+    <nav className='sticky top-0 z-30 flex h-[139px] items-center bg-white shadow-xl'>
       <ModalLogin />
-      <div className='flex w-full items-center justify-center px-[138px]'>
+      <SectionContainer
+        bgColor='white'
+        className='flex items-center justify-center'
+      >
         <div className='grid w-full grid-cols-12 grid-rows-1 gap-4'>
           <div className='col-span-3'>
             <a onClick={handleLogoClick}>
@@ -314,7 +318,7 @@ const Navbar: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
+      </SectionContainer>
       <style jsx global>{`
         .dropdown {
           display: none;
