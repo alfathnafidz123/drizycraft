@@ -202,4 +202,8 @@
   .bg-div1:hover::after {
     border-color: #fff;
   }
+
+  body {
+    overflow-x: hidden;
+  }
 }

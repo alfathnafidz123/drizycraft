@@ -21,6 +21,7 @@ import categories8 from './categories-8.png';
 import categories9 from './categories-9.png';
 import categories10 from './categories-10.png';
 import check from './check.svg';
+import coffeeFloating from './coffeeFloating.png';
 import ContactUs from './contact-us.svg';
 import crafter1 from './crafter.svg';
 import crafterProduct from './crafters-product.svg';
@@ -46,6 +47,7 @@ import gridSlide from './grid-slide.png';
 import GuaranteeBadge from './guarantee-badge-group.svg';
 import helpcenter1 from './helpcenter1.svg';
 import helpcenter2 from './helpcenter2.svg';
+import helpFloating from './helpFloating.png';
 import history from './history.png';
 import hoverPinterest from './hoverpint.svg';
 import hoverWA from './hoverwa.svg';
@@ -106,6 +108,7 @@ export {
   categories9,
   categories10,
   check,
+  coffeeFloating,
   coffeeHolder,
   ContactUs,
   crafter1,
@@ -130,6 +133,7 @@ export {
   GuaranteeBadge,
   helpcenter1,
   helpcenter2,
+  helpFloating,
   history,
   hoverPinterest,
   hoverWA,

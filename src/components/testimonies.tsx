@@ -2,6 +2,8 @@
 /* eslint-disable @next/next/no-img-element */
 import Slider from 'react-slick';
 
+import SectionContainer from '@/components/container/sectionContainer';
+
 import {
   AO,
   avatarExample,
@@ -33,7 +35,10 @@ const Testimonies = () => {
     fade: true,
   };
   return (
-    <div className='flex flex-col items-center bg-slate-200 px-[138px] pb-6 pt-12 max-md:px-5'>
+    <SectionContainer
+      bgColor='#E1E3F4'
+      className='flex flex-col items-center pb-6 pt-12 max-md:px-5'
+    >
       <div className='mt-3 w-full'>
         <div className='font-katide-bold flex justify-center text-[24px] leading-6 text-indigo-950'>
           Let’s Crafting!
@@ -41,7 +46,7 @@ const Testimonies = () => {
         <div className='flex gap-5 max-md:flex-col max-md:gap-0'>
           <div className='flex w-4/12 flex-col pt-14'>
             <Slider {...settings}>
-              <div className='slide p-4'>
+              <div className='slide pb-4 pr-4'>
                 <div className='!important flex h-[430px] w-[375px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg'>
                   <div className='flex h-full flex-col items-start p-8 text-[14px]'>
                     <img src={testimony.src} alt='Quote' className='mb-8' />
@@ -69,7 +74,7 @@ const Testimonies = () => {
                   </div>
                 </div>
               </div>
-              <div className='slide p-4'>
+              <div className='slide pb-4 pr-4'>
                 <div className='!important flex h-[430px] w-[375px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg'>
                   <div className='flex h-full flex-col items-start p-8 text-[14px]'>
                     <img src={testimony.src} alt='Quote' className='mb-8' />
@@ -93,7 +98,7 @@ const Testimonies = () => {
                   </div>
                 </div>
               </div>
-              <div className='slide p-4'>
+              <div className='slide pb-4 pr-4'>
                 <div className='!important flex h-[430px] w-[375px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg'>
                   <div className='flex h-full flex-col items-start p-8 text-[14px]'>
                     <img src={testimony.src} alt='Quote' className='mb-8' />
@@ -118,7 +123,7 @@ const Testimonies = () => {
                   </div>
                 </div>
               </div>
-              <div className='slide p-4'>
+              <div className='slide pb-4 pr-4'>
                 <div className='!important flex h-[430px] w-[375px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg'>
                   <div className='flex h-full flex-col items-start p-8 text-[14px]'>
                     <img src={testimony.src} alt='Quote' className='mb-8' />
@@ -221,7 +226,7 @@ const Testimonies = () => {
         <img loading='lazy' src={wordBank.src} className='' />
         <img loading='lazy' src={samsung.src} className='' />
       </div>
-    </div>
+    </SectionContainer>
   );
 };
 
