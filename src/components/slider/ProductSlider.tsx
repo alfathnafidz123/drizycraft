@@ -1,5 +1,6 @@
 import { StaticImageData } from 'next/image';
 import React from 'react';
+import { FaAngleRight } from 'react-icons/fa6';
 import Slider from 'react-slick';
 
 import ProductCard from '@/components/ProductCard';
@@ -19,7 +20,7 @@ interface SwipeToSlideProps {
 const ProductSlider: React.FC<SwipeToSlideProps> = ({ items }) => {
   const settings = {
     className: 'center',
-    infinite: true,
+    infinite: false,
     centerPadding: '60px',
     slidesToShow: 5,
     swipeToSlide: true,
@@ -42,6 +43,10 @@ const ProductSlider: React.FC<SwipeToSlideProps> = ({ items }) => {
             </div>
           );
         })}
+                    <button className='h-[87px] aspect-square rounded-full border-2 border-[#4065D1] pt-4 text-[#4065D1] uppercase font-katide-bold text-[12px]' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: "column" }}>
+                <span>see more</span>
+              <FaAngleRight />
+            </button>
       </Slider>
     </div>
   );

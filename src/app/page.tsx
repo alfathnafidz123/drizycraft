@@ -65,7 +65,7 @@ export default function HomePage() {
   );
   const settings = {
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -146,7 +146,7 @@ export default function HomePage() {
             Trending:
           </p>
           <TrendingTag name='Shadow Box Svg' />
-          <TrendingTag name='Cricut SVG' />
+          <TrendingTag name='Laser cut' />
           <TrendingTag name='Sublimation' />
           <TrendingTag name='Free Svg' />
           <TrendingTag name='Papercut' />

@@ -211,15 +211,15 @@ const Testimonies = () => {
       </div>
       <div className='mt-10 flex justify-between gap-5 py-1.5'>
         <img loading='lazy' src={elegco.src} className='' />
-        <img loading='lazy' src={creativeFabrica.src} className='' />
-        <img loading='lazy' src={freepik.src} className='' />
-        <img loading='lazy' src={designBundles.src} className='' />
-        <img loading='lazy' src={canva.src} className='' />
-        <img loading='lazy' src={jiffy.src} className='' />
-        <img loading='lazy' src={AO.src} className='' />
-        <img loading='lazy' src={goDaddy.src} className='' />
         <img loading='lazy' src={wordBank.src} className='' />
         <img loading='lazy' src={samsung.src} className='' />
+        <img loading='lazy' src={designBundles.src} className='' />
+        <img loading='lazy' src={canva.src} className='' />
+        <img loading='lazy' src={creativeFabrica.src} className='' />
+        <img loading='lazy' src={freepik.src} className='' />
+        <img loading='lazy' src={goDaddy.src} className='' />
+        <img loading='lazy' src={AO.src} className='' />
+        <img loading='lazy' src={jiffy.src} className='' />
       </div>
     </div>
   );
