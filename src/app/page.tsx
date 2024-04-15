@@ -2,12 +2,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
+import localFont from 'next/font/local';
+import Image from 'next/image';
 import * as React from 'react';
+import { FiUpload } from 'react-icons/fi';
 import Slider, { CustomArrowProps } from 'react-slick';
 
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import AffiliateBanner from '@/components/AffiliateBanner';
+import SectionContainer from '@/components/container/sectionContainer';
 import ProductCategories from '@/components/ProductCategories';
 import SeasonCategories from '@/components/SeasonCategories';
 import ProductSlider from '@/components/slider/ProductSlider';
@@ -27,19 +31,18 @@ import {
   categories8,
   categories9,
   categories10,
+  coffeeFloating,
   crafterItem1,
   gridCrafter,
   gridSlide,
+  helpFloating,
   sale,
   search,
   seasonCategory,
   starBadge,
 } from '~/images';
 
-// !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
-// Before you begin editing, follow all comments with `STARTERCONF`,
-// to customize the default configuration.
-
+const myFont = localFont({ src: '../../public/fonts/Hastle.woff2' });
 export default function HomePage() {
   const { token } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -95,7 +98,6 @@ export default function HomePage() {
     { name: 'Summer', image: seasonCategory },
   ];
   const crafterSlider = [
-    { name: 'crafterItem1', image: crafterItem1, price: 5 },
     {
       name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
       image: crafterItem1,
@@ -116,11 +118,34 @@ export default function HomePage() {
       image: crafterItem1,
       price: 5,
     },
+    {
+      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
+      image: crafterItem1,
+      price: 5,
+    },
+    {
+      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
+      image: crafterItem1,
+      price: 5,
+    },
+    {
+      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
+      image: crafterItem1,
+      price: 5,
+    },
+    {
+      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
+      image: crafterItem1,
+      price: 5,
+    },
   ];
 
   return (
     <main>
-      <section className='flex flex-col items-center justify-center bg-sky-200 pb-10 pt-[67px] text-center'>
+      <SectionContainer
+        bgColor='#C2E5FF'
+        className='flex flex-col items-center justify-center pb-10 pt-[67px] text-center'
+      >
         <div className='font-katide-heavy mb-16 text-[64px] leading-[120%] text-indigo-950'>
           <p>Combating Loneliness</p>
           <p>with Creative Projects</p>
@@ -151,67 +176,106 @@ export default function HomePage() {
           <TrendingTag name='Free Svg' />
           <TrendingTag name='Papercut' />
         </div>
-        <div className='h-76 mt-20 w-full px-40'>
-          <div className='flex h-[40vh] w-full gap-4'>
-            <div className='bg-div1 relative z-[10] h-full w-6/12 rounded-2xl border-8 border-[#61A9FA] transition-all duration-300 hover:border-white'>
+        <div className='h-76 mt-20 w-full'>
+          <div className='flex h-[300px] w-full gap-4'>
+            <div className='relative z-[10] h-full w-5/12 rounded-2xl border-[20px] border-[#61A9FA] transition-all duration-300 hover:border-[#2A3B80]'>
               <img
                 src={gridCrafter.src}
-                className='absolute h-full w-full rounded-lg bg-cover'
+                className='absolute h-full w-full bg-cover'
                 alt='Crafter'
               />
-              <div className='bg-opacity-15 hover:bg-opacity-35 group absolute flex h-full w-full flex-col justify-between bg-blue-500/25 p-4 text-left hover:bg-white/50 '>
-                <p className='font-medium opacity-0 transition-all duration-300 group-hover:opacity-100'>
+              <div className='bg-opacity-15 hover:bg-opacity-35 group absolute flex h-full w-full flex-col justify-between bg-blue-500/25 p-4 text-left hover:bg-[#2A3B80]/50 '>
+                <p className='font-medium text-white opacity-0 transition-all duration-300 group-hover:opacity-100'>
                   <span className='block font-semibold'>
                     Have you tried Drizy's designs in your projects?
                   </span>
                   Share your creations in our gallery and and earn a valuable
                   Drizy Coin for more shopping!
                 </p>
-                <div className='flex w-9/12 items-center justify-between'>
-                  <p className='w-1/3 font-semibold'>Project from crafters</p>
-                  <div className='flex'>
-                    <img
-                      src={avatarExample.src}
-                      className='ml-[-8px] rounded-full border-[3px] border-white'
-                      alt='avatar'
-                    />
-                    <img
-                      src={avatarExample.src}
-                      className='ml-[-8px] rounded-full border-[3px] border-white'
-                      alt='avatar'
-                    />
-                    <img
-                      src={avatarExample.src}
-                      className='ml-[-8px] rounded-full border-[3px] border-white'
-                      alt='avatar'
-                    />
+                <div className='relative w-full overflow-hidden'>
+                  <div className='absolute bottom-0 flex h-full w-full translate-y-full items-center justify-between rounded-full bg-[#1A214C] pl-4 transition-all duration-300 ease-in-out group-hover:-translate-y-0'>
+                    <p className='text-2xl text-white'>Upload Your Project</p>
+                    <div className='flex h-full w-16 items-center justify-center rounded-full bg-[#2A3B80]'>
+                      <FiUpload className='h-8 w-8 stroke-[3px] text-white' />
+                    </div>
+                  </div>
+                  <div className='flex w-full items-center justify-between transition-all duration-300 ease-in-out group-hover:-translate-y-full'>
+                    <p className='w-1/2 text-2xl font-semibold'>
+                      Project from crafters
+                    </p>
+                    <div className='flex'>
+                      <img
+                        src={avatarExample.src}
+                        className='-ml-6 rounded-full border-[3px] border-white'
+                        alt='avatar'
+                      />
+                      <img
+                        src={avatarExample.src}
+                        className='-ml-6 rounded-full border-[3px] border-white'
+                        alt='avatar'
+                      />
+                      <img
+                        src={avatarExample.src}
+                        className='-ml-6 rounded-full border-[3px] border-white'
+                        alt='avatar'
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className='flex w-3/12 flex-col gap-4'>
+            <div className='flex w-4/12 flex-col gap-4'>
               <div className='group relative h-1/2 overflow-hidden rounded-2xl bg-[#61A9FA] transition-all duration-300 hover:bg-[#4065D1]'>
                 <div className='absolute flex h-full w-full'>
-                  <div className='h-full w-1/2 bg-[#4065D1] transition-transform duration-300 ease-in-out group-hover:translate-x-full group-hover:transform group-hover:bg-[#2A3B80]'></div>
+                  <div className='z-10 h-full w-1/3 translate-y-full rounded-2xl bg-[#2A3B80] transition-transform duration-300 ease-in-out group-hover:translate-y-0 group-hover:transform'></div>
                 </div>
-                <div className='absolute flex h-full w-full'>
-                  <div className='flex w-1/2 flex-col items-center justify-center p-2'>
-                    <div className='flex h-full w-full items-center justify-center rounded-2xl border border-[#FFBB3C] group-hover:border-[#FFBB3C]/[0]'>
-                      <img
-                        src={starBadge.src}
-                        alt='star badge'
-                        className='transition-all duration-300 group-hover:scale-110'
-                      />
+                <div className='absolute flex h-full w-full items-center'>
+                  <div className='flex h-full w-1/3 flex-col items-center justify-center'>
+                    <div className='h-full w-full rounded-2xl bg-[#4065D1] p-2'>
+                      <div className='relative z-20 flex h-full w-full items-center justify-center rounded-2xl border-2 border-[#FFBB3C]'>
+                        <img
+                          src={starBadge.src}
+                          alt='star badge'
+                          className='transition-all duration-300 group-hover:scale-110'
+                        />
+                      </div>
                     </div>
                   </div>
-                  <div className='flex w-1/2 flex-col items-center justify-center gap-1 text-white'>
-                    <p className='text-2xl font-bold'>15</p>
-                    <p className='text-md'>Exclusive Partners</p>
-                    <p className='text-sm font-light'>Find out more!</p>
+                  <div className='flex h-[110px] w-1/3 flex-col items-center justify-start overflow-hidden text-white'>
+                    <div className='flex w-full  items-center justify-center pt-4 text-8xl font-bold transition-transform duration-300 ease-in-out group-hover:-translate-y-full'>
+                      15
+                    </div>
+                    <div className='flex w-full translate-y-1/2 items-center justify-center pt-4 text-8xl font-bold text-[#FFBB3C] transition-transform duration-300 ease-in-out group-hover:-translate-y-full'>
+                      15
+                    </div>
+                  </div>
+                  <div className='flex w-1/3 flex-col items-start justify-start text-left text-white'>
+                    <div className='flex h-[25px] w-full flex-col items-center justify-start overflow-hidden text-white'>
+                      <div className='p flex w-full items-center justify-start text-xl font-bold transition-transform duration-300 ease-in-out group-hover:-translate-y-full'>
+                        Exclusive
+                      </div>
+                      <div className='p flex w-full translate-y-1/2 items-center justify-start text-xl font-bold text-[#FFBB3C] transition-transform duration-300 ease-in-out group-hover:-translate-y-full'>
+                        Exclusive
+                      </div>
+                    </div>
+                    <div className='flex h-[25px] w-full flex-col items-center justify-start overflow-hidden text-white'>
+                      <div className='p flex w-full items-center justify-start text-xl font-bold transition-transform duration-300 ease-in-out group-hover:-translate-y-full'>
+                        Partners
+                      </div>
+                      <div className='p flex w-full translate-y-1/2 items-center justify-start text-xl font-bold text-[#FFBB3C] transition-transform duration-300 ease-in-out group-hover:-translate-y-full'>
+                        Partners
+                      </div>
+                    </div>
+                    <div className='relative mt-4 overflow-hidden rounded-full p-1'>
+                      <div className='absolute inset-0 z-10 translate-y-full scale-0 rounded-full bg-white transition-all duration-500 ease-in-out group-hover:-translate-y-1/4 group-hover:scale-150'></div>
+                      <p className='relative z-20 text-sm font-light group-hover:text-[#4065D1]'>
+                        Find out more!
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className='group relative col-span-3 col-start-4 row-span-1 row-start-2 ml-[-14vh] h-1/2 rounded-2xl bg-[#6f82a6]'>
+              <div className='group relative col-span-3 col-start-4 row-span-1 row-start-2  h-1/2 rounded-2xl bg-[#6f82a6]'>
                 <div className='absolute flex h-full w-full flex-col items-start justify-center gap-2 px-8 py-4 text-white transition-all duration-300 group-hover:opacity-0'>
                   <p className='text-xl font-semibold'>The Craft Community</p>
                   <p className='text-sm'>21,000+ friendly home crafters</p>
@@ -296,29 +360,32 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </section>
+      </SectionContainer>
 
-      <section className='flex items-center justify-center bg-white py-9 text-base font-bold leading-4 text-white max-md:px-5'>
-        <div className='flex w-full max-w-[1400px] flex-col max-md:max-w-full'>
+      <SectionContainer
+        bgColor='white'
+        className='flex items-center justify-center bg-white py-9 text-base font-bold leading-4 text-white max-md:px-5'
+      >
+        <div className='flex w-full flex-col max-md:max-w-full'>
           <div className='font-katide-bold self-center whitespace-nowrap text-2xl text-indigo-950'>
             Browse Product Categories
           </div>
-          <div className='mt-12 flex flex-wrap pl-[8%]'>
+          <div className='mt-12 flex flex-wrap justify-between'>
             {categoryData.map((data, index) => (
-              <div
-                key={index}
-                className='w-full sm:w-[48%] md:w-[32%] lg:w-[24%] xl:w-[19%]'
-              >
+              <div key={index} className='flex p-2 sm:w-1/2 md:w-1/3 lg:w-1/5'>
                 <ProductCategories name={data.name} image={data.image} />
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </SectionContainer>
 
-      <section className='flex items-center justify-center bg-[#E1E3F4] py-9 text-base font-bold leading-4 text-white'>
-        <div className='flex w-full max-w-[1400px] flex-col max-md:max-w-full'>
-          <div className='font-katide-bold self-center whitespace-nowrap text-2xl text-indigo-950'>
+      <SectionContainer
+        bgColor='#E1E3F4'
+        className='flex items-center justify-center py-9 text-base font-bold leading-4 text-white'
+      >
+        <div className='flex w-full flex-col max-md:max-w-full'>
+          <div className='font-katide-bold mb-16 self-center whitespace-nowrap text-2xl text-indigo-950'>
             Browse Season Categories
           </div>
           <div className='flex justify-center'>
@@ -331,43 +398,43 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-      </section>
+      </SectionContainer>
 
-      <section>
-        <div className='flex flex-col bg-[#AAD3FF] pb-12 pt-2 font-bold max-md:px-5'>
-          <div className='flex justify-between px-20 max-md:max-w-full max-md:flex-wrap '>
-            <div className='font-katide-bold mt-[4%] text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
+      <SectionContainer bgColor='#AAD3FF' fullwidth>
+        <div className='flex flex-col pb-12 pt-2 font-bold'>
+          <div className='flex justify-between max-md:max-w-full max-md:flex-wrap'>
+            <div className='font-katide-bold mb-8 mt-16 text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
               Crafters
             </div>
             <div className='flex items-center justify-end pl-5'>
-              <div className='mx-16 mt-12 text-right text-base font-bold leading-none text-indigo-950'>
+              <div className='mt-12 text-right text-base font-bold leading-none text-indigo-950'>
                 Explore Crafters
               </div>
             </div>
           </div>
-          <div className='ml-10'>
+          <div className='h-[400px]'>
             <ProductSlider items={crafterSlider} />
           </div>
         </div>
-      </section>
+      </SectionContainer>
 
-      <section>
-        <div className='flex flex-col bg-[#E1E3F4] pb-12 pt-2 font-bold max-md:px-5'>
-          <div className='flex justify-between px-20 max-md:max-w-full max-md:flex-wrap'>
-            <div className='font-katide-bold mt-[4%] text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
+      <SectionContainer bgColor='#E1E3F4' fullwidth>
+        <div className='flex flex-col pb-12 pt-2 font-bold max-md:px-5'>
+          <div className='flex justify-between max-md:max-w-full max-md:flex-wrap'>
+            <div className='font-katide-bold mb-8 mt-16 text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
               Best Seller
             </div>
           </div>
-          <div className='ml-10'>
+          <div className='h-[400px]'>
             <ProductSlider items={crafterSlider} />
           </div>
         </div>
-      </section>
+      </SectionContainer>
 
-      <section>
-        <div className='flex flex-col bg-[#AAD3FF] pb-12 pt-2 font-bold max-md:px-5'>
-          <div className='flex justify-between px-20 max-md:max-w-full max-md:flex-wrap '>
-            <div className='font-katide-bold mt-[4%] text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
+      <SectionContainer bgColor='#AAD3FF' fullwidth>
+        <div className='flex flex-col pb-12 pt-2 font-bold max-md:px-5'>
+          <div className='flex justify-between max-md:max-w-full max-md:flex-wrap'>
+            <div className='font-katide-bold mb-8 mt-16 text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
               Bundles
             </div>
             {/* <div className="pl-5 justify-end items-center flex">
@@ -381,16 +448,16 @@ export default function HomePage() {
               />
             </div> */}
           </div>
-          <div className='ml-10'>
+          <div className='h-[400px]'>
             <ProductSlider items={crafterSlider} />
           </div>
         </div>
-      </section>
+      </SectionContainer>
 
-      <section>
-        <div className='flex flex-col bg-[#FFBB3C] pb-12 pt-2 font-bold max-md:px-5'>
-          <div className='flex justify-between px-20 max-md:max-w-full max-md:flex-wrap '>
-            <div className='font-katide-bold mt-[4%] text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
+      <SectionContainer bgColor='#FFBB3C' fullwidth>
+        <div className='flex flex-col pb-12 pt-2 font-bold max-md:px-5'>
+          <div className='flex justify-between pr-[138px] max-md:max-w-full max-md:flex-wrap'>
+            <div className='font-katide-bold mb-8 mt-16 text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
               Exclusive Partners
             </div>
             {/* <div className="pl-5 justify-end items-center flex">
@@ -404,16 +471,16 @@ export default function HomePage() {
               />
             </div> */}
           </div>
-          <div className='ml-10'>
+          <div className='h-[400px]'>
             <ProductSlider items={crafterSlider} />
           </div>
         </div>
-      </section>
+      </SectionContainer>
 
-      <section>
-        <div className='flex flex-col bg-[#fff] pb-12 pt-2 font-bold max-md:px-5'>
-          <div className='flex justify-between px-20 max-md:max-w-full max-md:flex-wrap '>
-            <div className='font-katide-bold mt-[4%] text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
+      <SectionContainer bgColor='white' fullwidth>
+        <div className='flex flex-col pb-12 pt-2 font-bold max-md:px-5'>
+          <div className='flex justify-between pr-[138px] max-md:max-w-full max-md:flex-wrap'>
+            <div className='font-katide-bold mb-8 mt-16 text-[24px] leading-10 text-indigo-950 max-md:mt-10'>
               Vector
             </div>
             {/* <div className="pl-5 justify-end items-center flex">
@@ -427,11 +494,11 @@ export default function HomePage() {
               />
             </div> */}
           </div>
-          <div className='ml-10'>
+          <div className='h-[400px]'>
             <ProductSlider items={crafterSlider} />
           </div>
         </div>
-      </section>
+      </SectionContainer>
 
       <Testimonies />
 
@@ -440,9 +507,13 @@ export default function HomePage() {
           <div className='mt-6 flex w-[708px] max-w-full flex-col'>
             <p className='line-[20px] self-center text-center text-base text-indigo-950 max-md:max-w-full'>
               <span className=''>Get </span>
-              <span className='font-bold text-indigo-950'>10% off</span>
+              <span className={`font-bold text-indigo-950 ${myFont.className}`}>
+                10% off
+              </span>
               <span className=''> your order and abundle of </span>
-              <span className='font-bold'>INSTANT FREEBIES! </span>
+              <span className={`font-bold text-indigo-950 ${myFont.className}`}>
+                INSTANT FREEBIES!
+              </span>
             </p>
             <div className='mt-7 flex justify-between gap-0 whitespace-nowrap text-sm max-md:max-w-full max-md:flex-wrap'>
               <input
@@ -461,8 +532,24 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
       <AffiliateBanner />
+      <div className='fixed bottom-4 z-20 flex h-[155px] w-full items-end justify-between'>
+        <div className='flex w-1/4 justify-end'>
+          <Image src={coffeeFloating.src} alt='Help' width={75} height={75} />
+        </div>
+        <div className='flex items-center gap-16 rounded-lg border-2 border-[#FFDE9F] bg-[#EE4C73] px-8 py-4 font-semibold shadow-xl'>
+          <p className='text-white'>
+            Upgrade your membership{' '}
+            <span className='text-[#FFBB3C]'>for unlimited downloads</span>
+          </p>
+          <div className='flex rounded-lg border-2 border-[#FFDE9F] bg-[#FFBB3C] px-4 py-2 shadow-lg'>
+            DRIZY VIP<span className='font-base'>+</span>
+          </div>
+        </div>
+        <div className='flex w-1/4 justify-end'>
+          <Image src={helpFloating.src} alt='Help' width={150} height={155} />
+        </div>
+      </div>
     </main>
   );
 }

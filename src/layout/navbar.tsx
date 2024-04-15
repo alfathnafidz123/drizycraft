@@ -4,6 +4,8 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa6';
+import { MdArrowOutward } from 'react-icons/md';
+import { MdArrowForwardIos } from 'react-icons/md';
 
 import { setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
@@ -11,9 +13,6 @@ import { useAppDispatch, useAppSelector } from '@/lib/store';
 import ModalLogin from '@/components/modals/login';
 
 import { cart, drizzyCoin, logodrizy, newMember, search } from '~/images';
-
-import { MdArrowOutward } from "react-icons/md";
-import { MdArrowForwardIos } from "react-icons/md";
 
 interface MenuState {
   crafter: boolean;
@@ -73,15 +72,15 @@ const Navbar: React.FC = () => {
     router.push('/');
   };
   return (
-    <nav className='sticky top-0 z-20 flex h-[139px] items-center bg-white shadow-xl'>
+    <nav className='sticky top-0 z-30 flex h-[139px] items-center bg-white shadow-xl'>
       <ModalLogin />
-      <div className='container mx-auto flex items-center justify-center gap-[50px]'>
+      <div className='container mx-auto flex w-[1164px] items-center justify-between'>
         <a onClick={handleLogoClick}>
           <img src={logodrizy.src} alt='Logo' className='object-contain' />
         </a>
 
         <div className='flex flex-row'>
-          <div className='mt-2 mr-2 flex flex-col '>
+          <div className='mr-2 mt-2 flex flex-col '>
             <label
               htmlFor='allProducts'
               className='font-katide-semibold mr-2 inline-flex cursor-pointer items-center justify-center text-[14px]'
@@ -93,7 +92,7 @@ const Navbar: React.FC = () => {
                 value='all'
                 className='hidden'
               />
-              <span className='font-katide-bold mr-4 mt-1 ml-5 flex'>
+              <span className='font-katide-bold ml-5 mr-4 mt-1 flex'>
                 All product
               </span>
               <FaChevronDown />
@@ -116,21 +115,21 @@ const Navbar: React.FC = () => {
                   showMenu.crafter ? 'block' : 'hidden'
                 } absolute top-16 z-10 min-w-[285px] justify-between overflow-hidden rounded-bl-3xl rounded-br-3xl bg-[#E4F6FB] `}
               >
-                <div className='flex font-katide-semibold'>
-                  <div className='flex flex-col whitespace-nowrap w-full min-w-[285px]'>
-                    <div className='py-6 pl-8 pr-4 flex justify-between group bg-[#E4F6FB] hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                <div className='font-katide-semibold flex'>
+                  <div className='flex w-full min-w-[285px] flex-col whitespace-nowrap'>
+                    <div className='group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                       <p>Featured</p>
-                      <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                      <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                     </div>
-                    <div className='py-6 pl-8 pr-4 flex justify-between group bg-[#E4F6FB] hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                    <div className='group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                       <p>Premium SVG</p>
-                      <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                      <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                     </div>
-                    <div className='py-6 pl-8 pr-4 flex justify-between group bg-[#E4F6FB] hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                    <div className='group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                       <p>Exclusive Partners</p>
-                      <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                      <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                     </div>
-                    <div className='p-6 flex justify-between group bg-[#E4F6FB] hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                    <div className='group flex justify-between bg-[#E4F6FB] p-6 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                       <label>
                         Seasonal
                         <button
@@ -143,7 +142,7 @@ const Navbar: React.FC = () => {
                       </label>
                       <MdArrowForwardIos />
                     </div>
-                    <div className='p-6 flex justify-between group bg-[#E4F6FB] hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                    <div className='group flex justify-between bg-[#E4F6FB] p-6 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                       <label>
                         Craft Design SVGs
                         <button
@@ -159,42 +158,41 @@ const Navbar: React.FC = () => {
                   </div>
                   {showMenu.crafter && showSubMenu.seasonal ? (
                     <div className='flex'>
-                      <div className='flex flex-col whitespace-nowrap bg-white min-w-[214px]'>
-                        <div className='items-center flex-grow pl-8 pr-2 flex justify-between group hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                      <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
+                        <div className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                           <p>Summer SVG</p>
-                          <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                         </div>
-                        <div className='items-center flex-grow pl-8 pr-2 flex justify-between group hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                        <div className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                           <p>Fall SVG</p>
-                          <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                         </div>
-                        <div className='items-center flex-grow pl-8 pr-2 flex justify-between group hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                        <div className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                           <p>Halloween SVG</p>
-                          <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                         </div>
-                        <div className='items-center flex-grow pl-8 pr-2 flex justify-between group hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                        <div className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                           <p>Thanksgiving SVG</p>
-                          <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                         </div>
-                        <div className='items-center flex-grow pl-8 pr-2 flex justify-between group hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                        <div className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                           <p>Winter SVG</p>
-                          <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                         </div>
                       </div>
                       <div className='h-full w-[1px] bg-[#E5E7EB]'></div>
-                      <div className='flex flex-col whitespace-nowrap bg-white min-w-[214px]'>
-
-                        <div className='py-6 pl-8 pr-2 flex justify-between group hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                      <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
+                        <div className='group flex justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                           <p>Christmas SVG</p>
-                          <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                         </div>
-                        <div className='py-6 pl-8 pr-2 flex justify-between group hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                        <div className='group flex justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                           <p>Easter SVG</p>
-                          <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                         </div>
-                        <div className='py-6 pl-8 pr-2 flex justify-between group hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                        <div className='group flex justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                           <p>Spring SVG</p>
-                          <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                         </div>
                       </div>
                     </div>
@@ -203,49 +201,49 @@ const Navbar: React.FC = () => {
                   )}
                   {showMenu.crafter && showSubMenu.craft ? (
                     <div className='flex'>
-                      <div className='flex flex-col whitespace-nowrap bg-white min-w-[214px]'>
-                        <div className='items-center flex-grow pl-8 pr-2 flex justify-between group hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                      <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
+                        <div className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                           <p>Free SVGs</p>
-                          <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                         </div>
-                        <div className='items-center flex-grow pl-8 pr-2 flex justify-between group hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                        <div className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                           <p>Shadow Box SVG</p>
-                          <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                         </div>
-                        <div className='items-center flex-grow pl-8 pr-2 flex justify-between group hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                        <div className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                           <p>Cricut SVG</p>
-                          <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                         </div>
-                        <div className='items-center flex-grow pl-8 pr-2 flex justify-between group hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                        <div className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                           <p>SVG cut files</p>
-                          <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                         </div>
-                        <div className='items-center flex-grow pl-8 pr-2 flex justify-between group hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                        <div className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                           <p>Tshirt Designs</p>
-                          <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                         </div>
                       </div>
                       <div className='h-full w-[1px] bg-[#E5E7EB]'></div>
-                      <div className='flex flex-col whitespace-nowrap bg-white min-w-[214px]'>
-                        <div className='items-center flex-grow pl-8 pr-2 flex justify-between group hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                      <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
+                        <div className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                           <p>Printable Craft</p>
-                          <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                         </div>
-                        <div className='items-center flex-grow pl-8 pr-2 flex justify-between group hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                        <div className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                           <p>Papercut Templates</p>
-                          <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                         </div>
-                        <div className='items-center flex-grow pl-8 pr-2 flex justify-between group hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                        <div className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                           <p>Monogram Designs</p>
-                          <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                         </div>
-                        <div className='items-center flex-grow pl-8 pr-2 flex justify-between group hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                        <div className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                           <p>Card Making</p>
-                          <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                         </div>
-                        <div className='items-center flex-grow pl-8 pr-2 flex justify-between group hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                        <div className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                           <p>Sticker SVG</p>
-                          <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                         </div>
                       </div>
                     </div>
@@ -257,7 +255,7 @@ const Navbar: React.FC = () => {
             </div>
           </div>
 
-          <div className='flex flex-col mr-2'>
+          <div className='mr-2 flex flex-col'>
             <div className='group flex h-[42px] w-[480px] items-center gap-4 rounded-full border border-solid border-blue-500 border-opacity-25 p-2 pl-4 text-left text-sm font-normal leading-4 tracking-tighter text-[#6F6F6F]'>
               <input
                 placeholder='Search for unique craft designs, categories, occasions...'
@@ -290,20 +288,20 @@ const Navbar: React.FC = () => {
                 <div
                   className={`${
                     showMenu.vector ? 'block' : 'hidden'
-                  } absolute top-16 z-10 w-[285px] rounded-bl-3xl rounded-br-3xl bg-[#E4F6FB] overflow-hidden`}
+                  } absolute top-16 z-10 w-[285px] overflow-hidden rounded-bl-3xl rounded-br-3xl bg-[#E4F6FB]`}
                 >
-                  <div className='flex flex-col w-full min-w-[285px]'>
-                    <div className='py-6 pl-8 pr-4 flex justify-between group hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                  <div className='flex w-full min-w-[285px] flex-col'>
+                    <div className='group flex justify-between py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                       <p>Illustration</p>
-                      <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                      <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                     </div>
-                    <div className='py-6 pl-8 pr-4 flex justify-between group hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                    <div className='group flex justify-between py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                       <p>Icon</p>
-                      <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                      <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                     </div>
-                    <div className='py-6 pl-8 pr-4 flex justify-between group hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                    <div className='group flex justify-between py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                       <p>Print Template</p>
-                      <MdArrowOutward className='opacity-0 group-hover:opacity-100'/>
+                      <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                     </div>
                     {showMenu.vector && showSubMenu.craft && <div></div>}
                   </div>
@@ -322,7 +320,7 @@ const Navbar: React.FC = () => {
           </div>
 
           <div className='flex flex-col pl-4'>
-            <div className='flex flex-row gap-8 justify-between'>
+            <div className='flex flex-row justify-between gap-8'>
               <button
                 className='font-katide-bold h-[39px] w-[93px] rounded-full bg-[#e4f6fb] text-[14px] text-[#008ECC] hover:bg-[#C0E9F4]'
                 // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -342,15 +340,13 @@ const Navbar: React.FC = () => {
               </button>
             </div>
 
-            <div className='flex flex-row gap-4 pt-[10px] justify-between'>
+            <div className='flex flex-row justify-between gap-4 pt-[10px]'>
               <button className='font-katide-semibold flex h-[40px] items-center gap-2 rounded-full bg-[#008ECC] px-6 py-3 text-[14px] text-white hover:bg-[#4065D1]'>
                 Project
               </button>
               <button className='font-katide-semibold flex h-[40px] w-[178px] items-center gap-2 rounded-full bg-[#EE4C73] px-8 py-4 text-[14px] text-white hover:bg-[#CE4768]'>
                 <img src={newMember.src} alt='Membership' />
-                <p className='mt-0.5'>
-                  Membership
-                </p>
+                <p className='mt-0.5'>Membership</p>
               </button>
             </div>
           </div>

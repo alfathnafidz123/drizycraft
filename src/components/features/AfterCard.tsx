@@ -1,6 +1,7 @@
+import React from 'react'
+
 import { featureDetailContent } from '@/constant/data'
 import { sectionProps } from '@/interfaces/features.interface'
-import React from 'react'
 
 const AfterCard = ({ sectionStyle }: sectionProps) => {
   return (

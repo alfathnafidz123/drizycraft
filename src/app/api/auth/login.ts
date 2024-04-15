@@ -8,7 +8,7 @@ interface LoginPayload {
 export async function login(loginPayload: LoginPayload) {
   try {
     const resp = await axios.post(
-      `http://localhost:3001/user/login`,
+      `http://89.116.187.250:3001/user/login`,
       loginPayload
     );
     return resp.data.data;

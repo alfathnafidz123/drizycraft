@@ -26,13 +26,14 @@ const ProductSlider: React.FC<SwipeToSlideProps> = ({ items }) => {
     swipeToSlide: true,
     nextArrow: <></>,
     prevArrow: <></>,
+    variableWidth: true,
   };
   return (
     <div className='slider-container'>
       <Slider {...settings}>
         {items.map((item, index) => {
           return (
-            <div key={index}>
+            <div key={index} className='pb-8'>
               <ProductCard
                 name={item.name}
                 image={item?.image}
@@ -43,10 +44,16 @@ const ProductSlider: React.FC<SwipeToSlideProps> = ({ items }) => {
             </div>
           );
         })}
-                    <button className='h-[87px] aspect-square rounded-full border-2 border-[#4065D1] pt-4 text-[#4065D1] uppercase font-katide-bold text-[12px]' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: "column" }}>
-                <span>see more</span>
-              <FaAngleRight />
+        <div>
+          <div className='flex h-[335px] items-center'>
+            <button className='font-katide-bold flex aspect-square h-[87px] flex-col items-center justify-center rounded-full border-2 border-[#4065D1] pt-4 text-[12px] uppercase text-[#4065D1]'>
+              <span>see more</span>
+              <div className='flex w-full justify-center'>
+                <FaAngleRight />
+              </div>
             </button>
+          </div>
+        </div>
       </Slider>
     </div>
   );

@@ -74,28 +74,20 @@ export default function Register() {
               />
             </div>
 
-            <div className='mt-8 grid grid-cols-2 grid-rows-2 gap-4'>
+            <div className='mt-8 grid grid-cols-2 grid-rows-2 gap-4 text-[14px]'>
               <div>
-                <p className='text-lg font-semibold text-[#1A214C]'>
-                  File Type
-                </p>
-                <p className='text-lg text-[#1A214C]'>
-                  AI | EPS | PNG | JPG | SVG
-                </p>
+                <p className='font-semibold text-[#1A214C]'>File Type</p>
+                <p className='text-[#1A214C]'>AI | EPS | PNG | JPG | SVG</p>
               </div>
               <div>
-                <p className='text-lg font-semibold text-[#1A214C]'>
-                  File Size
-                </p>
-                <p className='text-lg text-[#1A214C]'>7.5 mb</p>
+                <p className='font-semibold text-[#1A214C]'>File Size</p>
+                <p className='text-[#1A214C]'>7.5 mb</p>
               </div>
               <div>
-                <p className='text-lg font-semibold text-[#1A214C]'>
-                  By Drizy Studio
-                </p>
+                <p className='font-semibold text-[#1A214C]'>By Drizy Studio</p>
               </div>
               <div>
-                <p className='text-lg text-[#1A214C]'>January 15, 2024</p>
+                <p className='text-[#1A214C]'>January 15, 2024</p>
               </div>
             </div>
           </div>
@@ -152,7 +144,7 @@ export default function Register() {
       <section className='flex flex-col gap-8 bg-[#EBECF5] px-24 py-16'>
         <div className='flex'>
           <div className='flex basis-2/3 flex-col gap-8'>
-            <p className='text-[23px] font-semibold text-[#1A214C]'>
+            <p className='text-[24px] font-semibold text-[#1A214C]'>
               Product Detail
             </p>
             <p className='text-[16px] font-semibold text-[#707070]'>
@@ -386,13 +378,14 @@ export default function Register() {
         <p className='text-2xl font-semibold text-[#1A214C]'>
           Product Recommendation
         </p>
-        <div className='flex w-full justify-between'>
+        <div className='flex w-full justify-between gap-4'>
           {crafterSlider.map((item, index) => (
             <ProductCard
               key={index}
               name={item.name}
               image={item.image}
               price={item.price}
+              isSlider={false}
             />
           ))}
         </div>
