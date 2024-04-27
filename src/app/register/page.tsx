@@ -3,11 +3,15 @@
 'use client';
 
 import * as React from 'react';
+import { useState } from 'react';
 import { FaFacebookF } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
+import { toast } from 'react-toastify';
 
 import { setToken } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
+
+import { register } from '@/app/api/auth/register';
 
 import { loginImage } from '~/images';
 
@@ -18,6 +22,27 @@ import { loginImage } from '~/images';
 export default function Register() {
   const { token } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [displayName, setDisplayName] = useState('');
+  const [email, setEmail] = useState('');
+  const handleRegister = async () => {
+    try {
+      const response = await register({ email, username: firstName, displayName });
+      console.log(response.success);
+      if (response.success === true) {
+        toast('Success')}
+        setFirstName('');
+        setLastName('');
+        setEmail('');
+        setDisplayName('');
+
+    } catch (error) {
+      console.log(error);
+      toast('Email already registered');
+    }
+  };
 
   React.useEffect(() => {
     dispatch(setToken({ token: 'testing token' }));
@@ -46,6 +71,8 @@ export default function Register() {
                 className='border-grey-700 my-2 w-[300px] rounded-full border p-4'
                 placeholder='Name'
                 required
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
               ></input>
             </div>
             <div className='flex flex-col'>
@@ -57,6 +84,8 @@ export default function Register() {
                 className='border-grey-700 my-2 w-[300px] rounded-full border p-4'
                 placeholder='Names'
                 required
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
               ></input>
             </div>
           </div>
@@ -70,6 +99,8 @@ export default function Register() {
                 className='border-grey-700 my-2 w-[300px] rounded-full border p-4'
                 placeholder='Display Name'
                 required
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
               ></input>
             </div>
             <div className='flex flex-col'>
@@ -82,12 +113,14 @@ export default function Register() {
                   className='border-grey-700 my-2 w-[300px] rounded-full border p-4'
                   placeholder='Name@gmail.com'
                   required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 ></input>
               </div>
             </div>
           </div>
           <div className='mt-8 flex w-full justify-center'>
-            <button className='rounded-full bg-[#008ECC] px-20 py-3 font-semibold text-[#e4f6fb]'>
+            <button onClick={handleRegister} className='rounded-full bg-[#008ECC] px-20 py-3 font-semibold text-[#e4f6fb]'>
               Sign Up
             </button>
           </div>

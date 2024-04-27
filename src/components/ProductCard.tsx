@@ -12,7 +12,7 @@ import {
 } from '~/images';
 
 interface ProductCardProps {
-  image: StaticImageData;
+  image: string;
   name: string;
   price: number;
   discountPrice?: number;
@@ -34,7 +34,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <div
         className={
           isSlider
-            ? 'group relative h-[335px] w-[294px]'
+            ? 'group relative h-[335px] w-[294px] my-4'
             : 'group relative h-[380px] w-1/4'
         }
       >
@@ -45,7 +45,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               : 'absolute left-0 top-0 flex h-[380px] w-full flex-col flex-nowrap items-start gap-[24px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-[12px] shadow-xl transition-none hover:border-[2px]'
           }
         >
-          <img src={image.src} alt={name} />
+          <img src={image} alt={name} className='w-[257px] h-[172px] rounded-[6px]'/>
           <span className='relative z-[2] flex h-[54px] w-[257px] shrink-0 items-start justify-start self-stretch overflow-hidden text-left text-[16px] font-semibold leading-[17.6px] text-[#1a204c]'>
             {name}
           </span>
@@ -67,22 +67,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
               <img src={cartProduct.src} alt='cart'></img>
             </button>
           </div>
-          <img
-            src={pintCrafter.src}
-            className='absolute left-[7px] top-[5px] z-[6] h-[40px] w-[40px] cursor-pointer bg-no-repeat opacity-100 group-hover:opacity-0'
-          />
-          <img
-            src={hoverPinterest.src}
-            className='absolute left-[7px] top-[5px] z-[6] h-[40px] w-[40px] cursor-pointer bg-no-repeat opacity-0 group-hover:opacity-100'
-          />
-          <img
-            src={waCrafter.src}
-            className='absolute left-[55px] top-[5px] z-[7] h-[40px] w-[40px] cursor-pointer bg-no-repeat opacity-100 group-hover:opacity-0'
-          />
-          <img
-            src={hoverWA.src}
-            className='absolute left-[55px] top-[5px] z-[7] h-[40px] w-[40px] cursor-pointer bg-no-repeat opacity-0 group-hover:opacity-100'
-          />
         </div>
       </div>
     </>

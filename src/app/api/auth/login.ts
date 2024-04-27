@@ -8,7 +8,7 @@ interface LoginPayload {
 export async function login(loginPayload: LoginPayload) {
   try {
     const resp = await axios.post(
-      `http://89.116.187.250:3001/user/login`,
+      `https://drizy-api.quadrakaryasantosa.com/auth/user/login`,
       loginPayload
     );
     return resp.data.data;

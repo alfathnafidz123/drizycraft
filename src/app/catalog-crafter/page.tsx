@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CiYoutube } from 'react-icons/ci';
 import { FaBehance } from 'react-icons/fa';
 import { FaFacebookF } from 'react-icons/fa';
@@ -7,8 +7,11 @@ import { FaPinterest } from 'react-icons/fa';
 import { FaInstagram } from 'react-icons/fa';
 import { FaChevronDown } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
+import { toast } from 'react-toastify';
 
 import ProductCard from '@/components/ProductCard';
+
+import { getAllProduct } from '@/app/api/auth/getProduct';
 
 import { catalogcrafter, crafterItem1 } from '~/images';
 
@@ -19,6 +22,7 @@ export default function CatalogCrafter() {
   const [selectedCategoryOption, setSelectedCategoryOption] = useState(null);
   const [isSeasonsDropdownOpen, setIsSeasonsDropdownOpen] = useState(false);
   const [selectedSeasonsOption, setSelectedSeasonsOption] = useState(null);
+  const [productData, setProductData] = useState([]);
 
   const shortByOptions = ['Latest', 'Popularity', 'Low to High', 'High to Low'];
   const categoryOptions = [
@@ -58,6 +62,22 @@ export default function CatalogCrafter() {
     const option = event.target.value;
     setSelectedSeasonsOption(option);
   };
+
+  const getProduct = async () => {
+    try {
+      const response = await getAllProduct({ page: 1, limit: 10 });
+      console.log(response.data[0].imageUrl[0]);
+      setProductData(response.data)
+
+    } catch (error) {
+      console.log(error);
+      toast('Error when trying to get all products');
+    }
+  };
+
+  useEffect(() => {
+    getProduct();
+  },[]);
 
   const products = [
     { name: 'crafterItem1', image: crafterItem1, price: 5 },
@@ -284,12 +304,12 @@ export default function CatalogCrafter() {
         </div>
 
         <div className='ml-[7%] flex flex-wrap'>
-          {products.map((product, index) => (
+          {productData.map((product, index) => (
             <ProductCard
               key={index}
               name={product.name}
-              image={product.image}
-              price={product.price}
+              image={product.imageUrl[0]}
+              price={5}
             />
           ))}
         </div>
