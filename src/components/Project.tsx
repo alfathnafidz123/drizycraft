@@ -2,25 +2,33 @@
 /* eslint-disable @next/next/no-img-element */
 import PopoverShare from '@/components/modals/popover';
 
-import { avatarExample, project1, projectLike, projectStars } from '~/images';
+import { CrafterI } from '@/interfaces/product.interface';
+
+import { avatarExample, projectLike, projectStars } from '~/images';
 interface ModalProps {
   onClick: () => void;
+  onLike: (id: string) => void;
+  item: CrafterI;
 }
-const Project: React.FC<ModalProps> = ({ onClick }) => {
+const Project: React.FC<ModalProps> = ({ onClick, item, onLike }) => {
   const onItemClick = () => {
     onClick && onClick();
   };
   return (
     <div className='flex h-[456px] w-[369px] cursor-pointer flex-col rounded-xl bg-white px-8 py-4 shadow-lg'>
-      <div className='flex items-center gap-3 text-[14px] text-[#1A204C]'>
-        <img loading='lazy' src={avatarExample.src} className=' w-[39px]' />
-        <div className=''>By</div>
-        <div className='font-katide-bold'>Michelle</div>
+      <div className='flex items-center text-[14px] text-[#1A204C]'>
+        <img
+          loading='lazy'
+          src={avatarExample.src}
+          className=' mr-3 w-[39px]'
+        />
+        <div className='mr-1'>By</div>
+        <div className='font-katide-bold'>{item?.user?.displayName}</div>
       </div>
       <div onClick={onItemClick} className='w-306 h-206 relative mt-4'>
         <img
           loading='lazy'
-          src={project1.src}
+          src={item.imageUrl as unknown as string}
           className=' h-auto w-full rounded-lg'
           alt='gambar'
         />
@@ -30,20 +38,32 @@ const Project: React.FC<ModalProps> = ({ onClick }) => {
       </div>
       <div className='flex justify-between'>
         <div className='mt-5 flex'>
-          <img loading='lazy' src={projectStars.src} className='my-auto' />
-          <img loading='lazy' src={projectStars.src} className='my-auto' />
-          <img loading='lazy' src={projectStars.src} className='my-auto' />
-          <img loading='lazy' src={projectStars.src} className='my-auto' />
-          <img loading='lazy' src={projectStars.src} className='my-auto' />
+          {Array.from({ length: item.price }, (_, index) => (
+            <img
+              loading='lazy'
+              key={index}
+              src={projectStars.src}
+              className='my-auto'
+            />
+          ))}
         </div>
         <div className='mt-5 flex justify-between gap-5 text-center '>
-          <div className='flex w-[39px] flex-col'>
-            <div className=' flex h-[39px] items-center rounded-full bg-[#A5272B] hover:bg-[#872A2D]'>
-              <img
-                loading='lazy'
-                src={projectLike.src}
-                className='mx-auto h-[20px] transition-all duration-300 hover:scale-110'
-              />
+          <div
+            className='flex w-[39px] flex-col'
+            onClick={() => onLike(item.id)}
+          >
+            <div className=' flex h-[40px] flex-col items-center rounded-full bg-[#A5272B] pt-1 hover:bg-[#872A2D]'>
+              <div className='basis-2/3'>
+                <img
+                  loading='lazy'
+                  src={projectLike.src}
+                  className='mx-auto h-[20px] transition-all duration-300 hover:scale-110'
+                />
+              </div>
+
+              <a className='inline-block align-top text-[10px] text-white'>
+                {item.likeCount > 0 && item.likeCount}
+              </a>
             </div>
             <div className=' font-katide-bold text-xs text-indigo-950'>
               Like
@@ -53,8 +73,7 @@ const Project: React.FC<ModalProps> = ({ onClick }) => {
         </div>
       </div>
       <div className='font-katide-regular mt-5 line-clamp-3 text-indigo-950'>
-        Loved being able to purchase a bundle of SVG’s and not having to spend
-        hours creating it myself. Thank you!
+        {item?.description}
       </div>
     </div>
   );

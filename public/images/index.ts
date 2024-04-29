@@ -5,6 +5,9 @@ import address from './address.png';
 import affiliatebanner from './affiliatebanner.svg';
 import AO from './AO.svg';
 import avatarExample from './avatar-example.png';
+import bannerArticle from './bannerArticle.svg';
+import blogArticle1 from './blogArticle1.svg';
+import blogStories1 from './blogStories1.svg';
 import cancel from './cancel.svg';
 import canva from './canva.svg';
 import cart from './cart.svg';
@@ -92,6 +95,9 @@ export {
   affiliatebanner,
   AO,
   avatarExample,
+  bannerArticle,
+  blogArticle1,
+  blogStories1,
   cancel,
   canva,
   cart,

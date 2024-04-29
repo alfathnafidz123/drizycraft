@@ -7,6 +7,8 @@ import { FaArrowUpRightFromSquare } from 'react-icons/fa6';
 import { IoCloseCircleOutline } from 'react-icons/io5';
 import Slider, { CustomArrowProps } from 'react-slick';
 
+import { CrafterI } from '@/interfaces/product.interface';
+
 import {
   avatarExample,
   gridSlide,
@@ -17,10 +19,17 @@ import {
 
 interface ModalProps {
   isOpen: boolean;
+  data: CrafterI;
   onClose: () => void;
+  onLike: (id: string) => void;
 }
 
-const ModalProjectDetail: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+const ModalProjectDetail: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  onLike,
+  data,
+}) => {
   const closeModal = () => {
     onClose && onClose();
   };
@@ -79,7 +88,7 @@ const ModalProjectDetail: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               <div />
             </div>
             <div className='flex gap-8 p-8'>
-              <div className='flex w-full flex-col items-end justify-center gap-4'>
+              <div className='flex w-1/2 flex-col items-center justify-center gap-4'>
                 <div className='h-[310px] w-[432px] items-center justify-center rounded-xl'>
                   <Slider {...settings}>
                     <div className='slide'>
@@ -112,23 +121,34 @@ const ModalProjectDetail: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   </Slider>
                 </div>
                 <div className='flex w-full justify-between'>
-                  <div className='flex items-center gap-3 text-[14px] text-[#1A204C]'>
+                  <div className='flex items-center text-[14px] text-[#1A204C]'>
                     <img
                       loading='lazy'
                       src={avatarExample.src}
-                      className=' w-[39px]'
+                      className=' mr-3 w-[39px]'
                     />
-                    <div className=''>By</div>
-                    <div className='font-katide-bold'>Michelle</div>
+                    <div className='mr-1'>By</div>
+                    <div className='font-katide-bold'>
+                      {data.user.displayName}
+                    </div>
                   </div>
                   <div className='mt-5 flex justify-between gap-5 text-center '>
-                    <div className='flex w-[39px] flex-col'>
-                      <div className=' flex h-[39px] items-center rounded-full bg-[#A5272B] hover:bg-[#872A2D]'>
-                        <img
-                          loading='lazy'
-                          src={projectLike.src}
-                          className='mx-auto h-[20px] transition-all duration-300 hover:scale-110'
-                        />
+                    <div
+                      className='flex w-[39px] flex-col'
+                      onClick={() => onLike(data.id)}
+                    >
+                      <div className=' flex h-[40px] flex-col items-center rounded-full bg-[#A5272B] pt-1 hover:bg-[#872A2D]'>
+                        <div className='basis-2/3'>
+                          <img
+                            loading='lazy'
+                            src={projectLike.src}
+                            className='mx-auto h-[20px] transition-all duration-300 hover:scale-110'
+                          />
+                        </div>
+
+                        <a className='inline-block align-top text-[10px] text-white'>
+                          {data.likeCount > 0 && data.likeCount}
+                        </a>
                       </div>
                       <div className=' font-katide-bold text-xs text-indigo-950'>
                         Like
@@ -151,35 +171,17 @@ const ModalProjectDetail: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               </div>
               <div className='flex flex-col gap-4'>
                 <div className='flex'>
-                  <img
-                    loading='lazy'
-                    src={projectStars.src}
-                    className='my-auto'
-                  />
-                  <img
-                    loading='lazy'
-                    src={projectStars.src}
-                    className='my-auto'
-                  />
-                  <img
-                    loading='lazy'
-                    src={projectStars.src}
-                    className='my-auto'
-                  />
-                  <img
-                    loading='lazy'
-                    src={projectStars.src}
-                    className='my-auto'
-                  />
-                  <img
-                    loading='lazy'
-                    src={projectStars.src}
-                    className='my-auto'
-                  />
+                  {Array.from({ length: data.price }, (_, index) => (
+                    <img
+                      loading='lazy'
+                      key={index}
+                      src={projectStars.src}
+                      className='my-auto'
+                    />
+                  ))}
                 </div>
                 <p className='font-katide-regular text-[14px]'>
-                  Just downloaded some amazing files from Drizy Studio. The
-                  designs are intricate and well-crafted. Love it!
+                  {data?.description}
                 </p>
                 <div className='font-katide-semibold mt-10 text-[14px]'>
                   <button className='flex w-[55%] items-center gap-5 border-t'>

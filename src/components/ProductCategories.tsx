@@ -1,9 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { StaticImageData } from 'next/image';
 
 interface ProductCategoriesProps {
   name: string;
-  image: StaticImageData;
+  image: string;
 }
 
 const ProductCategories: React.FC<ProductCategoriesProps> = ({
@@ -16,7 +15,7 @@ const ProductCategories: React.FC<ProductCategoriesProps> = ({
         {name}
       </div>
       <div className='absolute top-0 z-0'>
-        <img src={image.src} alt={name} />
+        <img src={image} alt={name} />
       </div>
     </button>
   );

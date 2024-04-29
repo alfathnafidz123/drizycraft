@@ -1,17 +1,11 @@
-// 'use client';
 import { Metadata } from 'next';
 import * as React from 'react';
-import { ToastContainer } from 'react-toastify';
 
 import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
-import 'react-toastify/dist/ReactToastify.css';
 
-import StoreProvider from '@/app/StoreProvider';
 import { siteConfig } from '@/constant/config';
-import Footer from '@/layout/footer';
-import Navbar from '@/layout/navbar';
 
 // !STARTERCONF Change these default meta
 // !STARTERCONF Look at @/constant/config to change them
@@ -58,30 +52,5 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <html className='!scroll-smooth'>
-      <head>
-        <link
-          rel='stylesheet'
-          type='text/css'
-          charSet='UTF-8'
-          href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css'
-        />
-        <link
-          rel='stylesheet'
-          type='text/css'
-          href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css'
-        />
-      </head>
-
-      <body className=''>
-        <StoreProvider>
-          <Navbar />
-          {children}
-          <ToastContainer />
-          <Footer />
-        </StoreProvider>
-      </body>
-    </html>
-  );
+  return <>{children}</>;
 }

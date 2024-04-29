@@ -1,15 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
 // components/Modal.tsx
 
+import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaFacebookF } from 'react-icons/fa6';
 import { FcGoogle } from 'react-icons/fc';
+import { toast } from 'react-toastify';
 
 import { setDataUser, setOpenModal, setToken } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import { login } from '@/app/api/auth/login';
+import { loginSocial } from '@/app/api/auth/loginSocial';
 
 import { loginImage } from '~/images';
 
@@ -22,6 +26,8 @@ const ModalLogin: React.FC = () => {
 
   const [payload, setPayload] = useState('');
   const [password, setPassword] = useState('');
+  const [googleUser, setUser] = useState<any>([]);
+
   const handleLogin = async () => {
     try {
       const response = await login({ payload, password });
@@ -29,11 +35,46 @@ const ModalLogin: React.FC = () => {
       dispatch(setDataUser({ userData: user }));
       dispatch(setToken({ token }));
       dispatch(setOpenModal(false));
-    } catch (error) {
-      // console.error('Login failed:', error);
-      // Handle the error as needed
+    } catch (error: any) {
+      toast('Login failed');
     }
   };
+
+  const handleLoginSocial = async (email: string, fullName: string) => {
+    try {
+      const response = await loginSocial({ email, fullName });
+      const { user, token } = response;
+      dispatch(setDataUser({ userData: user }));
+      dispatch(setToken({ token }));
+      dispatch(setOpenModal(false));
+    } catch (error: any) {
+      toast('Login failed');
+    }
+  };
+
+  const loginGoogle = useGoogleLogin({
+    onSuccess: (codeResponse) => setUser(codeResponse),
+    onError: (error) => toast('Login failed'),
+  });
+
+  useEffect(() => {
+    if (googleUser) {
+      axios
+        .get(
+          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${googleUser.access_token}`,
+          {
+            headers: {
+              Authorization: `Bearer ${googleUser.access_token}`,
+              Accept: 'application/json',
+            },
+          }
+        )
+        .then((res) => {
+          handleLoginSocial(res.data.email, res.data.name);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [googleUser]);
 
   return (
     <div>
@@ -101,7 +142,13 @@ const ModalLogin: React.FC = () => {
                 <FaFacebookF style={{ color: '#4065D1' }} />
                 <p>Login with Facebook</p>
               </button>
-              <button className='mt-2 flex items-center gap-4 rounded-full border-2 border-[#1A214C] px-6 py-2 font-semibold text-[#1A214C]'>
+              {/* <GoogleLogin onSuccess={responseMessage} onError={errorMessage} /> */}
+              <button
+                onClick={() => {
+                  loginGoogle();
+                }}
+                className='mt-2 flex items-center gap-4 rounded-full border-2 border-[#1A214C] px-6 py-2 font-semibold text-[#1A214C]'
+              >
                 <FcGoogle />
                 <p>Login with Facebook</p>
               </button>

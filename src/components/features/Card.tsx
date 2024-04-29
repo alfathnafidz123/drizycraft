@@ -3,7 +3,7 @@ import React from 'react';
 import { BiSolidDownArrow } from 'react-icons/bi';
 
 import { featuresContent } from '@/constant/data';
-import { sectionProps } from '@/interfaces/features.interface';
+import { sectionProps } from '@/interfaces/user.interface';
 
 const Card = ({ sectionStyle }: sectionProps) => {
   return (

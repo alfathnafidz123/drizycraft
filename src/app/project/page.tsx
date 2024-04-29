@@ -3,14 +3,18 @@
 'use client';
 
 import * as React from 'react';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
-import { setToken } from '@/lib/slices/user';
-import { useAppDispatch, useAppSelector } from '@/lib/store';
+import { useAppSelector } from '@/lib/store';
 
 import ModalProjectDetail from '@/components/modals/projectDetail';
 import ModalUploadProject from '@/components/modals/uploadProject';
 import ModalUploadSuccess from '@/components/modals/uploadSuccess';
 import Project from '@/components/Project';
+
+import { getAllCrafter } from '@/app/api/product/getCrafter';
+import { likeCrafter } from '@/app/api/product/likeCrafter';
 
 import {
   projectImage,
@@ -22,14 +26,32 @@ import {
 
 export default function Register() {
   const { token } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
+  const [crafterData, setCrafterData] = useState([]);
+  const [isPopUpShow, setIsPopUpShow] = useState(false);
+  const [isUploadSuccessShow, setIsUploadSuccessShow] = useState(false);
+  const [isProjectDetailShow, setIsProjectDetailShow] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
-  React.useEffect(() => {
-    dispatch(setToken({ token: 'testing token' }));
+  const getCrafter = async () => {
+    try {
+      const response = await getAllCrafter({ page: 1, limit: 10 });
+      setCrafterData(response.data);
+    } catch (error) {
+      toast('Error when trying to get crafter');
+    }
+  };
+
+  const likeCrafterPost = async (id: string) => {
+    await likeCrafter({
+      token,
+      crafterId: id,
+    });
+  };
+
+  useEffect(() => {
+    getCrafter();
   }, []);
-  const [isPopUpShow, setIsPopUpShow] = React.useState(false);
-  const [isUploadSuccessShow, setIsUploadSuccessShow] = React.useState(false);
-  const [isProjectDetailShow, setIsProjectDetailShow] = React.useState(false);
+
   return (
     <main>
       <ModalUploadProject
@@ -37,10 +59,14 @@ export default function Register() {
         onClose={() => setIsPopUpShow(false)}
         onSuccess={() => setIsUploadSuccessShow(true)}
       />
-      <ModalProjectDetail
-        isOpen={isProjectDetailShow}
-        onClose={() => setIsProjectDetailShow(false)}
-      />
+      {crafterData && (
+        <ModalProjectDetail
+          isOpen={isProjectDetailShow}
+          onClose={() => setIsProjectDetailShow(false)}
+          data={crafterData[selectedIndex]}
+          onLike={likeCrafterPost}
+        />
+      )}
       <ModalUploadSuccess
         isOpen={isUploadSuccessShow}
         onClose={() => setIsUploadSuccessShow(false)}
@@ -102,14 +128,19 @@ export default function Register() {
           </div>
         </div>
 
-        <Project onClick={() => setIsProjectDetailShow(true)} />
-        <Project onClick={() => setIsProjectDetailShow(true)} />
-        <Project onClick={() => setIsProjectDetailShow(true)} />
-        <Project onClick={() => setIsProjectDetailShow(true)} />
-        <Project onClick={() => setIsProjectDetailShow(true)} />
-        <Project onClick={() => setIsProjectDetailShow(true)} />
-        <Project onClick={() => setIsProjectDetailShow(true)} />
-        <Project onClick={() => setIsProjectDetailShow(true)} />
+        {crafterData?.map((data, index) => {
+          return (
+            <Project
+              key={index}
+              item={data}
+              onLike={likeCrafterPost}
+              onClick={() => {
+                setSelectedIndex(index);
+                setIsProjectDetailShow(true);
+              }}
+            />
+          );
+        })}
       </section>
     </main>
   );
