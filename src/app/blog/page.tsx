@@ -1,12 +1,47 @@
+'use client';
+import localFont from 'next/font/local';
+import { FaAngleRight } from 'react-icons/fa6';
+import Slider, { CustomArrowProps } from 'react-slick';
+
 import AffiliateBanner from '@/components/AffiliateBanner';
 import BlogArticle from '@/components/BlogArticle';
+
 import { blogStories1 } from '~/images';
-import { FaAngleRight } from 'react-icons/fa6';
+const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
 
 // import localFont from 'next/font/local';
 // const myFont = localFont({ src: '../../public/fonts/Hastle.woff2' });
 
 export default function Blog() {
+  const CustomPrevArrow: React.FC<CustomArrowProps> = ({ onClick }) => (
+    <div
+      className='slick-arrow slick-prev'
+      style={{ left: '10px', zIndex: 1 }}
+      onClick={onClick}
+    >
+      &lt;
+    </div>
+  );
+  const CustomNextArrow: React.FC<CustomArrowProps> = ({ onClick }) => (
+    <div
+      className='slick-arrow slick-next'
+      style={{ right: '10px', zIndex: 1 }}
+      onClick={onClick}
+    >
+      &gt;
+    </div>
+  );
+  const settings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 7,
+    slidesToScroll: 1,
+    prevArrow: <CustomPrevArrow />,
+    nextArrow: <CustomNextArrow />,
+    autoplay: false,
+  };
+
   return (
     <main>
       <section>
@@ -28,34 +63,139 @@ export default function Blog() {
       </section>
 
       <section className='bg-[#EBECF5] p-[29px] text-center text-[24px]'>
-        <p className='font-hastle mb-10 text-[24px] text-[#1A214C]'>
+        <p
+          className={`font-hastle mb-10 text-[24px] text-[#1A214C] ${myFont.className}`}
+        >
           Latest stories from us
         </p>
 
-        <div className='mr-24 font-katide-bold flex cursor-pointer justify-end text-[16px] text-[#2A3B80]'>
-          View all stories
+        <div className='font-katide-bold mr-24 flex justify-end text-[16px] text-[#2A3B80] '>
+          <div className='cursor-pointer'>View all stories</div>
           <FaAngleRight className='mt-[3px] pl-2' />
         </div>
-
-        <div className='group relative h-[240px] w-[160px]'>
-          <img
-            src={blogStories1.src}
-            className=' rounded-[12px] shadow-sm transition-all duration-300 ease-in-out group-hover:scale-110'
-            alt='Story'
-          />
-          <div className='absolute inset-0 z-10'>
-            <div className='absolute inset-0 scale-110 rounded-[12px] bg-gradient-to-t from-black via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-50'></div>
-            <div className='font-katide-bold absolute inset-0 top-0 ml-10 mt-[194px] line-clamp-2 w-[90px] scale-0 items-center text-left text-[16px] text-white transition-all duration-300 ease-out group-hover:scale-100'>
-              Christmas 2023: Free shadow box
+        <div className=' flex justify-center'>
+          <Slider {...settings} className='w-[1164px]'>
+            <div className='slide'>
+              <div className='!important flex h-full items-center justify-center'>
+                <div className='group relative h-[240px] w-full'>
+                  <img
+                    src={blogStories1.src}
+                    className='w-full rounded-[12px] shadow-sm transition-all duration-300 ease-in-out group-hover:scale-110'
+                    alt='Story'
+                  />
+                  <div className='absolute inset-0 z-10'>
+                    <div className='absolute inset-0 scale-110 rounded-[12px] bg-gradient-to-t from-black via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-50'></div>
+                    <div className='font-katide-bold absolute inset-0 top-0 ml-10 mt-[194px] line-clamp-2 w-[90px] scale-0 items-center text-left text-[16px] text-white transition-all duration-300 ease-out group-hover:scale-100'>
+                      Christmas 2023: Free shadow box
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+            <div className='slide'>
+              <div className='!important flex h-full items-center justify-center'>
+                <div className='group relative h-[240px] w-full'>
+                  <img
+                    src={blogStories1.src}
+                    className='w-full rounded-[12px] shadow-sm transition-all duration-300 ease-in-out group-hover:scale-110'
+                    alt='Story'
+                  />
+                  <div className='absolute inset-0 z-10'>
+                    <div className='absolute inset-0 scale-110 rounded-[12px] bg-gradient-to-t from-black via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-50'></div>
+                    <div className='font-katide-bold absolute inset-0 top-0 ml-10 mt-[194px] line-clamp-2 w-[90px] scale-0 items-center text-left text-[16px] text-white transition-all duration-300 ease-out group-hover:scale-100'>
+                      Christmas 2023: Free shadow box
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className='slide'>
+              <div className='!important flex h-full items-center justify-center'>
+                <div className='group relative h-[240px] w-full'>
+                  <img
+                    src={blogStories1.src}
+                    className='w-full rounded-[12px] shadow-sm transition-all duration-300 ease-in-out group-hover:scale-110'
+                    alt='Story'
+                  />
+                  <div className='absolute inset-0 z-10'>
+                    <div className='absolute inset-0 scale-110 rounded-[12px] bg-gradient-to-t from-black via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-50'></div>
+                    <div className='font-katide-bold absolute inset-0 top-0 ml-10 mt-[194px] line-clamp-2 w-[90px] scale-0 items-center text-left text-[16px] text-white transition-all duration-300 ease-out group-hover:scale-100'>
+                      Christmas 2023: Free shadow box
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className='slide'>
+              <div className='!important flex h-full items-center justify-center'>
+                <div className='group relative h-[240px] w-full'>
+                  <img
+                    src={blogStories1.src}
+                    className='q-full rounded-[12px] shadow-sm transition-all duration-300 ease-in-out group-hover:scale-110'
+                    alt='Story'
+                  />
+                  <div className='absolute inset-0 z-10'>
+                    <div className='absolute inset-0 scale-110 rounded-[12px] bg-gradient-to-t from-black via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-50'></div>
+                    <div className='font-katide-bold absolute inset-0 top-0 ml-10 mt-[194px] line-clamp-2 w-[90px] scale-0 items-center text-left text-[16px] text-white transition-all duration-300 ease-out group-hover:scale-100'>
+                      Christmas 2023: Free shadow box
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className='slide'>
+              <div className='!important flex h-full items-center justify-center'>
+                <div className='group relative h-[240px] w-full'>
+                  <img
+                    src={blogStories1.src}
+                    className='w-full rounded-[12px] shadow-sm transition-all duration-300 ease-in-out group-hover:scale-110'
+                    alt='Story'
+                  />
+                  <div className='absolute inset-0 z-10'>
+                    <div className='absolute inset-0 scale-110 rounded-[12px] bg-gradient-to-t from-black via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-50'></div>
+                    <div className='font-katide-bold absolute inset-0 top-0 ml-10 mt-[194px] line-clamp-2 w-[90px] scale-0 items-center text-left text-[16px] text-white transition-all duration-300 ease-out group-hover:scale-100'>
+                      Christmas 2023: Free shadow box
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className='slide'>
+              <div className='!important flex h-full items-center justify-center'>
+                <div className='group relative h-[240px] w-full'>
+                  <img
+                    src={blogStories1.src}
+                    className='w-full rounded-[12px] shadow-sm transition-all duration-300 ease-in-out group-hover:scale-110'
+                    alt='Story'
+                  />
+                  <div className='absolute inset-0 z-10'>
+                    <div className='absolute inset-0 scale-110 rounded-[12px] bg-gradient-to-t from-black via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-50'></div>
+                    <div className='font-katide-bold absolute inset-0 top-0 ml-10 mt-[194px] line-clamp-2 w-[90px] scale-0 items-center text-left text-[16px] text-white transition-all duration-300 ease-out group-hover:scale-100'>
+                      Christmas 2023: Free shadow box
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className='slide'>
+              <div className='!important flex h-full items-center justify-center'>
+                <div className='group relative h-[240px] w-full'>
+                  <img
+                    src={blogStories1.src}
+                    className='w-full rounded-[12px] shadow-sm transition-all duration-300 ease-in-out group-hover:scale-110'
+                    alt='Story'
+                  />
+                  <div className='absolute inset-0 z-10'>
+                    <div className='absolute inset-0 scale-110 rounded-[12px] bg-gradient-to-t from-black via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-50'></div>
+                    <div className='font-katide-bold absolute inset-0 top-0 ml-10 mt-[194px] line-clamp-2 w-[90px] scale-0 items-center text-left text-[16px] text-white transition-all duration-300 ease-out group-hover:scale-100'>
+                      Christmas 2023: Free shadow box
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Slider>
         </div>
-
-        {/* <img
-          src={blogStories1.src}
-          className='rounded-12px ml-1 h-[240px] w-[160px] shadow-sm'
-          alt='Story'
-        /> */}
       </section>
 
       <section className='mb-[234px] ml-14 p-[66px]'>
@@ -63,7 +203,13 @@ export default function Blog() {
           Latest article for you
         </p>
 
-        <div className='flex'>
+        <div className='flex flex-wrap'>
+          <BlogArticle />
+          <BlogArticle />
+          <BlogArticle />
+          <BlogArticle />
+          <BlogArticle />
+          <BlogArticle />
           <BlogArticle />
           <BlogArticle />
           <BlogArticle />

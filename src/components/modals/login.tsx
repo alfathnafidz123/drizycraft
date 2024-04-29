@@ -150,7 +150,7 @@ const ModalLogin: React.FC = () => {
                 className='mt-2 flex items-center gap-4 rounded-full border-2 border-[#1A214C] px-6 py-2 font-semibold text-[#1A214C]'
               >
                 <FcGoogle />
-                <p>Login with Facebook</p>
+                <p>Login with Google</p>
               </button>
             </div>
           </div>
