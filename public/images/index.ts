@@ -4,6 +4,8 @@ import accountIllustration from './account-illustration.png';
 import address from './address.png';
 import affiliatebanner from './affiliatebanner.svg';
 import AO from './AO.svg';
+import articlePage from './articlePage.svg';
+import AssetSubscribe from './AssetSubscribe.svg';
 import avatarExample from './avatar-example.png';
 import bannerArticle from './bannerArticle.svg';
 import blogArticle1 from './blogArticle1.svg';
@@ -93,7 +95,9 @@ export {
   accountIllustration,
   address,
   affiliatebanner,
+  AssetSubscribe,
   AO,
+  articlePage,
   avatarExample,
   bannerArticle,
   blogArticle1,
