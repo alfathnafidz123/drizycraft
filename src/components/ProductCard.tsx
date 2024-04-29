@@ -67,6 +67,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
               <img src={cartProduct.src} alt='cart'></img>
             </button>
           </div>
+          <img
+            src={hoverPinterest.src}
+            className='absolute left-[7px] top-[5px] z-[6] h-[40px] w-[40px] cursor-pointer bg-no-repeat opacity-0 group-hover:opacity-100'
+          />
+          <img
+            src={hoverWA.src}
+            className='absolute left-[55px] top-[5px] z-[7] h-[40px] w-[40px] cursor-pointer bg-no-repeat opacity-0 group-hover:opacity-100'
+          />
         </div>
       </div>
     </>
