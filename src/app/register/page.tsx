@@ -29,17 +29,19 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const handleRegister = async () => {
     try {
-      const response = await register({ email, username: firstName, displayName });
-      console.log(response.success);
+      const response = await register({
+        email,
+        username: firstName,
+        displayName,
+      });
       if (response.success === true) {
-        toast('Success')}
-        setFirstName('');
-        setLastName('');
-        setEmail('');
-        setDisplayName('');
-
+        toast('Success');
+      }
+      setFirstName('');
+      setLastName('');
+      setEmail('');
+      setDisplayName('');
     } catch (error) {
-      console.log(error);
       toast('Email already registered');
     }
   };
@@ -120,7 +122,10 @@ export default function Register() {
             </div>
           </div>
           <div className='mt-8 flex w-full justify-center'>
-            <button onClick={handleRegister} className='rounded-full bg-[#008ECC] px-20 py-3 font-semibold text-[#e4f6fb]'>
+            <button
+              onClick={handleRegister}
+              className='rounded-full bg-[#008ECC] px-20 py-3 font-semibold text-[#e4f6fb]'
+            >
               Sign Up
             </button>
           </div>

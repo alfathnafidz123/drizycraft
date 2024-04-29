@@ -10,7 +10,7 @@ import { FiUpload } from 'react-icons/fi';
 import Slider, { CustomArrowProps } from 'react-slick';
 import { toast } from 'react-toastify';
 
-import { useAppDispatch, useAppSelector } from '@/lib/store';
+import { useAppSelector } from '@/lib/store';
 
 import AffiliateBanner from '@/components/AffiliateBanner';
 import SectionContainer from '@/components/container/sectionContainer';
@@ -20,7 +20,9 @@ import ProductSlider from '@/components/slider/ProductSlider';
 import TrendingTag from '@/components/tag/TrendingTag';
 import Testimonies from '@/components/testimonies';
 
-import { getCategory } from '@/app/api/auth/getCategory';
+import { getCategory } from '@/app/api/product/getCategory';
+import { getHomepage } from '@/app/api/product/getHomepage';
+import { CategoryI, HomepageDataI } from '@/interfaces/product.interface';
 
 import {
   avatarExample,
@@ -37,10 +39,19 @@ import {
 } from '~/images';
 
 const myFont = localFont({ src: '../../public/fonts/Hastle.woff2' });
+const defaultHomepageData: HomepageDataI = {
+  crafterData: [],
+  bundleData: [],
+  vectorData: [],
+  bestSellerData: [],
+};
+
 export default function HomePage() {
   const { token } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
-  const [categoryData, setCategoryData] = useState([]);
+  // const dispatch = useAppDispatch();
+  const [categoryData, setCategoryData] = useState<CategoryI[] | []>([]);
+  const [homeProduct, setHomeProduct] =
+    useState<HomepageDataI>(defaultHomepageData);
 
   const CustomPrevArrow: React.FC<CustomArrowProps> = ({ onClick }) => (
     <div
@@ -55,19 +66,25 @@ export default function HomePage() {
   const getCategoryHome = async () => {
     try {
       const response = await getCategory();
-      console.log(response);
       setCategoryData(response.data);
-      
-
     } catch (error) {
-      console.log(error);
+      toast('Error when trying to get category');
+    }
+  };
+
+  const getHomepageData = async () => {
+    try {
+      const response = await getHomepage();
+      setHomeProduct(response.data);
+    } catch (error) {
       toast('Error when trying to get all products');
     }
   };
 
   useEffect(() => {
     getCategoryHome();
-  },[]);
+    getHomepageData();
+  }, []);
 
   const CustomNextArrow: React.FC<CustomArrowProps> = ({ onClick }) => (
     <div
@@ -100,43 +117,51 @@ export default function HomePage() {
   const crafterSlider = [
     {
       name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
-      image: crafterItem1,
+      imageUrl: crafterItem1.src,
       price: 5,
+      description: '',
     },
     {
       name: 'A5 Cricut Christmas Card with Adorable Stocking - Warm Winter Wishes',
-      image: crafterItem1,
+      imageUrl: crafterItem1.src,
       price: 5,
+      description: '',
     },
     {
       name: 'Winter Village with Aurora 3D Shadow Box - Northern Lights 3D Light Box',
-      image: crafterItem1,
+      imageUrl: crafterItem1.src,
       price: 5,
+      description: '',
     },
     {
       name: 'Girl and Fox by The Forest 3D Shadow Box - Winter SVG Paper Cut',
-      image: crafterItem1,
+      imageUrl: crafterItem1.src,
       price: 5,
+      description: '',
     },
     {
       name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
-      image: crafterItem1,
+      imageUrl: crafterItem1.src,
       price: 5,
+      description: '',
     },
     {
       name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
-      image: crafterItem1,
+      imageUrl: crafterItem1.src,
       price: 5,
+      description: '',
     },
     {
       name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
-      image: crafterItem1,
+      imageUrl: crafterItem1.src,
       price: 5,
+      description: '',
     },
     {
       name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
-      image: crafterItem1,
+      imageUrl: crafterItem1.src,
       price: 5,
+      description: '',
     },
   ];
 
@@ -373,7 +398,10 @@ export default function HomePage() {
           <div className='mt-12 flex flex-wrap justify-between'>
             {categoryData.map((data, index) => (
               <div key={index} className='flex p-2 sm:w-1/2 md:w-1/3 lg:w-1/5'>
-                <ProductCategories name={data.name} image={data.backgroundImage} />
+                <ProductCategories
+                  name={data.name}
+                  image={data.backgroundImage}
+                />
               </div>
             ))}
           </div>
@@ -426,7 +454,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className='h-[400px]'>
-            <ProductSlider items={crafterSlider} />
+            <ProductSlider items={homeProduct.bestSellerData} />
           </div>
         </div>
       </SectionContainer>
@@ -449,7 +477,7 @@ export default function HomePage() {
             </div> */}
           </div>
           <div className='h-[400px]'>
-            <ProductSlider items={crafterSlider} />
+            <ProductSlider items={homeProduct.bundleData} />
           </div>
         </div>
       </SectionContainer>
@@ -495,7 +523,7 @@ export default function HomePage() {
             </div> */}
           </div>
           <div className='h-[400px]'>
-            <ProductSlider items={crafterSlider} />
+            <ProductSlider items={homeProduct.vectorData} />
           </div>
         </div>
       </SectionContainer>

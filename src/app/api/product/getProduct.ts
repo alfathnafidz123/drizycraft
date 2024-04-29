@@ -2,10 +2,10 @@ import axios from 'axios';
 import { NextResponse } from 'next/server';
 
 interface GetProductPayload {
-  page: number,
-  limit: number,
-  search?: string,
-  category?: string
+  page: number;
+  limit: number;
+  search?: string;
+  category?: string;
 }
 export async function getAllProduct(data: GetProductPayload) {
   try {
@@ -15,7 +15,5 @@ export async function getAllProduct(data: GetProductPayload) {
     return resp.data;
   } catch (error) {
     NextResponse.error();
-    // console.error(error);
   }
 }
-

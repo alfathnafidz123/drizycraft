@@ -1,23 +1,27 @@
-import { StaticImageData } from 'next/image';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { FaAngleRight } from 'react-icons/fa6';
 import Slider from 'react-slick';
 
 import ProductCard from '@/components/ProductCard';
 
-interface SlideItem {
-  image: StaticImageData;
-  name: string;
-  price: number;
-  discountPrice?: number;
-  isSales?: boolean;
-}
+import { productI } from '@/interfaces/product.interface';
+
+// interface SlideItem {
+//   image?: string;
+//   imageUrl?: string;
+//   name: string;
+//   price: number;
+//   discountPrice?: number;
+//   isSales?: boolean;
+// }
 
 interface SwipeToSlideProps {
-  items: SlideItem[];
+  items: productI[];
 }
 
 const ProductSlider: React.FC<SwipeToSlideProps> = ({ items }) => {
+  const router = useRouter();
   const settings = {
     className: 'center',
     infinite: false,
@@ -36,17 +40,23 @@ const ProductSlider: React.FC<SwipeToSlideProps> = ({ items }) => {
             <div key={index} className='pb-8'>
               <ProductCard
                 name={item.name}
-                image={item?.image}
-                price={item?.price}
-                isSale={item?.isSales}
-                discountPrice={item?.discountPrice}
+                image={item?.image || (item?.imageUrl as unknown as string)}
+                price={item?.price as number}
+                // isSale={item?.isSales}
+                isSale={false}
+                // discountPrice={item?.discountPrice}
               />
             </div>
           );
         })}
         <div>
           <div className='flex h-[335px] items-center'>
-            <button className='font-katide-bold flex aspect-square h-[87px] flex-col items-center justify-center rounded-full border-2 border-[#4065D1] pt-4 text-[12px] uppercase text-[#4065D1]'>
+            <button
+              onClick={() => {
+                router.push('/catalog-crafter');
+              }}
+              className='font-katide-bold flex aspect-square h-[87px] flex-col items-center justify-center rounded-full border-2 border-[#4065D1] pt-4 text-[12px] uppercase text-[#4065D1]'
+            >
               <span>see more</span>
               <div className='flex w-full justify-center'>
                 <FaAngleRight />

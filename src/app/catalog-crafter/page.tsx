@@ -11,7 +11,8 @@ import { toast } from 'react-toastify';
 
 import ProductCard from '@/components/ProductCard';
 
-import { getAllProduct } from '@/app/api/auth/getProduct';
+import { getAllProduct } from '@/app/api/product/getProduct';
+import { productI } from '@/interfaces/product.interface';
 
 import { catalogcrafter, crafterItem1 } from '~/images';
 
@@ -22,7 +23,7 @@ export default function CatalogCrafter() {
   const [selectedCategoryOption, setSelectedCategoryOption] = useState(null);
   const [isSeasonsDropdownOpen, setIsSeasonsDropdownOpen] = useState(false);
   const [selectedSeasonsOption, setSelectedSeasonsOption] = useState(null);
-  const [productData, setProductData] = useState([]);
+  const [productData, setProductData] = useState<productI[] | []>([]);
 
   const shortByOptions = ['Latest', 'Popularity', 'Low to High', 'High to Low'];
   const categoryOptions = [
@@ -37,7 +38,6 @@ export default function CatalogCrafter() {
 
   const handleShortByDropdownClick = () => {
     setIsShortByDropdownOpen(!isShortByDropdownOpen);
-    console.log('test');
   };
 
   const handleCategoryDropdownClick = () => {
@@ -66,18 +66,15 @@ export default function CatalogCrafter() {
   const getProduct = async () => {
     try {
       const response = await getAllProduct({ page: 1, limit: 10 });
-      console.log(response.data[0].imageUrl[0]);
-      setProductData(response.data)
-
+      setProductData(response.data);
     } catch (error) {
-      console.log(error);
       toast('Error when trying to get all products');
     }
   };
 
   useEffect(() => {
     getProduct();
-  },[]);
+  }, []);
 
   const products = [
     { name: 'crafterItem1', image: crafterItem1, price: 5 },
@@ -308,7 +305,7 @@ export default function CatalogCrafter() {
             <ProductCard
               key={index}
               name={product.name}
-              image={product.imageUrl[0]}
+              image={product.imageUrl?.[0] || crafterItem1.src}
               price={5}
             />
           ))}

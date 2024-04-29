@@ -2,9 +2,9 @@ import axios from 'axios';
 import { NextResponse } from 'next/server';
 
 interface RegisterPayload {
-  email: string,
-  username: string,
-  displayName: string
+  email: string;
+  username: string;
+  displayName: string;
 }
 export async function register(registerPayload: RegisterPayload) {
   try {
@@ -15,6 +15,5 @@ export async function register(registerPayload: RegisterPayload) {
     return resp.data;
   } catch (error) {
     NextResponse.error();
-    // console.error(error);
   }
 }

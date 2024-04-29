@@ -1,15 +1,13 @@
 import axios from 'axios';
 import { NextResponse } from 'next/server';
 
-export async function getCategory() {
+export async function getHomepage() {
   try {
     const resp = await axios.get(
-      `https://drizy-api.quadrakaryasantosa.com/crafter/product/category`
+      `https://drizy-api.quadrakaryasantosa.com/crafter/product/homepage`
     );
     return resp.data;
   } catch (error) {
     NextResponse.error();
-    // console.error(error);
   }
 }
-

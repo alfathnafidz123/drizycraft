@@ -3,75 +3,108 @@
 'use client';
 
 import Image from 'next/image';
+import { useParams } from 'next/navigation';
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
-import { setToken } from '@/lib/slices/user';
-import { useAppDispatch, useAppSelector } from '@/lib/store';
+import { useAppSelector } from '@/lib/store';
 
 import AffiliateBanner from '@/components/AffiliateBanner';
 import ProductCard from '@/components/ProductCard';
 
-import { crafterItem1 } from '~/images';
+import { getProductById } from '@/app/api/product/getProductById';
+import { productI } from '@/interfaces/product.interface';
+
+import { crafterItem1, project1 } from '~/images';
+
+const productInitialState: productI = {
+  id: 'string',
+  name: 'string',
+  imageUrl: [project1.src],
+  image: 'string',
+  description: 'string',
+  category: 'string',
+  purchasedCount: 0,
+  createdAt: 'string',
+  updatedAt: 'string',
+  price: 1,
+};
 
 export default function Register() {
   const { token } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
-
-  React.useEffect(() => {
-    dispatch(setToken({ token: 'testing token' }));
-  }, []);
-  const images = new Array(8).fill('');
+  const params = useParams();
+  const [productData, setProductData] = useState<productI>(productInitialState);
+  const [selectedImage, setSelectedImage] = useState<number>(0);
   const crafterSlider = [
-    { name: 'crafterItem1', image: crafterItem1, price: 5 },
+    { name: 'crafterItem1', image: crafterItem1.src, price: 5 },
     {
       name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
-      image: crafterItem1,
+      image: crafterItem1.src,
       price: 5,
     },
     {
       name: 'A5 Cricut Christmas Card with Adorable Stocking - Warm Winter Wishes',
-      image: crafterItem1,
+      image: crafterItem1.src,
       price: 5,
     },
     {
       name: 'Winter Village with Aurora 3D Shadow Box - Northern Lights 3D Light Box',
-      image: crafterItem1,
+      image: crafterItem1.src,
       price: 5,
     },
   ];
+
+  const getProduct = async () => {
+    try {
+      const response = await getProductById({ id: params.id as string });
+      setProductData(response.data);
+    } catch (error) {
+      toast('Error when trying to get all products');
+    }
+  };
+
+  useEffect(() => {
+    getProduct();
+  }, []);
 
   return (
     <main>
       <section className='flex flex-col gap-12 px-24 py-16'>
         <p className='text-[#B8B8B8]'>
-          Drizy Studio » Crafters » Craft Design SVGs » Paper Cut Templates » A5
-          Cricut Christmas Card with Adorable Stocking – Warm Winter Wishes
+          Drizy Studio » Crafters » Craft Design SVGs » Paper Cut Templates »{' '}
+          {productData.name}
         </p>
         <div className='flex gap-8'>
           <div className='flex flex-col gap-4'>
             <div className='flex gap-8'>
               <div className='flex flex-col gap-4'>
-                {images.map((_, index) => (
+                {productData?.imageUrl?.map((url, index) => (
                   <Image
                     key={index}
-                    src='https://s3-alpha-sig.figma.com/img/baa9/8c16/32768650a7251955f3568947ba285fbf?Expires=1711929600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Lj3jmUVkVp2pMJ7fo6w37HXVX4uoqBqasBg9dRARINGcKXlQVRH9Kcmwf3XaSQBPdwfYGY5XmKuc5NOTYAgoXZRRv22MkbJocW-oqvA6zsz8oicMRJWylwj-lYGZ1Gk~4saP5-lwT0N7QKAHtT0Bfi7kCKg2Qudf5C0tkx65ATLp0sXfGdwSOEAU-B0cc77pKCL~s8nDZxWe~SAxTIDAQ-DXgXBd8Q~EUxozZL96ed1~NW9zauT6Kkf2W92Iq1US8anyA97Pjer3dB5SLOelV1tRqJ06NgsQ72B~6jfGvnfVYYWzMksXf8B9N1ShV-QeORGz6KPKP9rgkzqhiniNKg__'
+                    src={url}
                     alt='Product'
                     width={50}
                     height={50}
                     className={`h-[50px] w-[50px] rounded-md object-cover ${
-                      index === 0 ? 'opacity-100' : 'opacity-50'
+                      index === selectedImage ? 'opacity-100' : 'opacity-50'
                     }`}
+                    onClick={() => {
+                      setSelectedImage(index);
+                    }}
                   />
                 ))}
               </div>
-              <Image
-                src='https://s3-alpha-sig.figma.com/img/baa9/8c16/32768650a7251955f3568947ba285fbf?Expires=1711929600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Lj3jmUVkVp2pMJ7fo6w37HXVX4uoqBqasBg9dRARINGcKXlQVRH9Kcmwf3XaSQBPdwfYGY5XmKuc5NOTYAgoXZRRv22MkbJocW-oqvA6zsz8oicMRJWylwj-lYGZ1Gk~4saP5-lwT0N7QKAHtT0Bfi7kCKg2Qudf5C0tkx65ATLp0sXfGdwSOEAU-B0cc77pKCL~s8nDZxWe~SAxTIDAQ-DXgXBd8Q~EUxozZL96ed1~NW9zauT6Kkf2W92Iq1US8anyA97Pjer3dB5SLOelV1tRqJ06NgsQ72B~6jfGvnfVYYWzMksXf8B9N1ShV-QeORGz6KPKP9rgkzqhiniNKg__'
-                alt='Product'
-                width={724}
-                height={483}
-                className='rounded-xl'
-              />
+              {productData && (
+                <Image
+                  src={productData?.imageUrl[selectedImage]}
+                  alt='Product'
+                  width={724}
+                  height={483}
+                  className='rounded-xl'
+                />
+              )}
             </div>
 
             <div className='mt-8 grid grid-cols-2 grid-rows-2 gap-4 text-[14px]'>
@@ -93,10 +126,12 @@ export default function Register() {
           </div>
           <div className='flex basis-1/3 flex-col gap-16 pl-6'>
             <p className='text-2xl font-semibold text-[#1A214C]'>
-              Romantic Couple 3D Shadow Box – Valentine’s 3D Shadow Box
+              {productData.name}
             </p>
-            <p className='font-katide-bold text-[40px] text-[#1A214C]'>$3</p>
-            <div className='flex flex-col gap-4'>
+            <p className='font-katide-bold text-[40px] text-[#1A214C]'>
+              ${productData.price}
+            </p>
+            <div className='flex w-5/6 flex-col gap-4'>
               <p className='text-lg font-semibold text-[#1A214C]'>
                 License Option
               </p>
@@ -148,34 +183,13 @@ export default function Register() {
               Product Detail
             </p>
             <p className='text-[16px] font-semibold text-[#707070]'>
-              Romantic Couple 3D Shadow Box – Valentine’s 3D Shadow Box
+              {productData?.name}
             </p>
             <div className='text-[16px] font-light text-[#707070]'>
-              This is a layered, square paper-cutting template of the Romantic
-              Couple 3D Shadow Box. You will receive this Valentine’s Shadow Box
-              template in the following formats: <br />
-              - AI 714 x 714 px <br />
-              - EPS 714 x 714 px <br />
-              - PNG 714 x 714 px <br />
-              - SVG 714 x 714 px <br />
-              - JPEG 3000 x 2000 px (product preview) <br />
-              Number of layers: 7 <br />
-              <br />
-              The SVG file is included to cut the design with Silhouette,
-              Cricut, and other cutting machines. You can use your art knife and
-              scissors if you do not have one. Glue or double-sided tape is
-              needed to assemble the design. SVG files can be resized, but you
-              must keep the same aspect ratio. You can frame it as wall
-              decoration or use it as a lightbox by adding LED strips between
-              layers for a special effect. It will make a great gift for a
-              friend, your family, or someone special. <br />
-              <br />
-              NOTE: The images are for preview purposes only. The final product
-              color may vary slightly due to lighting sources and the paper
-              color.
-              <br />
-              <br />
-              Get this Valentine’s Couple 3D Shadow Box now and make your own!
+              <div
+                style={{ whiteSpace: 'pre-line' }}
+                dangerouslySetInnerHTML={{ __html: productData?.description }}
+              />
             </div>
           </div>
           <div className='mt-16 basis-1/3 rounded-3xl bg-white p-8 shadow-xl'>

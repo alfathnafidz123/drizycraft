@@ -1,10 +1,12 @@
 // 'use client';
 import { Metadata } from 'next';
 import * as React from 'react';
+import { ToastContainer } from 'react-toastify';
 
 import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import StoreProvider from '@/app/StoreProvider';
 import { siteConfig } from '@/constant/config';
@@ -76,6 +78,7 @@ export default function RootLayout({
         <StoreProvider>
           <Navbar />
           {children}
+          <ToastContainer />
           <Footer />
         </StoreProvider>
       </body>
