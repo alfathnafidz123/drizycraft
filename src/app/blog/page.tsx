@@ -6,7 +6,7 @@ import Slider, { CustomArrowProps } from 'react-slick';
 import AffiliateBanner from '@/components/AffiliateBanner';
 import BlogArticle from '@/components/BlogArticle';
 
-import { blogStories1, gridSlide } from '~/images';
+import { blogStories1 } from '~/images';
 const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
 
 // import localFont from 'next/font/local';
@@ -203,7 +203,13 @@ export default function Blog() {
           Latest article for you
         </p>
 
-        <div className='flex'>
+        <div className='flex flex-wrap'>
+          <BlogArticle />
+          <BlogArticle />
+          <BlogArticle />
+          <BlogArticle />
+          <BlogArticle />
+          <BlogArticle />
           <BlogArticle />
           <BlogArticle />
           <BlogArticle />
