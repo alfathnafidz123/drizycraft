@@ -165,6 +165,65 @@ export default function HomePage() {
     },
   ];
 
+  const exclusivePartnerSlider = [
+    {
+      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
+      imageUrl: crafterItem1.src,
+      price: 5,
+      description: '',
+      partnerName: 'Tiptop Graphics',
+    },
+    {
+      name: 'A5 Cricut Christmas Card with Adorable Stocking - Warm Winter Wishes',
+      imageUrl: crafterItem1.src,
+      price: 5,
+      description: '',
+      partnerName: 'Tiptop Graphics',
+    },
+    {
+      name: 'Winter Village with Aurora 3D Shadow Box - Northern Lights 3D Light Box',
+      imageUrl: crafterItem1.src,
+      price: 5,
+      description: '',
+      partnerName: 'Tiptop Graphics',
+    },
+    {
+      name: 'Girl and Fox by The Forest 3D Shadow Box - Winter SVG Paper Cut',
+      imageUrl: crafterItem1.src,
+      price: 5,
+      description: '',
+      partnerName: 'Tiptop Graphics',
+    },
+    {
+      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
+      imageUrl: crafterItem1.src,
+      price: 5,
+      description: '',
+      partnerName: 'Tiptop Graphics',
+    },
+    {
+      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
+      imageUrl: crafterItem1.src,
+      price: 5,
+      description: '',
+      partnerName: 'Tiptop Graphics',
+    },
+    {
+      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
+      imageUrl: crafterItem1.src,
+      price: 5,
+      description: '',
+      partnerName: 'Tiptop Graphics',
+    },
+    {
+      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
+      imageUrl: crafterItem1.src,
+      price: 5,
+      description: '',
+      partnerName: 'Tiptop Graphics',
+    },
+  ];
+
   return (
     <main>
       <SectionContainer
@@ -500,7 +559,7 @@ export default function HomePage() {
             </div> */}
           </div>
           <div className='h-[400px]'>
-            <ProductSlider items={crafterSlider} />
+            <ProductSlider items={exclusivePartnerSlider} />
           </div>
         </div>
       </SectionContainer>

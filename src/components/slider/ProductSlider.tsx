@@ -44,6 +44,7 @@ const ProductSlider: React.FC<SwipeToSlideProps> = ({ items }) => {
                 price={item?.price as number}
                 // isSale={item?.isSales}
                 isSale={false}
+                partnerName={item?.partnerName}
                 // discountPrice={item?.discountPrice}
               />
             </div>

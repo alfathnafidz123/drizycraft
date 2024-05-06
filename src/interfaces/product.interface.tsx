@@ -3,6 +3,7 @@ import { UserI } from '@/interfaces/user.interface';
 export interface productI {
   id?: string;
   name: string;
+  partnerName?: string;
   imageUrl: string[];
   image?: string;
   description: string;
