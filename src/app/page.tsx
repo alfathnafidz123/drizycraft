@@ -249,7 +249,7 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <div className='flex w-4/12 flex-col gap-4'>
+            <div className='flex w-4/12 flex-col gap-8'>
               <div className='group relative h-1/2 overflow-hidden rounded-2xl bg-[#61A9FA] transition-all duration-300 hover:bg-[#4065D1]'>
                 <div className='absolute flex h-full w-full'>
                   <div className='z-10 h-full w-1/3 translate-y-full rounded-2xl bg-[#2A3B80] transition-transform duration-300 ease-in-out group-hover:translate-y-0 group-hover:transform'></div>
