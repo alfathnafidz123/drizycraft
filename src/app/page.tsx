@@ -165,6 +165,65 @@ export default function HomePage() {
     },
   ];
 
+  const exclusivePartnerSlider = [
+    {
+      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
+      imageUrl: crafterItem1.src,
+      price: 5,
+      description: '',
+      partnerName: 'Tiptop Graphics',
+    },
+    {
+      name: 'A5 Cricut Christmas Card with Adorable Stocking - Warm Winter Wishes',
+      imageUrl: crafterItem1.src,
+      price: 5,
+      description: '',
+      partnerName: 'Tiptop Graphics',
+    },
+    {
+      name: 'Winter Village with Aurora 3D Shadow Box - Northern Lights 3D Light Box',
+      imageUrl: crafterItem1.src,
+      price: 5,
+      description: '',
+      partnerName: 'Tiptop Graphics',
+    },
+    {
+      name: 'Girl and Fox by The Forest 3D Shadow Box - Winter SVG Paper Cut',
+      imageUrl: crafterItem1.src,
+      price: 5,
+      description: '',
+      partnerName: 'Tiptop Graphics',
+    },
+    {
+      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
+      imageUrl: crafterItem1.src,
+      price: 5,
+      description: '',
+      partnerName: 'Tiptop Graphics',
+    },
+    {
+      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
+      imageUrl: crafterItem1.src,
+      price: 5,
+      description: '',
+      partnerName: 'Tiptop Graphics',
+    },
+    {
+      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
+      imageUrl: crafterItem1.src,
+      price: 5,
+      description: '',
+      partnerName: 'Tiptop Graphics',
+    },
+    {
+      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
+      imageUrl: crafterItem1.src,
+      price: 5,
+      description: '',
+      partnerName: 'Tiptop Graphics',
+    },
+  ];
+
   return (
     <main>
       <SectionContainer
@@ -249,7 +308,7 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <div className='flex w-4/12 flex-col gap-4'>
+            <div className='flex w-4/12 flex-col gap-8'>
               <div className='group relative h-1/2 overflow-hidden rounded-2xl bg-[#61A9FA] transition-all duration-300 hover:bg-[#4065D1]'>
                 <div className='absolute flex h-full w-full'>
                   <div className='z-10 h-full w-1/3 translate-y-full rounded-2xl bg-[#2A3B80] transition-transform duration-300 ease-in-out group-hover:translate-y-0 group-hover:transform'></div>
@@ -500,7 +559,7 @@ export default function HomePage() {
             </div> */}
           </div>
           <div className='h-[400px]'>
-            <ProductSlider items={crafterSlider} />
+            <ProductSlider items={exclusivePartnerSlider} />
           </div>
         </div>
       </SectionContainer>
