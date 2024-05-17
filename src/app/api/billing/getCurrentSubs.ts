@@ -3,7 +3,9 @@ import { NextResponse } from 'next/server';
 
 export async function getCurrentSubs() {
   try {
-    const resp = await axios.get(`http://localhost:3002/current-sub`);
+    const resp = await axios.get(
+      `https://drizy-api.quadrakaryasantosa.com/billing/current-sub`
+    );
     return resp.data;
   } catch (error) {
     NextResponse.error();

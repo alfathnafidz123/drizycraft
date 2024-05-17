@@ -10,12 +10,16 @@ interface ItemPaymentI {
 
 export async function itemPayment(data: ItemPaymentI) {
   try {
-    const resp = await axios.post(`http://localhost:3002/item-payment`, data, {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${data.token ?? ''}`,
-      },
-    });
+    const resp = await axios.post(
+      `https://drizy-api.quadrakaryasantosa.com/billing/item-payment`,
+      data,
+      {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${data.token ?? ''}`,
+        },
+      }
+    );
     return resp.data;
   } catch (error: any) {
     if (error.code === 'ERR_BAD_REQUEST') {

@@ -10,7 +10,7 @@ interface SubscribeI {
 export async function subscriptionPayment(data: SubscribeI) {
   try {
     const resp = await axios.post(
-      `http://localhost:3002/subscription-payment`,
+      `https://drizy-api.quadrakaryasantosa.com/billing/subscription-payment`,
       data,
       {
         headers: {

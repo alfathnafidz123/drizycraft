@@ -11,7 +11,7 @@ interface ConfirmBuyI {
 export async function confirmBuyItem(data: ConfirmBuyI) {
   try {
     const resp = await axios.post(
-      `http://localhost:3002/confirm-item-payment`,
+      `https://drizy-api.quadrakaryasantosa.com/billing/confirm-item-payment`,
       data,
       {
         headers: {

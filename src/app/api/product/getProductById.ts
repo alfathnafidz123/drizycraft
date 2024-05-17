@@ -7,7 +7,7 @@ interface GetProductPayload {
 export async function getProductById(data: GetProductPayload) {
   try {
     const resp = await axios.get(
-      `http://localhost:3003/product/by-id/${data.title}`
+      `https://drizy-api.quadrakaryasantosa.com/crafter/product/by-id/${data.title}`
     );
     return resp.data;
   } catch (error) {

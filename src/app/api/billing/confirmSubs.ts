@@ -9,7 +9,7 @@ interface ConfirmSubsI {
 export async function confirmSubs(data: ConfirmSubsI) {
   try {
     const resp = await axios.post(
-      `http://localhost:3002/confirm-subs-payment`,
+      `https://drizy-api.quadrakaryasantosa.com/billing/confirm-subs-payment`,
       data,
       {
         headers: {
