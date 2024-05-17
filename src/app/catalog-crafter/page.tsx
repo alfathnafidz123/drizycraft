@@ -303,6 +303,7 @@ export default function CatalogCrafter() {
         <div className='ml-[7%] flex flex-wrap'>
           {productData.map((product, index) => (
             <ProductCard
+              id={product.id as string}
               key={index}
               name={product.name}
               image={product.imageUrl?.[0] || crafterItem1.src}

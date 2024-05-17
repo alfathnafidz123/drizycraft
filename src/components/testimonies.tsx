@@ -43,8 +43,8 @@ const Testimonies = () => {
         <div className='font-katide-bold flex justify-center text-[24px] leading-6 text-indigo-950'>
           Let’s Crafting!
         </div>
-        <div className='flex gap-5 max-md:flex-col max-md:gap-0'>
-          <div className='flex w-4/12 flex-col pt-14'>
+        <div className='flex flex-col-reverse gap-5 max-md:gap-0 lg:flex-row'>
+          <div className='flex w-full flex-col pt-14 lg:w-4/12'>
             <Slider {...settings}>
               <div className='slide pb-4 pr-4'>
                 <div className='!important flex h-[430px] w-[375px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg'>
@@ -189,22 +189,24 @@ const Testimonies = () => {
                   </div>
                 </div>
               </div>
-              <div className='ml-24 mt-20 self-start font-bold leading-[200%] text-indigo-950 max-md:ml-2.5 max-md:mt-10'>
-                <span className='text-blue-600'>OPTIMIZED SVG</span> for All
-                Machines
-              </div>
-              <div className='mt-1.5 flex items-start justify-between gap-5 leading-5 text-black max-md:max-w-full max-md:flex-wrap'>
+              <div className='mt-16 flex justify-between gap-5 max-md:mt-10 max-md:max-w-full max-md:flex-wrap'>
                 <img
                   loading='lazy'
                   src={optimizedSVG.src}
-                  className='-ml-0.5 aspect-square w-[242px]'
+                  className='my-auto aspect-square w-20'
                 />
-                <div className='-ml-0.5 mt-4 flex-auto max-md:max-w-full'>
-                  Do you own a Cricut, Silhouette Cameo, Siser Juliet, StarCraft
-                  SOLO, Brother ScanNCut, Glowforge, or any other cutting
-                  machine? Rest assured, our SVG files can be easily used on any
-                  cutting machine, allowing you to enjoy a precise and
-                  effortless crafting.
+                <div className='flex flex-1 flex-col max-md:max-w-full'>
+                  <div className='font-bold leading-[200%] text-indigo-950 max-md:max-w-full'>
+                    <span className='text-blue-600'>OPTIMIZED SVG</span> for All
+                    Machines
+                  </div>
+                  <div className='mt-5 leading-5 text-black max-md:max-w-full'>
+                    Do you own a Cricut, Silhouette Cameo, Siser Juliet,
+                    StarCraft SOLO, Brother ScanNCut, Glowforge, or any other
+                    cutting machine? Rest assured, our SVG files can be easily
+                    used on any cutting machine, allowing you to enjoy a precise
+                    and effortless crafting.
+                  </div>
                 </div>
               </div>
             </div>
@@ -214,17 +216,25 @@ const Testimonies = () => {
       <div className='mt-28 whitespace-nowrap text-2xl font-bold leading-7 text-indigo-950 max-md:mt-10'>
         Have Collaborated with :
       </div>
-      <div className='mt-10 flex justify-between gap-5 py-1.5'>
-        <img loading='lazy' src={elegco.src} className='' />
-        <img loading='lazy' src={wordBank.src} className='' />
-        <img loading='lazy' src={samsung.src} className='' />
-        <img loading='lazy' src={designBundles.src} className='' />
-        <img loading='lazy' src={canva.src} className='' />
-        <img loading='lazy' src={creativeFabrica.src} className='' />
-        <img loading='lazy' src={freepik.src} className='' />
-        <img loading='lazy' src={goDaddy.src} className='' />
-        <img loading='lazy' src={AO.src} className='' />
-        <img loading='lazy' src={jiffy.src} className='' />
+      <div className='mt-10 flex flex-wrap justify-center gap-4 py-1.5 md:gap-5 lg:flex-nowrap lg:justify-between'>
+        <img loading='lazy' src={elegco.src} className='w-1/3 md:w-auto' />
+        <img loading='lazy' src={wordBank.src} className='w-1/3 md:w-auto' />
+        <img loading='lazy' src={samsung.src} className='w-1/3 md:w-auto' />
+        <img
+          loading='lazy'
+          src={designBundles.src}
+          className='w-1/3 md:w-auto'
+        />
+        <img loading='lazy' src={canva.src} className='w-1/3 md:w-auto' />
+        <img
+          loading='lazy'
+          src={creativeFabrica.src}
+          className='w-1/3 md:w-auto'
+        />
+        <img loading='lazy' src={freepik.src} className='w-1/3 md:w-auto' />
+        <img loading='lazy' src={goDaddy.src} className='w-1/3 md:w-auto' />
+        <img loading='lazy' src={AO.src} className='w-1/3 md:w-auto' />
+        <img loading='lazy' src={jiffy.src} className='w-1/3 md:w-auto' />
       </div>
     </SectionContainer>
   );

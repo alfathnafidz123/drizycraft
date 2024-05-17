@@ -20,12 +20,14 @@ const SectionContainer: React.FC<SectionContainerProps> = ({
     >
       {fullwidth ? (
         <div
-          className={`relative mx-auto min-h-[592px] w-[1164px] overflow-visible ${className}`}
+          className={`mx-auto min-h-[592px] w-[1164px] overflow-visible ${className}`}
         >
-          <div className='absolute inset-0 w-screen'>{children}</div>
+          <div className='w-screen px-8 lg:px-0'>{children}</div>
         </div>
       ) : (
-        <div className={`mx-auto w-[1164px] overflow-visible ${className}`}>
+        <div
+          className={`mx-auto w-screen overflow-visible lg:w-[1164px] ${className}`}
+        >
           {children}
         </div>
       )}

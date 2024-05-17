@@ -14,6 +14,8 @@ import { useAppSelector } from '@/lib/store';
 import AffiliateBanner from '@/components/AffiliateBanner';
 import ProductCard from '@/components/ProductCard';
 
+import { itemPayment } from '@/app/api/billing/itemPayment';
+import { getAllProduct } from '@/app/api/product/getProduct';
 import { getProductById } from '@/app/api/product/getProductById';
 import { productI } from '@/interfaces/product.interface';
 
@@ -29,13 +31,17 @@ const productInitialState: productI = {
   purchasedCount: 0,
   createdAt: 'string',
   updatedAt: 'string',
-  price: 1,
+  price: [1, 2, 3],
 };
 
 export default function Register() {
   const { token } = useAppSelector((state) => state.user);
   const params = useParams();
+  const [type, setType] = useState(0);
   const [productData, setProductData] = useState<productI>(productInitialState);
+  const [productSliderData, setSliderProductData] = useState<productI[]>([
+    productInitialState,
+  ]);
   const [selectedImage, setSelectedImage] = useState<number>(0);
   const crafterSlider = [
     { name: 'crafterItem1', image: crafterItem1.src, price: 5 },
@@ -58,15 +64,40 @@ export default function Register() {
 
   const getProduct = async () => {
     try {
-      const response = await getProductById({ id: params.id as string });
+      const response = await getProductById({ title: params.id as string });
       setProductData(response.data);
     } catch (error) {
       toast('Error when trying to get all products');
     }
   };
 
+  const getProductSlider = async () => {
+    try {
+      const response = await getAllProduct({ page: 1, limit: 4 });
+      setSliderProductData(response.data);
+    } catch (error) {
+      // toast('Error when trying to get all products');
+    }
+  };
+
+  const handleBuy = async () => {
+    try {
+      const data = await itemPayment({
+        productId: params.id as string,
+        licenseType: `${type}`,
+        token: token,
+      });
+      window.location.replace(data.data);
+    } catch (error: any) {
+      toast(
+        'Create Checkout Page failed, please reach out to the administrator'
+      );
+    }
+  };
+
   useEffect(() => {
     getProduct();
+    getProductSlider();
   }, []);
 
   return (
@@ -101,7 +132,7 @@ export default function Register() {
                   src={productData?.imageUrl[selectedImage]}
                   alt='Product'
                   width={724}
-                  height={483}
+                  height={300}
                   className='rounded-xl'
                 />
               )}
@@ -129,25 +160,57 @@ export default function Register() {
               {productData.name}
             </p>
             <p className='font-katide-bold text-[40px] text-[#1A214C]'>
-              ${productData.price}
+              ${productData?.price[type] ?? '1'}
             </p>
             <div className='flex w-5/6 flex-col gap-4'>
               <p className='text-lg font-semibold text-[#1A214C]'>
                 License Option
               </p>
               <div className='flex justify-between gap-2'>
-                <button className='font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#4065D1] px-4 py-1 text-[14px] text-[#e4f6fb]'>
+                <button
+                  onClick={() => {
+                    setType(0);
+                  }}
+                  className={
+                    type === 0
+                      ? 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#4065D1] px-4 py-1 text-[14px] text-[#e4f6fb]'
+                      : 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1]'
+                  }
+                >
                   Personal
                 </button>
-                <button className='font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1]'>
+                <button
+                  onClick={() => {
+                    setType(1);
+                  }}
+                  className={
+                    type === 1
+                      ? 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#4065D1] px-4 py-1 text-[14px] text-[#e4f6fb]'
+                      : 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1]'
+                  }
+                >
                   Commercial
                 </button>
-                <button className='font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1]'>
+                <button
+                  onClick={() => {
+                    setType(2);
+                  }}
+                  className={
+                    type === 2
+                      ? 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#4065D1] px-4 py-1 text-[14px] text-[#e4f6fb]'
+                      : 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1]'
+                  }
+                >
                   Business
                 </button>
               </div>
-              <button className='w-[342px] rounded-full bg-[#1A214C] px-10 py-2 font-semibold text-[#e4f6fb]'>
-                Add to cart
+              <button
+                onClick={() => {
+                  handleBuy();
+                }}
+                className='w-[342px] rounded-full bg-[#1A214C] px-10 py-2 font-semibold text-[#e4f6fb]'
+              >
+                Buy Now
               </button>
               <div className='border-[#1A214C]/15 my-4 w-full border-t-2' />
               <p className='text-lg font-semibold text-[#1A214C]'>
@@ -393,12 +456,13 @@ export default function Register() {
           Product Recommendation
         </p>
         <div className='flex w-full justify-between gap-4'>
-          {crafterSlider.map((item, index) => (
+          {productSliderData.map((item, index) => (
             <ProductCard
+              id={item.id as string}
               key={index}
               name={item.name}
-              image={item.image}
-              price={item.price}
+              image={item.imageUrl?.[0] as string}
+              price={item?.price[0] as number[]}
               isSlider={false}
             />
           ))}

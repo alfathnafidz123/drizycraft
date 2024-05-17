@@ -2,14 +2,13 @@ import axios from 'axios';
 import { NextResponse } from 'next/server';
 
 interface GetProductPayload {
-  id: string;
+  title: string;
 }
 export async function getProductById(data: GetProductPayload) {
   try {
     const resp = await axios.get(
-      `https://drizy-api.quadrakaryasantosa.com/crafter/product/product/by-id?productId=${data.id}`
+      `https://drizy-api.quadrakaryasantosa.com/crafter/product/by-id/${data.title}`
     );
-    console.log(resp);
     return resp.data;
   } catch (error) {
     NextResponse.error();
