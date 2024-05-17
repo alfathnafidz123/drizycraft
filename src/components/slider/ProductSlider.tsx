@@ -31,6 +31,32 @@ const ProductSlider: React.FC<SwipeToSlideProps> = ({ items }) => {
     nextArrow: <></>,
     prevArrow: <></>,
     variableWidth: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
   return (
     <div className='slider-container'>
@@ -39,9 +65,10 @@ const ProductSlider: React.FC<SwipeToSlideProps> = ({ items }) => {
           return (
             <div key={index} className='pb-8'>
               <ProductCard
+                id={item.id as string}
                 name={item.name}
                 image={item?.image || (item?.imageUrl as unknown as string)}
-                price={item?.price as number}
+                price={item?.price as number[]}
                 // isSale={item?.isSales}
                 isSale={false}
                 partnerName={item?.partnerName}
@@ -50,7 +77,7 @@ const ProductSlider: React.FC<SwipeToSlideProps> = ({ items }) => {
             </div>
           );
         })}
-        <div>
+        <div className='!hidden lg:flex'>
           <div className='flex h-[335px] items-center'>
             <button
               onClick={() => {

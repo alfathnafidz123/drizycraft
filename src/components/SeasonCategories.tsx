@@ -7,8 +7,8 @@ interface SeasonCategoriesProps {
 }
 const SeasonCategories: React.FC<SeasonCategoriesProps> = ({ name, image }) => {
   return (
-    <div className='group'>
-      <div className='mx-2.5 flex h-[150px] w-[150px] items-center justify-center '>
+    <div className='group mb-4'>
+      <div className='mx-2.5 flex h-[116px] w-[116px] items-center justify-center lg:h-[150px] lg:w-[150px] '>
         <img
           loading='lazy'
           src={image.src}

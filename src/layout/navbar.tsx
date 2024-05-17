@@ -351,7 +351,12 @@ const Navbar: React.FC = () => {
                 >
                   Project
                 </button>
-                <button className='font-katide-semibold flex h-[40px] w-[178px] items-center gap-2 rounded-full bg-[#EE4C73] px-8 py-4 text-[14px] text-white hover:bg-[#CE4768]'>
+                <button
+                  onClick={() => {
+                    router.push('/membership');
+                  }}
+                  className='font-katide-semibold flex h-[40px] w-[178px] items-center gap-2 rounded-full bg-[#EE4C73] px-8 py-4 text-[14px] text-white hover:bg-[#CE4768]'
+                >
                   <img src={newMember.src} alt='Membership' />
                   <p className='mt-0.5'>Membership</p>
                 </button>

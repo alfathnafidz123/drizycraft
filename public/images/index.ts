@@ -8,9 +8,11 @@ import articlePage from './articlePage.svg';
 import AssetSubscribe from './AssetSubscribe.svg';
 import avatarExample from './avatar-example.png';
 import bannerArticle from './bannerArticle.svg';
+import bestValue from './best_val.png';
 import blogArticle1 from './blogArticle1.svg';
 import blogStories1 from './blogStories1.svg';
 import cancel from './cancel.svg';
+import membership4 from './cancelanytime.svg';
 import canva from './canva.svg';
 import cart from './cart.svg';
 import cartProduct from './cartProduct.png';
@@ -26,12 +28,15 @@ import categories8 from './categories-8.png';
 import categories9 from './categories-9.png';
 import categories10 from './categories-10.png';
 import check from './check.svg';
+import checkblue from './checkblue.svg';
 import coffeeFloating from './coffeeFloating.png';
 import ContactUs from './contact-us.svg';
+import cov from './cov-product.png.png';
 import crafter1 from './crafter.svg';
 import crafterProduct from './crafters-product.svg';
 import crafterItem1 from './crafters1.svg';
 import creativeFabrica from './creativeFabrica.svg';
+import cross from './crossgray.svg';
 import defaultAvatar from './default-avatar.png';
 import designBundles from './designBundles.svg';
 import download from './download.png';
@@ -61,6 +66,9 @@ import license1 from './license1.svg';
 import license2 from './license2.svg';
 import loginImage from './login-image.png';
 import newMember from './newMember.svg';
+import membership2 from './nocommitment.svg';
+import membership1 from './nocondition.svg';
+import membership3 from './nohiddenfees.svg';
 import optimizedSVG from './optimizedSVG.svg';
 import orders from './orders.png';
 import paymentMethod from './paymentMethod.png';
@@ -84,8 +92,11 @@ import searchBlue from './search-blue.png';
 import seasonCategory from './season-category.png';
 import starBadge from './star-badge.png';
 import subscription from './subscription.png';
+import success from './success.svg';
 import testimony from './testimony.png';
+import arrowRight from './vector.svg';
 import vectorDesign from './vector-design.png';
+import vip from './VIP+.png.png';
 import waCrafter from './waCrafter.svg';
 import wordBank from './wordBank.svg';
 
@@ -96,10 +107,12 @@ export {
   address,
   affiliatebanner,
   AO,
+  arrowRight,
   articlePage,
   AssetSubscribe,
   avatarExample,
   bannerArticle,
+  bestValue,
   blogArticle1,
   blogStories1,
   cancel,
@@ -118,13 +131,16 @@ export {
   categories9,
   categories10,
   check,
+  checkblue,
   coffeeFloating,
   coffeeHolder,
   ContactUs,
+  cov,
   crafter1,
   crafterItem1,
   crafterProduct,
   creativeFabrica,
+  cross,
   defaultAvatar,
   designBundles,
   download,
@@ -152,6 +168,10 @@ export {
   license2,
   loginImage,
   logodrizy,
+  membership1,
+  membership2,
+  membership3,
+  membership4,
   newMember,
   optimizedSVG,
   orders,
@@ -176,8 +196,10 @@ export {
   seasonCategory,
   starBadge,
   subscription,
+  success,
   testimony,
   vectorDesign,
+  vip,
   waCrafter,
   wordBank,
 };

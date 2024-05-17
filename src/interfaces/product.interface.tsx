@@ -11,7 +11,7 @@ export interface productI {
   purchasedCount?: number;
   createdAt?: string;
   updatedAt?: string | null;
-  price?: number;
+  price?: number[];
 }
 
 export interface CategoryI {

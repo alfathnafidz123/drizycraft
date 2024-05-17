@@ -5,16 +5,18 @@ import { useRouter } from 'next/navigation';
 import { cartProduct, hoverPinterest, hoverWA } from '~/images';
 
 interface ProductCardProps {
+  id: string;
   image: string;
   name: string;
   partnerName?: string;
-  price: number;
+  price: number[];
   discountPrice?: number;
   isSale?: boolean;
   isSlider?: boolean;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
+  id,
   name,
   image,
   partnerName,
@@ -58,12 +60,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <div className='flex w-full justify-between gap-2'>
             <button
               onClick={() => {
-                router.push('/product');
+                router.push(`/product/${id}`);
               }}
               className='pointer z-[3] flex h-[37px] flex-grow flex-nowrap items-center justify-center gap-[8px] rounded-[8px] bg-[#2a3b80] pb-[12px] pl-[24px] pr-[24px] pt-[12px] group-hover:bg-[#4065D1]'
             >
               <span className='font-katide-bold z-[5] text-[20px] leading-[16px] text-[#fff] group-hover:scale-0'>
-                $1
+                ${price[0]}
               </span>
               <span className='font-katide-bold absolute hidden items-center justify-center rounded-[8px] bg-[#4065D1] text-[16px] leading-[16px] group-hover:flex'>
                 <span className='text-[#fff]'>BUY NOW</span>
