@@ -315,7 +315,12 @@ const Navbar: React.FC = () => {
                 <button className='flex h-[40px] w-[116px] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] px-4 py-3 hover:bg-[#CCE7EF]'>
                   Free SVGs
                 </button>
-                <button className='flex h-[40px] items-center gap-2 rounded-full bg-[#e4f6fb] px-6 py-3 hover:bg-[#CCE7EF]'>
+                <button
+                  onClick={() => {
+                    router.push('/blog');
+                  }}
+                  className='flex h-[40px] items-center gap-2 rounded-full bg-[#e4f6fb] px-6 py-3 hover:bg-[#CCE7EF]'
+                >
                   Blog
                 </button>
               </div>

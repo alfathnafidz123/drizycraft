@@ -1,18 +1,50 @@
 'use client';
+import { AxiosError } from 'axios';
+import { Loader2Icon } from 'lucide-react';
 import localFont from 'next/font/local';
+import { useCallback, useEffect, useState } from 'react';
 import { FaAngleRight } from 'react-icons/fa6';
 import Slider, { CustomArrowProps } from 'react-slick';
+import { toast } from 'react-toastify';
 
 import AffiliateBanner from '@/components/AffiliateBanner';
 import BlogArticle from '@/components/BlogArticle';
 
+import { allArticle } from '@/app/api/article/allArticle';
+import {
+  ArticleI,
+  Meta,
+  PagingArticleI,
+  ResArticlesI,
+} from '@/interfaces/article.interfaces';
+
 import { blogStories1 } from '~/images';
 const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
 
-// import localFont from 'next/font/local';
-// const myFont = localFont({ src: '../../public/fonts/Hastle.woff2' });
-
 export default function Blog() {
+  const [params, setParams] = useState<PagingArticleI>({ page: 1, limit: 0 });
+  const [articles, setArticles] = useState<ArticleI[]>([]);
+  const [meta, setMeta] = useState<Meta>();
+  const [loading, setLoading] = useState(false);
+
+  const getAllArticle = useCallback(async () => {
+    try {
+      setLoading(true);
+      const res: ResArticlesI = await allArticle(params);
+      setArticles((prev) => [...prev, ...res.data]);
+      setMeta(res.meta);
+    } catch (error) {
+      const err = error as AxiosError;
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [params]);
+
+  useEffect(() => {
+    getAllArticle();
+  }, [getAllArticle]);
+
   const CustomPrevArrow: React.FC<CustomArrowProps> = ({ onClick }) => (
     <div
       className='slick-arrow slick-prev'
@@ -203,23 +235,25 @@ export default function Blog() {
           Latest article for you
         </p>
 
-        <div className='flex flex-wrap'>
-          <BlogArticle />
-          <BlogArticle />
-          <BlogArticle />
-          <BlogArticle />
-          <BlogArticle />
-          <BlogArticle />
-          <BlogArticle />
-          <BlogArticle />
-          <BlogArticle />
+        <div className='mx-auto grid w-[1168px] grid-cols-3 gap-8'>
+          {articles.map((item) => (
+            <BlogArticle data={item} key={item.id} />
+          ))}
+          {loading && <Loader2Icon />}
         </div>
 
-        <div className='mt-[100px] flex justify-center'>
-          <div className='font-katide-bold h-[32px] w-[138px] cursor-pointer rounded-[49px] bg-[#2A3B80] pt-1 text-center text-[12px] text-white'>
-            Loading more...
+        {meta?.total !== articles.length && (
+          <div className='mt-[100px] flex justify-center'>
+            <button
+              onClick={() => {
+                setParams((prev) => ({ ...prev, page: prev.page + 1 }));
+              }}
+              className='font-katide-bold h-[32px] w-[138px] cursor-pointer rounded-[49px] bg-[#2A3B80] pt-1 text-center text-[12px] text-white'
+            >
+              Loading more...
+            </button>
           </div>
-        </div>
+        )}
       </section>
 
       <AffiliateBanner />
