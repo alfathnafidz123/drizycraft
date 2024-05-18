@@ -1,27 +1,52 @@
-import { blogArticle1, avatarExample } from "~/images";
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
-const BlogArticle = () => {
+import { ArticleI } from '@/interfaces/article.interfaces';
+
+import { avatarExample, bannerArticle } from '~/images';
+
+const BlogArticle = ({ data }: { data: ArticleI }) => {
+  const router = useRouter();
+  const handleToArticle = () => {
+    router.push(`/article/${data.meta[0].title}`);
+  };
   return (
-    <div className=' h-[384px] w-[390px] rounded-[12px] p-[16px] transition-all duration-300 ease-in-out hover:bg-[#EBECF5] hover:shadow-lg'>
-    <img
-      src={blogArticle1.src}
-      className='rounded-[12px] shadow-lg hover:shadow-transparent'
-      alt='Article'
-    />
-    <p className='font-katide-bold pt-[33px] text-[24px] text-[#1A214C]'>
-      Cool Travel Destination 3D Shadow Box Designs
-    </p>
-    <div className='flex pt-[36px]'>
-      <img
-        src={avatarExample.src}
-        className='aspect-square h-[32px]'
-        alt='Avatar'
-      />
-      <p className='flex items-center pl-[11px] text-[14px] text-[#777777]'>
-        Putri Hendradi
-      </p>
+    <div className='flex flex-col rounded-xl transition-all duration-300 ease-in-out hover:bg-[#EBECF5] hover:shadow-lg'>
+      <div
+        className='box-border max-h-[205px] w-full cursor-pointer overflow-hidden shadow-lg hover:shadow-transparent'
+        onClick={handleToArticle}
+      >
+        <Image
+          src={data.banner ?? bannerArticle.src}
+          width={0}
+          height={0}
+          sizes='100vw'
+          className='h-auto w-full rounded-[12px]'
+          alt={data.title}
+          layout='responsive'
+        />
+      </div>
+      <div className='mt-8 flex h-28 flex-col justify-between px-0.5'>
+        <h1
+          className='font-katide-bold line-clamp-3 flex-grow cursor-pointer text-2xl text-[#1A214C]'
+          onClick={handleToArticle}
+        >
+          {data.title}
+        </h1>
+        <div className='flex items-center'>
+          <Image
+            width={32}
+            height={32}
+            src={data.author?.avatar ?? avatarExample.src}
+            className='aspect-square h-8 w-8 rounded-full object-cover'
+            alt='Avatar'
+          />
+          <p className='ml-2 flex items-center text-[14px] text-[#777777]'>
+            {data.author?.name ?? 'Drizy Admin'}
+          </p>
+        </div>
+      </div>
     </div>
-  </div>
   );
 };
 

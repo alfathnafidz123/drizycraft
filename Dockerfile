@@ -1,7 +1,7 @@
 # How to build & deploy
 # run script `npm run build`
-# run script `docker build --platform linux/amd64 -t dionisius77/drizy-client:v0.3 .`
-# run script `docker push dionisius77/drizy-client:v0.3`
+# run script `docker build --platform linux/amd64 -t registry.quadrakaryasantosa.com/drizy-client:v0.3 .`
+# run script `docker push registry.quadrakaryasantosa.com/drizy-client:v0.3`
 FROM node:18-alpine
 LABEL author="asb"
 

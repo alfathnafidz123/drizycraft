@@ -1,5 +1,5 @@
+import withTypograph from '@tailwindcss/typography';
 import type { Config } from 'tailwindcss';
-import defaultTheme from 'tailwindcss/defaultTheme';
 
 export default {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
@@ -7,7 +7,7 @@ export default {
     extend: {
       fontFamily: {
         primary: ['Katide Regular'],
-        'montserrat': ['Montserrat', 'sans-serif'],
+        montserrat: ['Montserrat', 'sans-serif'],
         'katide-thin': ['Katide Thin', 'sans-serif'],
         'katide-light': ['Katide Light', 'sans-serif'],
         'katide-regular': ['Katide Regular', 'sans-serif'],
@@ -16,7 +16,7 @@ export default {
         'katide-bold': ['Katide Bold', 'sans-serif'],
         'katide-extrabold': ['Katide ExtraBold', 'sans-serif'],
         'katide-heavy': ['Katide Heavy', 'sans-serif'],
-        'hastle': ['Hastle', 'sans-serif'],
+        hastle: ['Hastle', 'sans-serif'],
       },
       colors: {
         primary: {
@@ -34,7 +34,7 @@ export default {
           950: 'rgb(var(--tw-color-primary-950) / <alpha-value>)',
         },
         dark: '#222222',
-        seasons:'#E1E3F4',
+        seasons: '#E1E3F4',
       },
       keyframes: {
         flicker: {
@@ -63,5 +63,10 @@ export default {
       },
     },
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [
+    require('@tailwindcss/forms'),
+    withTypograph({
+      className: 'without-tailwind',
+    }),
+  ],
 } satisfies Config;

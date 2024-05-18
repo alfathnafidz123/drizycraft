@@ -10,7 +10,6 @@ const nextConfig = {
   // Uncoment to add domain whitelist
   images: {
     domains: [
-      'http://localhost:3000',
       's3-alpha-sig.figma.com',
       'i0.wp.com',
       'images.unsplash.com',
