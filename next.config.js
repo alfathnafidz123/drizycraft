@@ -14,6 +14,7 @@ const nextConfig = {
       's3-alpha-sig.figma.com',
       'i0.wp.com',
       'images.unsplash.com',
+      'drizy-media.quadrakaryasantosa.com',
     ],
   },
 };

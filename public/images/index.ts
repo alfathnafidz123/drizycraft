@@ -15,6 +15,7 @@ import cancel from './cancel.svg';
 import membership4 from './cancelanytime.svg';
 import canva from './canva.svg';
 import cart from './cart.svg';
+import cartIllustration from './cartIllustration.png';
 import cartProduct from './cartProduct.png';
 import catalogcrafter from './catalogcrafter.svg';
 import categories1 from './categories-1.png';
@@ -118,6 +119,7 @@ export {
   cancel,
   canva,
   cart,
+  cartIllustration,
   cartProduct,
   catalogcrafter,
   categories1,
