@@ -160,7 +160,7 @@ export default function Register() {
               {productData.name}
             </p>
             <p className='font-katide-bold text-[40px] text-[#1A214C]'>
-              ${productData?.price[type] ?? '1'}
+              ${productData?.price?.[type] ?? '1'}
             </p>
             <div className='flex w-5/6 flex-col gap-4'>
               <p className='text-lg font-semibold text-[#1A214C]'>
@@ -462,7 +462,7 @@ export default function Register() {
               key={index}
               name={item.name}
               image={item.imageUrl?.[0] as string}
-              price={item?.price[0] as number[]}
+              price={item?.price as number[]}
               isSlider={false}
             />
           ))}

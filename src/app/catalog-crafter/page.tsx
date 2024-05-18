@@ -307,7 +307,7 @@ export default function CatalogCrafter() {
               key={index}
               name={product.name}
               image={product.imageUrl?.[0] || crafterItem1.src}
-              price={5}
+              price={[5, 3, 2]}
             />
           ))}
         </div>
