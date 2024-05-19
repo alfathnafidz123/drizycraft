@@ -45,6 +45,7 @@ const defaultHomepageData: HomepageDataI = {
   bundleData: [],
   vectorData: [],
   bestSellerData: [],
+  exclusiveData: [],
 };
 
 export default function HomePage() {
@@ -271,7 +272,7 @@ export default function HomePage() {
                 className='absolute h-full w-full bg-cover'
                 alt='Crafter'
               />
-              <div className='bg-opacity-15 hover:bg-opacity-35 group absolute flex h-full w-full flex-col justify-between bg-blue-500/25 p-4 text-left hover:bg-[#2A3B80]/50 '>
+              <div className='group absolute flex h-full w-full flex-col justify-between bg-blue-500/25 bg-opacity-15 p-4 text-left hover:bg-[#2A3B80]/50 hover:bg-opacity-35 '>
                 <p className='font-medium text-white opacity-0 transition-all duration-300 group-hover:opacity-100'>
                   <span className='block font-semibold'>
                     Have you tried Drizy's designs in your projects?
@@ -570,7 +571,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className='h-[850px] lg:h-[400px]'>
-            <ProductSlider items={exclusivePartnerSlider} />
+            <ProductSlider items={homeProduct.exclusiveData} />
           </div>
           <div className='flex justify-center gap-4 lg:hidden'>
             <span>see more</span>

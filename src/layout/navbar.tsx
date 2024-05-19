@@ -335,8 +335,14 @@ const Navbar: React.FC = () => {
                 >
                   {isLogin ? 'PROFILE' : 'LOGIN'}
                 </button>
-                <button className='rounded-full bg-[#e4f6fb] px-2 py-2 text-[#008ECC] hover:bg-[#C0E9F4]'>
+                <button
+                  onClick={() => router.push('/cart')}
+                  className='relative rounded-full bg-[#e4f6fb] px-2 py-2 text-[#008ECC] hover:bg-[#C0E9F4]'
+                >
                   <img src={cart.src} alt='cart' />
+                  <div className='absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#008ECC] pt-0.5 text-[10px] text-[#e4f6fb]'>
+                    2
+                  </div>
                 </button>
                 <button className='font-katide-semibold flex h-[39px] items-center gap-4 rounded-full border border-solid border-gray-300 px-1 py-1 text-[10px] text-gray-300 hover:bg-[#E4F6FB]'>
                   <img src={drizzyCoin.src} alt='cart' />

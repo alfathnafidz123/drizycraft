@@ -64,16 +64,7 @@ const ProductSlider: React.FC<SwipeToSlideProps> = ({ items }) => {
         {items.map((item, index) => {
           return (
             <div key={index} className='pb-8'>
-              <ProductCard
-                id={item.id as string}
-                name={item.name}
-                image={item?.image || (item?.imageUrl as unknown as string)}
-                price={item?.price as number[]}
-                // isSale={item?.isSales}
-                isSale={false}
-                partnerName={item?.partnerName}
-                // discountPrice={item?.discountPrice}
-              />
+              <ProductCard data={item} />
             </div>
           );
         })}

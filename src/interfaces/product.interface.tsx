@@ -1,17 +1,40 @@
+import { AuthorI } from '@/interfaces/author.interfaces';
 import { UserI } from '@/interfaces/user.interface';
 
 export interface productI {
-  id?: string;
+  id: string;
   name: string;
-  partnerName?: string;
   imageUrl: string[];
-  image?: string;
   description: string;
-  category?: string;
-  purchasedCount?: number;
-  createdAt?: string;
-  updatedAt?: string | null;
-  price?: number[];
+  category: string;
+  categories: string[];
+  subCategories: string[];
+  chilSubCategories: string[];
+  tags: string[];
+  purchasedCount: number;
+  price: number[];
+  coinPrice: number[];
+  enableDiscount: boolean;
+  discount: number[];
+  discountPeriod: string;
+  fileType: string;
+  fileSize: number;
+  createdAt: string;
+  updatedAt?: Date;
+  deletedAt?: Date;
+  authorId: string;
+  meta?: MetaProductI[];
+  author?: AuthorI;
+}
+
+export interface MetaProductI {
+  id: string;
+  title: string;
+  realTitle: string;
+  description: string;
+  image: string;
+  productId: string;
+  product: productI;
 }
 
 export interface CategoryI {
@@ -26,6 +49,7 @@ export interface HomepageDataI {
   bundleData: productI[];
   vectorData: productI[];
   bestSellerData: productI[];
+  exclusiveData: productI[];
 }
 
 export interface CrafterI {
