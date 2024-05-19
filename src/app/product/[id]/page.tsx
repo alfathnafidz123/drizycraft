@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
+import moment from 'moment';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import * as React from 'react';
@@ -17,50 +18,15 @@ import ProductCard from '@/components/ProductCard';
 import { itemPayment } from '@/app/api/billing/itemPayment';
 import { getAllProduct } from '@/app/api/product/getProduct';
 import { getProductById } from '@/app/api/product/getProductById';
-import { productI } from '@/interfaces/product.interface';
-
-import { crafterItem1, project1 } from '~/images';
-
-const productInitialState: productI = {
-  id: 'string',
-  name: 'string',
-  imageUrl: [project1.src],
-  image: 'string',
-  description: 'string',
-  category: 'string',
-  purchasedCount: 0,
-  createdAt: 'string',
-  updatedAt: 'string',
-  price: [1, 2, 3],
-};
+import { MetaProductI, productI } from '@/interfaces/product.interface';
 
 export default function Register() {
   const { token } = useAppSelector((state) => state.user);
   const params = useParams();
   const [type, setType] = useState(0);
-  const [productData, setProductData] = useState<productI>(productInitialState);
-  const [productSliderData, setSliderProductData] = useState<productI[]>([
-    productInitialState,
-  ]);
+  const [productData, setProductData] = useState<MetaProductI>();
+  const [productSliderData, setSliderProductData] = useState<productI[]>([]);
   const [selectedImage, setSelectedImage] = useState<number>(0);
-  const crafterSlider = [
-    { name: 'crafterItem1', image: crafterItem1.src, price: 5 },
-    {
-      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
-      image: crafterItem1.src,
-      price: 5,
-    },
-    {
-      name: 'A5 Cricut Christmas Card with Adorable Stocking - Warm Winter Wishes',
-      image: crafterItem1.src,
-      price: 5,
-    },
-    {
-      name: 'Winter Village with Aurora 3D Shadow Box - Northern Lights 3D Light Box',
-      image: crafterItem1.src,
-      price: 5,
-    },
-  ];
 
   const getProduct = async () => {
     try {
@@ -100,18 +66,18 @@ export default function Register() {
     getProductSlider();
   }, []);
 
-  return (
+  return productData ? (
     <main>
       <section className='flex flex-col gap-12 px-24 py-16'>
         <p className='text-[#B8B8B8]'>
           Drizy Studio » Crafters » Craft Design SVGs » Paper Cut Templates »{' '}
-          {productData.name}
+          {productData.product.name}
         </p>
         <div className='flex gap-8'>
           <div className='flex flex-col gap-4'>
             <div className='flex gap-8'>
               <div className='flex flex-col gap-4'>
-                {productData?.imageUrl?.map((url, index) => (
+                {productData?.product.imageUrl?.map((url, index) => (
                   <Image
                     key={index}
                     src={url}
@@ -129,7 +95,7 @@ export default function Register() {
               </div>
               {productData && (
                 <Image
-                  src={productData?.imageUrl[selectedImage]}
+                  src={productData?.product.imageUrl[selectedImage]}
                   alt='Product'
                   width={724}
                   height={300}
@@ -141,26 +107,40 @@ export default function Register() {
             <div className='mt-8 grid grid-cols-2 grid-rows-2 gap-4 text-[14px]'>
               <div>
                 <p className='font-semibold text-[#1A214C]'>File Type</p>
-                <p className='text-[#1A214C]'>AI | EPS | PNG | JPG | SVG</p>
+                <p className='text-[#1A214C]'>
+                  {productData
+                    ? productData.product.fileType.split(',').join('|')
+                    : '-'}
+                </p>
               </div>
               <div>
                 <p className='font-semibold text-[#1A214C]'>File Size</p>
-                <p className='text-[#1A214C]'>7.5 mb</p>
+                <p className='text-[#1A214C]'>{`${productData?.product.fileSize} mb`}</p>
               </div>
               <div>
-                <p className='font-semibold text-[#1A214C]'>By Drizy Studio</p>
+                <p className='font-semibold text-[#1A214C]'>
+                  {productData.product.author
+                    ? `By ${productData.product.author.name}`
+                    : 'By Drizy Studio'}
+                </p>
               </div>
               <div>
-                <p className='text-[#1A214C]'>January 15, 2024</p>
+                <p className='text-[#1A214C]'>
+                  {productData
+                    ? moment(productData.product.createdAt).format(
+                        'MMMM DD, YYYY'
+                      )
+                    : '-'}
+                </p>
               </div>
             </div>
           </div>
           <div className='flex basis-1/3 flex-col gap-16 pl-6'>
             <p className='text-2xl font-semibold text-[#1A214C]'>
-              {productData.name}
+              {productData.product.name}
             </p>
             <p className='font-katide-bold text-[40px] text-[#1A214C]'>
-              ${productData?.price?.[type] ?? '1'}
+              ${productData?.product.price?.[type] ?? '1'}
             </p>
             <div className='flex w-5/6 flex-col gap-4'>
               <p className='text-lg font-semibold text-[#1A214C]'>
@@ -212,7 +192,7 @@ export default function Register() {
               >
                 Buy Now
               </button>
-              <div className='border-[#1A214C]/15 my-4 w-full border-t-2' />
+              <div className='my-4 w-full border-t-2 border-[#1A214C]/15' />
               <p className='text-lg font-semibold text-[#1A214C]'>
                 License Terms
               </p>
@@ -246,12 +226,14 @@ export default function Register() {
               Product Detail
             </p>
             <p className='text-[16px] font-semibold text-[#707070]'>
-              {productData?.name}
+              {productData?.product.name}
             </p>
             <div className='text-[16px] font-light text-[#707070]'>
               <div
                 style={{ whiteSpace: 'pre-line' }}
-                dangerouslySetInnerHTML={{ __html: productData?.description }}
+                dangerouslySetInnerHTML={{
+                  __html: productData?.product.description,
+                }}
               />
             </div>
           </div>
@@ -309,7 +291,7 @@ export default function Register() {
                 <p className='text-lg font-semibold text-[#AAAAAA]'>0</p>
               </div>
             </div>
-            <div className='border-[#1A214C]/15 my-12 w-full border-t-2' />
+            <div className='my-12 w-full border-t-2 border-[#1A214C]/15' />
             <div className='relative w-full'>
               <div className='h-[300px] overflow-y-scroll'>
                 <div className='mt-2 flex flex-col gap-4'>
@@ -456,15 +438,8 @@ export default function Register() {
           Product Recommendation
         </p>
         <div className='flex w-full justify-between gap-4'>
-          {productSliderData.map((item, index) => (
-            <ProductCard
-              id={item.id as string}
-              key={index}
-              name={item.name}
-              image={item.imageUrl?.[0] as string}
-              price={item?.price as number[]}
-              isSlider={false}
-            />
+          {productSliderData.map((item) => (
+            <ProductCard key={item.id} data={item} isSlider={false} />
           ))}
         </div>
         <p className='w-full text-right text-lg font-semibold text-[#1A214C]'>
@@ -473,5 +448,5 @@ export default function Register() {
       </section>
       <AffiliateBanner />
     </main>
-  );
+  ) : null;
 }
