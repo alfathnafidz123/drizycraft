@@ -1,13 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa6';
 import { MdArrowOutward } from 'react-icons/md';
 import { MdArrowForwardIos } from 'react-icons/md';
 
+import { fetchCart } from '@/lib/slices/cart';
 import { setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
@@ -29,6 +31,7 @@ interface SubMenuState {
 const Navbar: React.FC = () => {
   const dispatch = useAppDispatch();
   const isLogin = useAppSelector((state) => state.user?.token);
+  const cartData = useAppSelector((state) => state.cart.cart);
   const router = useRouter();
   const [showMenu, setShowMenu] = useState<MenuState>({
     crafter: false,
@@ -40,6 +43,29 @@ const Navbar: React.FC = () => {
     seasonal: false,
     craft: false,
   });
+
+  useEffect(() => {
+    if (isLogin) {
+      dispatch(fetchCart(isLogin));
+    }
+  }, [isLogin]);
+
+  // const getCarts = async () => {
+  //   try {
+  //     const res = await axios.get(
+  //       'https://drizy-api.quadrakaryasantosa.com/crafter/cart',
+  //       {
+  //         headers: { Authorization: `bearer ${token}` },
+  //         params: { page: 1, limit: 25 },
+  //       }
+  //     );
+  //     setCartData(res.data);
+  //   } catch (error) {
+  //     const err = error as AxiosError;
+  //     const errorData: any = err.response?.data;
+  //     toast.error((errorData.message as string) ?? 'Cannot get cart');
+  //   }
+  // };
 
   const openModalLogin = () => {
     dispatch(setOpenModal(true));
@@ -337,11 +363,11 @@ const Navbar: React.FC = () => {
                 </button>
                 <button
                   onClick={() => router.push('/cart')}
-                  className='relative rounded-full bg-[#e4f6fb] px-2 py-2 text-[#008ECC] hover:bg-[#C0E9F4]'
+                  className='relative rounded-full bg-[#e4f6fb] px-2 py-2 text-[#008ECC] transition-all hover:bg-[#C0E9F4]'
                 >
                   <img src={cart.src} alt='cart' />
-                  <div className='absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#008ECC] pt-0.5 text-[10px] text-[#e4f6fb]'>
-                    2
+                  <div className='absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#008ECC] pt-0.5 text-[10px] text-[#e4f6fb] transition-all'>
+                    {cartData.length}
                   </div>
                 </button>
                 <button className='font-katide-semibold flex h-[39px] items-center gap-4 rounded-full border border-solid border-gray-300 px-1 py-1 text-[10px] text-gray-300 hover:bg-[#E4F6FB]'>

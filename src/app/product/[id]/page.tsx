@@ -1,12 +1,13 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import axios, { AxiosError } from 'axios';
-import { Copy } from 'lucide-react';
+import { Copy, Loader } from 'lucide-react';
 import moment from 'moment';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
@@ -17,12 +18,12 @@ import { useAppSelector } from '@/lib/store';
 import AffiliateBanner from '@/components/AffiliateBanner';
 import ProductCard from '@/components/ProductCard';
 
-import { itemPayment } from '@/app/api/billing/itemPayment';
-import { getAllProduct } from '@/app/api/product/getProduct';
+import { getAllProduct, SortType } from '@/app/api/product/getProduct';
 import { getProductById } from '@/app/api/product/getProductById';
 import { MetaProductI, productI } from '@/interfaces/product.interface';
 
 export default function Register() {
+  const router = useRouter();
   const { token, dataUser } = useAppSelector((state) => state.user);
   const params = useParams();
   const [type, setType] = useState(0);
@@ -31,6 +32,8 @@ export default function Register() {
   const [selectedImage, setSelectedImage] = useState<number>(0);
   const [shortUrl, setShortUrl] = useState<string>();
   const [loadingAffiliate, setLoadingAffiliate] = useState(false);
+  const searchParams = useSearchParams();
+  const refCode = searchParams.get('ref');
 
   const getProduct = async () => {
     try {
@@ -43,7 +46,11 @@ export default function Register() {
 
   const getProductSlider = async () => {
     try {
-      const response = await getAllProduct({ page: 1, limit: 4 });
+      const response = await getAllProduct({
+        page: 1,
+        limit: 4,
+        sortType: SortType.Latest,
+      });
       setSliderProductData(response.data);
     } catch (error) {
       // toast('Error when trying to get all products');
@@ -52,12 +59,19 @@ export default function Register() {
 
   const handleBuy = async () => {
     try {
-      const data = await itemPayment({
-        productId: params.id as string,
-        licenseType: `${type}`,
-        token: token,
-      });
-      window.location.replace(data.data);
+      const payload: { [key: string]: string | number } = {
+        productId: productData!.productId,
+        licenseType: type,
+      };
+      if (refCode) {
+        payload.refCode = refCode;
+      }
+      await axios.post(
+        `https://drizy-api.quadrakaryasantosa.com/crafter/cart`,
+        payload,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      router.push('/cart');
     } catch (error: any) {
       toast(
         'Create Checkout Page failed, please reach out to the administrator'
@@ -71,7 +85,7 @@ export default function Register() {
       const res = await axios.post(
         `https://s.quadrakaryasantosa.com`,
         {
-          originalUrl: window.location.href,
+          originalUrl: `${window.location.href}?ref=${dataUser?.affiliate.refferalCode}`,
         },
         {
           headers: { Authorization: `bearer ${token}` },
@@ -224,9 +238,9 @@ export default function Register() {
                   onClick={() => {
                     handleGetAffiliateLink();
                   }}
-                  className='w-full rounded-full bg-[#1A214C] px-10 py-2 font-semibold text-[#e4f6fb]'
+                  className='flex w-full items-center justify-center rounded-full border border-[#1A214C] bg-white px-10 py-2 font-semibold text-[#1A214C]'
                 >
-                  Get Affiliate Link
+                  {loadingAffiliate ? <Loader /> : 'Get Affiliate Link'}
                 </button>
               )}
               {shortUrl && (
@@ -473,7 +487,7 @@ export default function Register() {
         <p className='text-2xl font-semibold text-[#1A214C]'>
           Product Recommendation
         </p>
-        <div className='flex w-full justify-between gap-4'>
+        <div className='flex w-full flex-col justify-between gap-4 lg:flex-row'>
           {productSliderData.map((item) => (
             <ProductCard key={item.id} data={item} isSlider={false} />
           ))}

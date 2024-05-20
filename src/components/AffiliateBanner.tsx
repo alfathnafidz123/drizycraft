@@ -1,7 +1,27 @@
+import axios, { AxiosError } from 'axios';
 import localFont from 'next/font/local';
+import { toast } from 'react-toastify';
+
+import { useAppSelector } from '@/lib/store';
 const myFont = localFont({ src: '../../public/fonts/Hastle.woff2' });
 const AffiliateBanner = () => {
-  return (
+  const { token, dataUser } = useAppSelector((state) => state.user);
+  const handleRequestAffiliate = async () => {
+    try {
+      await axios.post(
+        'https://drizy-api.quadrakaryasantosa.com/affiliate/user/request',
+        {},
+        { headers: { Authorization: `bearer ${token}` } }
+      );
+    } catch (error) {
+      const err = error as AxiosError;
+      const errorData: any = err.response?.data;
+      toast.error(
+        (errorData.message as string) ?? 'Cannot generate affiliate link'
+      );
+    }
+  };
+  return dataUser?.affiliate ? null : (
     <div
       className='font-montserrat z-20 flex flex-col justify-center bg-[#3D5DD1] text-center text-white'
       style={{
@@ -21,7 +41,10 @@ const AffiliateBanner = () => {
             Get The Extra Money With Only Few Clicks
             <br /> 30% Commission
           </p>
-          <button className='hover: mt-5 items-center justify-center rounded-[47px] border-[3px] border-indigo-950 bg-[#FFBB3C] px-20 py-4  shadow-md transition-all ease-out hover:bg-[#ECA014]'>
+          <button
+            onClick={handleRequestAffiliate}
+            className='hover: mt-5 items-center justify-center rounded-[47px] border-[3px] border-indigo-950 bg-[#FFBB3C] px-20 py-4  shadow-md transition-all ease-out hover:bg-[#ECA014]'
+          >
             <div className='font-katide-semibold text-center text-black'>
               Become an Affiliator
             </div>

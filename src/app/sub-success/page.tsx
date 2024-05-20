@@ -17,7 +17,6 @@ export default function SubSuccess() {
   const { token } = useAppSelector((state) => state.user);
 
   const handleSubSuccess = async () => {
-    console.log(params);
     try {
       await confirmSubs({
         checkoutId: sessionId as string,

@@ -1,6 +1,13 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
+'use client';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
+
+import { fetchCart } from '@/lib/slices/cart';
+import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import { productI } from '@/interfaces/product.interface';
 
@@ -13,9 +20,11 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ data, isSlider = true }) => {
   const router = useRouter();
+  const { token } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
   const containerClassNames = () => {
     if (!isSlider) {
-      return 'group relative h-[380px] w-1/4';
+      return 'group relative h-[380px] lg:w-1/4 w-full';
     }
     if (data.author) {
       return 'group relative my-4 h-[395px] w-[294px]';
@@ -32,6 +41,24 @@ const ProductCard: React.FC<ProductCardProps> = ({ data, isSlider = true }) => {
     }
     return 'absolute left-0 top-0 flex h-[335px] w-[281px] flex-col flex-nowrap items-start gap-[24px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-[12px] shadow-xl transition-none hover:border-[2px]';
   };
+
+  const handleCart = async () => {
+    try {
+      const payload: { [key: string]: string | number } = {
+        productId: data.id,
+        licenseType: 0,
+      };
+      await axios.post(
+        `https://drizy-api.quadrakaryasantosa.com/crafter/cart`,
+        payload,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      dispatch(fetchCart(token!));
+      toast('Item added to cart!');
+    } catch (error: any) {
+      toast.error('Add to cart failed, please reach out to the administrator');
+    }
+  };
   return (
     <>
       <div className={containerClassNames()}>
@@ -39,7 +66,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data, isSlider = true }) => {
           <img
             src={data.imageUrl[0]}
             alt={data.name}
-            className='h-[172px] w-[257px] rounded-[6px]'
+            className='h-[172px] w-full rounded-[6px] object-cover lg:w-[257px]'
           />
           <span className='relative z-[2] flex h-[54px] w-[257px] shrink-0 items-start justify-start self-stretch overflow-hidden text-left text-[16px] font-semibold leading-[17.6px] text-[#1a204c]'>
             {data.name}
@@ -58,7 +85,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ data, isSlider = true }) => {
                 <span className='text-[#fff]'>BUY NOW</span>
               </span>
             </button>
-            <button className='flex h-[37px] items-center justify-center gap-[8px] rounded-[8px] border-2 border-gray-400 bg-white pb-[12px] pl-[24px] pr-[24px] pt-[12px]'>
+            <button
+              onClick={handleCart}
+              className='flex h-[37px] items-center justify-center gap-[8px] rounded-[8px] border-2 border-gray-400 bg-white pb-[12px] pl-[24px] pr-[24px] pt-[12px]'
+            >
               <img src={cartProduct.src} alt='cart'></img>
             </button>
           </div>

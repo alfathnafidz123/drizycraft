@@ -3,8 +3,9 @@ import { NextResponse } from 'next/server';
 import { toast } from 'react-toastify';
 
 interface ItemPaymentI {
-  productId?: string;
-  licenseType?: string;
+  productId?: string[];
+  licenseType?: number[];
+  affiliateId?: string[];
   token?: string;
 }
 
