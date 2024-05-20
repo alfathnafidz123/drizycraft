@@ -56,7 +56,8 @@ export interface ArticleMetaDataI {
   realTitle: string;
   description: string;
   image: string;
-  articleId: string;
+  articleId?: string;
+  productId?: string;
 }
 
 export interface ResArticleI {

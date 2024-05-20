@@ -3,9 +3,26 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface IUserData {
   id: string;
-  username: string;
   email: string;
+  username: string;
   displayName: string;
+  activationKey: any;
+  userStatus: any;
+  coin?: 0;
+  createdAt: string;
+  updatedAt: string;
+  blocked: boolean;
+  affiliateId: string;
+  affiliate: Affiliate;
+}
+
+export interface Affiliate {
+  id: string;
+  refferalCode: string;
+  totalEarnings: number;
+  userId: string;
+  createdAt: string;
+  updatedAt?: Date;
 }
 
 interface IUserState {

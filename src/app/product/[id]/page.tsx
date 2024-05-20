@@ -68,15 +68,15 @@ export default function Register() {
 
   return productData ? (
     <main>
-      <section className='flex flex-col gap-12 px-24 py-16'>
+      <section className='flex flex-col gap-12 p-2 lg:px-24 lg:py-16'>
         <p className='text-[#B8B8B8]'>
           Drizy Studio » Crafters » Craft Design SVGs » Paper Cut Templates »{' '}
           {productData.product.name}
         </p>
-        <div className='flex gap-8'>
-          <div className='flex flex-col gap-4'>
-            <div className='flex gap-8'>
-              <div className='flex flex-col gap-4'>
+        <div className='grid gap-8 lg:grid-cols-5'>
+          <div className='flex flex-col gap-4 lg:col-span-3'>
+            <div className='flex flex-col-reverse gap-8 lg:flex-row'>
+              <div className='flex flex-row gap-4 lg:flex-col'>
                 {productData?.product.imageUrl?.map((url, index) => (
                   <Image
                     key={index}
@@ -135,18 +135,18 @@ export default function Register() {
               </div>
             </div>
           </div>
-          <div className='flex basis-1/3 flex-col gap-16 pl-6'>
+          <div className='flex flex-col items-center gap-16 lg:col-span-2 lg:items-start lg:pl-6'>
             <p className='text-2xl font-semibold text-[#1A214C]'>
               {productData.product.name}
             </p>
             <p className='font-katide-bold text-[40px] text-[#1A214C]'>
               ${productData?.product.price?.[type] ?? '1'}
             </p>
-            <div className='flex w-5/6 flex-col gap-4'>
+            <div className='flex flex-col gap-4 p-2 lg:w-5/6 lg:p-0'>
               <p className='text-lg font-semibold text-[#1A214C]'>
                 License Option
               </p>
-              <div className='flex justify-between gap-2'>
+              <div className='flex justify-center gap-2 lg:justify-between'>
                 <button
                   onClick={() => {
                     setType(0);
@@ -188,7 +188,7 @@ export default function Register() {
                 onClick={() => {
                   handleBuy();
                 }}
-                className='w-[342px] rounded-full bg-[#1A214C] px-10 py-2 font-semibold text-[#e4f6fb]'
+                className='w-full rounded-full bg-[#1A214C] px-10 py-2 font-semibold text-[#e4f6fb]'
               >
                 Buy Now
               </button>
@@ -219,25 +219,26 @@ export default function Register() {
           </div>
         </div>
       </section>
-      <section className='flex flex-col gap-8 bg-[#EBECF5] px-24 py-16'>
-        <div className='flex'>
-          <div className='flex basis-2/3 flex-col gap-8'>
+      <section className='flex flex-col gap-8 bg-[#EBECF5] p-2 lg:px-24 lg:py-16'>
+        <div className='flex-col gap-4 lg:grid lg:grid-cols-3'>
+          <div className='col-span-2 flex flex-col gap-8'>
             <p className='text-[24px] font-semibold text-[#1A214C]'>
               Product Detail
             </p>
             <p className='text-[16px] font-semibold text-[#707070]'>
               {productData?.product.name}
             </p>
-            <div className='text-[16px] font-light text-[#707070]'>
+            <div className='box-border text-[16px] font-light text-[#707070]'>
               <div
-                style={{ whiteSpace: 'pre-line' }}
+                // style={{ whiteSpace: 'pre-line' }}
+                className='without-tailwind'
                 dangerouslySetInnerHTML={{
                   __html: productData?.product.description,
                 }}
               />
             </div>
           </div>
-          <div className='mt-16 basis-1/3 rounded-3xl bg-white p-8 shadow-xl'>
+          <div className='mt-16 w-full rounded-3xl bg-white p-8 shadow-xl lg:basis-1/3'>
             <p className='text-lg font-semibold text-[#1A214C]'>
               Customer Review
             </p>
@@ -402,35 +403,16 @@ export default function Register() {
           </div>
         </div>
 
-        <div className='mt-6 flex max-w-[788px] flex-wrap gap-3'>
+        <div className='mt-6 flex w-full flex-wrap justify-center gap-3 lg:max-w-[788px] lg:justify-start'>
           <p className='font-katide-bold text-[16px] text-[#707070]'>Tags:</p>
-          <div className='rounded-full bg-[#D1D1D1] px-3 text-[16px] text-[#4A4A4A]'>
-            3d Craft
-          </div>
-          <div className='rounded-full bg-[#D1D1D1] px-3 text-[16px] text-[#4A4A4A]'>
-            Couple
-          </div>
-          <div className='rounded-full bg-[#D1D1D1] px-3 text-[16px] text-[#4A4A4A]'>
-            Circuit Crafts
-          </div>
-          <div className='rounded-full bg-[#D1D1D1] px-3 text-[16px] text-[#4A4A4A]'>
-            DIY
-          </div>
-          <div className='rounded-full bg-[#D1D1D1] px-3 text-[16px] text-[#4A4A4A]'>
-            Layered Paper Cut
-          </div>
-          <div className='rounded-full bg-[#D1D1D1] px-3 text-[16px] text-[#4A4A4A]'>
-            Romantic
-          </div>
-          <div className='rounded-full bg-[#D1D1D1] px-3 text-[16px] text-[#4A4A4A]'>
-            Shadow Box
-          </div>
-          <div className='rounded-full bg-[#D1D1D1] px-3 text-[16px] text-[#4A4A4A]'>
-            Silhoute Crafts
-          </div>
-          <div className='rounded-full bg-[#D1D1D1] px-3 text-[16px] text-[#4A4A4A]'>
-            Valentine's Day
-          </div>
+          {productData.product.tags.map((item, i) => (
+            <div
+              key={i.toString()}
+              className='rounded-full bg-[#D1D1D1] px-3 text-[16px] text-[#4A4A4A]'
+            >
+              {item}
+            </div>
+          ))}
         </div>
       </section>
       <section className='flex flex-col items-center gap-8 px-24 py-16'>

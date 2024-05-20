@@ -5,9 +5,6 @@
 
 import * as React from 'react';
 
-import { setToken } from '@/lib/slices/user';
-import { useAppDispatch, useAppSelector } from '@/lib/store';
-
 import { loginImage } from '~/images';
 
 // !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
@@ -15,13 +12,6 @@ import { loginImage } from '~/images';
 // to customize the default configuration.
 
 export default function Register() {
-  const { token } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
-
-  React.useEffect(() => {
-    dispatch(setToken({ token: 'testing token' }));
-  }, []);
-
   return (
     <main>
       <section className='flex p-20'>

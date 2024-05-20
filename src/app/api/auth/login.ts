@@ -11,7 +11,7 @@ export async function login(loginPayload: LoginPayload) {
       `https://drizy-api.quadrakaryasantosa.com/auth/user/login`,
       loginPayload
     );
-    return resp.data.data;
+    return resp.data;
   } catch (error) {
     NextResponse.error();
   }
