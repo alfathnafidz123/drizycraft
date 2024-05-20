@@ -35,7 +35,8 @@ export default function Blog() {
       setMeta(res.meta);
     } catch (error) {
       const err = error as AxiosError;
-      toast.error(err.message);
+      const errorData: any = err.response?.data;
+      toast.error((errorData.message as string) ?? 'Cannot get articles');
     } finally {
       setLoading(false);
     }
