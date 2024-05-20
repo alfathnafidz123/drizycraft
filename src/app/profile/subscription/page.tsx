@@ -4,15 +4,7 @@
 
 import * as React from 'react';
 
-import { setToken } from '@/lib/slices/user';
-import { useAppDispatch } from '@/lib/store';
-
 export default function Register() {
-  const dispatch = useAppDispatch();
-
-  React.useEffect(() => {
-    dispatch(setToken({ token: 'testing token' }));
-  }, []);
   const data = [
     { id: 'Status Subscription', name: 'Commercial' },
     { id: 'Subscription Plan', name: '3 month' },

@@ -3,12 +3,9 @@
 'use client';
 
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { BsFillCreditCard2BackFill } from 'react-icons/bs';
 import Select from 'react-select';
-
-import { setToken } from '@/lib/slices/user';
-import { useAppDispatch } from '@/lib/store';
 
 interface OptionType {
   value: string;
@@ -16,12 +13,7 @@ interface OptionType {
 }
 
 export default function Register() {
-  const dispatch = useAppDispatch();
   const [selectedOption, setSelectedOption] = useState<OptionType | null>(null);
-
-  useEffect(() => {
-    dispatch(setToken({ token: 'testing token' }));
-  }, []);
 
   const options: OptionType[] = [
     { value: 'United States', label: 'United States' },

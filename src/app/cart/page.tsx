@@ -6,18 +6,9 @@ import Image from 'next/image';
 import * as React from 'react';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
 
-import { setToken } from '@/lib/slices/user';
-import { useAppDispatch, useAppSelector } from '@/lib/store';
-
 import { cartIllustration } from '~/images';
 
 export default function Register() {
-  const { token } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
-
-  React.useEffect(() => {
-    dispatch(setToken({ token: 'testing token' }));
-  }, []);
   return (
     <main>
       <section className='flex gap-4 bg-[#F4F4F4] p-20'>

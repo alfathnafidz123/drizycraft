@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
-'use client';
 import Image from 'next/image';
 import * as React from 'react';
 import { CiYoutube } from 'react-icons/ci';
@@ -9,9 +8,6 @@ import { FaFacebookF } from 'react-icons/fa';
 import { FaPinterest } from 'react-icons/fa';
 import { FaInstagram } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
-
-import { setToken } from '@/lib/slices/user';
-import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import Button from '@/components/buttons/Button';
 
@@ -30,13 +26,6 @@ import {
 } from '~/images';
 
 export default function Register() {
-  const { token } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
-
-  React.useEffect(() => {
-    dispatch(setToken({ token: 'testing token' }));
-  }, []);
-
   return (
     <main>
       <section className='flex h-[80vh] w-full items-center justify-center gap-24 bg-[#1A214C] px-40 py-28'>

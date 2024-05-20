@@ -35,6 +35,7 @@ const ModalLogin: React.FC = () => {
       dispatch(setDataUser({ userData: user }));
       dispatch(setToken({ token }));
       dispatch(setOpenModal(false));
+      toast(`Welcome back ${user.username}!`);
     } catch (error: any) {
       toast('Login failed');
     }

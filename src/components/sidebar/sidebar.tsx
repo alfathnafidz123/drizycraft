@@ -5,21 +5,13 @@ import { usePathname } from 'next/navigation';
 
 import LogoutButton from '@/components/buttons/LogoutButton';
 
-import {
-  account,
-  address,
-  download,
-  history,
-  orders,
-  paymentMethod,
-  subscription,
-} from '~/images';
+import { account, download, history, orders, subscription } from '~/images';
 
 export default function ProfileMenu() {
   const items = [
     { src: account.src, text: 'Account Details', link: 'account' },
-    { src: address.src, text: 'Addresses', link: 'address' },
-    { src: paymentMethod.src, text: 'Payment Methods', link: 'payment' },
+    // { src: address.src, text: 'Addresses', link: 'address' },
+    // { src: paymentMethod.src, text: 'Payment Methods', link: 'payment' },
     { src: subscription.src, text: 'Subscriptions', link: 'subscription' },
     { src: orders.src, text: 'Orders', link: 'order' },
     { src: download.src, text: 'Download', link: 'download' },

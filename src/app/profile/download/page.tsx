@@ -5,15 +5,7 @@
 import * as React from 'react';
 import { FaInfinity } from 'react-icons/fa6';
 
-import { setToken } from '@/lib/slices/user';
-import { useAppDispatch } from '@/lib/store';
 export default function Register() {
-  const dispatch = useAppDispatch();
-
-  React.useEffect(() => {
-    dispatch(setToken({ token: 'testing token' }));
-  }, []);
-
   return (
     <>
       <div className='flex w-full flex-col gap-2'>

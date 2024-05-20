@@ -8,9 +8,6 @@ import { FaFacebookF } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import { toast } from 'react-toastify';
 
-import { setToken } from '@/lib/slices/user';
-import { useAppDispatch, useAppSelector } from '@/lib/store';
-
 import { register } from '@/app/api/auth/register';
 
 import { loginImage } from '~/images';
@@ -20,9 +17,6 @@ import { loginImage } from '~/images';
 // to customize the default configuration.
 
 export default function Register() {
-  const { token } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
-
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [displayName, setDisplayName] = useState('');
@@ -45,10 +39,6 @@ export default function Register() {
       toast('Email already registered');
     }
   };
-
-  React.useEffect(() => {
-    dispatch(setToken({ token: 'testing token' }));
-  }, []);
 
   return (
     <main>

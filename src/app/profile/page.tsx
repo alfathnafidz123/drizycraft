@@ -6,9 +6,6 @@ import Image from 'next/image';
 import * as React from 'react';
 import { useState } from 'react';
 
-import { setToken } from '@/lib/slices/user';
-import { useAppDispatch, useAppSelector } from '@/lib/store';
-
 import {
   accountIllustration,
   address,
@@ -20,14 +17,7 @@ import {
 } from '~/images';
 
 export default function Register() {
-  const { token } = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
-
   const [activeMenu, setActiveMenu] = useState<number>(0);
-
-  React.useEffect(() => {
-    dispatch(setToken({ token: 'testing token' }));
-  }, []);
 
   const items = [
     { src: address.src, text: 'Addresses' },
@@ -42,9 +32,9 @@ export default function Register() {
     if (activeMenu == 0) {
       return (
         <>
-        <div>
-          <p>Addresses</p>
-        </div>
+          <div>
+            <p>Addresses</p>
+          </div>
         </>
       );
     }
