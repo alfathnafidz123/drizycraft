@@ -2,6 +2,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
+import axios, { AxiosError } from 'axios';
+import { Copy } from 'lucide-react';
 import moment from 'moment';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
@@ -21,12 +23,14 @@ import { getProductById } from '@/app/api/product/getProductById';
 import { MetaProductI, productI } from '@/interfaces/product.interface';
 
 export default function Register() {
-  const { token } = useAppSelector((state) => state.user);
+  const { token, dataUser } = useAppSelector((state) => state.user);
   const params = useParams();
   const [type, setType] = useState(0);
   const [productData, setProductData] = useState<MetaProductI>();
   const [productSliderData, setSliderProductData] = useState<productI[]>([]);
   const [selectedImage, setSelectedImage] = useState<number>(0);
+  const [shortUrl, setShortUrl] = useState<string>();
+  const [loadingAffiliate, setLoadingAffiliate] = useState(false);
 
   const getProduct = async () => {
     try {
@@ -58,6 +62,37 @@ export default function Register() {
       toast(
         'Create Checkout Page failed, please reach out to the administrator'
       );
+    }
+  };
+
+  const handleGetAffiliateLink = async () => {
+    try {
+      setLoadingAffiliate(true);
+      const res = await axios.post(
+        `https://s.quadrakaryasantosa.com`,
+        {
+          originalUrl: window.location.href,
+        },
+        {
+          headers: { Authorization: `bearer ${token}` },
+        }
+      );
+      setShortUrl(`https://s.quadrakaryasantosa.com/${res.data.shortUrl}`);
+    } catch (error) {
+      const err = error as AxiosError;
+      const errorData: any = err.response?.data;
+      toast.error(
+        (errorData.message as string) ?? 'Cannot generate affiliate link'
+      );
+    } finally {
+      setLoadingAffiliate(false);
+    }
+  };
+
+  const handleCopyUrl = () => {
+    if (shortUrl) {
+      navigator.clipboard.writeText(shortUrl);
+      toast('Affiliate link coppied!');
     }
   };
 
@@ -184,6 +219,25 @@ export default function Register() {
                   Business
                 </button>
               </div>
+              {dataUser?.affiliate && shortUrl === undefined && (
+                <button
+                  onClick={() => {
+                    handleGetAffiliateLink();
+                  }}
+                  className='w-full rounded-full bg-[#1A214C] px-10 py-2 font-semibold text-[#e4f6fb]'
+                >
+                  Get Affiliate Link
+                </button>
+              )}
+              {shortUrl && (
+                <button
+                  onClick={handleCopyUrl}
+                  className='flex w-full flex-row justify-between rounded-full border border-[#1A214C] bg-white p-2 px-4 font-semibold text-[#1A214C]'
+                >
+                  <div>{shortUrl}</div>
+                  <Copy />
+                </button>
+              )}
               <button
                 onClick={() => {
                   handleBuy();
