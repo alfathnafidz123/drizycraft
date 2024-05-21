@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 
 import ProductCard from '@/components/ProductCard';
 
-import { getAllProduct } from '@/app/api/product/getProduct';
+import { getAllProduct, SortType } from '@/app/api/product/getProduct';
 import { productI } from '@/interfaces/product.interface';
 
 import { catalogcrafter, crafterItem1 } from '~/images';
@@ -65,7 +65,11 @@ export default function CatalogCrafter() {
 
   const getProduct = async () => {
     try {
-      const response = await getAllProduct({ page: 1, limit: 10 });
+      const response = await getAllProduct({
+        page: 1,
+        limit: 10,
+        sortType: SortType.Popularity,
+      });
       setProductData(response.data);
     } catch (error) {
       toast('Error when trying to get all products');
@@ -302,13 +306,7 @@ export default function CatalogCrafter() {
 
         <div className='ml-[7%] flex flex-wrap'>
           {productData.map((product, index) => (
-            <ProductCard
-              id={product.id as string}
-              key={index}
-              name={product.name}
-              image={product.imageUrl?.[0] || crafterItem1.src}
-              price={[5, 3, 2]}
-            />
+            <ProductCard data={product} key={index} />
           ))}
         </div>
       </section>

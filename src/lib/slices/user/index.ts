@@ -1,5 +1,6 @@
 'use client';
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 interface IUserData {
   id: string;
@@ -52,6 +53,21 @@ interface ModalPayload {
   payload: boolean;
 }
 
+export const fetchProfile = createAsyncThunk(
+  'user/fetchProfile',
+  async (token: string) => {
+    const res = await axios.get(
+      'https://drizy-api.quadrakaryasantosa.com/auth/user/profile',
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return res.data as IUserData;
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -66,6 +82,11 @@ const userSlice = createSlice({
     setOpenModal: (state, { payload }: ModalPayload) => {
       state.openModal = payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchProfile.fulfilled, (state, action) => {
+      state.dataUser = action.payload;
+    });
   },
 });
 

@@ -7,7 +7,7 @@ import { Loader } from 'lucide-react';
 import * as React from 'react';
 import { toast } from 'react-toastify';
 
-import { setDataUser } from '@/lib/slices/user';
+import { fetchProfile } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import {
@@ -38,20 +38,7 @@ export default function Register() {
   }, []);
 
   const getDataUser = async () => {
-    try {
-      const res = await axios.get(
-        'https://drizy-api.quadrakaryasantosa.com/auth/user/profile',
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      dispatch(setDataUser({ userData: res.data }));
-    } catch (error) {
-      const err = error as AxiosError;
-      toast.error(err.message);
-    }
+    dispatch(fetchProfile(token!));
   };
 
   const updateDataUser = async () => {

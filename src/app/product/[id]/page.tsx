@@ -13,7 +13,8 @@ import { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
-import { useAppSelector } from '@/lib/store';
+import { fetchProfile } from '@/lib/slices/user';
+import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import AffiliateBanner from '@/components/AffiliateBanner';
 import ProductCard from '@/components/ProductCard';
@@ -24,7 +25,11 @@ import { MetaProductI, productI } from '@/interfaces/product.interface';
 
 export default function Register() {
   const router = useRouter();
-  const { token, dataUser } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+  const { token, dataUser, activeSubcription } = useAppSelector((state) => ({
+    ...state.user,
+    ...state.subs,
+  }));
   const params = useParams();
   const [type, setType] = useState(0);
   const [productData, setProductData] = useState<MetaProductI>();
@@ -32,6 +37,7 @@ export default function Register() {
   const [selectedImage, setSelectedImage] = useState<number>(0);
   const [shortUrl, setShortUrl] = useState<string>();
   const [loadingAffiliate, setLoadingAffiliate] = useState(false);
+  const [isDiscount, setIsDiscount] = useState(false);
   const searchParams = useSearchParams();
   const refCode = searchParams.get('ref');
 
@@ -49,7 +55,7 @@ export default function Register() {
       const response = await getAllProduct({
         page: 1,
         limit: 4,
-        sortType: SortType.Latest,
+        sortType: SortType.Popularity,
       });
       setSliderProductData(response.data);
     } catch (error) {
@@ -58,6 +64,35 @@ export default function Register() {
   };
 
   const handleBuy = async () => {
+    if (activeSubcription && dataUser?.coin && dataUser?.coin > 0)
+      handleBuyPoint();
+    else handleCart();
+  };
+
+  const handleBuyPoint = async () => {
+    try {
+      const payload: { [key: string]: string | number } = {
+        productId: productData!.productId,
+        licenseType: type,
+      };
+      if (refCode) {
+        payload.refCode = refCode;
+      }
+      await axios.post(
+        `https://drizy-api.quadrakaryasantosa.com/billing/buy-with-coin`,
+        payload,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      dispatch(fetchProfile(token!));
+      toast.success(`Successfully buy ${productData?.product?.name}!`);
+      router.push('/profile/download');
+    } catch (error: any) {
+      toast(
+        'Create Checkout Page failed, please reach out to the administrator'
+      );
+    }
+  };
+  const handleCart = async () => {
     try {
       const payload: { [key: string]: string | number } = {
         productId: productData!.productId,
@@ -114,6 +149,30 @@ export default function Register() {
     getProduct();
     getProductSlider();
   }, []);
+
+  useEffect(() => {
+    if (productData?.product.discountPeriod) {
+      setIsDiscount(
+        moment(new Date(productData?.product.discountPeriod)).isAfter(
+          new Date()
+        )
+      );
+    }
+  }, [productData]);
+
+  const generatePrice = (): string => {
+    let price = '$0';
+    if (activeSubcription && dataUser?.coin && dataUser?.coin > 0) {
+      price = `${productData?.product.coinPrice[type] ?? 0} Coin`;
+    } else {
+      if (isDiscount) {
+        price = `$${productData?.product.discount[type] ?? 0}`;
+      } else {
+        price = `$${productData?.product.price[type] ?? 0}`;
+      }
+    }
+    return price;
+  };
 
   return productData ? (
     <main>
@@ -188,9 +247,17 @@ export default function Register() {
             <p className='text-2xl font-semibold text-[#1A214C]'>
               {productData.product.name}
             </p>
-            <p className='font-katide-bold text-[40px] text-[#1A214C]'>
-              ${productData?.product.price?.[type] ?? '1'}
-            </p>
+            <div className='flex flex-row items-end gap-1'>
+              {isDiscount &&
+              !(activeSubcription && dataUser?.coin && dataUser?.coin > 0) ? (
+                <p className='font-katide-regular text-lg text-gray-500 line-through'>
+                  ${productData.product.price[type]}
+                </p>
+              ) : null}
+              <p className='font-katide-bold text-[40px] text-[#1A214C]'>
+                ${generatePrice()}
+              </p>
+            </div>
             <div className='flex flex-col gap-4 p-2 lg:w-5/6 lg:p-0'>
               <p className='text-lg font-semibold text-[#1A214C]'>
                 License Option
@@ -258,7 +325,9 @@ export default function Register() {
                 }}
                 className='w-full rounded-full bg-[#1A214C] px-10 py-2 font-semibold text-[#e4f6fb]'
               >
-                Buy Now
+                {activeSubcription && dataUser?.coin && dataUser?.coin > 0
+                  ? 'Buy with coin'
+                  : 'Add to cart'}
               </button>
               <div className='my-4 w-full border-t-2 border-[#1A214C]/15' />
               <p className='text-lg font-semibold text-[#1A214C]'>
