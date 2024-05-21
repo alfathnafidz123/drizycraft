@@ -10,6 +10,7 @@ import { MdArrowOutward } from 'react-icons/md';
 import { MdArrowForwardIos } from 'react-icons/md';
 
 import { fetchCart } from '@/lib/slices/cart';
+import { fetchSubs } from '@/lib/slices/subcription';
 import { setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
@@ -31,6 +32,7 @@ interface SubMenuState {
 const Navbar: React.FC = () => {
   const dispatch = useAppDispatch();
   const isLogin = useAppSelector((state) => state.user?.token);
+  const dataUser = useAppSelector((state) => state.user?.dataUser);
   const cartData = useAppSelector((state) => state.cart.cart);
   const router = useRouter();
   const [showMenu, setShowMenu] = useState<MenuState>({
@@ -47,25 +49,9 @@ const Navbar: React.FC = () => {
   useEffect(() => {
     if (isLogin) {
       dispatch(fetchCart(isLogin));
+      dispatch(fetchSubs(isLogin));
     }
   }, [isLogin]);
-
-  // const getCarts = async () => {
-  //   try {
-  //     const res = await axios.get(
-  //       'https://drizy-api.quadrakaryasantosa.com/crafter/cart',
-  //       {
-  //         headers: { Authorization: `bearer ${token}` },
-  //         params: { page: 1, limit: 25 },
-  //       }
-  //     );
-  //     setCartData(res.data);
-  //   } catch (error) {
-  //     const err = error as AxiosError;
-  //     const errorData: any = err.response?.data;
-  //     toast.error((errorData.message as string) ?? 'Cannot get cart');
-  //   }
-  // };
 
   const openModalLogin = () => {
     dispatch(setOpenModal(true));
@@ -373,7 +359,7 @@ const Navbar: React.FC = () => {
                 <button className='font-katide-semibold flex h-[39px] items-center gap-4 rounded-full border border-solid border-gray-300 px-1 py-1 text-[10px] text-gray-300 hover:bg-[#E4F6FB]'>
                   <img src={drizzyCoin.src} alt='cart' />
                   <span className='font-katide-semibold text-[14px] text-[#008ECC]'>
-                    11
+                    {dataUser?.coin ?? 0}
                   </span>
                   COIN
                 </button>

@@ -14,6 +14,7 @@ import { useAppSelector } from '@/lib/store';
 
 import AffiliateBanner from '@/components/AffiliateBanner';
 import SectionContainer from '@/components/container/sectionContainer';
+import ModalProduct from '@/components/modals/product';
 import ProductCategories from '@/components/ProductCategories';
 import SeasonCategories from '@/components/SeasonCategories';
 import ProductSlider from '@/components/slider/ProductSlider';
@@ -22,7 +23,11 @@ import Testimonies from '@/components/testimonies';
 
 import { getCategory } from '@/app/api/product/getCategory';
 import { getHomepage } from '@/app/api/product/getHomepage';
-import { CategoryI, HomepageDataI } from '@/interfaces/product.interface';
+import {
+  CategoryI,
+  HomepageDataI,
+  productI,
+} from '@/interfaces/product.interface';
 
 import {
   arrowRight,
@@ -54,6 +59,10 @@ export default function HomePage() {
   const [categoryData, setCategoryData] = useState<CategoryI[] | []>([]);
   const [homeProduct, setHomeProduct] =
     useState<HomepageDataI>(defaultHomepageData);
+  const [showProductDetail, setShowProductDetail] = useState<{
+    show: boolean;
+    product?: productI;
+  }>({ show: false });
 
   const CustomPrevArrow: React.FC<CustomArrowProps> = ({ onClick }) => (
     <div
@@ -502,7 +511,12 @@ export default function HomePage() {
             </div>
           </div>
           <div className='h-[800px] lg:h-[400px]'>
-            <ProductSlider items={homeProduct.crafterData} />
+            <ProductSlider
+              items={homeProduct.crafterData}
+              handleShowDetail={(data) =>
+                setShowProductDetail({ show: true, product: data })
+              }
+            />
           </div>
           <div className='flex justify-center gap-4 lg:hidden'>
             <span>see more</span>
@@ -527,7 +541,12 @@ export default function HomePage() {
             </div>
           </div>
           <div className='h-[800px] lg:h-[400px]'>
-            <ProductSlider items={homeProduct.bestSellerData} />
+            <ProductSlider
+              items={homeProduct.bestSellerData}
+              handleShowDetail={(data) =>
+                setShowProductDetail({ show: true, product: data })
+              }
+            />
           </div>
           <div className='flex justify-center gap-4 lg:hidden'>
             <span>see more</span>
@@ -549,7 +568,12 @@ export default function HomePage() {
             </div>
           </div>
           <div className='h-[800px] lg:h-[400px]'>
-            <ProductSlider items={homeProduct.bundleData} />
+            <ProductSlider
+              items={homeProduct.bundleData}
+              handleShowDetail={(data) =>
+                setShowProductDetail({ show: true, product: data })
+              }
+            />
           </div>
           <div className='flex justify-center gap-4 lg:hidden'>
             <span>see more</span>
@@ -571,7 +595,12 @@ export default function HomePage() {
             </div>
           </div>
           <div className='h-[850px] lg:h-[400px]'>
-            <ProductSlider items={homeProduct.exclusiveData} />
+            <ProductSlider
+              items={homeProduct.exclusiveData}
+              handleShowDetail={(data) =>
+                setShowProductDetail({ show: true, product: data })
+              }
+            />
           </div>
           <div className='flex justify-center gap-4 lg:hidden'>
             <span>see more</span>
@@ -596,7 +625,12 @@ export default function HomePage() {
             </div>
           </div>
           <div className='h-[800px] lg:h-[400px]'>
-            <ProductSlider items={homeProduct.vectorData} />
+            <ProductSlider
+              items={homeProduct.vectorData}
+              handleShowDetail={(data) =>
+                setShowProductDetail({ show: true, product: data })
+              }
+            />
           </div>
           <div className='flex justify-center gap-4 lg:hidden'>
             <span>see more</span>
@@ -660,6 +694,11 @@ export default function HomePage() {
           <Image src={helpFloating.src} alt='Help' width={150} height={155} />
         </div>
       </div>
+      <ModalProduct
+        isOpen={showProductDetail.show}
+        product={showProductDetail.product}
+        onClose={() => setShowProductDetail({ show: false })}
+      />
     </main>
   );
 }
