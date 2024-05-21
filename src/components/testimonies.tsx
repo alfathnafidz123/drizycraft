@@ -159,6 +159,7 @@ const Testimonies = () => {
                   loading='lazy'
                   src={endlessCrafting.src}
                   className='aspect-square w-20'
+                  alt='endless'
                 />
                 <div className='my-auto flex flex-1 flex-col max-md:max-w-full'>
                   <div className='font-bold leading-[200%] text-indigo-950 max-md:max-w-full'>
@@ -176,6 +177,7 @@ const Testimonies = () => {
                   loading='lazy'
                   src={expandingCrafting.src}
                   className='my-auto aspect-square w-20'
+                  alt='expanding'
                 />
                 <div className='flex flex-1 flex-col max-md:max-w-full'>
                   <div className='font-bold leading-[200%] text-indigo-950 max-md:max-w-full'>
@@ -194,6 +196,7 @@ const Testimonies = () => {
                   loading='lazy'
                   src={optimizedSVG.src}
                   className='my-auto aspect-square w-20'
+                  alt='optimized'
                 />
                 <div className='flex flex-1 flex-col max-md:max-w-full'>
                   <div className='font-bold leading-[200%] text-indigo-950 max-md:max-w-full'>
@@ -217,24 +220,61 @@ const Testimonies = () => {
         Have Collaborated with :
       </div>
       <div className='mt-10 flex flex-wrap justify-center gap-4 py-1.5 md:gap-5 lg:flex-nowrap lg:justify-between'>
-        <img loading='lazy' src={elegco.src} className='w-1/3 md:w-auto' />
-        <img loading='lazy' src={wordBank.src} className='w-1/3 md:w-auto' />
-        <img loading='lazy' src={samsung.src} className='w-1/3 md:w-auto' />
+        <img
+          loading='lazy'
+          src={elegco.src}
+          className='w-1/3 md:w-auto'
+          alt='elegco'
+        />
+        <img
+          loading='lazy'
+          src={wordBank.src}
+          className='w-1/3 md:w-auto'
+          alt='wordBank'
+        />
+        <img
+          loading='lazy'
+          src={samsung.src}
+          className='w-1/3 md:w-auto'
+          alt='samsung'
+        />
         <img
           loading='lazy'
           src={designBundles.src}
-          className='w-1/3 md:w-auto'
+          className='md:w-au to w-1/3'
+          alt='designBundles'
         />
-        <img loading='lazy' src={canva.src} className='w-1/3 md:w-auto' />
+        <img
+          loading='lazy'
+          src={canva.src}
+          className='w-1/3 md:w-auto'
+          alt='canva'
+        />
         <img
           loading='lazy'
           src={creativeFabrica.src}
-          className='w-1/3 md:w-auto'
+          className='md:w-au to w-1/3'
+          alt='creativeFabrica'
         />
-        <img loading='lazy' src={freepik.src} className='w-1/3 md:w-auto' />
-        <img loading='lazy' src={goDaddy.src} className='w-1/3 md:w-auto' />
-        <img loading='lazy' src={AO.src} className='w-1/3 md:w-auto' />
-        <img loading='lazy' src={jiffy.src} className='w-1/3 md:w-auto' />
+        <img
+          loading='lazy'
+          src={freepik.src}
+          className='w-1/3 md:w-auto'
+          alt='freepik'
+        />
+        <img
+          loading='lazy'
+          src={goDaddy.src}
+          className='w-1/3 md:w-auto'
+          alt='goDaddy'
+        />
+        <img loading='lazy' src={AO.src} className='w-1/3 md:w-auto' alt='AO' />
+        <img
+          loading='lazy'
+          src={jiffy.src}
+          className='w-1/3 md:w-auto'
+          alt='jiffy'
+        />
       </div>
     </SectionContainer>
   );

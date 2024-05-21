@@ -42,6 +42,8 @@ const AffiliateBanner = () => {
             <br /> 30% Commission
           </p>
           <button
+            id='become-affiliator'
+            aria-label='become-affiliator'
             onClick={handleRequestAffiliate}
             className='hover: mt-5 items-center justify-center rounded-[47px] border-[3px] border-indigo-950 bg-[#FFBB3C] px-20 py-4  shadow-md transition-all ease-out hover:bg-[#ECA014]'
           >

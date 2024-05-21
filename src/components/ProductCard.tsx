@@ -106,6 +106,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </span>
           <div className='flex w-full justify-between gap-2'>
             <button
+              id={`show-detail-${data.id}`}
+              type='button'
               onClick={() => {
                 handleShowDetail?.(data);
               }}
@@ -127,6 +129,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
               </span>
             </button>
             <button
+              id={`add-${data.id}-cart`}
+              type='button'
               onClick={handleCart}
               className='flex h-[37px] items-center justify-center gap-[8px] rounded-[8px] border-2 border-gray-400 bg-white pb-[12px] pl-[24px] pr-[24px] pt-[12px]'
             >
@@ -144,10 +148,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <img
             src={hoverPinterest.src}
             className='absolute left-[7px] top-[5px] z-[6] h-[40px] w-[40px] cursor-pointer bg-no-repeat opacity-0 group-hover:opacity-100'
+            alt={`share-pinterest-${data.name}`}
           />
           <img
             src={hoverWA.src}
             className='absolute left-[55px] top-[5px] z-[7] h-[40px] w-[40px] cursor-pointer bg-no-repeat opacity-0 group-hover:opacity-100'
+            alt={`share-whatsapp-${data.name}`}
           />
         </div>
       </div>
