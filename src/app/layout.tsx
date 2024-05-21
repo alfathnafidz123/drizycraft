@@ -8,10 +8,10 @@ import '@/styles/globals.css';
 import '@/styles/colors.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-import GoogleAnalytics from '@/components/GoogleAnalytics';
-
 import StoreProvider from '@/app/StoreProvider';
 import { siteConfig } from '@/constant/config';
+import AsyncCSSSlick from '@/layout/asyncCssSlick';
+import AsyncCSSThemeSlick from '@/layout/asyncCssThemeSlick';
 import Footer from '@/layout/footer';
 import Navbar from '@/layout/navbar';
 
@@ -61,23 +61,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className='!scroll-smooth'>
+    <html className='!scroll-smooth' lang='en'>
       <head>
+        {/* preload font */}
         <link
-          rel='stylesheet'
-          type='text/css'
-          charSet='UTF-8'
-          href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css'
+          rel='preload'
+          href='/fonts/Katide-Heavy.woff2'
+          as='font'
+          type='font/woff2'
+          crossOrigin='anonymous'
         />
-        <link
-          rel='stylesheet'
-          type='text/css'
-          href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css'
-        />
+
+        <AsyncCSSSlick />
+        <AsyncCSSThemeSlick />
       </head>
 
       <body className=''>
-        <GoogleAnalytics />
+        {/* <GoogleAnalytics /> */}
         <StoreProvider>
           <Navbar />
           {children}

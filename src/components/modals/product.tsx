@@ -128,17 +128,20 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
           <div className='flex h-[423px] w-[889px] gap-8 pl-5 pt-5'>
             <div className='flex flex-col justify-center'>
               <img
+                alt={product?.name}
                 loading='lazy'
                 src={product?.imageUrl[0]}
                 className='h-[310px] w-[450px] object-cover'
               />
               <div className='mt-8 flex flex-row pb-6'>
                 <img
+                  alt={`share-pinterest-${product?.name}`}
                   loading='lazy'
                   src={hoverPinterest.src}
                   className='flex h-[40px] w-[40px] cursor-pointer transition-all duration-300 hover:scale-110'
                 />
                 <img
+                  alt={`share-whatsapp-${product?.name}`}
                   src={hoverWA.src}
                   className='ml-3 flex h-[40px] w-[40px] cursor-pointer transition-all duration-300 hover:scale-110'
                 />
@@ -180,26 +183,31 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
                       loading='lazy'
                       src={projectStars.src}
                       className='my-auto'
+                      alt='star-1'
                     />
                     <img
                       loading='lazy'
                       src={projectStars.src}
                       className='my-auto'
+                      alt='star-2'
                     />
                     <img
                       loading='lazy'
                       src={projectStars.src}
                       className='my-auto'
+                      alt='star-3'
                     />
                     <img
                       loading='lazy'
                       src={projectStars.src}
                       className='my-auto'
+                      alt='star-4'
                     />
                     <img
                       loading='lazy'
                       src={projectStars.src}
                       className='my-auto'
+                      alt='star-5'
                     />
                   </div>
                 </div>
@@ -211,6 +219,8 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
                 </p>
                 <div className='flex gap-5'>
                   <button
+                    id='select-type-1'
+                    aria-label='select personal license'
                     onClick={() => {
                       setType(0);
                     }}
@@ -223,6 +233,8 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
                     Personal
                   </button>
                   <button
+                    id='select-type-1'
+                    aria-label='select commercial license'
                     onClick={() => {
                       setType(1);
                     }}
@@ -235,6 +247,8 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
                     Commercial
                   </button>
                   <button
+                    id='select-type-1'
+                    aria-label='select business license'
                     onClick={() => {
                       setType(2);
                     }}
@@ -254,6 +268,8 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
                   onClick={handleBuy}
                   className='inline-flex h-9 w-44 items-center justify-center rounded-lg bg-[#2A3B80] hover:bg-[#132159]'
                   disabled={loading}
+                  id='handle-buy'
+                  aria-label={`Buy ${product?.name}`}
                 >
                   {loading ? (
                     <Loader color='#fff' />
@@ -266,6 +282,8 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
                   )}
                 </button>
                 <button
+                  id='show-detail'
+                  aria-label={`Show ${product?.name} detail`}
                   className='flex'
                   onClick={() =>
                     router.push(`/product/${product?.meta?.[0].title}`)

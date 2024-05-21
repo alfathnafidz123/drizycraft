@@ -78,9 +78,9 @@ const ProductSlider: React.FC<SwipeToSlideProps> = ({
         <div className='!hidden lg:flex'>
           <div className='flex h-[335px] items-center'>
             <button
-              onClick={() => {
-                router.push('/catalog-crafter');
-              }}
+              id='see-more'
+              aria-label='Go to catalog'
+              onClick={() => router.push('/catalog-crafter')}
               className='font-katide-bold flex aspect-square h-[87px] flex-col items-center justify-center rounded-full border-2 border-[#4065D1] pt-4 text-[12px] uppercase text-[#4065D1]'
             >
               <span>see more</span>

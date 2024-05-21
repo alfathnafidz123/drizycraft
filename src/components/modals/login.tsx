@@ -59,7 +59,7 @@ const ModalLogin: React.FC = () => {
   });
 
   useEffect(() => {
-    if (googleUser) {
+    if (googleUser.access_token !== undefined) {
       axios
         .get(
           `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${googleUser.access_token}`,
@@ -73,7 +73,7 @@ const ModalLogin: React.FC = () => {
         .then((res) => {
           handleLoginSocial(res.data.email, res.data.name);
         })
-        .catch((err) => console.log(err));
+        .catch(() => toast('Google analytics error'));
     }
   }, [googleUser]);
 
