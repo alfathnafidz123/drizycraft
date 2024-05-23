@@ -21,10 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resMetadata: ResArticleMetadata = await res.json();
 
   return {
-    title: {
-      default: resMetadata.data.realTitle,
-      template: `%s | ${siteConfig.url} Article`,
-    },
+    title: resMetadata.data.realTitle,
     description: resMetadata.data.description,
     alternates: {
       canonical: `https://drizy-client.quadrakaryasantosa.com/article/${id}`,

@@ -74,6 +74,55 @@ export default function RootLayout({
           type='font/woff2'
           crossOrigin='anonymous'
         />
+        <link
+          rel='preload'
+          href='/fonts/Katide-ExtraBold.woff2'
+          as='font'
+          type='font/woff2'
+          crossOrigin='anonymous'
+        />
+        <link
+          rel='preload'
+          href='/fonts/Katide-Bold.woff2'
+          as='font'
+          type='font/woff2'
+          crossOrigin='anonymous'
+        />
+        <link
+          rel='preload'
+          href='/fonts/Katide-SemiBold.woff2'
+          as='font'
+          type='font/woff2'
+          crossOrigin='anonymous'
+        />
+        <link
+          rel='preload'
+          href='/fonts/Katide-Medium.woff2'
+          as='font'
+          type='font/woff2'
+          crossOrigin='anonymous'
+        />
+        <link
+          rel='preload'
+          href='/fonts/Katide-Regular.woff2'
+          as='font'
+          type='font/woff2'
+          crossOrigin='anonymous'
+        />
+        <link
+          rel='preload'
+          href='/fonts/Katide-Light.woff2'
+          as='font'
+          type='font/woff2'
+          crossOrigin='anonymous'
+        />
+        <link
+          rel='preload'
+          href='/fonts/Katide-Thin.woff2'
+          as='font'
+          type='font/woff2'
+          crossOrigin='anonymous'
+        />
 
         <AsyncCSSSlick />
         <AsyncCSSThemeSlick />
