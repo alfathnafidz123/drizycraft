@@ -361,15 +361,19 @@ const Navbar: React.FC = () => {
                 >
                   {isLogin ? 'PROFILE' : 'LOGIN'}
                 </button>
-                <Link
-                  href='/cart'
+                <div
+                  onClick={
+                    !isLogin ? openModalLogin : () => router.push('/cart')
+                  }
+                  id='cart-button'
+                  aria-label='cart'
                   className='relative rounded-full bg-[#e4f6fb] px-2 py-2 text-[#008ECC] transition-all hover:bg-[#C0E9F4]'
                 >
                   <img src={cart.src} alt='cart' />
                   <div className='absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#008ECC] pt-0.5 text-[10px] text-[#e4f6fb] transition-all'>
                     {cartData.length}
                   </div>
-                </Link>
+                </div>
                 <button
                   id='coin-button'
                   aria-label='Coin'

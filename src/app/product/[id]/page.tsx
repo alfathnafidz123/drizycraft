@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
-import { fetchProfile } from '@/lib/slices/user';
+import { fetchProfile, setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import AffiliateBanner from '@/components/AffiliateBanner';
@@ -64,9 +64,13 @@ export default function Register() {
   };
 
   const handleBuy = async () => {
-    if (activeSubcription && dataUser?.coin && dataUser?.coin > 0)
-      handleBuyPoint();
-    else handleCart();
+    if (token) {
+      if (activeSubcription && dataUser?.coin && dataUser?.coin > 0)
+        handleBuyPoint();
+      else handleCart();
+    } else {
+      dispatch(setOpenModal(true));
+    }
   };
 
   const handleBuyPoint = async () => {
@@ -255,7 +259,7 @@ export default function Register() {
                 </p>
               ) : null}
               <p className='font-katide-bold text-[40px] text-[#1A214C]'>
-                ${generatePrice()}
+                {generatePrice()}
               </p>
             </div>
             <div className='flex flex-col gap-4 p-2 lg:w-5/6 lg:p-0'>
@@ -558,7 +562,14 @@ export default function Register() {
         </p>
         <div className='flex w-full flex-col justify-between gap-4 lg:flex-row'>
           {productSliderData.map((item) => (
-            <ProductCard key={item.id} data={item} isSlider={false} />
+            <ProductCard
+              key={item.id}
+              data={item}
+              isSlider={false}
+              handleShowDetail={(product) =>
+                router.push(`/product/${product.meta?.[0].title}`)
+              }
+            />
           ))}
         </div>
         <p className='w-full text-right text-lg font-semibold text-[#1A214C]'>

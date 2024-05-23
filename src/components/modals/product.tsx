@@ -11,7 +11,7 @@ import React, { useEffect, useState } from 'react';
 import { FaAngleRight } from 'react-icons/fa6';
 import { toast } from 'react-toastify';
 
-import { fetchProfile } from '@/lib/slices/user';
+import { fetchProfile, setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import { productI } from '@/interfaces/product.interface';
@@ -62,9 +62,13 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
   };
 
   const handleBuy = async () => {
-    if (activeSubcription && dataUser?.coin && dataUser?.coin > 0)
-      handleBuyPoint();
-    else handleCart();
+    if (token) {
+      if (activeSubcription && dataUser?.coin && dataUser?.coin > 0)
+        handleBuyPoint();
+      else handleCart();
+    } else {
+      dispatch(setOpenModal(true));
+    }
   };
 
   const handleBuyPoint = async () => {
@@ -118,13 +122,13 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
       {isOpen && (
         <div
           onClick={closeModal}
-          className='fixed left-0 top-0 z-30 h-full w-full bg-black bg-opacity-50'
+          className='fixed left-0 top-0 z-20 h-full w-full bg-black bg-opacity-50'
         ></div>
       )}
 
       {/* Modal content */}
       {isOpen && (
-        <div className='fixed left-1/2 top-1/2 z-30 -translate-x-1/2 -translate-y-1/2 transform overflow-hidden rounded-xl bg-white shadow-lg'>
+        <div className='fixed left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2 transform overflow-hidden rounded-xl bg-white shadow-lg'>
           <div className='flex h-[423px] w-[889px] gap-8 pl-5 pt-5'>
             <div className='flex flex-col justify-center'>
               <img

@@ -1,4 +1,3 @@
-// 'use client';
 import { Metadata } from 'next';
 import * as React from 'react';
 import { ToastContainer } from 'react-toastify';
@@ -37,7 +36,9 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
     siteName: siteConfig.title,
-    images: [`${siteConfig.url}/images/og.jpg`],
+    images: [
+      { url: `/images/drizylogo.svg`, width: 1200, height: 630, alt: 'Drizy' },
+    ],
     type: 'website',
     locale: 'en_US',
   },
@@ -45,7 +46,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: siteConfig.title,
     description: siteConfig.description,
-    images: [`${siteConfig.url}/images/og.jpg`],
+    images: [
+      { url: `/images/drizylogo.svg`, width: 1200, height: 630, alt: 'Drizy' },
+    ],
   },
   authors: [
     {

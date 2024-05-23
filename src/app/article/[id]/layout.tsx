@@ -15,7 +15,8 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const id = params.id;
   const res = await fetch(
-    `https://drizy-api.quadrakaryasantosa.com/crafter/article/meta/${id}`
+    `https://drizy-api.quadrakaryasantosa.com/crafter/article/meta/${id}`,
+    { cache: 'no-store' }
   );
   const resMetadata: ResArticleMetadata = await res.json();
 
@@ -25,6 +26,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       template: `%s | ${siteConfig.url} Article`,
     },
     description: resMetadata.data.description,
+    alternates: {
+      canonical: `https://drizy-client.quadrakaryasantosa.com/article/${id}`,
+    },
     robots: { index: true, follow: true },
     icons: {
       icon: '/favicon/favicon.ico',
@@ -37,7 +41,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: resMetadata.data.realTitle,
       description: resMetadata.data.description,
       siteName: siteConfig.title,
-      images: [resMetadata.data.image],
+      images: [
+        {
+          url: resMetadata.data.image,
+          width: 1200,
+          height: 630,
+          alt: resMetadata.data.title,
+        },
+      ],
       type: 'website',
       locale: 'en_US',
     },
@@ -45,7 +56,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: 'summary_large_image',
       title: resMetadata.data.realTitle,
       description: resMetadata.data.description,
-      images: [resMetadata.data.image],
+      images: [
+        {
+          url: resMetadata.data.image,
+          width: 1200,
+          height: 630,
+          alt: resMetadata.data.title,
+        },
+      ],
     },
     authors: [
       {

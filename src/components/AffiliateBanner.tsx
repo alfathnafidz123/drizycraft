@@ -1,24 +1,37 @@
+'use client';
 import axios, { AxiosError } from 'axios';
+import { Loader } from 'lucide-react';
 import localFont from 'next/font/local';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { useAppSelector } from '@/lib/store';
+import { setOpenModal } from '@/lib/slices/user';
+import { useAppDispatch, useAppSelector } from '@/lib/store';
 const myFont = localFont({ src: '../../public/fonts/Hastle.woff2' });
 const AffiliateBanner = () => {
+  const dispatch = useAppDispatch();
   const { token, dataUser } = useAppSelector((state) => state.user);
+  const [loading, setLoading] = useState(false);
   const handleRequestAffiliate = async () => {
-    try {
-      await axios.post(
-        'https://drizy-api.quadrakaryasantosa.com/affiliate/user/request',
-        {},
-        { headers: { Authorization: `bearer ${token}` } }
-      );
-    } catch (error) {
-      const err = error as AxiosError;
-      const errorData: any = err.response?.data;
-      toast.error(
-        (errorData.message as string) ?? 'Cannot generate affiliate link'
-      );
+    if (token) {
+      try {
+        setLoading(true);
+        await axios.post(
+          'https://drizy-api.quadrakaryasantosa.com/affiliate/user/request',
+          {},
+          { headers: { Authorization: `bearer ${token}` } }
+        );
+      } catch (error) {
+        const err = error as AxiosError;
+        const errorData: any = err.response?.data;
+        toast.error(
+          (errorData.message as string) ?? 'Cannot generate affiliate link'
+        );
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      dispatch(setOpenModal(true));
     }
   };
   return dataUser?.affiliate ? null : (
@@ -47,9 +60,13 @@ const AffiliateBanner = () => {
             onClick={handleRequestAffiliate}
             className='hover: mt-5 items-center justify-center rounded-[47px] border-[3px] border-indigo-950 bg-[#FFBB3C] px-20 py-4  shadow-md transition-all ease-out hover:bg-[#ECA014]'
           >
-            <div className='font-katide-semibold text-center text-black'>
-              Become an Affiliator
-            </div>
+            {loading ? (
+              <Loader />
+            ) : (
+              <div className='font-katide-semibold text-center text-black'>
+                Become an Affiliator
+              </div>
+            )}
           </button>
         </div>
       </div>
