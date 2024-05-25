@@ -202,6 +202,8 @@ export default function Register() {
                     onClick={() => {
                       setSelectedImage(index);
                     }}
+                    priority={true}
+                    loading='eager'
                   />
                 ))}
               </div>
@@ -212,6 +214,8 @@ export default function Register() {
                   width={724}
                   height={300}
                   className='rounded-xl'
+                  priority={true}
+                  loading='eager'
                 />
               )}
             </div>
