@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 
 import LogoutButton from '@/components/buttons/LogoutButton';
 
-import { account, download, history, orders, subscription } from '~/images';
+import { account, download, orders, subscription } from '~/images';
 
 export default function ProfileMenu() {
   const items = [
@@ -15,7 +15,7 @@ export default function ProfileMenu() {
     { src: subscription.src, text: 'Subscriptions', link: 'subscription' },
     { src: orders.src, text: 'Orders', link: 'order' },
     { src: download.src, text: 'Download', link: 'download' },
-    { src: history.src, text: 'History Project', link: 'history' },
+    // { src: history.src, text: 'History Project', link: 'history' },
   ];
 
   const pathname = usePathname();

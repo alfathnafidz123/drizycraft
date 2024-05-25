@@ -8,6 +8,8 @@ export interface UserI {
   userStatus: number;
   createdAt: string;
   updatedAt: string;
+  coin: number | null;
+  affiliateId: string | null;
 }
 
 export interface UserPayloadI {

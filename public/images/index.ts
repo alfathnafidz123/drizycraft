@@ -95,6 +95,9 @@ import starBadge from './star-badge.png';
 import subscription from './subscription.png';
 import success from './success.svg';
 import testimony from './testimony.png';
+import member1 from './usr_rev_1.png';
+import member2 from './usr_rev_2.png';
+import member3 from './usr_rev_3.png';
 import arrowRight from './vector.svg';
 import vectorDesign from './vector-design.png';
 import vip from './VIP+.png.png';
@@ -170,6 +173,9 @@ export {
   license2,
   loginImage,
   logodrizy,
+  member1,
+  member2,
+  member3,
   membership1,
   membership2,
   membership3,

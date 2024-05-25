@@ -7,6 +7,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { FaFacebookF } from 'react-icons/fa6';
 import { FcGoogle } from 'react-icons/fc';
+import Lottie from 'react-lottie';
 import { toast } from 'react-toastify';
 
 import { setDataUser, setOpenModal, setToken } from '@/lib/slices/user';
@@ -15,7 +16,7 @@ import { useAppDispatch, useAppSelector } from '@/lib/store';
 import { login } from '@/app/api/auth/login';
 import { loginSocial } from '@/app/api/auth/loginSocial';
 
-import { loginImage } from '~/images';
+import animationData from '~/lottie/001_LOGIN-600px.json';
 
 const ModalLogin: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -27,6 +28,15 @@ const ModalLogin: React.FC = () => {
   const [payload, setPayload] = useState('');
   const [password, setPassword] = useState('');
   const [googleUser, setUser] = useState<any>([]);
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  };
 
   const handleLogin = async () => {
     try {
@@ -92,7 +102,8 @@ const ModalLogin: React.FC = () => {
         <div className='fixed left-1/2 top-1/2 z-30 -translate-x-1/2 -translate-y-1/2 transform rounded-3xl bg-[#E5F6FB] p-8 shadow-lg'>
           <div className='flex gap-16'>
             <div className='flex flex-col justify-between gap-8'>
-              <img src={loginImage.src} alt='login' />
+              {/* <img src={loginImage.src} alt='login' /> */}
+              <Lottie options={defaultOptions} />
               <p className='text-grey-900'>
                 New User?
                 <Link href='/register'>
