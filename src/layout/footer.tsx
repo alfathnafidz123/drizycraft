@@ -13,8 +13,8 @@ const Footer = () => {
   const router = useRouter();
   return (
     <footer className='flex flex-col items-center bg-[#1A214C] pb-7 pt-12 text-white'>
-      <div className='mt-16 flex w-[1164px] flex-col items-center justify-between'>
-        <div className='flex w-full'>
+      <div className='mt-16 flex flex-col items-center justify-between lg:w-[1164px]'>
+        <div className='flex w-full flex-col gap-16 text-center lg:flex-row lg:text-left'>
           <nav className='flex flex-1 flex-col '>
             <div className='font-katide-bold text-[18px]'>Find</div>
             <div className='font-katide-regular text-[14px]'>

@@ -1,6 +1,7 @@
-import { Metadata } from 'next';
+'use client';
 import Image from 'next/image';
 import * as React from 'react';
+import Lottie from 'react-lottie';
 
 import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
@@ -8,49 +9,48 @@ import '@/styles/colors.css';
 
 import ProfileMenu from '@/components/sidebar/sidebar';
 
-import { siteConfig } from '@/constant/config';
-
-import { accountIllustration, defaultAvatar } from '~/images';
+import { defaultAvatar } from '~/images';
+import animationData from '~/lottie/002_EDIT_MY_ACCOUNT-600px.json';
 
 // !STARTERCONF Change these default meta
 // !STARTERCONF Look at @/constant/config to change them
-export const metadata: Metadata = {
-  title: {
-    default: siteConfig.title,
-    template: `%s | ${siteConfig.title}`,
-  },
-  description: siteConfig.description,
-  robots: { index: true, follow: true },
-  // !STARTERCONF this is the default favicon, you can generate your own from https://realfavicongenerator.net/
-  // ! copy to /favicon folder
-  icons: {
-    icon: '/favicon/favicon.ico',
-    shortcut: '/favicon/favicon-16x16.png',
-    apple: '/favicon/apple-touch-icon.png',
-  },
-  manifest: `/favicon/site.webmanifest`,
-  openGraph: {
-    url: siteConfig.url,
-    title: siteConfig.title,
-    description: siteConfig.description,
-    siteName: siteConfig.title,
-    images: [`${siteConfig.url}/images/og.jpg`],
-    type: 'website',
-    locale: 'en_US',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: siteConfig.title,
-    description: siteConfig.description,
-    images: [`${siteConfig.url}/images/og.jpg`],
-  },
-  authors: [
-    {
-      name: 'Dionisius Aditya',
-      url: 'https://github.com/dionisius77',
-    },
-  ],
-};
+// export const metadata: Metadata = {
+//   title: {
+//     default: siteConfig.title,
+//     template: `%s | ${siteConfig.title}`,
+//   },
+//   description: siteConfig.description,
+//   robots: { index: true, follow: true },
+//   // !STARTERCONF this is the default favicon, you can generate your own from https://realfavicongenerator.net/
+//   // ! copy to /favicon folder
+//   icons: {
+//     icon: '/favicon/favicon.ico',
+//     shortcut: '/favicon/favicon-16x16.png',
+//     apple: '/favicon/apple-touch-icon.png',
+//   },
+//   manifest: `/favicon/site.webmanifest`,
+//   openGraph: {
+//     url: siteConfig.url,
+//     title: siteConfig.title,
+//     description: siteConfig.description,
+//     siteName: siteConfig.title,
+//     images: [`${siteConfig.url}/images/og.jpg`],
+//     type: 'website',
+//     locale: 'en_US',
+//   },
+//   twitter: {
+//     card: 'summary_large_image',
+//     title: siteConfig.title,
+//     description: siteConfig.description,
+//     images: [`${siteConfig.url}/images/og.jpg`],
+//   },
+//   authors: [
+//     {
+//       name: 'Dionisius Aditya',
+//       url: 'https://github.com/dionisius77',
+//     },
+//   ],
+// };
 
 export default function RootLayout({
   children,
@@ -62,13 +62,25 @@ export default function RootLayout({
       <section className='flex gap-4 p-20'>
         <div className='flex basis-3/12 flex-col gap-12 pr-16'>
           <p className='text-3xl font-semibold'>My Account</p>
-          <Image
+          {/* <Image
             className='w-[300px]'
             src={accountIllustration.src}
             alt='Sign Up'
             width={300}
             height={300}
-          />
+          /> */}
+          <div className='max-w-[300px]'>
+            <Lottie
+              options={{
+                loop: true,
+                autoplay: true,
+                animationData: animationData, // the animation data
+                rendererSettings: {
+                  preserveAspectRatio: 'xMidYMid slice',
+                },
+              }}
+            />
+          </div>
         </div>
         <div className='flex basis-2/12 flex-col gap-8'>
           <ProfileMenu />

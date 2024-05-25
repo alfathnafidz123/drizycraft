@@ -7,6 +7,7 @@ import Image from 'next/image';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { FiUpload } from 'react-icons/fi';
+import Lottie from 'react-lottie';
 import Slider, { CustomArrowProps } from 'react-slick';
 import { toast } from 'react-toastify';
 
@@ -37,12 +38,12 @@ import {
   crafterItem1,
   gridCrafter,
   gridSlide,
-  helpFloating,
   sale,
   search,
   seasonCategory,
   starBadge,
 } from '~/images';
+import animationData from '~/lottie/006_CUSTOMER SUPPORT-600px.json';
 
 const myFont = localFont({ src: '../../public/fonts/Hastle.woff2' });
 const defaultHomepageData: HomepageDataI = {
@@ -674,7 +675,7 @@ export default function HomePage() {
                 INSTANT FREEBIES!
               </span>
             </p>
-            <div className='mt-7 flex justify-between gap-0 whitespace-nowrap text-sm max-md:max-w-full max-md:flex-wrap'>
+            <div className='mt-7 flex w-full justify-between gap-0 whitespace-nowrap text-sm'>
               <input
                 name='email'
                 type='email'
@@ -694,7 +695,7 @@ export default function HomePage() {
         </div>
       </section>
       <AffiliateBanner />
-      <div className='fixed bottom-4 z-20 flex h-[155px] w-full items-end justify-between'>
+      <div className='fixed bottom-4 z-20 hidden h-[155px] w-full items-end justify-between lg:flex'>
         <div className='flex w-1/4 justify-end'>
           <Image src={coffeeFloating.src} alt='Help' width={75} height={75} />
         </div>
@@ -708,7 +709,18 @@ export default function HomePage() {
           </div>
         </div>
         <div className='flex w-1/4 justify-end'>
-          <Image src={helpFloating.src} alt='Help' width={150} height={155} />
+          <div className='-mb-8 max-w-[200px]'>
+            <Lottie
+              options={{
+                loop: true,
+                autoplay: true,
+                animationData: animationData, // the animation data
+                rendererSettings: {
+                  preserveAspectRatio: 'xMidYMid slice',
+                },
+              }}
+            />
+          </div>
         </div>
       </div>
       <ModalProduct

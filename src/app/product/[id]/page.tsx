@@ -11,17 +11,26 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
+import { FaPencilAlt } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
 import { fetchProfile, setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import AffiliateBanner from '@/components/AffiliateBanner';
+import ModalAddReview from '@/components/modals/addReview';
 import ProductCard from '@/components/ProductCard';
+import ReviewBox from '@/components/ReviewBox';
 
 import { getAllProduct, SortType } from '@/app/api/product/getProduct';
 import { getProductById } from '@/app/api/product/getProductById';
-import { MetaProductI, productI } from '@/interfaces/product.interface';
+import { getReviews } from '@/app/api/product/getReview';
+import { SubscriptionI } from '@/app/profile/subscription/page';
+import {
+  MetaProductI,
+  productI,
+  ReviewI,
+} from '@/interfaces/product.interface';
 
 export default function Register() {
   const router = useRouter();
@@ -33,12 +42,16 @@ export default function Register() {
   const params = useParams();
   const [type, setType] = useState(0);
   const [productData, setProductData] = useState<MetaProductI>();
+  const [reviewData, setReviewData] = useState<ReviewI[]>([]);
   const [productSliderData, setSliderProductData] = useState<productI[]>([]);
   const [selectedImage, setSelectedImage] = useState<number>(0);
   const [shortUrl, setShortUrl] = useState<string>();
   const [loadingAffiliate, setLoadingAffiliate] = useState(false);
+  const [isShowModal, setIsShowModal] = useState(false);
   const [isDiscount, setIsDiscount] = useState(false);
   const searchParams = useSearchParams();
+  const [limit, setLimit] = useState(5);
+  const [subsData, setSubsData] = useState<SubscriptionI>();
   const refCode = searchParams.get('ref');
 
   const getProduct = async () => {
@@ -50,6 +63,26 @@ export default function Register() {
     }
   };
 
+  const getSubscriptionData = async () => {
+    try {
+      const res = await axios.get(
+        'https://drizy-api.quadrakaryasantosa.com/billing/current-sub',
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setSubsData(res.data.data);
+    } catch (error) {
+      const err = error as AxiosError;
+      toast.error(err.message);
+    }
+  };
+
+  useEffect(() => {
+    getSubscriptionData();
+  }, []);
   const getProductSlider = async () => {
     try {
       const response = await getAllProduct({
@@ -60,6 +93,19 @@ export default function Register() {
       setSliderProductData(response.data);
     } catch (error) {
       // toast('Error when trying to get all products');
+    }
+  };
+
+  const getReview = async () => {
+    try {
+      const response = await getReviews({
+        page: 1,
+        limit: limit,
+        id: params.id as string,
+      });
+      setReviewData(response.data);
+    } catch (error) {
+      toast('Error when trying to get reviews');
     }
   };
 
@@ -152,6 +198,7 @@ export default function Register() {
   useEffect(() => {
     getProduct();
     getProductSlider();
+    getReview();
   }, []);
 
   useEffect(() => {
@@ -180,6 +227,11 @@ export default function Register() {
 
   return productData ? (
     <main>
+      <ModalAddReview
+        isOpen={isShowModal}
+        onClose={() => setIsShowModal(false)}
+        refreshReview={getReview}
+      />
       <section className='flex flex-col gap-12 p-2 lg:px-24 lg:py-16'>
         <p className='text-[#B8B8B8]'>
           Drizy Studio » Crafters » Craft Design SVGs » Paper Cut Templates »{' '}
@@ -435,109 +487,32 @@ export default function Register() {
             </div>
             <div className='my-12 w-full border-t-2 border-[#1A214C]/15' />
             <div className='relative w-full'>
+              <button
+                onClick={() => {
+                  setIsShowModal(true);
+                }}
+                className='mb-12 flex w-[176px] items-center rounded-full border border-[#CCCCCC] bg-[#EBECF5] p-1 pr-4'
+              >
+                <div className='shrink rounded-full bg-[#FFBB3C] p-2'>
+                  <FaPencilAlt />
+                </div>
+                <p className='grow text-center text-[14px] font-black'>
+                  Write a review
+                </p>
+              </button>
               <div className='h-[300px] overflow-y-scroll'>
-                <div className='mt-2 flex flex-col gap-4'>
-                  <div className='flex items-center gap-2'>
-                    <div className='h-8 w-8 rounded-full bg-[#1A214C]'></div>
-                    <div className='flex flex-col'>
-                      <p className='text-lg font-semibold text-[#1A214C]'>
-                        Lisa N.s
-                      </p>
-                      <p className='text-lg font-thin text-[#1A214C]'>
-                        22 Feb, 2024
-                      </p>
-                    </div>
-                  </div>
-                  <div className='flex items-center gap-2 text-[#ED9B37]'>
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                  </div>
-                  <p className='font-base text-[#AAAAAA]'>
-                    Beautifully Crafted, captures love's essence, perfect
-                    valentine gift.
-                  </p>
-                </div>
-
-                <div className='mt-2 flex flex-col gap-4'>
-                  <div className='flex items-center gap-2'>
-                    <div className='h-8 w-8 rounded-full bg-[#1A214C]'></div>
-                    <div className='flex flex-col'>
-                      <p className='text-lg font-semibold text-[#1A214C]'>
-                        Lisa N.s
-                      </p>
-                      <p className='text-lg font-thin text-[#1A214C]'>
-                        22 Feb, 2024
-                      </p>
-                    </div>
-                  </div>
-                  <div className='flex items-center gap-2 text-[#ED9B37]'>
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                  </div>
-                  <p className='font-base text-[#AAAAAA]'>
-                    Beautifully Crafted, captures love's essence, perfect
-                    valentine gift.
-                  </p>
-                </div>
-
-                <div className='mt-2 flex flex-col gap-4'>
-                  <div className='flex items-center gap-2'>
-                    <div className='h-8 w-8 rounded-full bg-[#1A214C]'></div>
-                    <div className='flex flex-col'>
-                      <p className='text-lg font-semibold text-[#1A214C]'>
-                        Lisa N.s
-                      </p>
-                      <p className='text-lg font-thin text-[#1A214C]'>
-                        22 Feb, 2024
-                      </p>
-                    </div>
-                  </div>
-                  <div className='flex items-center gap-2 text-[#ED9B37]'>
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                  </div>
-                  <p className='font-base text-[#AAAAAA]'>
-                    Beautifully Crafted, captures love's essence, perfect
-                    valentine gift.
-                  </p>
-                </div>
-
-                <div className='mt-2 flex flex-col gap-4'>
-                  <div className='flex items-center gap-2'>
-                    <div className='h-8 w-8 rounded-full bg-[#1A214C]'></div>
-                    <div className='flex flex-col'>
-                      <p className='text-lg font-semibold text-[#1A214C]'>
-                        Lisa N.s
-                      </p>
-                      <p className='text-lg font-thin text-[#1A214C]'>
-                        22 Feb, 2024
-                      </p>
-                    </div>
-                  </div>
-                  <div className='flex items-center gap-2 text-[#ED9B37]'>
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                    <FaStar />
-                  </div>
-                  <p className='font-base text-[#AAAAAA]'>
-                    Beautifully Crafted, captures love's essence, perfect
-                    valentine gift.
-                  </p>
-                </div>
+                {reviewData?.map((item, index) => {
+                  return <ReviewBox key={index} data={item} />;
+                })}
               </div>
               <div className='absolute bottom-0 h-[100px] w-full bg-gradient-to-t from-white'></div>
-              <div className='absolute bottom-0 left-0 rounded-full border-2 border-[#1A214C] bg-white px-6 text-[11px] text-[#1A214C]'>
+              <div
+                onClick={() => {
+                  setLimit(limit + 5);
+                  getReview();
+                }}
+                className='absolute bottom-0 left-0 cursor-pointer rounded-full border-2 border-[#1A214C] bg-white px-6 text-[11px] text-[#1A214C]'
+              >
                 Load more
               </div>
             </div>

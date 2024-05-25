@@ -4,64 +4,115 @@
 
 import axios, { AxiosError } from 'axios';
 import * as React from 'react';
+import { useEffect } from 'react';
 import { FaInfinity } from 'react-icons/fa6';
 import { toast } from 'react-toastify';
 
 import { useAppSelector } from '@/lib/store';
 
-import { Meta } from '@/interfaces/article.interfaces';
-import {
-  TransactionI,
-  TransactionResI,
-} from '@/interfaces/transaction.interfaces';
+interface Product {
+  id: string;
+  name: string;
+  imageUrl: string[];
+  description: string;
+  category: string;
+  url: string;
+  categories: string[];
+  subCategories: string[];
+  chilSubCategories: string[];
+  tags: string[];
+  purchasedCount: number;
+  price: number[];
+  coinPrice: number[];
+  enableDiscount: boolean;
+  discount: number[];
+  discountPeriod: string;
+  fileType: string;
+  fileSize: number;
+  createdAt: string;
+  updatedAt: string | null;
+  deletedAt: string | null;
+  authorId: string;
+}
+
+interface OrderI {
+  id: number;
+  checkoutId: string;
+  sessionId: string;
+  status: boolean;
+  licenseType: number;
+  price: number;
+  createdAt: string;
+  userId: string;
+  productId: string;
+  affiliateId: string | null;
+  product: Product;
+}
 
 export default function Register() {
   const { token } = useAppSelector((state) => state.user);
-  const [transactions, setTransactions] = React.useState<TransactionI[]>([]);
-  const [meta, setMeta] = React.useState<Meta>();
-  const [params, setParams] = React.useState({ page: 1, limit: 2 });
+  const [ordersData, setOrdersData] = React.useState<OrderI[]>([]);
 
-  const getTransactions = async () => {
-    if (token) {
-      try {
-        const res = await axios.get(
-          'https://drizy-api.quadrakaryasantosa.com/billing/get-transaction',
-          { headers: { Authorization: `bearer ${token}` }, params }
-        );
-        const transactionData = res.data as TransactionResI;
-        setTransactions((prev) => [...prev, ...transactionData.data]);
-        setMeta(transactionData.meta);
-      } catch (error) {
-        const err = error as AxiosError;
-        const errorData: any = err.response?.data;
-        toast.error(
-          (errorData.message as string) ?? 'Error when get downloads product!'
-        );
-      }
+  const getTransactionData = async () => {
+    try {
+      const res = await axios.get(
+        'https://drizy-api.quadrakaryasantosa.com/billing/get-transaction?page=1&limit=10',
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setOrdersData(res.data.data);
+    } catch (error) {
+      const err = error as AxiosError;
+      toast.error(err.message);
     }
   };
 
-  const handleDownload = async (id: number) => {
-    if (token) {
-      try {
-        const res = await axios.get(
-          `https://drizy-api.quadrakaryasantosa.com/billing/get-file-download/${id}`,
-          { headers: { Authorization: `bearer ${token}` } }
-        );
-        await fetch(res.data);
-      } catch (error) {
-        const err = error as AxiosError;
-        const errorData: any = err.response?.data;
-        toast.error(
-          (errorData.message as string) ?? 'Error when download product!'
-        );
+  const handleDownloadClick = async (id: number) => {
+    try {
+      const res = await fetch(
+        `https://drizy-api.quadrakaryasantosa.com/billing/get-file-download/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error(`Failed to download file: ${res.statusText}`);
       }
+      const blob = await res.blob();
+
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.href = url;
+
+      let fileName = 'downloaded-file.zip';
+      const contentDisposition = res.headers.get('content-disposition');
+      if (contentDisposition) {
+        const matches = contentDisposition.match(/filename="(.+)"/);
+        if (matches && matches.length === 2) {
+          fileName = matches[1];
+        }
+      }
+      link.setAttribute('download', fileName);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => window.URL.revokeObjectURL(url), 100);
+    } catch (error) {
+      const err = error as AxiosError;
+      toast.error(err.message);
     }
   };
 
-  React.useEffect(() => {
-    getTransactions();
-  }, [params.page]);
+  useEffect(() => {
+    getTransactionData();
+  }, []);
 
   return (
     <>
@@ -76,85 +127,27 @@ export default function Register() {
             </tr>
           </thead>
           <tbody className='text-[#1A214C]'>
-            {transactions.map((item) => (
-              <tr key={item.id}>
-                <td>{item.product.name}</td>
-                <td>
-                  <FaInfinity />
-                </td>
-                <td>Never</td>
-                <td>
-                  <button
-                    onClick={() => {
-                      handleDownload(item.id);
-                    }}
-                    className='rounded-full bg-[#008ECC] px-10 py-2 font-semibold text-[#e4f6fb]'
-                  >
-                    Download
-                  </button>
-                </td>
-              </tr>
-            ))}
-            <tr>
-              <td>Crocodile Skater Boy</td>
-              <td>
-                <FaInfinity />
-              </td>
-              <td>Never</td>
-              <td>
-                <button className='rounded-full bg-[#008ECC] px-10 py-2 font-semibold text-[#e4f6fb]'>
-                  Download
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>Crocodile Skater Boy</td>
-              <td>
-                <FaInfinity />
-              </td>
-              <td>Never</td>
-              <td>
-                <button className='rounded-full bg-[#008ECC] px-10 py-2 font-semibold text-[#e4f6fb]'>
-                  Download
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>Crocodile Skater Boy</td>
-              <td>
-                <FaInfinity />
-              </td>
-              <td>Never</td>
-              <td>
-                <button className='rounded-full bg-[#008ECC] px-10 py-2 font-semibold text-[#e4f6fb]'>
-                  Download
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>Crocodile Skater Boy</td>
-              <td>
-                <FaInfinity />
-              </td>
-              <td>Never</td>
-              <td>
-                <button className='rounded-full bg-[#008ECC] px-10 py-2 font-semibold text-[#e4f6fb]'>
-                  Download
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>Crocodile Skater Boy</td>
-              <td>
-                <FaInfinity />
-              </td>
-              <td>Never</td>
-              <td>
-                <button className='rounded-full bg-[#008ECC] px-10 py-2 font-semibold text-[#e4f6fb]'>
-                  Download
-                </button>
-              </td>
-            </tr>
+            {ordersData?.map((item, index) => {
+              return (
+                <tr key={index}>
+                  <td>{item?.product?.name}</td>
+                  <td>
+                    <FaInfinity />
+                  </td>
+                  <td>Never</td>
+                  <td>
+                    <button
+                      onClick={() => {
+                        handleDownloadClick(item?.id);
+                      }}
+                      className='rounded-full bg-[#008ECC] px-10 py-2 font-semibold text-[#e4f6fb]'
+                    >
+                      Download
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         <div className='mt-8 flex w-full justify-center'></div>

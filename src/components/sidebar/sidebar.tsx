@@ -5,17 +5,46 @@ import { usePathname } from 'next/navigation';
 
 import LogoutButton from '@/components/buttons/LogoutButton';
 
-import { account, download, history, orders, subscription } from '~/images';
+import {
+  account,
+  accountInactive,
+  download,
+  downloadInactive,
+  order,
+  orderInactive,
+  subscription,
+  subscriptionInactive,
+} from '~/images';
 
 export default function ProfileMenu() {
   const items = [
-    { src: account.src, text: 'Account Details', link: 'account' },
+    {
+      src: account.src,
+      srcInactive: accountInactive.src,
+      text: 'Account Details',
+      link: 'account',
+    },
     // { src: address.src, text: 'Addresses', link: 'address' },
     // { src: paymentMethod.src, text: 'Payment Methods', link: 'payment' },
-    { src: subscription.src, text: 'Subscriptions', link: 'subscription' },
-    { src: orders.src, text: 'Orders', link: 'order' },
-    { src: download.src, text: 'Download', link: 'download' },
-    { src: history.src, text: 'History Project', link: 'history' },
+    {
+      src: subscription.src,
+      srcInactive: subscriptionInactive.src,
+      text: 'Subscriptions',
+      link: 'subscription',
+    },
+    {
+      src: order.src,
+      srcInactive: orderInactive.src,
+      text: 'Orders',
+      link: 'order',
+    },
+    {
+      src: download.src,
+      srcInactive: downloadInactive.src,
+      text: 'Download',
+      link: 'download',
+    },
+    // { src: history.src, text: 'History Project', link: 'history' },
   ];
 
   const pathname = usePathname();
@@ -31,7 +60,12 @@ export default function ProfileMenu() {
                 : 'flex cursor-pointer items-center gap-4 text-[#a2a5b5]'
             }
           >
-            <Image src={item.src} width={24} height={24} alt='history' />
+            <Image
+              src={path === item.link ? item.src : item.srcInactive}
+              width={24}
+              height={24}
+              alt='history'
+            />
             <p className='font-semibold'>{item.text}</p>
           </div>
         </Link>

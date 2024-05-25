@@ -64,3 +64,13 @@ export interface CrafterI {
   product: productI[];
   user: UserI;
 }
+
+export interface ReviewI {
+  id: string;
+  comment: string;
+  star: number;
+  productId: string;
+  userId: string;
+  createdAt: string;
+  user: UserI;
+}

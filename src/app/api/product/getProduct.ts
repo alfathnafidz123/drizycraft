@@ -13,6 +13,7 @@ interface GetProductPayload {
   limit: number;
   search?: string;
   category?: string;
+  extraCategory?: string;
   sortType: SortType;
 }
 export async function getAllProduct(params: GetProductPayload) {

@@ -6,6 +6,12 @@ import { toast } from 'react-toastify';
 import { useAppSelector } from '@/lib/store';
 
 import SectionContainer from '@/components/container/sectionContainer';
+// const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
+const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
+
+import localFont from 'next/font/local';
+
+import AffiliateBanner from '@/components/AffiliateBanner';
 
 import { subscriptionPayment } from '@/app/api/billing/subscriptionPayment';
 
@@ -13,6 +19,9 @@ import {
   checkblue,
   cov,
   drizzyCoin,
+  member1,
+  member2,
+  member3,
   membership1,
   membership2,
   membership3,
@@ -112,7 +121,7 @@ export default function Membership() {
         <Image src={cov.src} alt='Cov Product' width={480} height={480} />
       </SectionContainer>
 
-      <section className='flex flex-col items-center justify-center bg-[#EBECF5] pb-[20%] text-[#1A214C]'>
+      <section className='flex flex-col items-center justify-center bg-[#EBECF5] text-[#1A214C]'>
         <div className='flex flex-col bg-[#EBECF5] py-[10%] text-[#1A214C] lg:w-[1264px]'>
           <div className='flex flex-col flex-wrap lg:flex-row'>
             <div className='mb-16 flex w-full gap-4 lg:w-1/2'>
@@ -285,6 +294,148 @@ export default function Membership() {
             </div>
           </div>
         </div>
+      </section>
+      <section className='flex flex-col items-center justify-center bg-[#4065D1] text-white'>
+        <div className='flex flex-col bg-[#4065D1] py-[10%] text-white lg:w-[1264px]'>
+          <div className='relative flex flex-col flex-wrap items-center justify-center rounded-lg border border-[#fff] p-12'>
+            <div className='absolute -top-3 left-0 flex w-full justify-center'>
+              <p className='bg-[#4065D1] px-4 text-[48px]'>
+                What They Say About Us
+              </p>
+            </div>
+            <p className='py-8 text-center'>
+              Trusted by hundreds of thousands <br /> of crafters around the
+              world
+            </p>
+
+            <div className='flex w-full flex-col gap-4 rounded-lg bg-[#2A3B80] p-8 lg:flex-row'>
+              <div className='flex flex-col items-center justify-center gap-4 px-12'>
+                <Image src={member1.src} alt='Review' width={72} height={72} />
+                <p className='text-center'>
+                  This is the first time I found a site that specially provides
+                  affordable cut files. The designs are unique and excellent.
+                  They’re responsible for my newfound crafting addiction!
+                </p>
+                <div className='h-1 w-[40px] rounded-full bg-[#EE4C73]'></div>
+                <div className='flex flex-col items-center'>
+                  <p className='text-[16px] font-extrabold'>Mary Haw</p>
+                  <p className='text-[12px] font-extrabold text-[#4A90E2]'>
+                    USA
+                  </p>
+                </div>
+              </div>
+              <div className='w-3 grow rounded-full bg-white/15'></div>
+              <div className='flex flex-col items-center justify-center gap-4 px-12'>
+                <Image src={member2.src} alt='Review' width={72} height={72} />
+                <p className='text-center'>
+                  Very helpful to small business owners like me. The prices are
+                  low so I can sell my products more competitively. I can now
+                  release new products every day, thank you very much.
+                </p>
+                <div className='h-1 w-[40px] rounded-full bg-[#EE4C73]'></div>
+                <div className='flex flex-col items-center'>
+                  <p className='text-[16px] font-extrabold'>Lisa</p>
+                  <p className='text-[12px] font-extrabold text-[#4A90E2]'>
+                    CANADA
+                  </p>
+                </div>
+              </div>
+              <div className='w-3 grow rounded-full bg-white/15'></div>
+              <div className='flex flex-col items-center justify-center gap-4 px-12'>
+                <Image src={member3.src} alt='Review' width={72} height={72} />
+                <p className='text-center'>
+                  Now I can save thousands of dollars to support my hobby. The
+                  unlimited access really helps me get the design I want.
+                </p>
+                <div className='h-1 w-[40px] rounded-full bg-[#EE4C73]'></div>
+                <div className='flex flex-col items-center'>
+                  <p className='text-[16px] font-extrabold'>Ashley Rebecca</p>
+                  <p className='text-[12px] font-extrabold text-[#4A90E2]'>
+                    UK
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <SectionContainer className='font-katide flex flex-col items-center justify-center py-20 leading-10'>
+        <div className={`${myFont.className} mb-8 text-[32px]`}>FAQ</div>
+        <div className='flex justify-between gap-8'>
+          <div className='flex flex-col'>
+            <div className='mb-8'>
+              <p>Do I get access to all files?</p>
+              <p className='text-[#595959]'>
+                Yes, after you register you can immediately download all the
+                designs on this website. The prices displayed will change to $0
+                for all items.{' '}
+                <span className='text-[#FF0000]'>
+                  (Excluding bundle products)
+                </span>
+              </p>
+            </div>
+            <div className='mb-8'>
+              <p>What license is included?</p>
+              <p className='text-[#595959]'>
+                As written on the description of the plan you choose, either
+                Personal License or Commercial License.
+              </p>
+            </div>
+            <div className='mb-8'>
+              <p>What file formats are included?</p>
+              <p className='text-[#595959]'>
+                For crafts we include SVG / PNG / DXF / EPS. For graphics it is
+                up to the designer to choose the format. For fonts we offer OTF
+                and TTF formats. All fonts include at least one of these
+                formats.
+              </p>
+              <p className='text-[#595959]'>
+                The format files are listed on each product page. You are
+                allowed to convert them to other formats for your own use.
+              </p>
+            </div>
+            <div className='mb-8'>
+              <p>Does it include product bundles?</p>
+              <p className='text-[#595959]'>
+                <span className='font-bold'>Not included</span>, this membership
+                package only includes a single crafter file. Bundles are
+                products that must be purchased separately.
+              </p>
+            </div>
+          </div>
+          <div className='flex flex-col'>
+            <div className='mb-8'>
+              <p>Can I use the files commercially?</p>
+              <p className='text-[#595959]'>
+                Yes, if you choose the Commercial plan. For the Personal plan,
+                you can only use it for personal projects. After the
+                subscription ends, you still have commercial rights.
+              </p>
+            </div>
+            <div className='mb-8'>
+              <p>Can I cancel at any time?</p>
+              <p className='text-[#595959]'>
+                Yes, you can cancel your subscription at any time. There is no
+                condition for it.
+              </p>
+            </div>
+            <div className='mb-8'>
+              <p>What happens when I end my subscription?</p>
+              <p className='text-[#595959]'>
+                Once you end your subscription, you will lose access to download
+                new files and updates.
+              </p>
+              <p className='text-[#595959]'>
+                You won't be allowed to create new works with the files you
+                downloaded. However, you can keep using and selling the works
+                that you created while you had an active subscription.
+              </p>
+            </div>
+          </div>
+        </div>
+      </SectionContainer>
+      <section>
+        <AffiliateBanner />
       </section>
     </main>
   );
