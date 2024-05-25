@@ -13,7 +13,7 @@ const TrendingTag = ({ name }: TrendingTagProps) => {
       <img
         src={searchBlue.src}
         className='mr-2 w-0 scale-0 transition-all duration-300 group-hover:ml-2 group-hover:w-[16px] group-hover:scale-90'
-        alt='search'
+        alt={`search-${name}`}
       />
       <p className='mr-2'>{name}</p>
     </div>

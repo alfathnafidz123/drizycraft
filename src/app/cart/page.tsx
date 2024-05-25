@@ -90,51 +90,61 @@ export default function Register() {
           />
         </div>
         <div className='flex h-1/2 flex-grow flex-col items-center justify-center gap-4 rounded-xl bg-white p-4 shadow-lg lg:p-8'>
-          <table className='table-fixed'>
-            <thead>
-              <tr>
-                <th></th>
-                <th></th>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-            <tbody className='text-center'>
-              {cart.map((item) => (
-                <tr key={item.id}>
-                  <td className='w-1/12'>
-                    <button onClick={() => handleDelete(item.id)}>
-                      <IoIosCloseCircleOutline />
-                    </button>
-                  </td>
-                  <td className='w-2/12'>
-                    <Image
-                      src={item.product.imageUrl[0]}
-                      width={120}
-                      height={80}
-                      alt={item.product.name}
-                    />
-                  </td>
-                  <td className='w-4/12'>{item.product.name}</td>
-                  <td className='w-1/12'>
-                    ${item.product.price[item.licenseType]}
-                  </td>
-                  <td className='w-2/12'>1</td>
-                  <td className='w-2/12'>
-                    ${item.product.price[item.licenseType]}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <button
-            onClick={handlePayment}
-            className='self-end rounded-full bg-[#4065D1] px-24 py-3 text-white'
-          >
-            Checkout
-          </button>
+          {cart.length === 0 ? (
+            <div className='flex w-full items-center justify-center'>
+              <div className='text-center text-sm italic'>
+                No product in your cart
+              </div>
+            </div>
+          ) : (
+            <>
+              <table className='table-fixed'>
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th></th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                  </tr>
+                </thead>
+                <tbody className='text-center'>
+                  {cart.map((item) => (
+                    <tr key={item.id}>
+                      <td className='w-1/12'>
+                        <button onClick={() => handleDelete(item.id)}>
+                          <IoIosCloseCircleOutline />
+                        </button>
+                      </td>
+                      <td className='w-2/12'>
+                        <Image
+                          src={item.product.imageUrl[0]}
+                          width={120}
+                          height={80}
+                          alt={item.product.name}
+                        />
+                      </td>
+                      <td className='w-4/12'>{item.product.name}</td>
+                      <td className='w-1/12'>
+                        ${item.product.price[item.licenseType]}
+                      </td>
+                      <td className='w-2/12'>1</td>
+                      <td className='w-2/12'>
+                        ${item.product.price[item.licenseType]}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <button
+                onClick={handlePayment}
+                className='self-end rounded-full bg-[#4065D1] px-24 py-3 text-white'
+              >
+                Checkout
+              </button>
+            </>
+          )}
         </div>
       </section>
     </main>

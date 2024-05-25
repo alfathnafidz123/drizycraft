@@ -9,11 +9,13 @@ import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import cartSlice from './slices/cart';
+import subcriptionSlice from './slices/subcription';
 import userSlice from './slices/user';
 
 const reducers = combineReducers({
   user: userSlice,
   cart: cartSlice,
+  subs: subcriptionSlice,
 });
 
 const persistConfig = {

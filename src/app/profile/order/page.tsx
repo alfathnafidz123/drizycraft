@@ -3,49 +3,47 @@
 'use client';
 
 import axios, { AxiosError } from 'axios';
+import moment from 'moment';
 import * as React from 'react';
 import { toast } from 'react-toastify';
 
 import { useAppSelector } from '@/lib/store';
 
-export interface OrdersI {
-  checkoutId: string;
-  totalPrice: number;
-  count: string;
-}
+import {
+  Meta,
+  TransactionI,
+  TransactionResI,
+} from '@/interfaces/transaction.interfaces';
 
 export default function Register() {
   const { token } = useAppSelector((state) => state.user);
-  const [ordersData, setOrdersData] = React.useState<OrdersI[]>([]);
+  const [transactions, setTransactions] = React.useState<TransactionI[]>([]);
+  const [meta, setMeta] = React.useState<Meta>();
+  const [params, setParams] = React.useState({ page: 1, limit: 2 });
 
-  const getOrdersId = (id: string) => {
-    if (id?.includes('cs')) {
-      const idString = id?.split('_');
-      return idString[2].slice(0, 10);
-    } else {
-      return id;
-    }
-  };
-  const getSubscriptionData = async () => {
-    try {
-      const res = await axios.get(
-        'https://drizy-api.quadrakaryasantosa.com/billing/get-transaction-grouped?page=1&limit=10',
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setOrdersData(res.data.data);
-    } catch (error) {
-      const err = error as AxiosError;
-      toast.error(err.message);
+  const getTransactions = async () => {
+    if (token) {
+      try {
+        const res = await axios.get(
+          'https://drizy-api.quadrakaryasantosa.com/billing/get-transaction',
+          { headers: { Authorization: `bearer ${token}` }, params }
+        );
+        const transactionData = res.data as TransactionResI;
+        setTransactions((prev) => [...prev, ...transactionData.data]);
+        setMeta(transactionData.meta);
+      } catch (error) {
+        const err = error as AxiosError;
+        const errorData: any = err.response?.data;
+        toast.error(
+          (errorData.message as string) ?? 'Error when get transactions!'
+        );
+      }
     }
   };
 
   React.useEffect(() => {
-    getSubscriptionData();
-  }, []);
+    getTransactions();
+  }, [params.page]);
 
   return (
     <>
@@ -61,23 +59,32 @@ export default function Register() {
             </tr>
           </thead>
           <tbody className='text-[#1A214C]'>
-            {ordersData?.length > 0 &&
-              ordersData?.map((item, index) => {
-                return (
-                  <tr key={index}>
-                    <td>{getOrdersId(item?.checkoutId)}</td>
-                    <td>{item?.count}</td>
-                    <td>Completed</td>
-                    <td>
-                      ${item?.totalPrice / 100} for {item?.count} item
-                    </td>
-                    <td>Invoice</td>
-                  </tr>
-                );
-              })}
+            {transactions.map((item) => (
+              <tr key={item.id}>
+                <td>#{item.id}</td>
+                <td>{moment(item.createdAt).format('MMMM DD, YYYY')}</td>
+                <td>Completed</td>
+                <td>
+                  {item.checkoutId === 'coin'
+                    ? `${item.price} coin`
+                    : `$${item.price / 100}`}{' '}
+                  for 1 item
+                </td>
+                <td>Invoice</td>
+              </tr>
+            ))}
           </tbody>
         </table>
-        <div className='mt-8 flex w-full justify-center'></div>
+        {meta?.hasNextPage && (
+          <button
+            onClick={() =>
+              setParams((prev) => ({ ...prev, page: prev.page + 1 }))
+            }
+            className='mt-8 flex w-full cursor-pointer justify-center text-blue-600 underline'
+          >
+            Load more...
+          </button>
+        )}
       </div>
     </>
   );

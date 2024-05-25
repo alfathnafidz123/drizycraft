@@ -1,6 +1,7 @@
 import aboutHeader from './aboutHeader.png';
-import account from './account.png';
+import account from './account.svg';
 import accountIllustration from './account-illustration.png';
+import accountInactive from './accountInactive.svg';
 import address from './address.png';
 import affiliatebanner from './affiliatebanner.svg';
 import AO from './AO.svg';
@@ -40,7 +41,8 @@ import creativeFabrica from './creativeFabrica.svg';
 import cross from './crossgray.svg';
 import defaultAvatar from './default-avatar.png';
 import designBundles from './designBundles.svg';
-import download from './download.png';
+import download from './download.svg';
+import downloadInactive from './downloadInactive.svg';
 import drizyteam1 from './drizy-team-1.png';
 import drizyteam2 from './drizy-team-2.png';
 import drizyteam3 from './drizy-team-3.png';
@@ -72,6 +74,8 @@ import membership1 from './nocondition.svg';
 import membership3 from './nohiddenfees.svg';
 import optimizedSVG from './optimizedSVG.svg';
 import orders from './orders.png';
+import order from './orders.svg';
+import orderInactive from './ordersInactive.svg';
 import paymentMethod from './paymentMethod.png';
 import pintCrafter from './pintCrafter.svg';
 import project1 from './project-1.png';
@@ -92,7 +96,8 @@ import search from './search.png';
 import searchBlue from './search-blue.png';
 import seasonCategory from './season-category.png';
 import starBadge from './star-badge.png';
-import subscription from './subscription.png';
+import subscription from './subscription.svg';
+import subscriptionInactive from './subscriptionInactive.svg';
 import success from './success.svg';
 import testimony from './testimony.png';
 import member1 from './usr_rev_1.png';
@@ -108,6 +113,7 @@ export {
   aboutHeader,
   account,
   accountIllustration,
+  accountInactive,
   address,
   affiliatebanner,
   AO,
@@ -149,6 +155,7 @@ export {
   defaultAvatar,
   designBundles,
   download,
+  downloadInactive,
   drizyteam1,
   drizyteam2,
   drizyteam3,
@@ -182,6 +189,8 @@ export {
   membership4,
   newMember,
   optimizedSVG,
+  order,
+  orderInactive,
   orders,
   paymentMethod,
   pintCrafter,
@@ -204,6 +213,7 @@ export {
   seasonCategory,
   starBadge,
   subscription,
+  subscriptionInactive,
   success,
   testimony,
   vectorDesign,

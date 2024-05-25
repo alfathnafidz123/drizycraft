@@ -54,5 +54,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <><ToastContainer />{children}</>;
+  return (
+    <>
+      <ToastContainer />
+      {children}
+    </>
+  );
 }

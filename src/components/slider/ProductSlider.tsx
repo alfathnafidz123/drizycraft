@@ -18,9 +18,13 @@ import { productI } from '@/interfaces/product.interface';
 
 interface SwipeToSlideProps {
   items: productI[];
+  handleShowDetail?: (product: productI) => void;
 }
 
-const ProductSlider: React.FC<SwipeToSlideProps> = ({ items }) => {
+const ProductSlider: React.FC<SwipeToSlideProps> = ({
+  items,
+  handleShowDetail,
+}) => {
   const router = useRouter();
   const settings = {
     className: 'center',
@@ -64,16 +68,19 @@ const ProductSlider: React.FC<SwipeToSlideProps> = ({ items }) => {
         {items.map((item, index) => {
           return (
             <div key={index} className='pb-8'>
-              <ProductCard data={item} />
+              <ProductCard
+                data={item}
+                handleShowDetail={(data) => handleShowDetail?.(data)}
+              />
             </div>
           );
         })}
         <div className='!hidden lg:flex'>
           <div className='flex h-[335px] items-center'>
             <button
-              onClick={() => {
-                router.push('/catalog-crafter');
-              }}
+              id='see-more'
+              aria-label='Go to catalog'
+              onClick={() => router.push('/catalog-crafter')}
               className='font-katide-bold flex aspect-square h-[87px] flex-col items-center justify-center rounded-full border-2 border-[#4065D1] pt-4 text-[12px] uppercase text-[#4065D1]'
             >
               <span>see more</span>

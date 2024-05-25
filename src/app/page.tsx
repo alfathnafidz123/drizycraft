@@ -15,6 +15,7 @@ import { useAppSelector } from '@/lib/store';
 
 import AffiliateBanner from '@/components/AffiliateBanner';
 import SectionContainer from '@/components/container/sectionContainer';
+import ModalProduct from '@/components/modals/product';
 import ProductCategories from '@/components/ProductCategories';
 import SeasonCategories from '@/components/SeasonCategories';
 import ProductSlider from '@/components/slider/ProductSlider';
@@ -23,7 +24,11 @@ import Testimonies from '@/components/testimonies';
 
 import { getCategory } from '@/app/api/product/getCategory';
 import { getHomepage } from '@/app/api/product/getHomepage';
-import { CategoryI, HomepageDataI } from '@/interfaces/product.interface';
+import {
+  CategoryI,
+  HomepageDataI,
+  productI,
+} from '@/interfaces/product.interface';
 
 import {
   arrowRight,
@@ -55,6 +60,10 @@ export default function HomePage() {
   const [categoryData, setCategoryData] = useState<CategoryI[] | []>([]);
   const [homeProduct, setHomeProduct] =
     useState<HomepageDataI>(defaultHomepageData);
+  const [showProductDetail, setShowProductDetail] = useState<{
+    show: boolean;
+    product?: productI;
+  }>({ show: false });
 
   const CustomPrevArrow: React.FC<CustomArrowProps> = ({ onClick }) => (
     <div
@@ -270,7 +279,7 @@ export default function HomePage() {
             <div className='relative z-[10] h-[224px] w-full rounded-2xl border-[20px] border-[#61A9FA] transition-all duration-300 hover:border-[#2A3B80] lg:h-full lg:w-5/12'>
               <img
                 src={gridCrafter.src}
-                className='absolute h-full w-full bg-cover'
+                className='absolute h-full w-full bg-cover object-cover'
                 alt='Crafter'
               />
               <div className='group absolute flex h-full w-full flex-col justify-between bg-blue-500/25 bg-opacity-15 p-4 text-left hover:bg-[#2A3B80]/50 hover:bg-opacity-35 '>
@@ -387,7 +396,11 @@ export default function HomePage() {
                       />
                     </div>
                     <div>
-                      <button className='flex justify-center rounded-full bg-[#55668c] p-2'>
+                      <button
+                        id='join-community'
+                        aria-label='Request join community'
+                        className='flex justify-center rounded-full bg-[#55668c] p-2'
+                      >
                         Click here to request to join!
                       </button>
                     </div>
@@ -402,7 +415,11 @@ export default function HomePage() {
                     , a group of 21,000+ friendly home crafters who are all
                     there to help each other succeed & get free product updates
                   </p>
-                  <button className='flex justify-center self-center rounded-full bg-[#55668c] p-2 transition-all duration-500 group-hover:bg-[#61A9FA]'>
+                  <button
+                    id='join-community-2'
+                    aria-label='Request Join Community'
+                    className='flex justify-center self-center rounded-full bg-[#55668c] p-2 transition-all duration-500 group-hover:bg-[#61A9FA]'
+                  >
                     Click here to request to join!
                   </button>
                 </div>
@@ -434,12 +451,19 @@ export default function HomePage() {
                 SVG Paper Cut
               </span>
               <div className='mt-2 flex gap-2'>
-                <button className='flex h-[37px] flex-grow items-center justify-center rounded-[8px] bg-[#2a3b80] px-16 py-4'>
+                <button
+                  id='buy'
+                  aria-label='Buy product'
+                  className='flex h-[37px] flex-grow items-center justify-center rounded-[8px] bg-[#2a3b80] px-16 py-4'
+                >
                   <span className='font-katide-bold z-[5] text-[20px] leading-[16px] text-white'>
                     $1
                   </span>
                 </button>
-                <button className='flex h-[37px] items-center justify-center gap-[8px] rounded-[8px] border-2 border-gray-400 bg-white pb-[12px] pl-[24px] pr-[24px] pt-[12px]'>
+                <button
+                  id='add-to-cart'
+                  className='flex h-[37px] items-center justify-center gap-[8px] rounded-[8px] border-2 border-gray-400 bg-white pb-[12px] pl-[24px] pr-[24px] pt-[12px]'
+                >
                   <img src={cartProduct.src} alt='cart'></img>
                 </button>
               </div>
@@ -503,7 +527,12 @@ export default function HomePage() {
             </div>
           </div>
           <div className='h-[800px] lg:h-[400px]'>
-            <ProductSlider items={homeProduct.crafterData} />
+            <ProductSlider
+              items={homeProduct.crafterData}
+              handleShowDetail={(data) =>
+                setShowProductDetail({ show: true, product: data })
+              }
+            />
           </div>
           <div className='flex justify-center gap-4 lg:hidden'>
             <span>see more</span>
@@ -528,7 +557,12 @@ export default function HomePage() {
             </div>
           </div>
           <div className='h-[800px] lg:h-[400px]'>
-            <ProductSlider items={homeProduct.bestSellerData} />
+            <ProductSlider
+              items={homeProduct.bestSellerData}
+              handleShowDetail={(data) =>
+                setShowProductDetail({ show: true, product: data })
+              }
+            />
           </div>
           <div className='flex justify-center gap-4 lg:hidden'>
             <span>see more</span>
@@ -550,7 +584,12 @@ export default function HomePage() {
             </div>
           </div>
           <div className='h-[800px] lg:h-[400px]'>
-            <ProductSlider items={homeProduct.bundleData} />
+            <ProductSlider
+              items={homeProduct.bundleData}
+              handleShowDetail={(data) =>
+                setShowProductDetail({ show: true, product: data })
+              }
+            />
           </div>
           <div className='flex justify-center gap-4 lg:hidden'>
             <span>see more</span>
@@ -572,7 +611,12 @@ export default function HomePage() {
             </div>
           </div>
           <div className='h-[850px] lg:h-[400px]'>
-            <ProductSlider items={homeProduct.exclusiveData} />
+            <ProductSlider
+              items={homeProduct.exclusiveData}
+              handleShowDetail={(data) =>
+                setShowProductDetail({ show: true, product: data })
+              }
+            />
           </div>
           <div className='flex justify-center gap-4 lg:hidden'>
             <span>see more</span>
@@ -597,7 +641,12 @@ export default function HomePage() {
             </div>
           </div>
           <div className='h-[800px] lg:h-[400px]'>
-            <ProductSlider items={homeProduct.vectorData} />
+            <ProductSlider
+              items={homeProduct.vectorData}
+              handleShowDetail={(data) =>
+                setShowProductDetail({ show: true, product: data })
+              }
+            />
           </div>
           <div className='flex justify-center gap-4 lg:hidden'>
             <span>see more</span>
@@ -628,6 +677,7 @@ export default function HomePage() {
             </p>
             <div className='mt-7 flex w-full justify-between gap-0 whitespace-nowrap text-sm'>
               <input
+                name='email'
                 type='email'
                 placeholder='Subscribe by email'
                 className='max-md:max-w- grow items-start justify-center rounded-[60px_0px_0px_60px] bg-violet-100 px-16 py-7 leading-[186%] tracking-normal text-black max-md:px-5'
@@ -635,6 +685,7 @@ export default function HomePage() {
               <button
                 className='button font-katide-bold justify-center rounded-[0px_60px_60px_0px] bg-indigo-950 px-16 py-7 text-center font-[14px] text-white hover:bg-[#2A3B80] max-md:px-5'
                 role='button'
+                id='subscribe'
                 aria-label='Subscribe'
               >
                 Subscribe
@@ -672,6 +723,11 @@ export default function HomePage() {
           </div>
         </div>
       </div>
+      <ModalProduct
+        isOpen={showProductDetail.show}
+        product={showProductDetail.product}
+        onClose={() => setShowProductDetail({ show: false })}
+      />
     </main>
   );
 }

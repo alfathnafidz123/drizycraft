@@ -1,4 +1,3 @@
-// 'use client';
 import { Metadata } from 'next';
 import * as React from 'react';
 import { ToastContainer } from 'react-toastify';
@@ -8,10 +7,10 @@ import '@/styles/globals.css';
 import '@/styles/colors.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-import GoogleAnalytics from '@/components/GoogleAnalytics';
-
 import StoreProvider from '@/app/StoreProvider';
 import { siteConfig } from '@/constant/config';
+import AsyncCSSSlick from '@/layout/asyncCssSlick';
+import AsyncCSSThemeSlick from '@/layout/asyncCssThemeSlick';
 import Footer from '@/layout/footer';
 import Navbar from '@/layout/navbar';
 
@@ -37,7 +36,9 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
     siteName: siteConfig.title,
-    images: [`${siteConfig.url}/images/og.jpg`],
+    images: [
+      { url: `/images/drizylogo.svg`, width: 1200, height: 630, alt: 'Drizy' },
+    ],
     type: 'website',
     locale: 'en_US',
   },
@@ -45,7 +46,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: siteConfig.title,
     description: siteConfig.description,
-    images: [`${siteConfig.url}/images/og.jpg`],
+    images: [
+      { url: `/images/drizylogo.svg`, width: 1200, height: 630, alt: 'Drizy' },
+    ],
   },
   authors: [
     {
@@ -61,23 +64,72 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className='!scroll-smooth'>
+    <html className='!scroll-smooth' lang='en'>
       <head>
+        {/* preload font */}
         <link
-          rel='stylesheet'
-          type='text/css'
-          charSet='UTF-8'
-          href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css'
+          rel='preload'
+          href='/fonts/Katide-Heavy.woff2'
+          as='font'
+          type='font/woff2'
+          crossOrigin='anonymous'
         />
         <link
-          rel='stylesheet'
-          type='text/css'
-          href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css'
+          rel='preload'
+          href='/fonts/Katide-ExtraBold.woff2'
+          as='font'
+          type='font/woff2'
+          crossOrigin='anonymous'
         />
+        <link
+          rel='preload'
+          href='/fonts/Katide-Bold.woff2'
+          as='font'
+          type='font/woff2'
+          crossOrigin='anonymous'
+        />
+        <link
+          rel='preload'
+          href='/fonts/Katide-SemiBold.woff2'
+          as='font'
+          type='font/woff2'
+          crossOrigin='anonymous'
+        />
+        <link
+          rel='preload'
+          href='/fonts/Katide-Medium.woff2'
+          as='font'
+          type='font/woff2'
+          crossOrigin='anonymous'
+        />
+        <link
+          rel='preload'
+          href='/fonts/Katide-Regular.woff2'
+          as='font'
+          type='font/woff2'
+          crossOrigin='anonymous'
+        />
+        <link
+          rel='preload'
+          href='/fonts/Katide-Light.woff2'
+          as='font'
+          type='font/woff2'
+          crossOrigin='anonymous'
+        />
+        <link
+          rel='preload'
+          href='/fonts/Katide-Thin.woff2'
+          as='font'
+          type='font/woff2'
+          crossOrigin='anonymous'
+        />
+
+        <AsyncCSSSlick />
+        <AsyncCSSThemeSlick />
       </head>
 
       <body className=''>
-        <GoogleAnalytics />
+        {/* <GoogleAnalytics /> */}
         <StoreProvider>
           <Navbar />
           {children}

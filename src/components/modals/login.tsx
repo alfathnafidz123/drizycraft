@@ -3,6 +3,7 @@
 
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
+import { Loader } from 'lucide-react';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { FaFacebookF } from 'react-icons/fa6';
@@ -25,6 +26,7 @@ const ModalLogin: React.FC = () => {
     dispatch(setOpenModal(false));
   };
 
+  const [loading, setLoading] = useState(false);
   const [payload, setPayload] = useState('');
   const [password, setPassword] = useState('');
   const [googleUser, setUser] = useState<any>([]);
@@ -40,19 +42,23 @@ const ModalLogin: React.FC = () => {
 
   const handleLogin = async () => {
     try {
+      setLoading(true);
       const response = await login({ payload, password });
       const { user, token } = response;
       dispatch(setDataUser({ userData: user }));
       dispatch(setToken({ token }));
       dispatch(setOpenModal(false));
-      toast(`Welcome back ${user.username}!`);
+      toast(`Welcome ${user.username}!`);
     } catch (error: any) {
       toast('Login failed');
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleLoginSocial = async (email: string, fullName: string) => {
     try {
+      setLoading(true);
       const response = await loginSocial({ email, fullName });
       const { user, token } = response;
       dispatch(setDataUser({ userData: user }));
@@ -60,6 +66,8 @@ const ModalLogin: React.FC = () => {
       dispatch(setOpenModal(false));
     } catch (error: any) {
       toast('Login failed');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -69,7 +77,7 @@ const ModalLogin: React.FC = () => {
   });
 
   useEffect(() => {
-    if (googleUser) {
+    if (googleUser.access_token !== undefined) {
       axios
         .get(
           `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${googleUser.access_token}`,
@@ -83,7 +91,7 @@ const ModalLogin: React.FC = () => {
         .then((res) => {
           handleLoginSocial(res.data.email, res.data.name);
         })
-        .catch((err) => console.log(err));
+        .catch(() => toast('Google analytics error'));
     }
   }, [googleUser]);
 
@@ -93,13 +101,13 @@ const ModalLogin: React.FC = () => {
       {isOpen && (
         <div
           onClick={closeModal}
-          className='fixed left-0 top-0 z-30 h-full w-full bg-black bg-opacity-50'
+          className='fixed left-0 top-0 z-50 h-full w-full bg-black bg-opacity-50'
         ></div>
       )}
 
       {/* Modal content */}
       {isOpen && (
-        <div className='fixed left-1/2 top-1/2 z-30 -translate-x-1/2 -translate-y-1/2 transform rounded-3xl bg-[#E5F6FB] p-8 shadow-lg'>
+        <div className='fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 transform rounded-3xl bg-[#E5F6FB] p-8 shadow-lg'>
           <div className='flex gap-16'>
             <div className='flex flex-col justify-between gap-8'>
               {/* <img src={loginImage.src} alt='login' /> */}
@@ -146,7 +154,7 @@ const ModalLogin: React.FC = () => {
                   onClick={handleLogin}
                   className='rounded-full bg-[#1A214C] px-6 py-2 font-semibold text-white'
                 >
-                  LOGIN
+                  {loading ? <Loader color='#fff' /> : 'LOGIN'}
                 </button>
                 <p className='text-grey-700'>Lost your password?</p>
               </div>

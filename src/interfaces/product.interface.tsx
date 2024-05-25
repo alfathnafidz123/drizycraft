@@ -16,7 +16,7 @@ export interface productI {
   coinPrice: number[];
   enableDiscount: boolean;
   discount: number[];
-  discountPeriod: string;
+  discountPeriod?: string;
   fileType: string;
   fileSize: number;
   createdAt: string;
