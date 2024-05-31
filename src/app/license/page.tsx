@@ -478,7 +478,10 @@ export default function License() {
             <li>Submit patterns to POD sites.</li>
           </ul>
 
-          <p className='mt-[8%] text-[16px]'>In case you have any questions, you can contact us at <span className='text-[#4065D1]'>admin@drizystudio.com</span></p>
+          <p className='mt-[8%] text-[16px]'>
+            In case you have any questions, you can contact us at{' '}
+            <span className='text-[#4065D1]'>admin@drizystudio.com</span>
+          </p>
         </div>
       </div>
     </main>

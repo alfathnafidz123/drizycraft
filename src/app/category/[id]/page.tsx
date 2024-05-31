@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
+import ModalProduct from '@/components/modals/product';
 import ProductCard from '@/components/ProductCard';
 
 import { getAllProduct, SortType } from '@/app/api/product/getProduct';
@@ -12,12 +13,18 @@ import { productI } from '@/interfaces/product.interface';
 export default function CatalogCrafter() {
   const params = useParams();
   const [isShortByDropdownOpen, setIsShortByDropdownOpen] = useState(false);
-  const [selectedShortByOption, setSelectedShortByOption] = useState(null);
+  const [selectedShortByOption, setSelectedShortByOption] = useState<SortType>(
+    SortType.Latest
+  );
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [selectedCategoryOption, setSelectedCategoryOption] = useState('');
   const [isSeasonsDropdownOpen, setIsSeasonsDropdownOpen] = useState(false);
   const [selectedSeasonsOption, setSelectedSeasonsOption] = useState('');
   const [productData, setProductData] = useState<productI[] | []>([]);
+  const [showProductDetail, setShowProductDetail] = useState<{
+    show: boolean;
+    product?: productI;
+  }>({ show: false });
 
   const shortByOptions = [
     SortType.Latest,
@@ -71,7 +78,7 @@ export default function CatalogCrafter() {
       const response = await getAllProduct({
         page: 1,
         limit: 10,
-        sortType: SortType.Latest,
+        sortType: selectedShortByOption,
         category: params.id as string,
         extraCategory:
           selectedSeasonsOption !== '' ? selectedSeasonsOption : '',
@@ -179,10 +186,21 @@ export default function CatalogCrafter() {
 
         <div className='ml-[7%] flex flex-wrap'>
           {productData.map((product, index) => (
-            <ProductCard key={index} data={product} />
+            <ProductCard
+              key={index}
+              data={product}
+              handleShowDetail={(data) =>
+                setShowProductDetail({ show: true, product: data })
+              }
+            />
           ))}
         </div>
       </section>
+      <ModalProduct
+        isOpen={showProductDetail.show}
+        product={showProductDetail.product}
+        onClose={() => setShowProductDetail({ show: false })}
+      />
     </main>
   );
 }

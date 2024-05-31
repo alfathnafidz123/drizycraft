@@ -1,17 +1,21 @@
 const Client = () => {
-  return <section className="">
-  <div className="flex flex-col">
-        <h2 className="text-[40px] font-bold text-center mb-[40px]">Our Latest Client</h2>
-        <div className="flex flex-wrap justify-center items-center gap-[50px] mb-[50px]">
-          <div className="w-[400px] h-[200px] bg-[#D9D9D9] rounded-[12px]"></div>
-          <div className="w-[400px] h-[200px] bg-[#D9D9D9] rounded-[12px]"></div>
-          <div className="w-[400px] h-[200px] bg-[#D9D9D9] rounded-[12px]"></div>
-          <div className="w-[400px] h-[200px] bg-[#D9D9D9] rounded-[12px]"></div>
-          <div className="w-[400px] h-[200px] bg-[#D9D9D9] rounded-[12px]"></div>
-          <div className="w-[400px] h-[200px] bg-[#D9D9D9] rounded-[12px]"></div>
+  return (
+    <section className=''>
+      <div className='flex flex-col'>
+        <h2 className='mb-[40px] text-center text-[40px] font-bold'>
+          Our Latest Client
+        </h2>
+        <div className='mb-[50px] flex flex-wrap items-center justify-center gap-[50px]'>
+          <div className='h-[200px] w-[400px] rounded-[12px] bg-[#D9D9D9]'></div>
+          <div className='h-[200px] w-[400px] rounded-[12px] bg-[#D9D9D9]'></div>
+          <div className='h-[200px] w-[400px] rounded-[12px] bg-[#D9D9D9]'></div>
+          <div className='h-[200px] w-[400px] rounded-[12px] bg-[#D9D9D9]'></div>
+          <div className='h-[200px] w-[400px] rounded-[12px] bg-[#D9D9D9]'></div>
+          <div className='h-[200px] w-[400px] rounded-[12px] bg-[#D9D9D9]'></div>
         </div>
       </div>
-</section>;
+    </section>
+  );
 };
 
 export default Client;

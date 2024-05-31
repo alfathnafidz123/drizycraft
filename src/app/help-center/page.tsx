@@ -105,7 +105,7 @@ export default function HelpCenter() {
             </div>
           </div>
 
-          <button className='mt-[4%] mb-[4%] ml-10 rounded-full border-[1px] px-8 py-2 bg-white text-[#4065D1] border-[#4065D1] text-[14px] font-katide-bold text-center'>
+          <button className='font-katide-bold mb-[4%] ml-10 mt-[4%] rounded-full border-[1px] border-[#4065D1] bg-white px-8 py-2 text-center text-[14px] text-[#4065D1]'>
             Explore More
           </button>
         </div>
@@ -125,14 +125,14 @@ export default function HelpCenter() {
             </div>
           </div>
 
-            <div className='mt-10 ml-10 flex'>
-              <img src={helpcenter2.src} alt='Help Center' />
-              <p className='ml-6 mt-2 text-[14px]'>
+          <div className='ml-10 mt-10 flex'>
+            <img src={helpcenter2.src} alt='Help Center' />
+            <p className='ml-6 mt-2 text-[14px]'>
               How to Join Drizy Studio Community
-              </p>
-            </div>
+            </p>
+          </div>
 
-          <button className='mt-[4%] mb-[4%] ml-10 rounded-full border-[1px] px-8 py-2 bg-white text-[#4065D1] border-[#4065D1] text-[14px] font-katide-bold text-center'>
+          <button className='font-katide-bold mb-[4%] ml-10 mt-[4%] rounded-full border-[1px] border-[#4065D1] bg-white px-8 py-2 text-center text-[14px] text-[#4065D1]'>
             Explore More
           </button>
         </div>
@@ -152,18 +152,17 @@ export default function HelpCenter() {
             </div>
           </div>
 
-            <div className='mt-10 ml-10 flex'>
-              <img src={helpcenter2.src} alt='Help Center' />
-              <p className='ml-6 mt-2 text-[14px]'>
+          <div className='ml-10 mt-10 flex'>
+            <img src={helpcenter2.src} alt='Help Center' />
+            <p className='ml-6 mt-2 text-[14px]'>
               Getting Started: Drizy VIP+ Membership
-              </p>
-            </div>
+            </p>
+          </div>
 
-          <button className='mt-[4%] mb-[4%] ml-10 rounded-full border-[1px] px-8 py-2 bg-white text-[#4065D1] border-[#4065D1] text-[14px] font-katide-bold text-center'>
+          <button className='font-katide-bold mb-[4%] ml-10 mt-[4%] rounded-full border-[1px] border-[#4065D1] bg-white px-8 py-2 text-center text-[14px] text-[#4065D1]'>
             Explore More
           </button>
         </div>
-
       </section>
     </main>
   );

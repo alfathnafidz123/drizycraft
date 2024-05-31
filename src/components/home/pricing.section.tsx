@@ -1,44 +1,63 @@
-import Image from "next/image";
+import Image from 'next/image';
 
-import Button from "@/components/buttons/Button";
+import Button from '@/components/buttons/Button';
 
-import { features } from "@/constant/data";
+import { features } from '@/constant/data';
 
 const PricingSection = () => {
   return (
-    <section className="flex flex-col justify-center items-center mt-[50px] mb-[100px] px-4">
-      <h1 className="mb-[60px] font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-b from-[#0151c6] to-[#217df7]">Choose Your Package</h1>
+    <section className='mb-[100px] mt-[50px] flex flex-col items-center justify-center px-4'>
+      <h1 className='mb-[60px] bg-gradient-to-b from-[#0151c6] to-[#217df7] bg-clip-text text-4xl font-extrabold text-transparent'>
+        Choose Your Package
+      </h1>
 
-      <div className="flex flex-col md:flex-row justify-center items-center md:gap-[150px] gap-[150px] mt-[50px] flex-wrap">
+      <div className='mt-[50px] flex flex-col flex-wrap items-center justify-center gap-[150px] md:flex-row md:gap-[150px]'>
         {features.map((feature, i) => (
-          <div key={i} className="group relative flex flex-col justify-start items-center flex-wrap">
-            <div className="text-center bg-gradient-to-r from-[#0151c6] to-[#217df7] rounded-[12px] px-6 max-md:px-8 py-3 absolute md:-top-11 -top-10 left-0 pb-[25px]">
-              <h3 className="text-slate-300 group-hover:text-white group-hover:-translate-y-2 transition duration-200 ease-in-out">{feature.title}</h3>
+          <div
+            key={i}
+            className='group relative flex flex-col flex-wrap items-center justify-start'
+          >
+            <div className='absolute -top-10 left-0 rounded-[12px] bg-gradient-to-r from-[#0151c6] to-[#217df7] px-6 py-3 pb-[25px] text-center max-md:px-8 md:-top-11'>
+              <h3 className='text-slate-300 transition duration-200 ease-in-out group-hover:-translate-y-2 group-hover:text-white'>
+                {feature.title}
+              </h3>
             </div>
 
-            <div className="relative z-[999] bg-gray-100 bg-opacity-80 shadow-lg shadow-black/[0.03] backdrop-blur-[0.2rem] rounded-[12px] p-8 py-[40px] w-full">
-              <h3 className="text-center text-[40px] border-b-2 border-blue-500 pb-5 mb-[20px] pl-4 w-full">
-                <span className="absolute text-xl top-8 -translate-x-[100%] font-semibold">Rp</span>{feature.value}
+            <div className='relative z-[999] w-full rounded-[12px] bg-gray-100 bg-opacity-80 p-8 py-[40px] shadow-lg shadow-black/[0.03] backdrop-blur-[0.2rem]'>
+              <h3 className='mb-[20px] w-full border-b-2 border-blue-500 pb-5 pl-4 text-center text-[40px]'>
+                <span className='absolute top-8 -translate-x-[100%] text-xl font-semibold'>
+                  Rp
+                </span>
+                {feature.value}
               </h3>
               {feature.featureItem.map((item) => (
-                <div key={item.title} className="flex items-center gap-4 mt-[15px] hover:scale-105 transition">
-                  <Image src={item.imgUrl} alt="" width={20} height={20}></Image>
-                  <p className="text-[18px]">{item.title}</p>
+                <div
+                  key={item.title}
+                  className='mt-[15px] flex items-center gap-4 transition hover:scale-105'
+                >
+                  <Image
+                    src={item.imgUrl}
+                    alt=''
+                    width={20}
+                    height={20}
+                  ></Image>
+                  <p className='text-[18px]'>{item.title}</p>
                 </div>
               ))}
             </div>
 
-            <div className="absolute -bottom-9 right-0">
-              <Button className="bg-gradient-to-r from-[#0151c6] to-[#217df7] px-10 pb-2 pt-[20px] rounded-[12px] border-none transition duration-200 ease-in">
-                <span className="text-xl font-semibold max-md:text-lg">Choose</span>
+            <div className='absolute -bottom-9 right-0'>
+              <Button className='rounded-[12px] border-none bg-gradient-to-r from-[#0151c6] to-[#217df7] px-10 pb-2 pt-[20px] transition duration-200 ease-in'>
+                <span className='text-xl font-semibold max-md:text-lg'>
+                  Choose
+                </span>
               </Button>
             </div>
           </div>
-
         ))}
       </div>
     </section>
-  )
+  );
 };
 
 export default PricingSection;

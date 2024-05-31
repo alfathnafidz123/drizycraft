@@ -3,6 +3,7 @@
 'use client';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
@@ -34,6 +35,7 @@ interface SubMenuState {
 const Navbar: React.FC = () => {
   const dispatch = useAppDispatch();
   const isLogin = useAppSelector((state) => state.user?.token);
+  const dataUser = useAppSelector((state) => state.user.dataUser);
   const cartData = useAppSelector((state) => state.cart.cart);
   const router = useRouter();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -108,19 +110,19 @@ const Navbar: React.FC = () => {
       <nav className='sticky top-0 z-30 hidden h-[139px] items-center bg-white shadow-xl lg:flex'>
         <ModalLogin />
         <div className='container mx-auto flex w-[1164px] items-center justify-between'>
-          <a onClick={handleLogoClick}>
+          <Link href='/'>
             <img src={logodrizy.src} alt='Logo' className='object-contain' />
-          </a>
+          </Link>
 
           <div className='flex flex-row'>
             <div className='mr-2 mt-2 flex flex-col '>
               <label
-                htmlFor='allProducts'
+                htmlFor='allProductsDesktop'
                 className='font-katide-semibold mr-2 inline-flex cursor-pointer items-center justify-center text-[14px]'
               >
                 <input
                   type='checkbox'
-                  id='allProducts'
+                  id='allProductsDesktop'
                   name='productType'
                   value='all'
                   className='hidden'
@@ -176,7 +178,7 @@ const Navbar: React.FC = () => {
                         <label>
                           Seasonal
                           <button
-                            id='crafter'
+                            id='seasonal'
                             className='crafter'
                             onClick={() => {
                               toggleSubMenu('seasonal');
@@ -189,7 +191,7 @@ const Navbar: React.FC = () => {
                         <label>
                           Craft Design SVGs
                           <button
-                            id='crafter'
+                            id='svgs'
                             className='crafter'
                             onClick={() => {
                               toggleSubMenu('craft');
@@ -445,68 +447,72 @@ const Navbar: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                <button className=' flex h-[40px] items-center gap-2 rounded-full bg-[#e4f6fb] px-6 py-3 hover:bg-[#CCE7EF]'>
+                <button
+                  id='bundles'
+                  className=' flex h-[40px] items-center gap-2 rounded-full bg-[#e4f6fb] px-6 py-3 hover:bg-[#CCE7EF]'
+                >
                   Bundles
                 </button>
-                <button className='flex h-[40px] w-[116px] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] px-4 py-3 hover:bg-[#CCE7EF]'>
+                <button
+                  id='freeSvg'
+                  className='flex h-[40px] w-[116px] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] px-4 py-3 hover:bg-[#CCE7EF]'
+                >
                   Free SVGs
                 </button>
-                <button
-                  onClick={() => {
-                    router.push('/blog');
-                  }}
+                <Link
+                  href='/blog'
                   className='flex h-[40px] items-center gap-2 rounded-full bg-[#e4f6fb] px-6 py-3 hover:bg-[#CCE7EF]'
                 >
                   Blog
-                </button>
+                </Link>
               </div>
             </div>
 
             <div className='flex flex-col pl-4'>
               <div className='flex flex-row justify-between gap-8'>
                 <button
+                  id='profilelogin'
                   className='font-katide-bold h-[39px] w-[93px] rounded-full bg-[#e4f6fb] text-[14px] text-[#008ECC] hover:bg-[#C0E9F4]'
                   // eslint-disable-next-line @typescript-eslint/no-empty-function
                   onClick={!isLogin ? openModalLogin : openProfile}
                 >
                   {isLogin ? 'PROFILE' : 'LOGIN'}
                 </button>
-                <button
-                  onClick={() => router.push('/cart')}
+                <Link
+                  href='/cart'
                   className='relative rounded-full bg-[#e4f6fb] px-2 py-2 text-[#008ECC] transition-all hover:bg-[#C0E9F4]'
                 >
                   <img src={cart.src} alt='cart' />
                   <div className='absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#008ECC] pt-0.5 text-[10px] text-[#e4f6fb] transition-all'>
                     {cartData.length}
                   </div>
-                </button>
-                <button className='font-katide-semibold flex h-[39px] items-center gap-4 rounded-full border border-solid border-gray-300 px-1 py-1 text-[10px] text-gray-300 hover:bg-[#E4F6FB]'>
+                </Link>
+                <button
+                  id='coin'
+                  className='font-katide-semibold flex h-[39px] items-center gap-4 rounded-full border border-solid border-gray-300 px-1 py-1 text-[10px] text-gray-300 hover:bg-[#E4F6FB]'
+                >
                   <img src={drizzyCoin.src} alt='cart' />
                   <span className='font-katide-semibold text-[14px] text-[#008ECC]'>
-                    11
+                    {isLogin && dataUser ? dataUser.coin : 0}
                   </span>
                   COIN
                 </button>
               </div>
 
               <div className='flex flex-row justify-between gap-4 pt-[10px]'>
-                <button
-                  onClick={() => {
-                    router.push('/project/');
-                  }}
+                <Link
+                  href='/project'
                   className='font-katide-semibold flex h-[40px] items-center gap-2 rounded-full bg-[#008ECC] px-6 py-3 text-[14px] text-white hover:bg-[#4065D1]'
                 >
                   Project
-                </button>
-                <button
-                  onClick={() => {
-                    router.push('/membership');
-                  }}
+                </Link>
+                <Link
+                  href='/membership'
                   className='font-katide-semibold flex h-[40px] w-[178px] items-center gap-2 rounded-full bg-[#EE4C73] px-8 py-4 text-[14px] text-white hover:bg-[#CE4768]'
                 >
                   <img src={newMember.src} alt='Membership' />
                   <p className='mt-0.5'>Membership</p>
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -518,6 +524,7 @@ const Navbar: React.FC = () => {
           <div className='container mx-auto flex h-1/2 items-center justify-between lg:px-0'>
             <div className='flex gap-4'>
               <button
+                id='sidebartoggle'
                 onClick={() => {
                   setSidebarOpen(!isSidebarOpen);
                 }}
@@ -528,47 +535,52 @@ const Navbar: React.FC = () => {
                   <GiHamburgerMenu className='h-8 w-8 text-[#008ECC]' />
                 )}
               </button>
-              <div
+              <button
+                id='profileLoginMobile'
                 className='flex
 h-8 w-8 items-center justify-center rounded-full bg-[#E4F6FB] text-[#008ECC]'
+                onClick={!isLogin ? openModalLogin : openProfile}
               >
                 <IoPerson
                   className='h-4
 w-4'
                 />
-              </div>
+              </button>
             </div>
 
-            <a onClick={handleLogoClick}>
+            <Link href='/'>
               <img
                 src={logodrizy.src}
                 alt='Logo'
                 className='h-8 object-contain'
               />
-            </a>
+            </Link>
             <div className='flex gap-4'>
-              <button
-                onClick={() => router.push('/cart')}
+              <Link
+                href='/cart'
                 className='relative h-8 w-8 rounded-full bg-[#e4f6fb] px-2 py-2 text-[#008ECC] transition-all hover:bg-[#C0E9F4]'
               >
                 <img src={cart.src} alt='cart' />
                 <div className='absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#008ECC] pt-0.5 text-[10px] text-[#e4f6fb] transition-all'>
                   {cartData.length}
                 </div>
-              </button>
-              <button className='font-katide-semibold flex h-8 w-8 items-center gap-4 rounded-full border border-solid border-gray-300 px-1 py-1 text-[10px] text-gray-300 hover:bg-[#E4F6FB]'>
+              </Link>
+              <button
+                id='cartmobile'
+                className='font-katide-semibold flex h-8 w-8 items-center gap-4 rounded-full border border-solid border-gray-300 px-1 py-1 text-[10px] text-gray-300 hover:bg-[#E4F6FB]'
+              >
                 <img src={drizzyCoin.src} alt='cart' />
               </button>
             </div>
           </div>
           <div className='container mx-auto flex h-1/2 items-center justify-between gap-4 lg:px-0'>
             <label
-              htmlFor='allProducts'
+              htmlFor='allProductsMobile'
               className='font-katide-semibold inline-flex cursor-pointer items-center text-[14px]'
             >
               <input
                 type='checkbox'
-                id='allProducts'
+                id='allProductsMobile'
                 name='productType'
                 value='all'
                 className='hidden'

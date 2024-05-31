@@ -19,6 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resMetadata: ResArticleMetadata = await res.json();
 
   return {
+    metadataBase: new URL(siteConfig.url),
     title: resMetadata.data.realTitle,
     description: resMetadata.data.description,
     alternates: {

@@ -26,7 +26,8 @@ import {
 
 async function getArticle(id: string) {
   const res = await fetch(
-    `https://drizy-api.quadrakaryasantosa.com/crafter/article/by-id/${id}`
+    `https://drizy-api.quadrakaryasantosa.com/crafter/article/by-id/${id}`,
+    { cache: 'no-store' }
   );
   const article: ResArticleI = await res.json();
 

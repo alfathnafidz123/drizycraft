@@ -2,12 +2,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
+import dynamic from 'next/dynamic';
 import localFont from 'next/font/local';
 import Image from 'next/image';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { FiUpload } from 'react-icons/fi';
-import Lottie from 'react-lottie';
 import Slider, { CustomArrowProps } from 'react-slick';
 import { toast } from 'react-toastify';
 
@@ -43,7 +43,6 @@ import {
   seasonCategory,
   starBadge,
 } from '~/images';
-import animationData from '~/lottie/006_CUSTOMER SUPPORT-600px.json';
 
 const myFont = localFont({ src: '../../public/fonts/Hastle.woff2' });
 const defaultHomepageData: HomepageDataI = {
@@ -53,6 +52,10 @@ const defaultHomepageData: HomepageDataI = {
   bestSellerData: [],
   exclusiveData: [],
 };
+const CustomerSupportLottie = dynamic(
+  () => import('../components/lottie/customer-support'),
+  { ssr: false }
+);
 
 export default function HomePage() {
   const { token } = useAppSelector((state) => state.user);
@@ -710,16 +713,7 @@ export default function HomePage() {
         </div>
         <div className='flex w-1/4 justify-end'>
           <div className='-mb-8 max-w-[200px]'>
-            <Lottie
-              options={{
-                loop: true,
-                autoplay: true,
-                animationData: animationData, // the animation data
-                rendererSettings: {
-                  preserveAspectRatio: 'xMidYMid slice',
-                },
-              }}
-            />
+            <CustomerSupportLottie />
           </div>
         </div>
       </div>
