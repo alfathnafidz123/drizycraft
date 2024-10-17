@@ -1,7 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 import { AxiosError } from 'axios';
-import { Loader2Icon } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Loader2Icon } from 'lucide-react';
 import localFont from 'next/font/local';
+import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { FaAngleRight } from 'react-icons/fa6';
 import Slider, { CustomArrowProps } from 'react-slick';
@@ -11,14 +13,16 @@ import AffiliateBanner from '@/components/AffiliateBanner';
 import BlogArticle from '@/components/BlogArticle';
 
 import { allArticle } from '@/app/api/article/allArticle';
+import { allStories } from '@/app/api/article/allStories';
 import {
   ArticleI,
   Meta,
   PagingArticleI,
   ResArticlesI,
+  ResStories,
+  StoryI,
 } from '@/interfaces/article.interfaces';
 
-import { blogStories1 } from '~/images';
 const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
 
 export default function Blog() {
@@ -26,6 +30,8 @@ export default function Blog() {
   const [articles, setArticles] = useState<ArticleI[]>([]);
   const [meta, setMeta] = useState<Meta>();
   const [loading, setLoading] = useState(false);
+  const [storyParent, setStoryParent] = useState<StoryI[]>([]);
+  const router = useRouter();
 
   const getAllArticle = useCallback(async () => {
     try {
@@ -42,26 +48,54 @@ export default function Blog() {
     }
   }, [params]);
 
+  const getStories = useCallback(async () => {
+    try {
+      const res: ResStories = await allStories({ page: 1, limit: 50 });
+      setStoryParent(res.data);
+    } catch (error) {
+      const err = error as AxiosError;
+      const errorData: any = err.response?.data;
+      toast.error((errorData.message as string) ?? 'Cannot get articles');
+    }
+  }, []);
+
   useEffect(() => {
     getAllArticle();
-  }, [getAllArticle]);
+    getStories();
+  }, [getAllArticle, getStories]);
 
   const CustomPrevArrow: React.FC<CustomArrowProps> = ({ onClick }) => (
     <div
-      className='slick-arrow slick-prev'
-      style={{ left: '10px', zIndex: 1 }}
+      className='scale-100 cursor-pointer hover:scale-105'
+      style={{
+        position: 'absolute',
+        zIndex: 1,
+        height: '100%',
+        top: '43%',
+        left: -20,
+      }}
       onClick={onClick}
     >
-      &lt;
+      <div className='flex items-center justify-center rounded-full bg-white'>
+        <ChevronLeft className='h-10 w-10 text-black' />
+      </div>
     </div>
   );
   const CustomNextArrow: React.FC<CustomArrowProps> = ({ onClick }) => (
     <div
-      className='slick-arrow slick-next'
-      style={{ right: '10px', zIndex: 1 }}
+      className='scale-100 cursor-pointer hover:scale-105'
+      style={{
+        position: 'absolute',
+        zIndex: 1,
+        height: '100%',
+        top: '43%',
+        right: -20,
+      }}
       onClick={onClick}
     >
-      &gt;
+      <div className='flex items-center justify-center rounded-full bg-white'>
+        <ChevronRight className='h-10 w-10 text-black' />
+      </div>
     </div>
   );
   const settings = {
@@ -73,12 +107,38 @@ export default function Blog() {
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
     autoplay: false,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 7,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 1,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   return (
     <main>
       <section>
-        <p className=' font-katide-bold mt-[65px] text-center text-[36px] tracking-[9px] text-[#1A214C]'>
+        <p className='font-katide-bold mt-[65px] text-center text-[36px] text-[#1A214C] lg:tracking-[9px]'>
           DRIZY CRAFT BLOGS
         </p>
 
@@ -107,136 +167,39 @@ export default function Blog() {
           <FaAngleRight className='mt-[3px] pl-2' />
         </div>
         <div className=' flex justify-center'>
-          <Slider {...settings} className='w-[1164px]'>
-            <div className='slide'>
-              <div className='!important flex h-full items-center justify-center'>
-                <div className='group relative h-[240px] w-full'>
-                  <img
-                    src={blogStories1.src}
-                    className='w-full rounded-[12px] shadow-sm transition-all duration-300 ease-in-out group-hover:scale-110'
-                    alt='Story'
-                  />
-                  <div className='absolute inset-0 z-10'>
-                    <div className='absolute inset-0 scale-110 rounded-[12px] bg-gradient-to-t from-black via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-50'></div>
-                    <div className='font-katide-bold absolute inset-0 top-0 ml-10 mt-[194px] line-clamp-2 w-[90px] scale-0 items-center text-left text-[16px] text-white transition-all duration-300 ease-out group-hover:scale-100'>
-                      Christmas 2023: Free shadow box
+          <Slider {...settings} className='w-full lg:w-[1164px]'>
+            {storyParent.map((item) => (
+              <div className='slide' key={item.id}>
+                <div className='!important flex h-full items-center justify-center'>
+                  <div
+                    className='group relative w-full lg:h-[240px]'
+                    onClick={() => router.push(`story/${item.canonical}`)}
+                  >
+                    <img
+                      src={item.storyItem[0].url}
+                      className='w-full rounded-[12px] shadow-sm transition-all duration-300 ease-in-out group-hover:scale-110'
+                      alt={item.title}
+                    />
+                    <div className='absolute inset-0 z-10'>
+                      <div className='absolute inset-0 scale-110 rounded-[12px] bg-gradient-to-t from-black via-transparent to-transparent transition-opacity duration-300 group-hover:opacity-50 max-md:opacity-50 lg:opacity-0'></div>
+                      <div className='font-katide-bold absolute bottom-0 ml-2 line-clamp-2 items-center text-center text-[16px] text-white transition-all duration-300 ease-out group-hover:scale-100 max-md:mb-4 max-md:w-full max-md:justify-center max-md:opacity-100 lg:inset-0 lg:top-0 lg:ml-10 lg:mt-[194px] lg:w-[90px] lg:scale-0'>
+                        {item.description}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className='slide'>
-              <div className='!important flex h-full items-center justify-center'>
-                <div className='group relative h-[240px] w-full'>
-                  <img
-                    src={blogStories1.src}
-                    className='w-full rounded-[12px] shadow-sm transition-all duration-300 ease-in-out group-hover:scale-110'
-                    alt='Story'
-                  />
-                  <div className='absolute inset-0 z-10'>
-                    <div className='absolute inset-0 scale-110 rounded-[12px] bg-gradient-to-t from-black via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-50'></div>
-                    <div className='font-katide-bold absolute inset-0 top-0 ml-10 mt-[194px] line-clamp-2 w-[90px] scale-0 items-center text-left text-[16px] text-white transition-all duration-300 ease-out group-hover:scale-100'>
-                      Christmas 2023: Free shadow box
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className='slide'>
-              <div className='!important flex h-full items-center justify-center'>
-                <div className='group relative h-[240px] w-full'>
-                  <img
-                    src={blogStories1.src}
-                    className='w-full rounded-[12px] shadow-sm transition-all duration-300 ease-in-out group-hover:scale-110'
-                    alt='Story'
-                  />
-                  <div className='absolute inset-0 z-10'>
-                    <div className='absolute inset-0 scale-110 rounded-[12px] bg-gradient-to-t from-black via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-50'></div>
-                    <div className='font-katide-bold absolute inset-0 top-0 ml-10 mt-[194px] line-clamp-2 w-[90px] scale-0 items-center text-left text-[16px] text-white transition-all duration-300 ease-out group-hover:scale-100'>
-                      Christmas 2023: Free shadow box
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className='slide'>
-              <div className='!important flex h-full items-center justify-center'>
-                <div className='group relative h-[240px] w-full'>
-                  <img
-                    src={blogStories1.src}
-                    className='q-full rounded-[12px] shadow-sm transition-all duration-300 ease-in-out group-hover:scale-110'
-                    alt='Story'
-                  />
-                  <div className='absolute inset-0 z-10'>
-                    <div className='absolute inset-0 scale-110 rounded-[12px] bg-gradient-to-t from-black via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-50'></div>
-                    <div className='font-katide-bold absolute inset-0 top-0 ml-10 mt-[194px] line-clamp-2 w-[90px] scale-0 items-center text-left text-[16px] text-white transition-all duration-300 ease-out group-hover:scale-100'>
-                      Christmas 2023: Free shadow box
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className='slide'>
-              <div className='!important flex h-full items-center justify-center'>
-                <div className='group relative h-[240px] w-full'>
-                  <img
-                    src={blogStories1.src}
-                    className='w-full rounded-[12px] shadow-sm transition-all duration-300 ease-in-out group-hover:scale-110'
-                    alt='Story'
-                  />
-                  <div className='absolute inset-0 z-10'>
-                    <div className='absolute inset-0 scale-110 rounded-[12px] bg-gradient-to-t from-black via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-50'></div>
-                    <div className='font-katide-bold absolute inset-0 top-0 ml-10 mt-[194px] line-clamp-2 w-[90px] scale-0 items-center text-left text-[16px] text-white transition-all duration-300 ease-out group-hover:scale-100'>
-                      Christmas 2023: Free shadow box
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className='slide'>
-              <div className='!important flex h-full items-center justify-center'>
-                <div className='group relative h-[240px] w-full'>
-                  <img
-                    src={blogStories1.src}
-                    className='w-full rounded-[12px] shadow-sm transition-all duration-300 ease-in-out group-hover:scale-110'
-                    alt='Story'
-                  />
-                  <div className='absolute inset-0 z-10'>
-                    <div className='absolute inset-0 scale-110 rounded-[12px] bg-gradient-to-t from-black via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-50'></div>
-                    <div className='font-katide-bold absolute inset-0 top-0 ml-10 mt-[194px] line-clamp-2 w-[90px] scale-0 items-center text-left text-[16px] text-white transition-all duration-300 ease-out group-hover:scale-100'>
-                      Christmas 2023: Free shadow box
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className='slide'>
-              <div className='!important flex h-full items-center justify-center'>
-                <div className='group relative h-[240px] w-full'>
-                  <img
-                    src={blogStories1.src}
-                    className='w-full rounded-[12px] shadow-sm transition-all duration-300 ease-in-out group-hover:scale-110'
-                    alt='Story'
-                  />
-                  <div className='absolute inset-0 z-10'>
-                    <div className='absolute inset-0 scale-110 rounded-[12px] bg-gradient-to-t from-black via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-50'></div>
-                    <div className='font-katide-bold absolute inset-0 top-0 ml-10 mt-[194px] line-clamp-2 w-[90px] scale-0 items-center text-left text-[16px] text-white transition-all duration-300 ease-out group-hover:scale-100'>
-                      Christmas 2023: Free shadow box
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            ))}
           </Slider>
         </div>
       </section>
 
-      <section className='mb-[234px] ml-14 p-[66px]'>
+      <section className='mx-auto mb-[234px] mt-[66px] flex w-full max-w-[1164px] flex-col'>
         <p className='font-katide-bold mb-10 text-center text-[24px] text-[#1A214C]'>
           Latest article for you
         </p>
 
-        <div className='mx-auto grid w-[1168px] grid-cols-3 gap-8'>
+        <div className='mx-auto grid max-w-[1168px] grid-cols-1 gap-4 max-md:w-full lg:grid-cols-3 max-md:px-2'>
           {articles.map((item) => (
             <BlogArticle data={item} key={item.id} />
           ))}

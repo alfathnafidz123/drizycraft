@@ -36,18 +36,18 @@ const Testimonies = () => {
   };
   return (
     <SectionContainer
-      bgColor='#E1E3F4'
-      className='flex flex-col items-center pb-6 pt-12 max-md:px-5'
+      parentClassName='max-md bg-white lg:bg-[#E1E3F4]'
+      className='flex flex-col items-center pb-6'
     >
-      <div className='mt-3 w-full'>
-        <div className='font-katide-bold flex justify-center text-[24px] leading-6 text-indigo-950'>
+      <div className='mt-3 w-full bg-[#E1E3F4] max-md:pb-10 max-md:px-5'>
+        <div className='font-katide-bold flex justify-center text-[24px] leading-6 text-indigo-950 mt-12'>
           Let’s Crafting!
         </div>
-        <div className='flex flex-col-reverse gap-5 max-md:gap-0 lg:flex-row'>
-          <div className='flex w-full flex-col pt-14 lg:w-4/12'>
+        <div className='mt-24 flex flex-col-reverse gap-5 lg:flex-row lg:px-1 xl:p-0'>
+          <div className='flex w-full flex-col lg:w-5/12 xl:w-4/12'>
             <Slider {...settings}>
-              <div className='slide pb-4 pr-4'>
-                <div className='!important flex h-[430px] w-[375px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg'>
+              <div className='slide pb-4 lg:pr-4'>
+                <div className='!important flex h-[430px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg lg:w-[375px]'>
                   <div className='flex h-full flex-col items-start p-8 text-[14px]'>
                     <img src={testimony.src} alt='Quote' className='mb-8' />
                     <p>
@@ -59,7 +59,7 @@ const Testimonies = () => {
                       beyond.
                     </p>
                   </div>
-                  <div className='flex h-[104px] w-full justify-start gap-4 bg-[#EBECF5] p-6'>
+                  <div className='flex w-full items-center justify-start gap-4 bg-[#EBECF5] p-3 lg:p-6'>
                     <img
                       src={avatarExample.src}
                       className='rounded-full border-[3px] border-white'
@@ -74,8 +74,8 @@ const Testimonies = () => {
                   </div>
                 </div>
               </div>
-              <div className='slide pb-4 pr-4'>
-                <div className='!important flex h-[430px] w-[375px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg'>
+              <div className='slide pb-4 lg:pr-4'>
+                <div className='!important flex h-[430px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg lg:w-[375px]'>
                   <div className='flex h-full flex-col items-start p-8 text-[14px]'>
                     <img src={testimony.src} alt='Quote' className='mb-8' />
                     <p>
@@ -83,7 +83,7 @@ const Testimonies = () => {
                       able to cut such intricate designs.
                     </p>
                   </div>
-                  <div className='flex h-[104px] w-full justify-start gap-4 bg-[#EBECF5] p-6'>
+                  <div className='flex w-full items-center justify-start gap-4 bg-[#EBECF5] p-3 lg:p-6'>
                     <img
                       src={avatarExample.src}
                       className='rounded-full border-[3px] border-white'
@@ -98,8 +98,8 @@ const Testimonies = () => {
                   </div>
                 </div>
               </div>
-              <div className='slide pb-4 pr-4'>
-                <div className='!important flex h-[430px] w-[375px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg'>
+              <div className='slide pb-4 lg:pr-4'>
+                <div className='!important flex h-[430px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg lg:w-[375px]'>
                   <div className='flex h-full flex-col items-start p-8 text-[14px]'>
                     <img src={testimony.src} alt='Quote' className='mb-8' />
                     <p>
@@ -108,7 +108,7 @@ const Testimonies = () => {
                       there.
                     </p>
                   </div>
-                  <div className='flex h-[104px] w-full justify-start gap-4 bg-[#EBECF5] p-6'>
+                  <div className='flex w-full items-center justify-start gap-4 bg-[#EBECF5] p-3 lg:p-6'>
                     <img
                       src={avatarExample.src}
                       className='rounded-full border-[3px] border-white'
@@ -123,8 +123,8 @@ const Testimonies = () => {
                   </div>
                 </div>
               </div>
-              <div className='slide pb-4 pr-4'>
-                <div className='!important flex h-[430px] w-[375px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg'>
+              <div className='slide pb-4 lg:pr-4'>
+                <div className='!important flex h-[430px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg lg:w-[375px]'>
                   <div className='flex h-full flex-col items-start p-8 text-[14px]'>
                     <img src={testimony.src} alt='Quote' className='mb-8' />
                     <p>
@@ -134,7 +134,7 @@ const Testimonies = () => {
                       Drizy Studio ❤ ❤
                     </p>
                   </div>
-                  <div className='flex h-[104px] w-full justify-start gap-4 bg-[#EBECF5] p-6'>
+                  <div className='flex w-full items-center justify-start gap-4 bg-[#EBECF5] p-3 lg:p-6'>
                     <img
                       src={avatarExample.src}
                       className='rounded-full border-[3px] border-white'
@@ -153,8 +153,8 @@ const Testimonies = () => {
           </div>
 
           <div className='ml-5 flex w-6/12 flex-col max-md:ml-0 max-md:w-full'>
-            <div className='flex flex-col text-sm max-md:mt-10 max-md:max-w-full'>
-              <div className='mt-24 flex justify-between gap-5 max-md:mt-10 max-md:max-w-full max-md:flex-wrap'>
+            <div className='flex flex-col gap-[55px] text-sm max-md:max-w-full'>
+              <div className='flex justify-between gap-5 max-md:max-w-full max-md:flex-wrap'>
                 <img
                   loading='lazy'
                   src={endlessCrafting.src}
@@ -172,7 +172,7 @@ const Testimonies = () => {
                   </div>
                 </div>
               </div>
-              <div className='mt-16 flex justify-between gap-5 max-md:mt-10 max-md:max-w-full max-md:flex-wrap'>
+              <div className='flex justify-between gap-5 max-md:max-w-full max-md:flex-wrap'>
                 <img
                   loading='lazy'
                   src={expandingCrafting.src}
@@ -191,7 +191,7 @@ const Testimonies = () => {
                   </div>
                 </div>
               </div>
-              <div className='mt-16 flex justify-between gap-5 max-md:mt-10 max-md:max-w-full max-md:flex-wrap'>
+              <div className='flex justify-between gap-5 max-md:max-w-full max-md:flex-wrap'>
                 <img
                   loading='lazy'
                   src={optimizedSVG.src}
@@ -216,10 +216,10 @@ const Testimonies = () => {
           </div>
         </div>
       </div>
-      <div className='mt-28 whitespace-nowrap text-2xl font-bold leading-7 text-indigo-950 max-md:mt-10'>
+      <div className='mt-28 whitespace-nowrap text-2xl font-bold leading-7 text-indigo-950 max-md:mt-14'>
         Have Collaborated with :
       </div>
-      <div className='mt-10 flex flex-wrap justify-center gap-4 py-1.5 md:gap-5 lg:flex-nowrap lg:justify-between'>
+      <div className='mt-10 flex flex-wrap justify-center gap-4 py-1.5 md:gap-5 xl:flex-nowrap xl:justify-between max-w-full max-md:px-5'>
         <img
           loading='lazy'
           src={elegco.src}

@@ -24,8 +24,8 @@ export default function Register() {
   const [data, setData] = React.useState<UserFormI>({
     email: dataUser?.email ?? '',
     displayName: dataUser?.displayName ?? '',
-    firstName: dataUser?.username.split(' ')[0] ?? '',
-    lastName: dataUser?.username.split(' ')[1] ?? '',
+    firstName: dataUser?.username?.split(' ')[0] ?? '',
+    lastName: dataUser?.username?.split(' ')[1] ?? '',
   });
   const [formPassword, setFormPassword] = React.useState<PasswordFormI>({
     oldPassword: '',
@@ -49,11 +49,9 @@ export default function Register() {
         displayName: data.displayName,
         email: data.email,
       };
-      await axios.put(
-        'https://drizy-api.quadrakaryasantosa.com/auth/user/profile',
-        body,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await axios.put('https://drizy-api.quadrakaryasantosa.com/auth/user/profile', body, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       updatePassword();
       toast.success('Update profile success!');
     } catch (error) {

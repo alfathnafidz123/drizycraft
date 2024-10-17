@@ -7,9 +7,9 @@ export default function Contact() {
         CONTACT US
       </p>
 
-      <section className='flex p-20'>
-        <div className='flex basis-5/12 flex-col gap-12 pr-16 text-[#1A214C]'>
-          <p className='font-katide-bold text-[20px]'>
+      <section className='flex flex-col lg:flex-row mx-auto w-full max-w-[1164px] py-20 gap-4'>
+        <div className='flex lg:basis-5/12 flex-col gap-12 pr-16 text-[#1A214C] max-md:px-2'>
+          <p className='font-katide-bold text-[20px] max-lg:text-center'>
             DAISY IS HERE TO HELP YOU!
           </p>
           <p className='text-[14px]'>
@@ -24,7 +24,7 @@ export default function Contact() {
           <img className='' src={ContactUs.src} alt='Contact Us' />
         </div>
 
-        <div className='ml-[10%] flex h-[701px] w-[569px] flex-col gap-4 rounded-xl bg-white p-8 text-[14px] shadow-lg'>
+        <div className='flex w-full max-w-[569px] flex-col gap-4 rounded-xl bg-white p-4 xl:p-8 text-[14px] shadow-lg'>
           <div className='m-[8%]'>
             <div className='flex flex-grow flex-col'>
               <label className='pl-4 text-[#1A214C]'>Your name</label>

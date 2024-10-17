@@ -3,9 +3,10 @@
 'use client';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { FaChevronDown } from 'react-icons/fa6';
 import { GiHamburgerMenu } from 'react-icons/gi';
@@ -16,12 +17,20 @@ import { MdArrowForwardIos } from 'react-icons/md';
 import { fetchCart } from '@/lib/slices/cart';
 import { setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
+import useOutsideClick from '@/lib/useOutsideClick';
 
 import ModalLogin from '@/components/modals/login';
 
-import { cart, drizzyCoin, logodrizy, newMember, search } from '~/images';
+import {
+  cart,
+  drizzyCoin,
+  emptyCoin,
+  logodrizy,
+  newMember,
+  search,
+} from '~/images';
 
-interface MenuState {
+export interface MenuState {
   crafter: boolean;
   vector: boolean;
   all: boolean;
@@ -50,6 +59,42 @@ const Navbar: React.FC = () => {
     seasonal: false,
     craft: false,
   });
+  const handleClickOutsideCrafter = useCallback(() => {
+    if (showMenu.crafter) {
+      setShowMenu((prev) => ({ ...prev, crafter: false }));
+      setShowSubMenu((prev) => ({
+        ...prev,
+        seasonal: false,
+        craft: false,
+      }));
+    }
+  }, [showMenu.crafter]);
+  const crafterRef = useOutsideClick(handleClickOutsideCrafter, showMenu);
+
+  const handleClickOutsideVector = () => {
+    if (showMenu.vector) {
+      setShowMenu((prev) => ({ ...prev, vector: false }));
+    }
+  };
+  const vectorRef = useOutsideClick(handleClickOutsideVector, showMenu);
+
+  const handleClickOutsideAll = () => {
+    if (showMenu.all) {
+      setShowMenu((prev) => ({ ...prev, all: false }));
+    }
+  };
+  const allRef = useOutsideClick(handleClickOutsideAll, showMenu);
+
+  const handleClickOutsideSidebar = () => {
+    if (isSidebarOpen) {
+      setSidebarOpen(false);
+    }
+  };
+  const allSidebar = useOutsideClick(
+    handleClickOutsideSidebar,
+    showMenu,
+    isSidebarOpen
+  );
 
   useEffect(() => {
     if (isLogin) {
@@ -115,25 +160,22 @@ const Navbar: React.FC = () => {
           </Link>
 
           <div className='flex flex-row'>
-            <div className='mr-2 mt-2 flex flex-col '>
-              <label
-                htmlFor='allProductsDesktop'
-                className='font-katide-semibold mr-2 inline-flex cursor-pointer items-center justify-center text-[14px]'
-              >
-                <input
-                  type='checkbox'
-                  id='allProductsDesktop'
-                  name='productType'
-                  value='all'
-                  className='hidden'
-                />
-                <span className='font-katide-bold ml-5 mr-4 mt-1 flex whitespace-nowrap'>
-                  All product
-                </span>
-                <FaChevronDown />
-              </label>
+            <div className='mr-2 flex flex-col '>
+              <select className='font-katide-bold mb-2 mr-2 max-w-[130px] border-none text-sm outline-none ring-0 focus:ring-0'>
+                <option value=''>All Product</option>
+                <option value='Bundles'>Bundles</option>
+                <option value='Crafters'>Crafters</option>
+                <option value='Font'>Font</option>
+                <option value='Freebies'>Freebies</option>
+                <option value='Membership'>Membership</option>
+                <option value='Vector'>Vector</option>
+                <option value='Print Template'>Print Template</option>
+                <option value='Time Limited Freebies'>
+                  Time Limited Freebies
+                </option>
+              </select>
 
-              <div className='relative pt-[15px]'>
+              <div ref={crafterRef} className='relative pt-[6px]'>
                 <label className=' font-katide-semibold flex h-[40px] w-[85%] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] text-[14px] hover:bg-[#CCE7EF]'>
                   <button
                     id='crafter'
@@ -146,16 +188,22 @@ const Navbar: React.FC = () => {
                   <FaChevronDown className='' />
                 </label>
                 <div
-                  className={`${
-                    showMenu.crafter ? 'block' : 'hidden'
-                  } absolute top-16 z-10 min-w-[285px] justify-between overflow-hidden rounded-bl-3xl rounded-br-3xl bg-[#E4F6FB] `}
+                  className={`${showMenu.crafter ? 'block' : 'hidden'
+                    } absolute top-16 z-10 min-w-[285px] justify-between overflow-hidden rounded-bl-3xl rounded-br-3xl bg-[#E4F6FB] `}
                 >
                   <div className='font-katide-semibold flex'>
-                    <div className='flex w-full min-w-[285px] flex-col whitespace-nowrap'>
+                    <div className='relative flex w-full min-w-[285px] flex-col'>
                       <div
                         onClick={() => {
                           router.push('/category/Featured');
                         }}
+                        onMouseEnter={() =>
+                          setShowSubMenu((prev) => ({
+                            ...prev,
+                            seasonal: false,
+                            craft: false,
+                          }))
+                        }
                         className='group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                       >
                         <p>Featured</p>
@@ -165,38 +213,59 @@ const Navbar: React.FC = () => {
                         onClick={() => {
                           router.push('/category/Premium SVG');
                         }}
+                        onMouseEnter={() =>
+                          setShowSubMenu((prev) => ({
+                            ...prev,
+                            seasonal: false,
+                            craft: false,
+                          }))
+                        }
                         className='group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                       >
                         <p>Premium SVG</p>
                         <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                       </div>
-                      <div className='group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                      <div
+                        onMouseEnter={() =>
+                          setShowSubMenu((prev) => ({
+                            ...prev,
+                            seasonal: false,
+                            craft: false,
+                          }))
+                        }
+                        className='group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                      >
                         <p>Exclusive Partners</p>
                         <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                       </div>
-                      <div className='group flex justify-between bg-[#E4F6FB] p-6 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
-                        <label>
-                          Seasonal
-                          <button
-                            id='seasonal'
-                            className='crafter'
-                            onClick={() => {
-                              toggleSubMenu('seasonal');
-                            }}
-                          ></button>
-                        </label>
+                      <div
+                        onMouseEnter={() =>
+                          setShowSubMenu((prev) => ({
+                            ...prev,
+                            seasonal: true,
+                            craft: false,
+                          }))
+                        }
+                        // onMouseLeave={() => toggleSubMenu('seasonal')}
+                        className='flex justify-between bg-[#E4F6FB] p-6 pl-8 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                      >
+                        <label>Seasonal</label>
                         <MdArrowForwardIos />
                       </div>
-                      <div className='group flex justify-between bg-[#E4F6FB] p-6 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                      <div
+                        onMouseEnter={() =>
+                          setShowSubMenu((prev) => ({
+                            ...prev,
+                            craft: true,
+                            seasonal: false,
+                          }))
+                        }
+                        // onMouseLeave={() => toggleSubMenu('craft')}
+                        className='group flex justify-between bg-[#E4F6FB] p-6 pl-8 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                      >
                         <label>
                           Craft Design SVGs
-                          <button
-                            id='svgs'
-                            className='crafter'
-                            onClick={() => {
-                              toggleSubMenu('craft');
-                            }}
-                          ></button>
+                          <button id='svgs' className='crafter'></button>
                         </label>
                         <MdArrowForwardIos />
                       </div>
@@ -208,7 +277,7 @@ const Navbar: React.FC = () => {
                             onClick={() => {
                               router.push('/category/Summer');
                             }}
-                            className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            className='group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
                             <p>Summer SVG</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -217,7 +286,7 @@ const Navbar: React.FC = () => {
                             onClick={() => {
                               router.push('/category/Fall');
                             }}
-                            className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            className='group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
                             <p>Fall SVG</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -226,7 +295,7 @@ const Navbar: React.FC = () => {
                             onClick={() => {
                               router.push('/category/Halloween');
                             }}
-                            className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            className='group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
                             <p>Halloween SVG</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -235,7 +304,7 @@ const Navbar: React.FC = () => {
                             onClick={() => {
                               router.push('/category/Thanksgiving');
                             }}
-                            className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            className='group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
                             <p>Thanksgiving SVG</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -244,7 +313,7 @@ const Navbar: React.FC = () => {
                             onClick={() => {
                               router.push('/category/Winter');
                             }}
-                            className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            className='group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
                             <p>Winter SVG</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -391,10 +460,10 @@ const Navbar: React.FC = () => {
             </div>
 
             <div className='mr-2 flex flex-col'>
-              <div className='group flex h-[42px] w-[480px] items-center gap-4 rounded-full border border-solid border-blue-500 border-opacity-25 p-2 pl-4 text-left text-sm font-normal leading-4 tracking-tighter text-[#6F6F6F]'>
+              <div className='group flex h-[42px] w-[480px] items-center gap-4 rounded-full border border-solid border-blue-500 border-opacity-25 bg-[#F1F2FB] p-2 pl-4 pr-1 text-left text-sm font-normal leading-4 tracking-tighter text-[#6F6F6F] transition-all focus-within:bg-white'>
                 <input
                   placeholder='Search for unique craft designs, categories, occasions...'
-                  className='flex-grow truncate border-none text-sm outline-none'
+                  className='!focus:border-none !focus:outline-none flex-grow truncate border-none bg-transparent text-sm tracking-wide !outline-none placeholder:tracking-wide placeholder:text-[#6F6F6F] focus:ring-0'
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                 ></input>
@@ -426,9 +495,9 @@ const Navbar: React.FC = () => {
                     Vector <FaChevronDown />
                   </label>
                   <div
-                    className={`${
-                      showMenu.vector ? 'block' : 'hidden'
-                    } absolute top-16 z-10 w-[285px] overflow-hidden rounded-bl-3xl rounded-br-3xl bg-[#E4F6FB]`}
+                    ref={vectorRef}
+                    className={`${showMenu.vector ? 'block' : 'hidden'
+                      } absolute top-16 z-10 w-[285px] overflow-hidden rounded-bl-3xl rounded-br-3xl bg-[#E4F6FB]`}
                   >
                     <div className='flex w-full min-w-[285px] flex-col'>
                       <div className='group flex justify-between py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
@@ -447,18 +516,20 @@ const Navbar: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                <button
+                <Link
+                  href='/catalog-bundles'
                   id='bundles'
                   className=' flex h-[40px] items-center gap-2 rounded-full bg-[#e4f6fb] px-6 py-3 hover:bg-[#CCE7EF]'
                 >
                   Bundles
-                </button>
-                <button
+                </Link>
+                <Link
+                  href='/catalog-free-svg'
                   id='freeSvg'
                   className='flex h-[40px] w-[116px] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] px-4 py-3 hover:bg-[#CCE7EF]'
                 >
                   Free SVGs
-                </button>
+                </Link>
                 <Link
                   href='/blog'
                   className='flex h-[40px] items-center gap-2 rounded-full bg-[#e4f6fb] px-6 py-3 hover:bg-[#CCE7EF]'
@@ -469,7 +540,7 @@ const Navbar: React.FC = () => {
             </div>
 
             <div className='flex flex-col pl-4'>
-              <div className='flex flex-row justify-between gap-8'>
+              <div className='flex flex-row justify-between gap-[20px]'>
                 <button
                   id='profilelogin'
                   className='font-katide-bold h-[39px] w-[93px] rounded-full bg-[#e4f6fb] text-[14px] text-[#008ECC] hover:bg-[#C0E9F4]'
@@ -489,11 +560,31 @@ const Navbar: React.FC = () => {
                 </Link>
                 <button
                   id='coin'
-                  className='font-katide-semibold flex h-[39px] items-center gap-4 rounded-full border border-solid border-gray-300 px-1 py-1 text-[10px] text-gray-300 hover:bg-[#E4F6FB]'
+                  className='font-katide-semibold flex h-[39px] items-center gap-4 rounded-full border border-solid border-gray-300 py-1 pl-0.5 pr-2 text-[10px] text-gray-300 hover:bg-[#E4F6FB]'
                 >
                   <img src={drizzyCoin.src} alt='cart' />
                   <span className='font-katide-semibold text-[14px] text-[#008ECC]'>
-                    {isLogin && dataUser ? dataUser.coin : 0}
+                    {isLogin && dataUser ? (
+                      dataUser.coin !== 0 ? (
+                        dataUser.coin
+                      ) : (
+                        <Image
+                          src={emptyCoin.src}
+                          alt='empty-coin'
+                          width={80}
+                          height={80}
+                          className='h-4 w-4'
+                        />
+                      )
+                    ) : (
+                      <Image
+                        src={emptyCoin.src}
+                        alt='empty-coin'
+                        width={80}
+                        height={80}
+                        className='h-4 w-4'
+                      />
+                    )}
                   </span>
                   COIN
                 </button>
@@ -518,9 +609,9 @@ const Navbar: React.FC = () => {
           </div>
         </div>
       </nav>
-      <nav className='sticky top-0 z-30 flex h-[139px] items-center bg-white shadow-xl lg:hidden'>
+      <nav className='sticky top-0 z-30 flex h-[139px] items-center bg-white lg:hidden'>
         <ModalLogin />
-        <div className='relative flex h-full w-full flex-col justify-evenly px-4'>
+        <div className='relative flex h-full w-full flex-col justify-evenly px-2'>
           <div className='container mx-auto flex h-1/2 items-center justify-between lg:px-0'>
             <div className='flex gap-4'>
               <button
@@ -537,14 +628,10 @@ const Navbar: React.FC = () => {
               </button>
               <button
                 id='profileLoginMobile'
-                className='flex
-h-8 w-8 items-center justify-center rounded-full bg-[#E4F6FB] text-[#008ECC]'
+                className='flex h-8 w-8 items-center justify-center rounded-full bg-[#E4F6FB] text-[#008ECC]'
                 onClick={!isLogin ? openModalLogin : openProfile}
               >
-                <IoPerson
-                  className='h-4
-w-4'
-                />
+                <IoPerson className='h-4 w-4' />
               </button>
             </div>
 
@@ -573,23 +660,20 @@ w-4'
               </button>
             </div>
           </div>
-          <div className='container mx-auto flex h-1/2 items-center justify-between gap-4 lg:px-0'>
-            <label
-              htmlFor='allProductsMobile'
-              className='font-katide-semibold inline-flex cursor-pointer items-center text-[14px]'
-            >
-              <input
-                type='checkbox'
-                id='allProductsMobile'
-                name='productType'
-                value='all'
-                className='hidden'
-              />
-              <span className='font-katide-bold mr-4 mt-1 flex'>
-                All product
-              </span>
-              <FaChevronDown />
-            </label>
+          <div className='container mx-auto flex h-1/2 items-center justify-between gap-2 max-md:mx-0 lg:px-0'>
+            <select className='font-katide-bold max-w-[130px] border-none text-sm outline-none ring-0 focus:ring-0'>
+              <option value=''>All Product</option>
+              <option value='Bundles'>Bundles</option>
+              <option value='Crafters'>Crafters</option>
+              <option value='Font'>Font</option>
+              <option value='Freebies'>Freebies</option>
+              <option value='Membership'>Membership</option>
+              <option value='Vector'>Vector</option>
+              <option value='Print Template'>Print Template</option>
+              <option value='Time Limited Freebies'>
+                Time Limited Freebies
+              </option>
+            </select>
             <div className='group flex h-[42px] grow items-center gap-4 rounded-full border border-solid border-blue-500 border-opacity-25 p-2 pl-4 text-left text-sm font-normal leading-4 tracking-tighter text-[#6F6F6F]'>
               <input
                 placeholder='Search for unique craft designs, categories, occasions...'
@@ -605,38 +689,46 @@ w-4'
             </div>
           </div>
           {isSidebarOpen && (
-            <div className='absolute left-0 top-full flex h-24 w-full'>
-              <div className='flex h-screen w-10/12 flex-col overflow-y-scroll bg-white py-4'>
+            <div className='absolute left-0 top-full flex w-full'>
+              <div
+                ref={allSidebar}
+                className='flex h-screen w-10/12 flex-col overflow-y-scroll bg-white py-4'
+              >
                 <div
                   onClick={() => {
                     setCrafterMenuOpen(!isCrafterMenuOpen);
                   }}
-                  className='flex w-full justify-between border-t-2 p-4'
+                  className='flex w-full justify-between border-t-2 '
                 >
-                  <p className='font-semibold'>Crafters</p>
-                  <FaChevronDown />
+                  <p className='p-4 font-semibold'>Crafters</p>
+                  <div className='flex items-center justify-center border-l px-6 py-4'>
+                    <FaChevronDown
+                      className={`${isCrafterMenuOpen ? 'rotate-0' : '-rotate-90'
+                        } transition-all`}
+                    />
+                  </div>
                 </div>
                 {isCrafterMenuOpen && (
                   <>
-                    <div className='border-t-2 p-4'>
+                    <div className='ml-4 border-t-2 p-4'>
                       <p className='font-semibold'>Featured</p>
                     </div>
                     <div
                       onClick={() => {
                         router.push('/category/Premium SVG');
                       }}
-                      className='border-t-2 p-4'
+                      className='ml-4 border-t-2 p-4'
                     >
                       <p className='font-semibold'>Premium SVG</p>
                     </div>
-                    <div className='border-t-2 p-4'>
+                    <div className='ml-4 border-t-2 p-4'>
                       <p className='font-semibold'>Exclusive Partner</p>
                     </div>
                     <div
                       onClick={() => {
                         router.push('/category/Seasonal');
                       }}
-                      className='border-t-2 p-4'
+                      className='ml-4 border-t-2 p-4'
                     >
                       <p className='font-semibold'>Seasonal</p>
                     </div>
@@ -644,7 +736,7 @@ w-4'
                       onClick={() => {
                         router.push('/category/Craft Design SVG');
                       }}
-                      className='border-t-2 p-4'
+                      className='ml-4 border-t-2 p-4'
                     >
                       <p className='font-semibold'>Craft Design SVG</p>
                     </div>

@@ -19,7 +19,7 @@ const PopoverShare = () => {
   };
 
   return (
-    <div className='absolute relative w-[39px]'>
+    <div className='w-[39px]'>
       <div
         className='flex h-[39px] cursor-pointer items-center rounded-full bg-[#A5272B] hover:bg-[#872A2D]'
         onClick={togglePopover}
@@ -32,9 +32,7 @@ const PopoverShare = () => {
       </div>
       <div className=' font-katide-bold text-xs text-indigo-950'>Share</div>
       <div
-        className={`absolute bottom-0 left-[50px] ${
-          isPopoverOpen ? 'block' : 'hidden'
-        }`}
+        className={`absolute bottom-0 left-[50px] ${isPopoverOpen ? 'block' : 'hidden'}`}
       >
         <div className='h-[215px] w-[45px] rounded-3xl bg-[#A5272B] p-3 pt-5 text-white'>
           <FaInstagram className='aspect-square h-[22px] w-[22px]' />

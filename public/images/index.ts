@@ -32,14 +32,24 @@ import categories10 from './categories-10.png';
 import check from './check.svg';
 import checkblue from './checkblue.svg';
 import coffeeFloating from './coffeeFloating.png';
+import comingSoonBg from './coming-soon/background.png';
+import behance from './coming-soon/behance.svg';
+import facebook from './coming-soon/facebook.svg';
+import instagram from './coming-soon/instagram.svg';
+import comingSoonLogo from './coming-soon/logo.svg';
+import comingSoonNotify from './coming-soon/notify.svg';
+import comingSoonNotifyHover from './coming-soon/notify-hover.svg';
+import pinterest from './coming-soon/pinterest.svg';
 import ContactUs from './contact-us.svg';
 import cov from './cov-product.png.png';
 import crafter1 from './crafter.svg';
 import crafterProduct from './crafters-product.svg';
 import crafterItem1 from './crafters1.svg';
 import creativeFabrica from './creativeFabrica.svg';
+import crossMember from './cross.svg';
 import cross from './crossgray.svg';
 import defaultAvatar from './default-avatar.png';
+import defaultProfile from './default-profile.svg';
 import designBundles from './designBundles.svg';
 import download from './download.svg';
 import downloadInactive from './downloadInactive.svg';
@@ -49,10 +59,12 @@ import drizyteam3 from './drizy-team-3.png';
 import logodrizy from './drizylogo.svg';
 import drizzyCoin from './drizzyCoin.svg';
 import elegco from './elegco.svg';
+import emptyCoin from './empty-coin.png';
 import endlessCrafting from './endlessCrafting.svg';
 import expandingCrafting from './expandingCrafting.svg';
 import coffeeHolder from './floating-coffee-holder.png';
 import fontDesign from './font-design.png';
+import freeSVGBanner from './free-svg-banner.png';
 import freepik from './freepik.svg';
 import goDaddy from './goDaddy.svg';
 import gridCrafter from './grid-crafter.png';
@@ -90,6 +102,7 @@ import projectStars from './projectStars.svg';
 import projectSubscribe from './projectSubscribe.svg';
 import projectUpload from './projectUpload.svg';
 import sale from './sale.png';
+import saleSvg from './sale.svg';
 import saleProduct from './sale-product.png';
 import samsung from './samsung.svg';
 import search from './search.png';
@@ -104,6 +117,7 @@ import member1 from './usr_rev_1.png';
 import member2 from './usr_rev_2.png';
 import member3 from './usr_rev_3.png';
 import arrowRight from './vector.svg';
+import vectorBanner from './vector-banner.png';
 import vectorDesign from './vector-design.png';
 import vip from './VIP+.png.png';
 import waCrafter from './waCrafter.svg';
@@ -122,6 +136,7 @@ export {
   AssetSubscribe,
   avatarExample,
   bannerArticle,
+  behance,
   bestValue,
   blogArticle1,
   blogStories1,
@@ -145,6 +160,10 @@ export {
   checkblue,
   coffeeFloating,
   coffeeHolder,
+  comingSoonBg,
+  comingSoonLogo,
+  comingSoonNotify,
+  comingSoonNotifyHover,
   ContactUs,
   cov,
   crafter1,
@@ -152,7 +171,9 @@ export {
   crafterProduct,
   creativeFabrica,
   cross,
+  crossMember,
   defaultAvatar,
+  defaultProfile,
   designBundles,
   download,
   downloadInactive,
@@ -161,10 +182,13 @@ export {
   drizyteam3,
   drizzyCoin,
   elegco,
+  emptyCoin,
   endlessCrafting,
   expandingCrafting,
+  facebook,
   fontDesign,
   freepik,
+  freeSVGBanner,
   goDaddy,
   gridCrafter,
   gridSlide,
@@ -175,6 +199,7 @@ export {
   history,
   hoverPinterest,
   hoverWA,
+  instagram,
   jiffy,
   license1,
   license2,
@@ -194,6 +219,7 @@ export {
   orders,
   paymentMethod,
   pintCrafter,
+  pinterest,
   project1,
   projectGrid,
   projectImage,
@@ -207,6 +233,7 @@ export {
   projectUpload,
   sale,
   saleProduct,
+  saleSvg,
   samsung,
   search,
   searchBlue,
@@ -216,6 +243,7 @@ export {
   subscriptionInactive,
   success,
   testimony,
+  vectorBanner,
   vectorDesign,
   vip,
   waCrafter,

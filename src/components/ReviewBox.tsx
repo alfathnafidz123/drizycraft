@@ -20,7 +20,7 @@ const ReviewBox: React.FC<ReviewProps> = ({ data }) => {
       </div>
       <div className='flex items-center gap-2 text-[#ED9B37]'>
         {Array.from({ length: data.star }, (_, index) => (
-          <FaStar key={index} color='gold' />
+          <FaStar key={index} />
         ))}
       </div>
       <p className='font-base text-[#AAAAAA]'>{data.comment}</p>

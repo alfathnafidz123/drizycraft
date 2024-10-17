@@ -74,8 +74,8 @@ const ModalProjectDetail: React.FC<ModalProps> = ({
 
       {/* Modal content */}
       {isOpen && (
-        <div className='fixed left-1/2 top-1/2 z-30 -translate-x-1/2 -translate-y-1/2 transform overflow-hidden rounded-3xl bg-white shadow-lg'>
-          <div className='flex h-[500px] w-[888px] flex-col'>
+        <div className='fixed left-0 top-0 z-30 transform overflow-hidden rounded-3xl bg-white shadow-lg max-md:w-full lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2'>
+          <div className='flex h-screen w-full flex-col max-md:overflow-y-scroll lg:h-[500px] lg:w-[888px]'>
             <div className='flex flex-row-reverse items-center justify-between bg-[#E5F6FB] px-4 py-2'>
               <IoCloseCircleOutline
                 onClick={closeModal}
@@ -87,9 +87,9 @@ const ModalProjectDetail: React.FC<ModalProps> = ({
               </p>
               <div />
             </div>
-            <div className='flex gap-8 p-8'>
-              <div className='flex w-1/2 flex-col items-center justify-center gap-4'>
-                <div className='h-[310px] w-[432px] items-center justify-center rounded-xl'>
+            <div className='flex flex-col gap-4 p-4 lg:flex-row lg:gap-8 lg:p-8'>
+              <div className='flex flex-col items-center justify-center gap-4 lg:w-1/2'>
+                <div className='max-h-screen w-full items-center justify-center rounded-xl lg:h-[310px] lg:w-[432px]'>
                   <Slider {...settings}>
                     <div className='slide'>
                       <div className='!important flex h-full w-full items-center justify-center'>
@@ -169,7 +169,7 @@ const ModalProjectDetail: React.FC<ModalProps> = ({
                   </div>
                 </div>
               </div>
-              <div className='flex flex-col gap-4'>
+              <div className='flex flex-col gap-2 lg:gap-4'>
                 <div className='flex'>
                   {Array.from({ length: data.price }, (_, index) => (
                     <img
@@ -183,16 +183,16 @@ const ModalProjectDetail: React.FC<ModalProps> = ({
                 <p className='font-katide-regular text-[14px]'>
                   {data?.description}
                 </p>
-                <div className='font-katide-semibold mt-10 text-[14px]'>
-                  <button className='flex w-[55%] items-center gap-5 border-t'>
+                <div className='font-katide-semibold mt-5 text-[14px] lg:mt-10'>
+                  <button className='flex w-full items-center gap-5 border-t max-md:justify-between lg:w-[55%]'>
                     <p className='mt-3 hover:underline'>Download product 1</p>
                     <FaArrowUpRightFromSquare className='mt-2 text-[#61A9FA]' />
                   </button>
-                  <button className='mt-3 flex w-[55%] items-center gap-5 border-t'>
+                  <button className='mt-3 flex w-full items-center gap-5 border-t max-md:justify-between lg:w-[55%]'>
                     <p className='mt-3 hover:underline'>Download product 2</p>
                     <FaArrowUpRightFromSquare className='mt-2 text-[#61A9FA]' />
                   </button>
-                  <button className='mt-3 flex w-[55%] items-center gap-5 border-b border-t'>
+                  <button className='mt-3 flex w-full items-center gap-5 border-b border-t max-md:justify-between lg:w-[55%]'>
                     <p className='mt-3 hover:underline'>Download product 3</p>
                     <FaArrowUpRightFromSquare className='mt-2 text-[#61A9FA]' />
                   </button>

@@ -101,3 +101,47 @@ export interface Author {
   updatedAt?: Date;
   role: ManagementType;
 }
+
+export interface PagingStory {
+  page: number;
+  limit: number;
+}
+
+export interface ResStories {
+  data: StoryI[];
+  meta: MetaStory;
+}
+
+export interface StoryI {
+  id: string;
+  title: string;
+  canonical: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt?: Date;
+  storyItem: StoryItem[];
+}
+
+export interface StoryItem {
+  id: string;
+  url: string;
+  actionUrl?: string;
+  createdAt: string;
+  updatedAt: Date;
+  deletedAt?: Date;
+  storyId: string;
+}
+
+export interface MetaStory {
+  total: number;
+  page: number;
+  limit: number;
+  lastPage: number;
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
+}
+
+export interface ResStoryByTitle {
+  data: StoryI;
+}

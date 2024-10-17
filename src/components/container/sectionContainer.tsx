@@ -4,6 +4,7 @@ interface SectionContainerProps {
   className?: string;
   children: ReactNode;
   bgColor?: string;
+  parentClassName?: string;
   fullwidth?: boolean;
 }
 
@@ -12,21 +13,22 @@ const SectionContainer: React.FC<SectionContainerProps> = ({
   children,
   bgColor,
   fullwidth = false,
+  parentClassName,
 }) => {
   return (
     <div
-      className='flex w-full justify-center'
+      className={`flex w-full justify-center ${parentClassName}`}
       style={{ backgroundColor: bgColor }}
     >
       {fullwidth ? (
         <div
-          className={`mx-auto min-h-[592px] w-[1164px] overflow-visible ${className}`}
+          className={`mx-auto w-full overflow-visible lg:min-h-[592px] lg:max-w-[1164px] ${className}`}
         >
           <div className='w-screen px-8 lg:px-0'>{children}</div>
         </div>
       ) : (
         <div
-          className={`mx-auto w-screen overflow-visible lg:w-[1164px] ${className}`}
+          className={`mx-auto w-screen overflow-visible lg:max-w-[1164px] ${className}`}
         >
           {children}
         </div>

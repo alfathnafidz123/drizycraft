@@ -59,7 +59,7 @@ export default function RootLayout({
 }) {
   return (
     <main>
-      <section className='flex gap-4 p-20'>
+      <section className='flex gap-4 p-2 xl:py-20 mx-auto w-full max-w-[1164px]'>
         <div className='flex basis-3/12 flex-col gap-12 pr-16'>
           <p className='text-3xl font-semibold'>My Account</p>
           {/* <Image

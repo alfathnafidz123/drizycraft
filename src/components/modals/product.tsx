@@ -9,6 +9,7 @@ import moment from 'moment';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { FaAngleRight } from 'react-icons/fa6';
+import { MdClose } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
 import { fetchProfile, setOpenModal } from '@/lib/slices/user';
@@ -101,11 +102,9 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
         productId: product!.id,
         licenseType: type,
       };
-      await axios.post(
-        `https://drizy-api.quadrakaryasantosa.com/crafter/cart`,
-        payload,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await axios.post(`https://drizy-api.quadrakaryasantosa.com/crafter/cart`, payload, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       router.push('/cart');
     } catch (error: any) {
       toast(
@@ -128,8 +127,14 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
 
       {/* Modal content */}
       {isOpen && (
-        <div className='fixed left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2 transform overflow-hidden rounded-xl bg-white shadow-lg'>
-          <div className='flex h-[423px] w-[889px] gap-8 pl-5 pt-5'>
+        <div className='fixed top-0 z-50 transform overflow-hidden rounded-xl bg-white shadow-lg max-md:flex max-md:h-screen max-md:w-full max-md:items-center max-md:justify-center max-md:overflow-y-auto lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2'>
+          <div className='flex w-full flex-col gap-4 pt-5 max-md:mx-2 lg:h-[423px] lg:w-[889px] lg:flex-row lg:gap-8 lg:pl-5'>
+            <div
+              className='flex cursor-pointer flex-row justify-end lg:hidden'
+              onClick={closeModal}
+            >
+              <MdClose className='h-8 w-8' />
+            </div>
             <div className='flex flex-col justify-center'>
               <img
                 alt={product?.name}
@@ -137,7 +142,7 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
                 src={product?.imageUrl[0]}
                 className='h-[310px] w-[450px] object-cover'
               />
-              <div className='mt-8 flex flex-row pb-6'>
+              <div className='mt-3 flex flex-row max-md:justify-end lg:mt-8 lg:pb-6'>
                 <img
                   alt={`share-pinterest-${product?.name}`}
                   loading='lazy'
@@ -151,24 +156,24 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
                 />
               </div>
             </div>
-            <div className='flex w-[40%] flex-col'>
+            <div className='flex w-full flex-col lg:w-[40%]'>
               <div className='flex flex-col'>
                 <p className='font-katide-bold text-[24px] leading-[36px] text-[#1A204C]'>
                   {product?.name}
                 </p>
               </div>
-              <div className='mt-[12%] flex gap-[24%]'>
+              <div className='mt-4 flex max-md:justify-between lg:mt-[12%] lg:gap-[24%]'>
                 <div className='flex flex-col'>
                   <p className=' font-katide-semibold text-[14px] text-[#A1A1A1]'>
                     Price
                   </p>
                   <div className='flex flex-row gap-1'>
                     {isDiscount &&
-                    !(
-                      activeSubcription &&
-                      dataUser?.coin &&
-                      dataUser?.coin > 0
-                    ) ? (
+                      !(
+                        activeSubcription &&
+                        dataUser?.coin &&
+                        dataUser?.coin > 0
+                      ) ? (
                       <p className='font-katide-regular text-sm text-[#A1A1A1] line-through'>
                         ${product?.price[type]}
                       </p>

@@ -71,8 +71,8 @@ export default function Register() {
         isOpen={isUploadSuccessShow}
         onClose={() => setIsUploadSuccessShow(false)}
       />
-      <section className='flex flex-row justify-between'>
-        <div className='flex-col p-[6%] pl-[10%]'>
+      <section className='flex flex-col justify-between lg:flex-row max-w-[1164px] mx-auto py-10'>
+        <div className='flex-col'>
           <p className='font-katide-bold text-[24px]'>
             Collect coins and earn more Drizy designs
           </p>
@@ -107,9 +107,9 @@ export default function Register() {
             </p>
           </div>
         </div>
-        <img src={projectImage.src} className='p-[6%]' />
+        <img src={projectImage.src} className='' />
       </section>
-      <section className='flex flex-wrap justify-center gap-5 bg-[#EBECF5] p-20'>
+      <section className='flex flex-wrap justify-center gap-5 bg-[#EBECF5] p-2 xl:p-20'>
         <div
           onClick={() => setIsPopUpShow(true)}
           className='h-[456px] w-[369px] cursor-pointer rounded-xl bg-white bg-opacity-30 px-8 py-8 text-center text-indigo-950 text-opacity-20 shadow-lg hover:bg-white'

@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: resMetadata.data.realTitle,
     description: resMetadata.data.description,
     alternates: {
-      canonical: `https://drizy-client.quadrakaryasantosa.com/product/${id}`,
+      canonical: `https://drizycraft.com/product/${id}`,
     },
     robots: { index: true, follow: true },
     icons: {
@@ -64,7 +64,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     authors: [
       {
         name: 'Drizy Studio',
-        url: 'https://drizy-client.quadrakaryasantosa.com',
+        url: 'https://drizycraft.com',
       },
     ],
   };

@@ -11,17 +11,17 @@ const BlogArticle = ({ data }: { data: ArticleI }) => {
     router.push(`/article/${data.meta[0].title}`);
   };
   return (
-    <div className='flex flex-col rounded-xl transition-all duration-300 ease-in-out hover:bg-[#EBECF5] hover:shadow-lg'>
+    <div className='flex flex-col rounded-xl p-2 transition-all duration-300 ease-in-out hover:bg-[#EBECF5] max-md:bg-[#EBECF5] hover:shadow-lg'>
       <div
-        className='box-border max-h-[205px] w-full cursor-pointer overflow-hidden shadow-lg hover:shadow-transparent'
+        className='box-border max-h-[205px] w-full cursor-pointer overflow-hidden rounded-[12px] shadow-lg hover:shadow-transparent'
         onClick={handleToArticle}
       >
         <Image
           src={data.banner ?? bannerArticle.src}
-          width={0}
-          height={0}
+          width={100}
+          height={100}
           sizes='100vw'
-          className='h-auto w-full rounded-[12px]'
+          className='h-auto w-full'
           alt={data.title}
           layout='responsive'
         />

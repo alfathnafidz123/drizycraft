@@ -103,20 +103,20 @@ export default function CatalogCrafter() {
 
   return (
     <main>
-      <section className='mb-[6%] ml-[7%] mr-[12%] mt-[4%] flex'>
+      <section className='flex flex-col-reverse lg:mx-auto lg:mb-[6%] lg:mt-[4%] lg:w-[1164px] lg:flex-row'>
         <img src={catalogcrafter.src} alt='Catalog' />
 
-        <div className='ml-8 mt-2 flex flex-col'>
+        <div className='mt-4 flex flex-col items-center p-2 lg:ml-8 lg:mt-2 lg:items-start lg:p-0'>
           <div className='font-katide-bold inline-flex h-16 w-48 items-center justify-center rounded-full bg-[#61A9FA] px-9 text-center text-[24px] text-white shadow-md'>
             CRAFTERS
           </div>
 
-          <p className='font-katide-bold mt-10 text-[16px] text-[#1A214C]'>
+          <p className='font-katide-bold mt-10 text-center text-[16px] text-[#1A214C] lg:text-start'>
             Find the perfect digital designs for your crafting projects at Drizy
             Studio!
           </p>
 
-          <p className='font-katide-medium mt-4 text-[16px] text-[#1A214C]'>
+          <p className='font-katide-medium mt-4 text-center text-[16px] text-[#1A214C] lg:text-start'>
             Thousands of expertly-made SVGs and sublimations made to fit home
             crafters' needs. Enjoy unbeatable prices on our designs.
           </p>
@@ -132,137 +132,139 @@ export default function CatalogCrafter() {
         </div>
       </section>
 
-      <section className='flex bg-[#EBECF5] p-[4%] pl-[8%]'>
-        <div>
-          <p className='font-katide-bold text-[20px]'>Filters</p>
-          <div className='mt-6 rounded-lg bg-white shadow-lg'>
-            <div className='rounded-tl-lg rounded-tr-lg border-b-2'>
-              <div
-                className='short-by-dropdown m-1 flex w-[252px] cursor-pointer justify-between p-2'
-                onClick={handleShortByDropdownClick}
-              >
-                <p className='font-katide-semibold mt-2 w-[252px] text-[14px] text-[#1A214C]'>
-                  Short by
-                </p>
-                <FaChevronDown className='mt-2 w-[12px]' />
+      <section className='w-full bg-[#EBECF5]'>
+        <div className='flex flex-col py-[4%] max-md:px-2 lg:mx-auto lg:w-[1164px] lg:flex-row'>
+          <div>
+            <p className='font-katide-bold text-[20px]'>Filters</p>
+            <div className='mt-6 rounded-lg bg-white shadow-lg'>
+              <div className='rounded-tl-lg rounded-tr-lg border-b-2'>
+                <div
+                  className='short-by-dropdown m-1 flex w-full cursor-pointer justify-between p-2 lg:w-[252px]'
+                  onClick={handleShortByDropdownClick}
+                >
+                  <p className='font-katide-semibold mt-2 w-full text-[14px] text-[#1A214C] lg:w-[252px]'>
+                    Short by
+                  </p>
+                  <FaChevronDown className='mr-2 mt-2 w-[12px]' />
+                </div>
               </div>
+              {isShortByDropdownOpen && (
+                <div className='dropdown-content m-2 p-2'>
+                  {shortByOptions.map((option, index) => (
+                    <div key={index} className='mb-3'>
+                      <input
+                        type='radio'
+                        id={option}
+                        name='shortByOptions'
+                        value={option}
+                        checked={selectedShortByOption === option}
+                        onChange={handleShortBySelect}
+                        className='h-[13px] w-[13px] text-black'
+                      />
+                      <label
+                        htmlFor={option}
+                        style={{
+                          marginLeft: '5%',
+                          fontSize: '14px',
+                          color: '#17181A',
+                        }}
+                      >
+                        {optionFormatter(option)}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-            {isShortByDropdownOpen && (
-              <div className='dropdown-content m-2 p-2'>
-                {shortByOptions.map((option, index) => (
-                  <div key={index} className='mb-3'>
-                    <input
-                      type='radio'
-                      id={option}
-                      name='shortByOptions'
-                      value={option}
-                      checked={selectedShortByOption === option}
-                      onChange={handleShortBySelect}
-                      className='h-[13px] w-[13px] text-black'
-                    />
-                    <label
-                      htmlFor={option}
-                      style={{
-                        marginLeft: '5%',
-                        fontSize: '14px',
-                        color: '#17181A',
-                      }}
-                    >
-                      {optionFormatter(option)}
-                    </label>
-                  </div>
-                ))}
+
+            <div className='mt-6 rounded-lg bg-white shadow-lg'>
+              <div className='rounded-tl-lg rounded-tr-lg border-b-2'>
+                <div
+                  className='category-dropdown m-1 flex w-full cursor-pointer justify-between p-2 lg:w-[252px]'
+                  onClick={handleCategoryDropdownClick}
+                >
+                  <p className='font-katide-semibold mt-2 w-full text-[14px] text-[#1A214C] lg:w-[252px]'>
+                    Category
+                  </p>
+                  <FaChevronDown className='mr-2 mt-2 w-[12px]' />
+                </div>
               </div>
-            )}
+              {isCategoryDropdownOpen && (
+                <div className='dropdown-content m-2 p-2'>
+                  {categoryOptions.map((option, index) => (
+                    <div key={index} className='mb-3'>
+                      <input
+                        type='radio'
+                        id={option}
+                        name='categoryOptions'
+                        value={option}
+                        checked={selectedCategoryOption === option}
+                        onChange={handleCategorySelect}
+                        className='h-[13px] w-[13px] text-black'
+                      />
+                      <label
+                        htmlFor={option}
+                        style={{
+                          marginLeft: '5%',
+                          fontSize: '14px',
+                          color: '#17181A',
+                        }}
+                      >
+                        {option}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className='mt-6 rounded-lg bg-white shadow-lg'>
+              <div className='rounded-tl-lg rounded-tr-lg border-b-2'>
+                <div
+                  className='seasons-dropdown m-1 flex w-full cursor-pointer justify-between p-2 lg:w-[252px]'
+                  onClick={handleSeasonsDropdownClick}
+                >
+                  <p className='font-katide-semibold mt-2 w-full text-[14px] text-[#1A214C] lg:w-[252px]'>
+                    Seasons
+                  </p>
+                  <FaChevronDown className='mr-2 mt-2 w-[12px]' />
+                </div>
+              </div>
+              {isSeasonsDropdownOpen && (
+                <div className='dropdown-content m-2 p-2'>
+                  {seasonsOptions.map((option, index) => (
+                    <div key={index} className='mb-3'>
+                      <input
+                        type='radio'
+                        id={option}
+                        name='seasonsOptions'
+                        value={option}
+                        checked={selectedSeasonsOption === option}
+                        onChange={handleSeasonsSelect}
+                        className='h-[13px] w-[13px] text-black'
+                      />
+                      <label
+                        htmlFor={option}
+                        style={{
+                          marginLeft: '5%',
+                          fontSize: '14px',
+                          color: '#17181A',
+                        }}
+                      >
+                        {option}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
-          <div className='mt-6 rounded-lg bg-white shadow-lg'>
-            <div className='rounded-tl-lg rounded-tr-lg border-b-2'>
-              <div
-                className='category-dropdown m-1 flex w-[252px] cursor-pointer justify-between p-2'
-                onClick={handleCategoryDropdownClick}
-              >
-                <p className='font-katide-semibold mt-2 w-[252px] text-[14px] text-[#1A214C]'>
-                  Category
-                </p>
-                <FaChevronDown className='mt-2 w-[12px]' />
-              </div>
-            </div>
-            {isCategoryDropdownOpen && (
-              <div className='dropdown-content m-2 p-2'>
-                {categoryOptions.map((option, index) => (
-                  <div key={index} className='mb-3'>
-                    <input
-                      type='radio'
-                      id={option}
-                      name='categoryOptions'
-                      value={option}
-                      checked={selectedCategoryOption === option}
-                      onChange={handleCategorySelect}
-                      className='h-[13px] w-[13px] text-black'
-                    />
-                    <label
-                      htmlFor={option}
-                      style={{
-                        marginLeft: '5%',
-                        fontSize: '14px',
-                        color: '#17181A',
-                      }}
-                    >
-                      {option}
-                    </label>
-                  </div>
-                ))}
-              </div>
-            )}
+          <div className='ml-[7%] flex flex-wrap'>
+            {productData.map((product, index) => (
+              <ProductCard key={index} data={product} />
+            ))}
           </div>
-
-          <div className='mt-6 rounded-lg bg-white shadow-lg'>
-            <div className='rounded-tl-lg rounded-tr-lg border-b-2'>
-              <div
-                className='seasons-dropdown m-1 flex w-[252px] cursor-pointer justify-between p-2'
-                onClick={handleSeasonsDropdownClick}
-              >
-                <p className='font-katide-semibold mt-2 w-[252px] text-[14px] text-[#1A214C]'>
-                  Seasons
-                </p>
-                <FaChevronDown className='mt-2 w-[12px]' />
-              </div>
-            </div>
-            {isSeasonsDropdownOpen && (
-              <div className='dropdown-content m-2 p-2'>
-                {seasonsOptions.map((option, index) => (
-                  <div key={index} className='mb-3'>
-                    <input
-                      type='radio'
-                      id={option}
-                      name='seasonsOptions'
-                      value={option}
-                      checked={selectedSeasonsOption === option}
-                      onChange={handleSeasonsSelect}
-                      className='h-[13px] w-[13px] text-black'
-                    />
-                    <label
-                      htmlFor={option}
-                      style={{
-                        marginLeft: '5%',
-                        fontSize: '14px',
-                        color: '#17181A',
-                      }}
-                    >
-                      {option}
-                    </label>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className='ml-[7%] flex flex-wrap'>
-          {productData.map((product, index) => (
-            <ProductCard key={index} data={product} />
-          ))}
         </div>
       </section>
     </main>

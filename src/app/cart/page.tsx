@@ -38,7 +38,7 @@ export default function Register() {
       cart.forEach((item) => {
         products.push(item.productId);
         licenses.push(item.licenseType);
-        if (item.affiliateId) affiliates.push(item.affiliateId);
+        affiliates.push(item.affiliateId ?? '');
       });
       const data = await itemPayment({
         productId: products,
@@ -58,13 +58,10 @@ export default function Register() {
 
   const handleDelete = async (id: string) => {
     try {
-      await axios.delete(
-        `https://drizy-api.quadrakaryasantosa.com/crafter/cart/${id}`,
-        {
-          headers: { Authorization: `bearer ${token}` },
-          params: { page: 1, limit: 25 },
-        }
-      );
+      await axios.delete(`https://drizy-api.quadrakaryasantosa.com/crafter/cart/${id}`, {
+        headers: { Authorization: `bearer ${token}` },
+        params: { page: 1, limit: 25 },
+      });
       dispatch(fetchCart(token!));
     } catch (error) {
       const err = error as AxiosError;
@@ -74,10 +71,10 @@ export default function Register() {
   };
 
   return (
-    <main>
-      <section className='flex flex-col gap-4 bg-[#F4F4F4] p-2 lg:flex-row lg:p-20'>
-        <div className='flex basis-3/12 flex-col gap-12 rounded-xl bg-white p-8 pr-16 shadow-lg'>
-          <p className='text-3xl font-semibold'>My Cart</p>
+    <main className='bg-[#F4F4F4]'>
+      <section className='flex flex-col gap-4 max-md:p-2 lg:flex-row lg:py-20 mx-auto w-full max-w-[1164px]'>
+        <div className='flex basis-3/12 flex-col items-center gap-12 rounded-xl bg-white p-8 pr-16 shadow-lg'>
+          <p className='text-3xl font-bold'>My Cart</p>
           <Lottie
             options={{
               loop: true,
@@ -114,7 +111,7 @@ export default function Register() {
                     <tr key={item.id}>
                       <td className='w-1/12'>
                         <button onClick={() => handleDelete(item.id)}>
-                          <IoIosCloseCircleOutline />
+                          <IoIosCloseCircleOutline className='h-[24pt] w-[24pt]' />
                         </button>
                       </td>
                       <td className='w-2/12'>

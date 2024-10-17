@@ -75,8 +75,8 @@ export default function Register() {
       );
       setSubsData(res.data.data);
     } catch (error) {
-      const err = error as AxiosError;
-      toast.error(err.message);
+      // const err = error as AxiosError;
+      // toast.error(err.message);
     }
   };
 
@@ -151,11 +151,9 @@ export default function Register() {
       if (refCode) {
         payload.refCode = refCode;
       }
-      await axios.post(
-        `https://drizy-api.quadrakaryasantosa.com/crafter/cart`,
-        payload,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await axios.post(`https://drizy-api.quadrakaryasantosa.com/crafter/cart`, payload, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       router.push('/cart');
     } catch (error: any) {
       toast(
@@ -168,7 +166,7 @@ export default function Register() {
     try {
       setLoadingAffiliate(true);
       const res = await axios.post(
-        `https://s.quadrakaryasantosa.com`,
+        `https://s.drizycraft.com`,
         {
           originalUrl: `${window.location.href}?ref=${dataUser?.affiliate.refferalCode}`,
         },
@@ -176,7 +174,7 @@ export default function Register() {
           headers: { Authorization: `bearer ${token}` },
         }
       );
-      setShortUrl(`https://s.quadrakaryasantosa.com/${res.data.shortUrl}`);
+      setShortUrl(`https://s.drizycraft.com/${res.data.shortUrl}`);
     } catch (error) {
       const err = error as AxiosError;
       const errorData: any = err.response?.data;
@@ -232,15 +230,15 @@ export default function Register() {
         onClose={() => setIsShowModal(false)}
         refreshReview={getReview}
       />
-      <section className='flex flex-col gap-12 p-2 lg:px-24 lg:py-16'>
-        <p className='text-[#B8B8B8]'>
+      <section className='mx-auto flex w-full max-w-[1164px] flex-col gap-12 max-md:p-2 lg:py-16'>
+        <p className='text-xs text-[#B8B8B8]'>
           Drizy Studio » Crafters » Craft Design SVGs » Paper Cut Templates »{' '}
           {productData.product.name}
         </p>
         <div className='grid gap-8 lg:grid-cols-5'>
           <div className='flex flex-col gap-4 lg:col-span-3'>
-            <div className='flex flex-col-reverse gap-8 lg:flex-row'>
-              <div className='flex flex-row gap-4 lg:flex-col'>
+            <div className='grid grid-cols-1 gap-8 lg:grid-cols-5'>
+              <div className='order-last flex flex-row gap-4 lg:order-first lg:flex-col'>
                 {productData?.product.imageUrl?.map((url, index) => (
                   <Image
                     key={index}
@@ -248,9 +246,8 @@ export default function Register() {
                     alt='Product'
                     width={50}
                     height={50}
-                    className={`h-[50px] w-[50px] rounded-md object-cover ${
-                      index === selectedImage ? 'opacity-100' : 'opacity-50'
-                    }`}
+                    className={`h-[50px] w-[50px] rounded-md object-cover ${index === selectedImage ? 'opacity-100' : 'opacity-50'
+                      }`}
                     onClick={() => {
                       setSelectedImage(index);
                     }}
@@ -265,7 +262,7 @@ export default function Register() {
                   alt='Product'
                   width={724}
                   height={300}
-                  className='rounded-xl'
+                  className='order-first col-span-4 w-full rounded-xl object-cover lg:order-last'
                   priority={true}
                   loading='eager'
                 />
@@ -274,42 +271,46 @@ export default function Register() {
 
             <div className='mt-8 grid grid-cols-2 grid-rows-2 gap-4 text-[14px]'>
               <div>
-                <p className='font-semibold text-[#1A214C]'>File Type</p>
-                <p className='text-[#1A214C]'>
+                <p className='text-xs font-semibold text-[#777777] lg:text-sm'>
+                  File Type
+                </p>
+                <p className='text-xs text-[#777777] lg:text-sm'>
                   {productData
                     ? productData.product.fileType.split(',').join('|')
                     : '-'}
                 </p>
               </div>
               <div>
-                <p className='font-semibold text-[#1A214C]'>File Size</p>
-                <p className='text-[#1A214C]'>{`${productData?.product.fileSize} mb`}</p>
+                <p className='text-xs font-semibold text-[#777777] lg:text-sm'>
+                  File Size
+                </p>
+                <p className='text-xs text-[#777777] lg:text-sm'>{`${productData?.product.fileSize} mb`}</p>
               </div>
               <div>
-                <p className='font-semibold text-[#1A214C]'>
+                <p className='text-xs font-semibold text-[#777777] lg:text-sm'>
                   {productData.product.author
                     ? `By ${productData.product.author.name}`
                     : 'By Drizy Studio'}
                 </p>
               </div>
               <div>
-                <p className='text-[#1A214C]'>
+                <p className='text-xs text-[#777777] lg:text-sm'>
                   {productData
                     ? moment(productData.product.createdAt).format(
-                        'MMMM DD, YYYY'
-                      )
+                      'MMMM DD, YYYY'
+                    )
                     : '-'}
                 </p>
               </div>
             </div>
           </div>
-          <div className='flex flex-col items-center gap-16 lg:col-span-2 lg:items-start lg:pl-6'>
+          <div className='flex flex-col items-start gap-16 lg:col-span-2 lg:pl-6'>
             <p className='text-2xl font-semibold text-[#1A214C]'>
               {productData.product.name}
             </p>
             <div className='flex flex-row items-end gap-1'>
               {isDiscount &&
-              !(activeSubcription && dataUser?.coin && dataUser?.coin > 0) ? (
+                !(activeSubcription && dataUser?.coin && dataUser?.coin > 0) ? (
                 <p className='font-katide-regular text-lg text-gray-500 line-through'>
                   ${productData.product.price[type]}
                 </p>
@@ -319,18 +320,18 @@ export default function Register() {
               </p>
             </div>
             <div className='flex flex-col gap-4 p-2 lg:w-5/6 lg:p-0'>
-              <p className='text-lg font-semibold text-[#1A214C]'>
+              <p className='font-katide-bold text-xs text-[#1A214C]'>
                 License Option
               </p>
-              <div className='flex justify-center gap-2 lg:justify-between'>
+              <div className='flex justify-between gap-2'>
                 <button
                   onClick={() => {
                     setType(0);
                   }}
                   className={
                     type === 0
-                      ? 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#4065D1] px-4 py-1 text-[14px] text-[#e4f6fb]'
-                      : 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1]'
+                      ? 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#4065D1] px-4 py-1 text-[14px] text-[#e4f6fb] max-md:w-full'
+                      : 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1] max-md:w-full'
                   }
                 >
                   Personal
@@ -341,8 +342,8 @@ export default function Register() {
                   }}
                   className={
                     type === 1
-                      ? 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#4065D1] px-4 py-1 text-[14px] text-[#e4f6fb]'
-                      : 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1]'
+                      ? 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#4065D1] px-4 py-1 text-[14px] text-[#e4f6fb] max-md:w-full'
+                      : 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1] max-md:w-full'
                   }
                 >
                   Commercial
@@ -353,8 +354,8 @@ export default function Register() {
                   }}
                   className={
                     type === 2
-                      ? 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#4065D1] px-4 py-1 text-[14px] text-[#e4f6fb]'
-                      : 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1]'
+                      ? 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#4065D1] px-4 py-1 text-[14px] text-[#e4f6fb] max-md:w-full'
+                      : 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1] max-md:w-full'
                   }
                 >
                   Business
@@ -390,10 +391,10 @@ export default function Register() {
                   : 'Add to cart'}
               </button>
               <div className='my-4 w-full border-t-2 border-[#1A214C]/15' />
-              <p className='text-lg font-semibold text-[#1A214C]'>
+              <p className='text-lg font-semibold text-[#777777]'>
                 License Terms
               </p>
-              <ul className='list-disc text-[12px] text-[#1A214C]'>
+              <ul className='list-disc text-[12px] text-[#777777]'>
                 <li>Personal Use Only</li>
                 <li>
                   End Products Not For Resell, sub-license, share or
@@ -416,10 +417,10 @@ export default function Register() {
           </div>
         </div>
       </section>
-      <section className='flex flex-col gap-8 bg-[#EBECF5] p-2 lg:px-24 lg:py-16'>
-        <div className='flex-col gap-4 lg:grid lg:grid-cols-3'>
+      <section className='flex flex-col gap-8 bg-[#EBECF5] max-md:p-2 lg:py-16'>
+        <div className='mx-auto w-full max-w-[1164px] flex-col gap-4 lg:grid lg:grid-cols-3'>
           <div className='col-span-2 flex flex-col gap-8'>
-            <p className='text-[24px] font-semibold text-[#1A214C]'>
+            <p className='font-katide-bold mt-4 text-base text-[#1A214C] lg:mt-0 lg:text-[24px]'>
               Product Detail
             </p>
             <p className='text-[16px] font-semibold text-[#707070]'>
@@ -428,11 +429,24 @@ export default function Register() {
             <div className='box-border text-[16px] font-light text-[#707070]'>
               <div
                 // style={{ whiteSpace: 'pre-line' }}
-                className='without-tailwind'
+                className='without-tailwind !max-md:max-w-full box-border overflow-hidden'
                 dangerouslySetInnerHTML={{
                   __html: productData?.product.description,
                 }}
               />
+            </div>
+            <div className='mt-6 flex w-full flex-wrap justify-start gap-3 lg:mx-auto lg:max-w-[1164px]'>
+              <p className='font-katide-bold text-[16px] text-[#707070]'>
+                Tags:
+              </p>
+              {productData.product.tags.map((item, i) => (
+                <div
+                  key={i.toString()}
+                  className='rounded-full bg-[#D1D1D1] px-3 text-[16px] text-[#4A4A4A]'
+                >
+                  {item}
+                </div>
+              ))}
             </div>
           </div>
           <div className='mt-16 w-full rounded-3xl bg-white p-8 shadow-xl lg:basis-1/3'>
@@ -522,20 +536,8 @@ export default function Register() {
             </div>
           </div>
         </div>
-
-        <div className='mt-6 flex w-full flex-wrap justify-center gap-3 lg:max-w-[788px] lg:justify-start'>
-          <p className='font-katide-bold text-[16px] text-[#707070]'>Tags:</p>
-          {productData.product.tags.map((item, i) => (
-            <div
-              key={i.toString()}
-              className='rounded-full bg-[#D1D1D1] px-3 text-[16px] text-[#4A4A4A]'
-            >
-              {item}
-            </div>
-          ))}
-        </div>
       </section>
-      <section className='flex flex-col items-center gap-8 px-24 py-16'>
+      <section className='mx-6 flex max-w-[1164px] flex-col items-center gap-8 py-16 lg:mx-auto'>
         <p className='text-2xl font-semibold text-[#1A214C]'>
           Product Recommendation
         </p>
@@ -551,7 +553,7 @@ export default function Register() {
             />
           ))}
         </div>
-        <p className='w-full text-right text-lg font-semibold text-[#1A214C]'>
+        <p className='w-full text-right text-xs font-semibold text-[#1A214C] lg:text-lg'>
           See More &gt;
         </p>
       </section>

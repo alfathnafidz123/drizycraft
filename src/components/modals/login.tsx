@@ -98,12 +98,12 @@ const ModalLogin: React.FC = () => {
 
       {/* Modal content */}
       {isOpen && (
-        <div className='fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 transform rounded-3xl bg-[#E5F6FB] p-8 shadow-lg'>
-          <div className='flex gap-16'>
+        <div className='fixed left-1/2 top-1/2 z-50 max-h-screen w-full -translate-x-1/2 -translate-y-1/2 transform overflow-y-auto rounded-3xl bg-[#E5F6FB] p-8 shadow-lg lg:h-fit lg:w-fit lg:overflow-scroll'>
+          <div className='flex flex-col gap-4 lg:flex-row lg:gap-16'>
             <div className='flex flex-col justify-between gap-8'>
               {/* <img src={loginImage.src} alt='login' /> */}
               <LoginLottie />
-              <p className='text-grey-900'>
+              <p className='text-grey-900 hidden lg:block'>
                 New User?
                 <Link href='/register'>
                   <span
@@ -116,21 +116,21 @@ const ModalLogin: React.FC = () => {
               </p>
             </div>
             <div className='flex flex-col'>
-              <p className='text=[#1A214C] mb-4 ml-5 text-lg font-semibold'>
+              <p className='text=[#1A214C] mb-4 text-lg font-semibold lg:ml-5'>
                 Login
               </p>
               <input
                 type='text'
                 value={payload}
                 onChange={(e) => setPayload(e.target.value)}
-                className='border-grey-700 my-2 w-[300px] rounded-full border p-4'
+                className='border-grey-700 my-2 w-full rounded-full border p-4 lg:w-[300px]'
                 placeholder='Username or email address'
               ></input>
               <input
                 type='password'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className='border-grey-700 my-2 w-[300px] rounded-full border p-4'
+                className='border-grey-700 my-2 w-full rounded-full border p-4 lg:w-[300px]'
                 placeholder='Password'
               ></input>
               <div className='flex items-center gap-2 p-4'>
@@ -140,16 +140,18 @@ const ModalLogin: React.FC = () => {
                 />
                 <p className='text-grey-700'>Remember me</p>
               </div>
-              <div className='mb-8 flex items-center gap-8'>
+              <div className='mb-8 flex flex-col items-end gap-2 lg:flex-row lg:items-center lg:gap-8'>
                 <button
                   onClick={handleLogin}
-                  className='rounded-full bg-[#1A214C] px-6 py-2 font-semibold text-white'
+                  className='rounded-full bg-[#1A214C] px-6 py-2 font-semibold text-white hover:bg-[#FFBB3C] hover:text-black max-md:w-full'
                 >
                   {loading ? <Loader color='#fff' /> : 'LOGIN'}
                 </button>
-                <p className='text-grey-700'>Lost your password?</p>
+                <p className='text-grey-700 max-md:text-right'>
+                  Lost your password?
+                </p>
               </div>
-              <button className='mt-2 flex items-center gap-4 rounded-full border-2 border-[#4065D1] px-6 py-2 font-semibold text-[#4065D1]'>
+              <button className='mt-2 flex items-center gap-4 rounded-full border-2 border-[#4065D1] px-6 py-2 font-semibold text-[#4065D1] max-md:justify-center'>
                 <FaFacebookF style={{ color: '#4065D1' }} />
                 <p>Login with Facebook</p>
               </button>
@@ -158,11 +160,22 @@ const ModalLogin: React.FC = () => {
                 onClick={() => {
                   loginGoogle();
                 }}
-                className='mt-2 flex items-center gap-4 rounded-full border-2 border-[#1A214C] px-6 py-2 font-semibold text-[#1A214C]'
+                className='mt-2 flex items-center gap-4 rounded-full border-2 border-[#1A214C] px-6 py-2 font-semibold text-[#1A214C] max-md:justify-center'
               >
                 <FcGoogle />
                 <p>Login with Google</p>
               </button>
+              <p className='text-grey-900 mt-4 block lg:hidden'>
+                New User?
+                <Link href='/register'>
+                  <span
+                    onClick={() => dispatch(setOpenModal(false))}
+                    className='text=[#1A214C] ml-5 text-lg font-semibold'
+                  >
+                    Register
+                  </span>
+                </Link>
+              </p>
             </div>
           </div>
         </div>

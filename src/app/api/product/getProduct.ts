@@ -20,7 +20,9 @@ export async function getAllProduct(params: GetProductPayload) {
   try {
     const resp = await axios.get(
       `https://drizy-api.quadrakaryasantosa.com/crafter/product`,
-      { params }
+      {
+        params,
+      }
     );
     return resp.data;
   } catch (error) {

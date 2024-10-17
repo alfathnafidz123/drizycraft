@@ -95,6 +95,56 @@
     font-style: normal;
   }
 
+  /* inter font */
+  @font-face {
+    font-family: 'Inter Thin';
+    src: url('/fonts/Inter-Thin.ttf') format('ttf');
+    font-weight: 100;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Inter Light';
+    src: url('/fonts/Inter-Light.ttf') format('ttf');
+    font-weight: 300;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Inter Regular';
+    src: url('/fonts/Inter-Regular.ttf') format('ttf');
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Inter Medium';
+    src: url('/fonts/Inter-Medium.ttf') format('ttf');
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Inter SemiBold';
+    src: url('/fonts/Inter-SemiBold.ttf') format('ttf');
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Inter Bold';
+    src: url('/fonts/Inter-Bold.ttf') format('ttf');
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Inter ExtraLight';
+    src: url('/fonts/Inter-ExtraLight.ttf') format('ttf');
+    font-weight: 800;
+    font-style: normal;
+  }
+
   .cursor-newtab {
     cursor: url('/images/new-tab.png') 10 10, pointer;
   }
@@ -206,4 +256,34 @@
   body {
     overflow-x: hidden;
   }
+}
+
+.border-gradient {
+  background-color: rgba(104, 104, 104, 0.2);
+  box-shadow: 2px 2px 25px 0 rgba(0,0,0,0.1);
+  /* filter: blur(15px);
+  -webkit-filter: blur(15px); */
+  border-radius: 100px; /*1*/
+  border: 1px solid transparent; /*2*/
+  background: linear-gradient(45deg,rgba(203, 203, 203, 0.5) 0%, white 100%) border-box; /*3*/
+  -webkit-mask: /*4*/
+     linear-gradient(#fff 0 0) padding-box, 
+     linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; /*5'*/
+          mask-composite: exclude; /*5*/
+}
+
+.border-gradient-double {
+  background-color: rgba(104, 104, 104, 0.2);
+  box-shadow: 2px 2px 25px 0 rgba(0,0,0,0.1);
+  /* filter: blur(15px);
+  -webkit-filter: blur(15px); */
+  border-radius: 100px; /*1*/
+  border: 2px solid transparent; /*2*/
+  background: linear-gradient(45deg,rgba(203, 203, 203, 0.5) 0%, white 100%) border-box; /*3*/
+  -webkit-mask: /*4*/
+     linear-gradient(#fff 0 0) padding-box, 
+     linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; /*5'*/
+          mask-composite: exclude; /*5*/
 }

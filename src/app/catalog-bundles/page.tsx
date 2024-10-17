@@ -1,0 +1,276 @@
+'use client';
+import { useEffect, useState } from 'react';
+import { CiYoutube } from 'react-icons/ci';
+import { FaBehance } from 'react-icons/fa';
+import { FaFacebookF } from 'react-icons/fa';
+import { FaPinterest } from 'react-icons/fa';
+import { FaInstagram } from 'react-icons/fa';
+import { FaChevronDown } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
+import { toast } from 'react-toastify';
+
+import ProductCard from '@/components/ProductCard';
+
+import { getAllProduct, SortType } from '@/app/api/product/getProduct';
+import { productI } from '@/interfaces/product.interface';
+
+import { catalogcrafter } from '~/images';
+
+export default function CatalogCrafter() {
+  const shortByOptions = [
+    SortType.Latest,
+    SortType.Popularity,
+    SortType.LowToHigh,
+    SortType.HighToLow,
+  ];
+  const [isShortByDropdownOpen, setIsShortByDropdownOpen] = useState(false);
+  const [selectedShortByOption, setSelectedShortByOption] = useState(
+    SortType.Latest
+  );
+  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
+  const [selectedCategoryOption, setSelectedCategoryOption] = useState('');
+  const [isSeasonsDropdownOpen, setIsSeasonsDropdownOpen] = useState(false);
+  const [selectedSeasonsOption, setSelectedSeasonsOption] = useState('');
+  const [productData, setProductData] = useState<productI[] | []>([]);
+
+  const categoryOptions = [
+    '3D Shadow Box',
+    'Greeting Card',
+    'Sublimation',
+    'Tumbler 20oz',
+    'Lollipop Holder',
+    'Egg Holder',
+  ];
+  const seasonsOptions = ['Fall', 'Winter', 'Spring', 'Summer'];
+
+  const handleShortByDropdownClick = () => {
+    setIsShortByDropdownOpen(!isShortByDropdownOpen);
+  };
+
+  const handleCategoryDropdownClick = () => {
+    setIsCategoryDropdownOpen(!isCategoryDropdownOpen);
+  };
+
+  const handleSeasonsDropdownClick = () => {
+    setIsSeasonsDropdownOpen(!isSeasonsDropdownOpen);
+  };
+
+  const handleShortBySelect = (event: any) => {
+    const option = event.target.value;
+    setSelectedShortByOption(option);
+  };
+
+  const handleCategorySelect = (event: any) => {
+    const option = event.target.value;
+    setSelectedCategoryOption(option);
+  };
+
+  const handleSeasonsSelect = (event: any) => {
+    const option = event.target.value;
+    setSelectedSeasonsOption(option);
+  };
+
+  function optionFormatter(str: string) {
+    return str.replace(/([A-Z])/g, ' $1').trim();
+  }
+
+  const getProduct = async () => {
+    const extraCat =
+      selectedSeasonsOption !== ''
+        ? selectedSeasonsOption
+        : selectedCategoryOption !== ''
+        ? selectedCategoryOption
+        : '';
+    try {
+      const response = await getAllProduct({
+        page: 1,
+        limit: 10,
+        sortType: selectedShortByOption,
+        category: 'Bundles',
+        extraCategory: extraCat !== '' ? extraCat : '',
+      });
+      setProductData(response.data);
+    } catch (error) {
+      toast('Error when trying to get all products');
+    }
+  };
+
+  useEffect(() => {
+    getProduct();
+  }, []);
+
+  useEffect(() => {
+    getProduct();
+  }, [selectedCategoryOption, selectedSeasonsOption, selectedShortByOption]);
+
+  return (
+    <main>
+      <section className='flex flex-col-reverse lg:mx-auto lg:mb-[6%] lg:mt-[4%] lg:w-[1164px] lg:flex-row'>
+        <img src={catalogcrafter.src} alt='Catalog' />
+
+        <div className='mt-4 flex flex-col items-center p-2 lg:ml-8 lg:mt-2 lg:items-start lg:p-0'>
+          <div className='font-katide-bold inline-flex h-16 w-48 items-center justify-center rounded-full bg-[#61A9FA] px-9 text-center text-[24px] text-white shadow-md'>
+            BUNDLES
+          </div>
+
+          <p className='font-katide-regular mt-10 text-center text-[16px] text-[#1A214C] lg:text-start'>
+            On special times of the year, we compile a bunch of files into
+            bundles to better your shopping experience.{' '}
+            <strong className=' font-katide-bold'>
+              More files, less money spent!
+            </strong>
+          </p>
+
+          <p className='font-katide-medium mt-4 text-center text-[16px] text-[#1A214C] lg:text-start'>
+            Make sure to check back on this page for upcoming bundles!
+          </p>
+
+          <div className='mt-[22%] flex gap-5 text-[#AAAAAA]'>
+            <FaBehance className='h-[24px] w-[24px]' />
+            <FaFacebookF className='h-[22px] w-[22px]' />
+            <FaXTwitter className='h-[22px] w-[22px]' />
+            <FaPinterest className='h-[22px] w-[22px]' />
+            <FaInstagram className='h-[24px] w-[24px]' />
+            <CiYoutube className='h-[26px] w-[26px]' />
+          </div>
+        </div>
+      </section>
+
+      <section className='w-full bg-[#EBECF5]'>
+        <div className='flex flex-col py-[4%] max-md:px-2 lg:mx-auto lg:w-[1164px] lg:flex-row'>
+          <div>
+            <p className='font-katide-bold text-[20px]'>Filters</p>
+            <div className='mt-6 rounded-lg bg-white shadow-lg'>
+              <div className='rounded-tl-lg rounded-tr-lg border-b-2'>
+                <div
+                  className='short-by-dropdown m-1 flex w-full cursor-pointer justify-between p-2 lg:w-[252px]'
+                  onClick={handleShortByDropdownClick}
+                >
+                  <p className='font-katide-semibold mt-2 w-full text-[14px] text-[#1A214C] lg:w-[252px]'>
+                    Short by
+                  </p>
+                  <FaChevronDown className='mr-2 mt-2 w-[12px]' />
+                </div>
+              </div>
+              {isShortByDropdownOpen && (
+                <div className='dropdown-content m-2 p-2'>
+                  {shortByOptions.map((option, index) => (
+                    <div key={index} className='mb-3'>
+                      <input
+                        type='radio'
+                        id={option}
+                        name='shortByOptions'
+                        value={option}
+                        checked={selectedShortByOption === option}
+                        onChange={handleShortBySelect}
+                        className='h-[13px] w-[13px] text-black'
+                      />
+                      <label
+                        htmlFor={option}
+                        style={{
+                          marginLeft: '5%',
+                          fontSize: '14px',
+                          color: '#17181A',
+                        }}
+                      >
+                        {optionFormatter(option)}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className='mt-6 rounded-lg bg-white shadow-lg'>
+              <div className='rounded-tl-lg rounded-tr-lg border-b-2'>
+                <div
+                  className='category-dropdown m-1 flex w-full cursor-pointer justify-between p-2 lg:w-[252px]'
+                  onClick={handleCategoryDropdownClick}
+                >
+                  <p className='font-katide-semibold mt-2 w-full text-[14px] text-[#1A214C] lg:w-[252px]'>
+                    Category
+                  </p>
+                  <FaChevronDown className='mr-2 mt-2 w-[12px]' />
+                </div>
+              </div>
+              {isCategoryDropdownOpen && (
+                <div className='dropdown-content m-2 p-2'>
+                  {categoryOptions.map((option, index) => (
+                    <div key={index} className='mb-3'>
+                      <input
+                        type='radio'
+                        id={option}
+                        name='categoryOptions'
+                        value={option}
+                        checked={selectedCategoryOption === option}
+                        onChange={handleCategorySelect}
+                        className='h-[13px] w-[13px] text-black'
+                      />
+                      <label
+                        htmlFor={option}
+                        style={{
+                          marginLeft: '5%',
+                          fontSize: '14px',
+                          color: '#17181A',
+                        }}
+                      >
+                        {option}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className='mt-6 rounded-lg bg-white shadow-lg'>
+              <div className='rounded-tl-lg rounded-tr-lg border-b-2'>
+                <div
+                  className='seasons-dropdown m-1 flex w-full cursor-pointer justify-between p-2 lg:w-[252px]'
+                  onClick={handleSeasonsDropdownClick}
+                >
+                  <p className='font-katide-semibold mt-2 w-full text-[14px] text-[#1A214C] lg:w-[252px]'>
+                    Seasons
+                  </p>
+                  <FaChevronDown className='mr-2 mt-2 w-[12px]' />
+                </div>
+              </div>
+              {isSeasonsDropdownOpen && (
+                <div className='dropdown-content m-2 p-2'>
+                  {seasonsOptions.map((option, index) => (
+                    <div key={index} className='mb-3'>
+                      <input
+                        type='radio'
+                        id={option}
+                        name='seasonsOptions'
+                        value={option}
+                        checked={selectedSeasonsOption === option}
+                        onChange={handleSeasonsSelect}
+                        className='h-[13px] w-[13px] text-black'
+                      />
+                      <label
+                        htmlFor={option}
+                        style={{
+                          marginLeft: '5%',
+                          fontSize: '14px',
+                          color: '#17181A',
+                        }}
+                      >
+                        {option}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className='ml-[7%] flex flex-wrap'>
+            {productData.map((product, index) => (
+              <ProductCard key={index} data={product} />
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}

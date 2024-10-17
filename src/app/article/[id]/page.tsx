@@ -211,9 +211,14 @@ export default async function Article({ params }: { params: { id: string } }) {
       </section>
 
       <section className='mb-[193px] mt-[117px]'>
-        <p className='text-center text-[32px] text-[#3D3D3D]'>Related Post</p>
+        <p className='mx-2 text-left text-[32px] text-[#3D3D3D] lg:mx-[54px]'>
+          Related Post
+        </p>
 
-        <div className='mx-2 mt-12 grid grid-cols-1 xl:mx-12 xl:grid-cols-3'>
+        <div className='mx-2 mt-12 grid grid-cols-1 gap-2 xl:mx-12 xl:grid-cols-3'>
+          <RelatedPost />
+          <RelatedPost />
+          <RelatedPost />
           <RelatedPost />
           <RelatedPost />
           <RelatedPost />

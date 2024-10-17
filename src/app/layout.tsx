@@ -1,4 +1,7 @@
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { Metadata } from 'next';
+// import Navbar from '@/layout/navbar';
+import dynamic from 'next/dynamic';
 import * as React from 'react';
 import { ToastContainer } from 'react-toastify';
 
@@ -12,7 +15,6 @@ import { siteConfig } from '@/constant/config';
 import AsyncCSSSlick from '@/layout/asyncCssSlick';
 import AsyncCSSThemeSlick from '@/layout/asyncCssThemeSlick';
 import Footer from '@/layout/footer';
-import Navbar from '@/layout/navbar';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -55,6 +57,11 @@ export const metadata: Metadata = {
   ],
 };
 
+const Navbar = dynamic(() => import('../layout/navbar'), {
+  ssr: false,
+  loading: () => <>Loading...</>,
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -63,7 +70,7 @@ export default function RootLayout({
   return (
     <html className='!scroll-smooth' lang='en'>
       <head>
-        {/* preload font */}
+        {/* preload Katide font */}
         <link
           rel='preload'
           href='/fonts/Katide-Heavy.woff2'
@@ -121,19 +128,71 @@ export default function RootLayout({
           crossOrigin='anonymous'
         />
 
+        {/* preload Inter font */}
+        <link
+          rel='preload'
+          href='/fonts/Inter-ExtraLight.ttf'
+          as='font'
+          type='font/ttf'
+          crossOrigin='anonymous'
+        />
+        <link
+          rel='preload'
+          href='/fonts/Inter-Bold.ttf'
+          as='font'
+          type='font/ttf'
+          crossOrigin='anonymous'
+        />
+        <link
+          rel='preload'
+          href='/fonts/Inter-SemiBold.ttf'
+          as='font'
+          type='font/ttf'
+          crossOrigin='anonymous'
+        />
+        <link
+          rel='preload'
+          href='/fonts/Inter-Medium.ttf'
+          as='font'
+          type='font/ttf'
+          crossOrigin='anonymous'
+        />
+        <link
+          rel='preload'
+          href='/fonts/Inter-Regular.ttf'
+          as='font'
+          type='font/ttf'
+          crossOrigin='anonymous'
+        />
+        <link
+          rel='preload'
+          href='/fonts/Inter-Light.ttf'
+          as='font'
+          type='font/ttf'
+          crossOrigin='anonymous'
+        />
+        <link
+          rel='preload'
+          href='/fonts/Inter-Thin.ttf'
+          as='font'
+          type='font/ttf'
+          crossOrigin='anonymous'
+        />
+
         <AsyncCSSSlick />
         <AsyncCSSThemeSlick />
       </head>
 
-      <body className=''>
-        {/* <GoogleAnalytics /> */}
+      <body>
         <StoreProvider>
+          {/* <ComingSoonModal /> */}
           <Navbar />
           {children}
           <ToastContainer />
           <Footer />
         </StoreProvider>
       </body>
+      <GoogleAnalytics gaId='G-S80R5B2E8S' />
     </html>
   );
 }

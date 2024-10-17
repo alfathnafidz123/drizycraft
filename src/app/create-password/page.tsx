@@ -42,13 +42,10 @@ export default function Register() {
     try {
       e.preventDefault();
       setLoading(true);
-      await axios.post(
-        'https://drizy-api.quadrakaryasantosa.com/auth/user/reset-password',
-        {
-          password: form.password,
-          token,
-        }
-      );
+      await axios.post('https://drizy-api.quadrakaryasantosa.com/auth/user/reset-password', {
+        password: form.password,
+        token,
+      });
       toast('Password succesfully set. Please login!');
       router.push('/');
     } catch (error) {

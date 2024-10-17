@@ -5,8 +5,10 @@
 import dynamic from 'next/dynamic';
 import localFont from 'next/font/local';
 import Image from 'next/image';
+import Link from 'next/link';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
+import { FaAngleRight } from 'react-icons/fa';
 import { FiUpload } from 'react-icons/fi';
 import Slider, { CustomArrowProps } from 'react-slick';
 import { toast } from 'react-toastify';
@@ -249,10 +251,10 @@ export default function HomePage() {
           <p>Combating Loneliness</p>
           <p>with Creative Projects</p>
         </div>
-        <div className='group mb-4 hidden h-[60px] w-[480px] items-center gap-4 rounded-full border border-solid border-blue-500 border-opacity-25 bg-[#F1F2FB] p-4 pl-6 text-left text-sm font-normal leading-4 tracking-tighter text-[#6F6F6F] lg:flex'>
+        <div className='group mb-4 hidden h-[60px] w-[480px] items-center gap-4 rounded-full border border-solid border-blue-500 border-opacity-25 bg-[#F1F2FB] p-4 pl-6 text-left text-sm font-normal leading-4 text-[#6F6F6F] focus-within:bg-white lg:flex'>
           <input
             placeholder='Search for unique craft designs, categories, occasions...'
-            className='flex-grow truncate border-none bg-[#F1F2FB] text-sm outline-none focus:outline-none'
+            className='!focus:border-none !focus:outline-none flex-grow truncate border-none bg-transparent text-sm tracking-wide !outline-none placeholder:tracking-wide placeholder:text-[#6F6F6F] focus:ring-0'
           ></input>
           <div className='flex rounded-full bg-[#008ECC]'>
             <img
@@ -265,11 +267,11 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-        <div className='flex flex-col items-center gap-2 lg:flex-row'>
+        <div className='flex flex-col items-center gap-2.5 lg:flex-row'>
           <p className='font-katide-bold text-[10px] text-[#008ECC]'>
             Trending:
           </p>
-          <div className='flex flex-wrap items-center justify-center gap-2 px-16'>
+          <div className='flex flex-wrap items-center justify-center gap-2'>
             <TrendingTag name='Shadow Box Svg' />
             <TrendingTag name='Laser cut' />
             <TrendingTag name='Sublimation' />
@@ -279,13 +281,14 @@ export default function HomePage() {
         </div>
         <div className='h-76 mt-20 w-screen px-4 lg:w-full'>
           <div className='flex w-full flex-col gap-4 lg:h-[300px] lg:flex-row'>
-            <div className='relative z-[10] h-[224px] w-full rounded-2xl border-[20px] border-[#61A9FA] transition-all duration-300 hover:border-[#2A3B80] lg:h-full lg:w-5/12'>
+            <div className='group relative z-[10] h-[224px] w-full rounded-2xl border-[20px] border-[#61A9FA] transition-all duration-300 hover:border-[#2A3B80] lg:h-full lg:w-5/12'>
+              <div className='absolute h-full w-full bg-[#61A9FA] transition-all duration-300 group-hover:bg-[#2A3B80]' />
               <img
                 src={gridCrafter.src}
-                className='absolute h-full w-full bg-cover object-cover'
+                className='absolute h-full w-full rounded-xl bg-cover object-cover'
                 alt='Crafter'
               />
-              <div className='group absolute flex h-full w-full flex-col justify-between bg-blue-500/25 bg-opacity-15 p-4 text-left hover:bg-[#2A3B80]/50 hover:bg-opacity-35 '>
+              <div className='absolute flex h-full w-full flex-col justify-between rounded-2xl  bg-opacity-15 p-4 text-left hover:bg-[#2A3B80]/50 hover:bg-opacity-35'>
                 <p className='font-medium text-white opacity-0 transition-all duration-300 group-hover:opacity-100'>
                   <span className='block font-semibold'>
                     Have you tried Drizy's designs in your projects?
@@ -294,30 +297,38 @@ export default function HomePage() {
                   Drizy Coin for more shopping!
                 </p>
                 <div className='relative w-full overflow-hidden'>
-                  <div className='absolute bottom-0 flex h-full w-full translate-y-full items-center justify-between rounded-full bg-[#1A214C] pl-4 transition-all duration-300 ease-in-out group-hover:-translate-y-0'>
+                  <Link
+                    href='/project'
+                    className='absolute bottom-0 flex h-full w-full translate-y-full cursor-pointer items-center justify-between rounded-full bg-[#1A214C] pl-4 transition-all duration-300 ease-in-out group-hover:-translate-y-0'
+                  >
                     <p className='text-2xl text-white'>Upload Your Project</p>
                     <div className='flex h-full w-16 items-center justify-center rounded-full bg-[#2A3B80]'>
                       <FiUpload className='h-8 w-8 stroke-[3px] text-white' />
                     </div>
-                  </div>
+                  </Link>
                   <div className='flex w-full items-center justify-between transition-all duration-300 ease-in-out group-hover:-translate-y-full'>
                     <p className='w-1/2 text-lg font-semibold lg:text-2xl'>
-                      Project from crafters
+                      Projects from crafters
                     </p>
                     <div className='flex'>
                       <img
                         src={avatarExample.src}
-                        className='-ml-6 rounded-full border-[3px] border-white'
+                        className='lg:-ml-6 -ml-4 rounded-full border-[3px] border-white h-10 w-10 lg:h-14 lg:w-14'
                         alt='avatar'
                       />
                       <img
                         src={avatarExample.src}
-                        className='-ml-6 rounded-full border-[3px] border-white'
+                        className='lg:-ml-6 -ml-4 rounded-full border-[3px] border-white h-10 w-10 lg:h-14 lg:w-14'
                         alt='avatar'
                       />
                       <img
                         src={avatarExample.src}
-                        className='-ml-6 rounded-full border-[3px] border-white'
+                        className='lg:-ml-6 -ml-4 rounded-full border-[3px] border-white h-10 w-10 lg:h-14 lg:w-14'
+                        alt='avatar'
+                      />
+                      <img
+                        src={avatarExample.src}
+                        className='lg:-ml-6 -ml-4 rounded-full border-[3px] border-white h-10 w-10 lg:h-14 lg:w-14'
                         alt='avatar'
                       />
                     </div>
@@ -325,14 +336,14 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <div className='mt-4 flex h-[310px] w-full flex-col gap-8 lg:mt-0 lg:h-full lg:w-4/12'>
-              <div className='group relative h-1/2 overflow-hidden rounded-2xl bg-[#61A9FA] transition-all duration-300 hover:bg-[#4065D1]'>
-                <div className='absolute flex h-full w-full'>
-                  <div className='z-10 h-full w-1/3 translate-y-full rounded-2xl bg-[#2A3B80] transition-transform duration-300 ease-in-out group-hover:translate-y-0 group-hover:transform'></div>
-                </div>
-                <div className='absolute flex h-full w-full items-center'>
-                  <div className='flex h-full w-1/3 flex-col items-center justify-center'>
-                    <div className='h-full w-full rounded-2xl bg-[#4065D1] p-2'>
+            <div className='mt-4 flex h-[310px] w-full flex-col gap-[20px] lg:mt-0 lg:h-full lg:w-4/12'>
+              <div className='group relative h-1/2 overflow-hidden rounded-[24px] bg-[#61A9FA] transition-all duration-300 hover:bg-[#4065D1]'>
+                {/* <div className='absolute flex h-full w-[140px]'>
+                  <div className='z-10 h-full w-full translate-y-full rounded-3xl bg-[#2A3B80] transition-transform duration-300 ease-in-out group-hover:translate-y-0 group-hover:transform'></div>
+                </div> */}
+                <div className='absolute flex h-full w-full items-center justify-between'>
+                  <div className='flex h-full w-[140px] flex-col items-center justify-center'>
+                    <div className='h-full w-full rounded-3xl bg-[#4065D1] p-2 relative'>
                       <div className='relative z-20 flex h-full w-full items-center justify-center rounded-2xl border-2 border-[#FFBB3C]'>
                         <img
                           src={starBadge.src}
@@ -340,79 +351,89 @@ export default function HomePage() {
                           className='transition-all duration-300 group-hover:scale-110'
                         />
                       </div>
+                      <div className='transition-all absolute opacity-0 bottom-0 left-0 w-[140px] h-full scale-y-0 origin-[bottom_center] rounded-3xl bg-[#2A3B80] group-hover:transform group-hover:scale-y-100 group-hover:opacity-100' />
                     </div>
                   </div>
-                  <div className='flex h-[110px] w-1/3 flex-col items-center justify-start overflow-hidden text-white'>
+                  <div className='flex h-[120px] w-auto flex-col items-center justify-start overflow-hidden text-white'>
                     <div className='flex w-full  items-center justify-center pt-4 text-8xl font-bold transition-transform duration-300 ease-in-out group-hover:-translate-y-full'>
-                      15
+                      14
                     </div>
                     <div className='flex w-full translate-y-1/2 items-center justify-center pt-4 text-8xl font-bold text-[#FFBB3C] transition-transform duration-300 ease-in-out group-hover:-translate-y-full'>
-                      15
+                      14
                     </div>
                   </div>
-                  <div className='flex w-1/3 flex-col items-start justify-start text-left text-white'>
+                  <div className='flex w-auto flex-col items-start justify-start pr-2 text-left text-white'>
                     <div className='flex h-[25px] w-full flex-col items-center justify-start overflow-hidden text-white'>
-                      <div className='p flex w-full items-center justify-start text-xl font-bold transition-transform duration-300 ease-in-out group-hover:-translate-y-full'>
+                      <div className='p flex w-full items-center justify-start text-2xl font-bold tracking-wide transition-transform duration-300 ease-in-out group-hover:-translate-y-full'>
                         Exclusive
                       </div>
-                      <div className='p flex w-full translate-y-1/2 items-center justify-start text-xl font-bold text-[#FFBB3C] transition-transform duration-300 ease-in-out group-hover:-translate-y-full'>
+                      <div className='p flex w-full translate-y-1/2 items-center justify-start text-2xl font-bold tracking-wide text-[#FFBB3C] transition-transform duration-300 ease-in-out group-hover:-translate-y-full'>
                         Exclusive
                       </div>
                     </div>
                     <div className='flex h-[25px] w-full flex-col items-center justify-start overflow-hidden text-white'>
-                      <div className='p flex w-full items-center justify-start text-xl font-bold transition-transform duration-300 ease-in-out group-hover:-translate-y-full'>
+                      <div className='p flex w-full items-center justify-start text-2xl font-bold transition-transform duration-300 ease-in-out group-hover:-translate-y-full'>
                         Partners
                       </div>
-                      <div className='p flex w-full translate-y-1/2 items-center justify-start text-xl font-bold text-[#FFBB3C] transition-transform duration-300 ease-in-out group-hover:-translate-y-full'>
+                      <div className='p flex w-full translate-y-1/2 items-center justify-start text-2xl font-bold text-[#FFBB3C] transition-transform duration-300 ease-in-out group-hover:-translate-y-full'>
                         Partners
                       </div>
                     </div>
-                    <div className='relative mt-4 overflow-hidden rounded-full p-1'>
+                    <div className='relative mt-3 overflow-hidden py-0 transition-all group-hover:rounded-full group-hover:px-1'>
                       <div className='absolute inset-0 z-10 translate-y-full scale-0 rounded-full bg-white transition-all duration-500 ease-in-out group-hover:-translate-y-1/4 group-hover:scale-150'></div>
-                      <p className='relative z-20 text-sm font-light group-hover:text-[#4065D1]'>
+                      <p className='relative z-20 text-[10pt] font-light group-hover:text-[#4065D1]'>
                         Find out more!
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className='group relative col-span-3 col-start-4 row-span-1 row-start-2  h-1/2 rounded-2xl bg-[#6f82a6]'>
-                <div className='absolute flex h-full w-full flex-col items-start justify-center gap-2 px-8 py-4 text-white transition-all duration-300 group-hover:opacity-0'>
-                  <p className='text-xl font-semibold'>The Craft Community</p>
-                  <p className='text-sm'>21,000+ friendly home crafters</p>
-                  <div className='flex w-full items-center justify-between'>
-                    <div className='flex'>
+              <div className='group relative col-span-3 col-start-4 row-span-1 row-start-2 h-1/4 rounded-3xl bg-[#6f82a6] lg:h-1/2'>
+                <div className='absolute flex h-full w-full flex-row items-center justify-center gap-2 p-3 text-white transition-all duration-300 lg:flex-col lg:items-start lg:gap-5 lg:px-5 lg:py-5 lg:group-hover:opacity-0'>
+                  <div className='flex-grow text-start'>
+                    <p className='text-base font-semibold lg:text-xl'>
+                      The Craft Community
+                    </p>
+                    <p className='text-xs lg:text-sm'>
+                      21,000+ friendly home crafters
+                    </p>
+                  </div>
+                  <div className='lg:flex lg:w-full lg:items-center'>
+                    <div className='hidden lg:flex'>
                       <img
                         src={avatarExample.src}
-                        className='ml-[-8px] h-[36px] rounded-full border-[3px] border-white'
+                        className='h-[36px] rounded-full border-[3px] border-[#D2FF3A]'
                         alt='avatar'
                       />
                       <img
                         src={avatarExample.src}
-                        className='ml-[-8px] h-[36px] rounded-full border-[3px] border-white'
+                        className='-ml-4 h-[36px] rounded-full border-[3px] border-[#D2FF3A]'
                         alt='avatar'
                       />
                       <img
                         src={avatarExample.src}
-                        className='ml-[-8px] h-[36px] rounded-full border-[3px] border-white'
+                        className='-ml-4 h-[36px] rounded-full border-[3px] border-[#D2FF3A]'
+                        alt='avatar'
+                      />
+                      <img
+                        src={avatarExample.src}
+                        className='-ml-4 h-[36px] rounded-full border-[3px] border-[#D2FF3A]'
                         alt='avatar'
                       />
                     </div>
-                    <div>
-                      <button
-                        id='join-community'
-                        aria-label='Request join community'
-                        className='flex justify-center rounded-full bg-[#55668c] p-2'
-                      >
-                        Click here to request to join!
-                      </button>
-                    </div>
+                    <button
+                      id='join-community'
+                      aria-label='Request join community'
+                      className='flex justify-center rounded-full bg-[#55668c] p-3 text-[10px] lg:ml-7 lg:px-3.5 lg:py-3 lg:text-xs'
+                    >
+                      Click here to request to join!
+                    </button>
                   </div>
                 </div>
-                <div className='absolute flex h-full w-full flex-col items-start justify-center gap-2 px-8 py-4 text-white opacity-0 transition-all duration-300 group-hover:opacity-100'>
-                  <p className='text-left text-xs'>
+                <div className='absolute hidden h-full w-full flex-col items-start justify-center gap-2 px-5 py-5 text-white opacity-0 transition-all duration-300 hover:opacity-100 group-hover:opacity-100 lg:flex'>
+                  <p className='font-katide-light text-left text-xs font-light italic tracking-wide'>
                     Before anything, why not join the{' '}
-                    <span className='font-semibold'>
+                    <span className='font-katide-semibold'>
                       Drizy Studio community on Facebook
                     </span>
                     , a group of 21,000+ friendly home crafters who are all
@@ -421,7 +442,7 @@ export default function HomePage() {
                   <button
                     id='join-community-2'
                     aria-label='Request Join Community'
-                    className='flex justify-center self-center rounded-full bg-[#55668c] p-2 transition-all duration-500 group-hover:bg-[#61A9FA]'
+                    className='flex justify-center self-center rounded-full bg-[#61A9FA] p-2 text-indigo-950 transition-all duration-500 hover:bg-indigo-950 hover:text-white'
                   >
                     Click here to request to join!
                   </button>
@@ -486,14 +507,13 @@ export default function HomePage() {
           <div className='font-katide-bold self-center whitespace-nowrap text-2xl text-indigo-950'>
             Browse Product Categories
           </div>
-          <div className='mt-12 flex flex-wrap justify-between'>
+          <div className='mt-6 grid grid-cols-2 justify-between gap-3 md:grid-cols-3 lg:mt-12 lg:grid-cols-5'>
             {categoryData.map((data, index) => (
-              <div key={index} className='flex w-1/2 p-2 md:w-1/3 lg:w-1/5'>
-                <ProductCategories
-                  name={data.name}
-                  image={data.backgroundImage}
-                />
-              </div>
+              <ProductCategories
+                key={index.toString()}
+                name={data.name}
+                image={data.backgroundImage}
+              />
             ))}
           </div>
         </div>
@@ -507,7 +527,7 @@ export default function HomePage() {
           <div className='font-katide-bold mb-16 self-center whitespace-nowrap text-2xl text-indigo-950'>
             Browse Season Categories
           </div>
-          <div className='flex flex-wrap justify-center'>
+          <div className='flex flex-wrap justify-center gap-[42px]'>
             {seasonCategoryData?.map((data, index) => (
               <SeasonCategories
                 name={data.name}
@@ -525,12 +545,17 @@ export default function HomePage() {
             <div className='font-katide-bold text-[24px] leading-10 text-indigo-950'>
               Crafters
             </div>
-            <div className='text-right text-base font-bold leading-none text-indigo-950'>
-              Explore Crafters
-            </div>
+            <Link
+              href='/catalog-crafter'
+              className='hidden cursor-pointer flex-row gap-3 text-right text-base font-bold leading-none text-[#4065D1] lg:flex'
+            >
+              <div>Explore Crafters</div>
+              <FaAngleRight />
+            </Link>
           </div>
-          <div className='h-[800px] lg:h-[400px]'>
+          <div className='lg:h-[400px]'>
             <ProductSlider
+              more='/catalog-crafter'
               items={homeProduct.crafterData}
               handleShowDetail={(data) =>
                 setShowProductDetail({ show: true, product: data })
@@ -555,11 +580,12 @@ export default function HomePage() {
             <div className='font-katide-bold text-[24px] leading-10 text-indigo-950'>
               Best Seller
             </div>
-            <div className='text-right text-base font-bold leading-none text-indigo-950'>
-              Explore Crafters
-            </div>
+            {/* <div className='lg:flex hidden cursor-pointer flex-row gap-3 text-right text-base font-bold leading-none text-[#4065D1]'>
+              <div>Explore Crafters</div>
+              <FaAngleRight />
+            </div> */}
           </div>
-          <div className='h-[800px] lg:h-[400px]'>
+          <div className='lg:h-[400px]'>
             <ProductSlider
               items={homeProduct.bestSellerData}
               handleShowDetail={(data) =>
@@ -585,9 +611,17 @@ export default function HomePage() {
             <div className='font-katide-bold text-[24px] leading-10 text-indigo-950'>
               Bundles
             </div>
+            <Link
+              href='/catalog-bundles'
+              className='hidden cursor-pointer flex-row gap-3 text-right text-base font-bold leading-none text-[#4065D1] lg:flex'
+            >
+              <div>Explore Bundles SVG</div>
+              <FaAngleRight />
+            </Link>
           </div>
-          <div className='h-[800px] lg:h-[400px]'>
+          <div className='lg:h-[400px]'>
             <ProductSlider
+              more='/catalog-bundles'
               items={homeProduct.bundleData}
               handleShowDetail={(data) =>
                 setShowProductDetail({ show: true, product: data })
@@ -612,8 +646,12 @@ export default function HomePage() {
             <div className='font-katide-bold text-[24px] leading-10 text-indigo-950'>
               Exclusive Partner
             </div>
+            <div className='hidden cursor-pointer flex-row gap-3 text-right text-base font-bold leading-none text-[#4065D1] lg:flex'>
+              <div>Explore Crative Contributors SVG</div>
+              <FaAngleRight />
+            </div>
           </div>
-          <div className='h-[850px] lg:h-[400px]'>
+          <div className='lg:h-[400px]'>
             <ProductSlider
               items={homeProduct.exclusiveData}
               handleShowDetail={(data) =>
@@ -639,12 +677,17 @@ export default function HomePage() {
             <div className='font-katide-bold text-[24px] leading-10 text-indigo-950'>
               Vector
             </div>
-            <div className='text-right text-base font-bold leading-none text-indigo-950'>
-              Explore Crafters
-            </div>
+            <Link
+              href='/catalog-vector'
+              className='hidden cursor-pointer flex-row gap-3 text-right text-base font-bold leading-none text-[#4065D1] lg:flex'
+            >
+              <div>Explore Vector</div>
+              <FaAngleRight />
+            </Link>
           </div>
-          <div className='h-[800px] lg:h-[400px]'>
+          <div className='lg:h-[400px]'>
             <ProductSlider
+              more='/catalog-vector'
               items={homeProduct.vectorData}
               handleShowDetail={(data) =>
                 setShowProductDetail({ show: true, product: data })
@@ -668,7 +711,7 @@ export default function HomePage() {
       <section>
         <div className='header flex items-center justify-center bg-blue-400 px-16 py-12 max-md:px-5'>
           <div className='mt-6 flex w-[708px] max-w-full flex-col'>
-            <p className='line-[20px] self-center text-center text-base text-indigo-950 max-md:max-w-full'>
+            <p className='line-[20px] self-center text-center text-base text-indigo-950 max-md:max-w-[270px]'>
               <span className=''>Get </span>
               <span className={`font-bold text-indigo-950 ${myFont.className}`}>
                 10% off
@@ -683,10 +726,10 @@ export default function HomePage() {
                 name='email'
                 type='email'
                 placeholder='Subscribe by email'
-                className='max-md:max-w- grow items-start justify-center rounded-[60px_0px_0px_60px] bg-violet-100 px-16 py-7 leading-[186%] tracking-normal text-black max-md:px-5'
+                className='grow items-start justify-center rounded-[60px_0px_0px_60px] bg-violet-100 px-16 py-2 leading-[186%] tracking-normal text-black max-md:px-5 lg:px-16 lg:py-7 placeholder:text-[#BDBDBD]'
               ></input>
               <button
-                className='button font-katide-bold justify-center rounded-[0px_60px_60px_0px] bg-indigo-950 px-16 py-7 text-center font-[14px] text-white hover:bg-[#2A3B80] max-md:px-5'
+                className='button font-katide-bold justify-center rounded-[0px_60px_60px_0px] bg-indigo-950 px-16 py-[22px] lg:py-7 text-center font-[14px] text-[#EBECF5] hover:bg-[#2A3B80] max-md:px-5'
                 role='button'
                 id='subscribe'
                 aria-label='Subscribe'
@@ -698,8 +741,8 @@ export default function HomePage() {
         </div>
       </section>
       <AffiliateBanner />
-      <div className='fixed bottom-4 z-20 hidden h-[155px] w-full items-end justify-between lg:flex'>
-        <div className='flex w-1/4 justify-end'>
+      <div className='fixed bottom-4 z-20 hidden w-full items-end justify-center lg:flex'>
+        <div className='flex justify-end'>
           <Image src={coffeeFloating.src} alt='Help' width={75} height={75} />
         </div>
         <div className='flex items-center gap-16 rounded-lg border-2 border-[#FFDE9F] bg-[#EE4C73] px-8 py-4 font-semibold shadow-xl'>
@@ -711,10 +754,10 @@ export default function HomePage() {
             DRIZY VIP<span className='font-base'>+</span>
           </div>
         </div>
-        <div className='flex w-1/4 justify-end'>
-          <div className='-mb-8 max-w-[200px]'>
-            <CustomerSupportLottie />
-          </div>
+      </div>
+      <div className="fixed bottom-0 right-0">
+        <div className='-mb-8 max-w-[200px]'>
+          <CustomerSupportLottie />
         </div>
       </div>
       <ModalProduct

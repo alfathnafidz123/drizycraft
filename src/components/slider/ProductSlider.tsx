@@ -1,6 +1,6 @@
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { FaAngleRight } from 'react-icons/fa6';
+import { FaAngleRight } from 'react-icons/fa';
 import Slider from 'react-slick';
 
 import ProductCard from '@/components/ProductCard';
@@ -19,11 +19,13 @@ import { productI } from '@/interfaces/product.interface';
 interface SwipeToSlideProps {
   items: productI[];
   handleShowDetail?: (product: productI) => void;
+  more?: string;
 }
 
 const ProductSlider: React.FC<SwipeToSlideProps> = ({
   items,
   handleShowDetail,
+  more,
 }) => {
   const router = useRouter();
   const settings = {
@@ -41,7 +43,7 @@ const ProductSlider: React.FC<SwipeToSlideProps> = ({
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
-          infinite: true,
+          infinite: false,
           dots: true,
         },
       },
@@ -56,7 +58,7 @@ const ProductSlider: React.FC<SwipeToSlideProps> = ({
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 1,
           slidesToScroll: 1,
         },
       },
@@ -75,13 +77,13 @@ const ProductSlider: React.FC<SwipeToSlideProps> = ({
             </div>
           );
         })}
-        <div className='!hidden lg:flex'>
-          <div className='flex h-[335px] items-center'>
+        <div className='hidden lg:block'>
+          <div className='ml-4 hidden items-center justify-center lg:flex lg:h-[335px]'>
             <button
               id='see-more'
               aria-label='Go to catalog'
-              onClick={() => router.push('/catalog-crafter')}
-              className='font-katide-bold flex aspect-square h-[87px] flex-col items-center justify-center rounded-full border-2 border-[#4065D1] pt-4 text-[12px] uppercase text-[#4065D1]'
+              onClick={() => (more ? router.push(more) : null)}
+              className='font-katide-bold flex aspect-square h-[87px] flex-col items-center justify-center rounded-full border-2 border-[#4065D1] text-[12px] uppercase text-[#4065D1]'
             >
               <span>see more</span>
               <div className='flex w-full justify-center'>

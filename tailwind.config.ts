@@ -16,6 +16,13 @@ export default {
         'katide-bold': ['Katide Bold', 'sans-serif'],
         'katide-extrabold': ['Katide ExtraBold', 'sans-serif'],
         'katide-heavy': ['Katide Heavy', 'sans-serif'],
+        'inter-thin': ['Inter Thin', 'sans-serif'],
+        'inter-light': ['Inter Light', 'sans-serif'],
+        'inter-regular': ['Inter Regular', 'sans-serif'],
+        'inter-medium': ['Inter Medium', 'sans-serif'],
+        'inter-semibold': ['Inter SemiBold', 'sans-serif'],
+        'inter-bold': ['Inter Bold', 'sans-serif'],
+        'inter-extraLight': ['Inter ExtraLight', 'sans-serif'],
         hastle: ['Hastle', 'sans-serif'],
       },
       colors: {

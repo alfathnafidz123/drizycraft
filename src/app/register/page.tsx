@@ -2,6 +2,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
+import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import * as React from 'react';
 import { useState } from 'react';
 import { FaFacebookF } from 'react-icons/fa';
@@ -10,7 +12,7 @@ import { toast } from 'react-toastify';
 
 import { register } from '@/app/api/auth/register';
 
-import { loginImage } from '~/images';
+const LoginLottie = dynamic(() => import('../../components/lottie/login'), { ssr: false });
 
 // !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
 // Before you begin editing, follow all comments with `STARTERCONF`,
@@ -42,67 +44,70 @@ export default function Register() {
 
   return (
     <main>
-      <section className='flex p-20'>
-        <div className='flex basis-5/12 flex-col gap-12 pr-16'>
-          <p className='text-3xl font-semibold'>Sign Up</p>
-          <p>
-            Your personal data will be used to enhance your website experience,
-            manage account access, and fulfill other purposes outlined in our{' '}
-            <span className='font-semibold'>privacy policy.</span>
-          </p>
-          <img className='w-[300px]' src={loginImage.src} alt='Sign Up' />
+      <section className='flex flex-col gap-12 bg-[#E5F6FB] p-8 lg:flex-row lg:gap-0 lg:bg-white lg:p-20'>
+        <div className='flex basis-5/12 flex-col-reverse gap-12 pr-16 lg:flex-col'>
+          <div className='flex flex-col gap-12'>
+            <p className='text-3xl font-semibold'>Sign Up</p>
+            <p>
+              Your personal data will be used to enhance your website
+              experience, manage account access, and fulfill other purposes
+              outlined in our{' '}
+              <strong className='font-katide-semibold'>
+                <Link href='/privacy'>privacy policy.</Link>
+              </strong>
+            </p>
+          </div>
+          <LoginLottie />
         </div>
-        <div className='flex basis-7/12 flex-col gap-4 rounded-xl bg-[#E5F6FB] p-8 shadow-lg'>
-          <div className='flex justify-center gap-8'>
-            <div className='flex flex-col'>
+        <div className='basis-7/12 rounded-xl bg-[#E5F6FB] lg:p-8 lg:shadow-lg '>
+          <div className='grid grid-cols-1 gap-4 lg:grid-cols-2'>
+            <div className='flex w-full flex-col'>
               <label className='pl-4 text-[#1A214C]'>
                 First Name <span className='text-red-500'>*</span>
               </label>
               <input
                 type='text'
-                className='border-grey-700 my-2 w-[300px] rounded-full border p-4'
+                className='border-grey-700 my-2 w-full rounded-full border p-4'
                 placeholder='Name'
                 required
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
               ></input>
             </div>
-            <div className='flex flex-col'>
+            <div className='flex w-full flex-col'>
               <label className='pl-4 text-[#1A214C]'>
                 Last Name <span className='text-red-500'>*</span>
               </label>
               <input
                 type='text'
-                className='border-grey-700 my-2 w-[300px] rounded-full border p-4'
+                className='border-grey-700 my-2 w-full rounded-full border p-4'
                 placeholder='Names'
                 required
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
               ></input>
             </div>
-          </div>
-          <div className='flex justify-center gap-8'>
-            <div className='flex flex-col'>
+            <div className='flex w-full flex-col'>
               <label className='pl-4 text-[#1A214C]'>
                 Display Name <span className='text-red-500'>*</span>
               </label>
               <input
                 type='text'
-                className='border-grey-700 my-2 w-[300px] rounded-full border p-4'
+                className='border-grey-700 my-2 w-full rounded-full border p-4'
                 placeholder='Display Name'
                 required
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
               ></input>
             </div>
-            <div className='flex flex-col'>
+            <div className='flex w-full flex-col'>
               <div className='flex flex-col'>
                 <label className='pl-4 text-[#1A214C]'>
                   Email address <span className='text-red-500'>*</span>
                 </label>
                 <input
                   type='text'
-                  className='border-grey-700 my-2 w-[300px] rounded-full border p-4'
+                  className='border-grey-700 my-2 w-full rounded-full border p-4'
                   placeholder='Name@gmail.com'
                   required
                   value={email}
@@ -111,6 +116,7 @@ export default function Register() {
               </div>
             </div>
           </div>
+
           <div className='mt-8 flex w-full justify-center'>
             <button
               onClick={handleRegister}
@@ -126,7 +132,7 @@ export default function Register() {
               </p>
             </div>
           </div>
-          <div className='flex justify-center gap-8'>
+          <div className='flex flex-col justify-center lg:flex-row lg:gap-8'>
             <button className='mt-2 flex items-center gap-4 rounded-full border-2 border-[#1A214C] px-6 py-2 font-semibold text-[#1A214C]'>
               <FcGoogle />
               <p>Login with Facebook</p>

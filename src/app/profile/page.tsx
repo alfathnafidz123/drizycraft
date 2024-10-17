@@ -74,40 +74,38 @@ export default function Register() {
   };
 
   return (
-    <main>
-      <section className='flex gap-4 p-20'>
-        <div className='flex basis-3/12 flex-col gap-12 pr-16'>
-          <p className='text-3xl font-semibold'>My Account</p>
-          <img
-            className='w-[300px]'
-            src={accountIllustration.src}
-            alt='Sign Up'
-          />
+    <section className='flex gap-4 p-20 mx-auto w-full max-w-[1164px]'>
+      <div className='flex basis-3/12 flex-col gap-12 pr-16'>
+        <p className='text-3xl font-semibold'>My Account</p>
+        <img
+          className='w-[300px]'
+          src={accountIllustration.src}
+          alt='Sign Up'
+        />
+      </div>
+      <div className='flex basis-2/12 flex-col'>
+        <div className='flex flex-col gap-4 overflow-hidden rounded-lg border p-4 shadow-lg'>
+          {items.map((item, index) => (
+            <div
+              key={index}
+              onClick={() => {
+                setActiveMenu(index);
+              }}
+              className={
+                activeMenu === index
+                  ? 'flex cursor-pointer items-center gap-4 text-[#4065D1]'
+                  : 'flex cursor-pointer items-center gap-4 text-[#a2a6b6]'
+              }
+            >
+              <Image src={item.src} width={24} height={24} alt='history' />
+              <p className='font-semibold'>{item.text}</p>
+            </div>
+          ))}
         </div>
-        <div className='flex basis-2/12 flex-col'>
-          <div className='flex flex-col gap-4 overflow-hidden rounded-lg border p-4 shadow-lg'>
-            {items.map((item, index) => (
-              <div
-                key={index}
-                onClick={() => {
-                  setActiveMenu(index);
-                }}
-                className={
-                  activeMenu === index
-                    ? 'flex cursor-pointer items-center gap-4 text-[#4065D1]'
-                    : 'flex cursor-pointer items-center gap-4 text-[#a2a6b6]'
-                }
-              >
-                <Image src={item.src} width={24} height={24} alt='history' />
-                <p className='font-semibold'>{item.text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className='flex h-1/2 flex-grow flex-col items-center justify-center gap-4 rounded-xl bg-[#F4F4F4] p-8 shadow-lg'>
-          {renderMenu()}
-        </div>
-      </section>
-    </main>
+      </div>
+      <div className='flex h-1/2 flex-grow flex-col items-center justify-center gap-4 rounded-xl bg-[#F4F4F4] p-8 shadow-lg'>
+        {renderMenu()}
+      </div>
+    </section>
   );
 }
