@@ -178,6 +178,13 @@ export default function RootLayout({
           type='font/ttf'
           crossOrigin='anonymous'
         />
+        <link
+          rel='preload'
+          href='/fonts/Hastle.woff2'
+          as='font'
+          type='font/otf'
+          crossOrigin='anonymous'
+        />
 
         <AsyncCSSSlick />
         <AsyncCSSThemeSlick />

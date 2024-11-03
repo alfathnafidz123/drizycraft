@@ -9,6 +9,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import * as React from 'react';
 import { toast } from 'react-toastify';
 
+import { setOpenModal } from '@/lib/slices/user';
+import { useAppDispatch } from '@/lib/store';
+
 import { loginImage } from '~/images';
 
 // !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
@@ -25,6 +28,7 @@ export default function Register() {
   const [match, setMatch] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -37,6 +41,11 @@ export default function Register() {
       setMatch(false);
     }
   }, [form.password, form.confirm]);
+
+  React.useEffect(() => {
+    dispatch(setOpenModal(false));
+  }, []);
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
@@ -60,19 +69,19 @@ export default function Register() {
   };
   return (
     <main>
-      <section className='flex p-20'>
-        <div className='flex basis-5/12 flex-col gap-12 pr-16'>
+      <section className='flex flex-col lg:flex-row p-4 lg:p-20 gap-4 lg:gap-0'>
+        <div className='flex lg:basis-5/12 flex-col gap-12 lg:pr-16'>
           <p className='text-3xl font-semibold'>Create Password</p>
           <p>
             Your personal data will be used to enhance your website experience,
             manage account access, and fulfill other purposes outlined in our{' '}
             <span className='font-semibold'>privacy policy.</span>
           </p>
-          <img className='w-[300px]' src={loginImage.src} alt='Sign Up' />
+          <img className='w-[200px] lg:w-[300px] self-center lg:self-start' src={loginImage.src} alt='Sign Up' />
         </div>
         <form
           onSubmit={handleSubmit}
-          className='flex h-1/2 flex-grow flex-col items-center justify-center gap-4 rounded-xl bg-[#E5F6FB] p-8 shadow-lg'
+          className='flex lg:h-1/2 flex-grow flex-col items-center justify-center gap-4 rounded-xl bg-[#E5F6FB] p-4 lg:p-8 shadow-lg'
         >
           <div className='flex flex-col'>
             <label className='pl-4 text-[#1A214C]'>

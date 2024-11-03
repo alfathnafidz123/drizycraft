@@ -8,6 +8,7 @@ import AO from './AO.svg';
 import articlePage from './articlePage.svg';
 import AssetSubscribe from './AssetSubscribe.svg';
 import avatarExample from './avatar-example.png';
+import bannerCoin from './banner-coin.png';
 import bannerArticle from './bannerArticle.svg';
 import bestValue from './best_val.png';
 import blogArticle1 from './blogArticle1.svg';
@@ -19,6 +20,16 @@ import cart from './cart.svg';
 import cartIllustration from './cartIllustration.png';
 import cartProduct from './cartProduct.png';
 import catalogcrafter from './catalogcrafter.svg';
+import cat1 from './categories/1.png';
+import cat2 from './categories/2.png';
+import cat3 from './categories/3.png';
+import cat4 from './categories/4.png';
+import cat5 from './categories/5.png';
+import cat6 from './categories/6.png';
+import cat7 from './categories/7.png';
+import cat8 from './categories/8.png';
+import cat9 from './categories/9.png';
+import cat10 from './categories/10.png';
 import categories1 from './categories-1.png';
 import categories2 from './categories-2.png';
 import categories3 from './categories-3.png';
@@ -73,7 +84,8 @@ import GuaranteeBadge from './guarantee-badge-group.svg';
 import helpcenter1 from './helpcenter1.svg';
 import helpcenter2 from './helpcenter2.svg';
 import helpFloating from './helpFloating.png';
-import history from './history.png';
+import historyInactive from './history.png';
+import history from './historyactive.png';
 import hoverPinterest from './hoverpint.svg';
 import hoverWA from './hoverwa.svg';
 import jiffy from './jiffy.svg';
@@ -112,6 +124,12 @@ import starBadge from './star-badge.png';
 import subscription from './subscription.svg';
 import subscriptionInactive from './subscriptionInactive.svg';
 import success from './success.svg';
+import andy from './testimonies/andy.svg';
+import bonnie from './testimonies/bonnie.svg';
+import leslie from './testimonies/leslie.svg';
+import michelle from './testimonies/michelle.svg';
+import nad from './testimonies/nad.svg';
+import pam from './testimonies/pam.svg';
 import testimony from './testimony.png';
 import member1 from './usr_rev_1.png';
 import member2 from './usr_rev_2.png';
@@ -130,21 +148,34 @@ export {
   accountInactive,
   address,
   affiliatebanner,
+  andy,
   AO,
   arrowRight,
   articlePage,
   AssetSubscribe,
   avatarExample,
   bannerArticle,
+  bannerCoin,
   behance,
   bestValue,
   blogArticle1,
   blogStories1,
+  bonnie,
   cancel,
   canva,
   cart,
   cartIllustration,
   cartProduct,
+  cat1,
+  cat2,
+  cat3,
+  cat4,
+  cat5,
+  cat6,
+  cat7,
+  cat8,
+  cat9,
+  cat10,
   catalogcrafter,
   categories1,
   categories2,
@@ -197,10 +228,12 @@ export {
   helpcenter2,
   helpFloating,
   history,
+  historyInactive,
   hoverPinterest,
   hoverWA,
   instagram,
   jiffy,
+  leslie,
   license1,
   license2,
   loginImage,
@@ -212,11 +245,14 @@ export {
   membership2,
   membership3,
   membership4,
+  michelle,
+  nad,
   newMember,
   optimizedSVG,
   order,
   orderInactive,
   orders,
+  pam,
   paymentMethod,
   pintCrafter,
   pinterest,

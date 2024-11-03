@@ -5,8 +5,9 @@ import Slider from 'react-slick';
 import SectionContainer from '@/components/container/sectionContainer';
 
 import {
+  andy,
   AO,
-  avatarExample,
+  bonnie,
   canva,
   creativeFabrica,
   designBundles,
@@ -16,7 +17,11 @@ import {
   freepik,
   goDaddy,
   jiffy,
+  leslie,
+  michelle,
+  nad,
   optimizedSVG,
+  pam,
   samsung,
   testimony,
   wordBank,
@@ -61,7 +66,7 @@ const Testimonies = () => {
                   </div>
                   <div className='flex w-full items-center justify-start gap-4 bg-[#EBECF5] p-3 lg:p-6'>
                     <img
-                      src={avatarExample.src}
+                      src={andy.src}
                       className='rounded-full border-[3px] border-white'
                       alt='avatar'
                     />
@@ -69,7 +74,7 @@ const Testimonies = () => {
                       <p className='text-grey-200 font-katide-bold text-[16px]'>
                         Andy Coft
                       </p>
-                      <p className='text-[#4065D1]'>Crafter</p>
+                      <p className='text-[#4065D1]'>(Co-Founder of Design Bundles)</p>
                     </div>
                   </div>
                 </div>
@@ -85,7 +90,7 @@ const Testimonies = () => {
                   </div>
                   <div className='flex w-full items-center justify-start gap-4 bg-[#EBECF5] p-3 lg:p-6'>
                     <img
-                      src={avatarExample.src}
+                      src={leslie.src}
                       className='rounded-full border-[3px] border-white'
                       alt='avatar'
                     />
@@ -110,7 +115,7 @@ const Testimonies = () => {
                   </div>
                   <div className='flex w-full items-center justify-start gap-4 bg-[#EBECF5] p-3 lg:p-6'>
                     <img
-                      src={avatarExample.src}
+                      src={nad.src}
                       className='rounded-full border-[3px] border-white'
                       alt='avatar'
                     />
@@ -136,13 +141,59 @@ const Testimonies = () => {
                   </div>
                   <div className='flex w-full items-center justify-start gap-4 bg-[#EBECF5] p-3 lg:p-6'>
                     <img
-                      src={avatarExample.src}
+                      src={pam.src}
                       className='rounded-full border-[3px] border-white'
                       alt='avatar'
                     />
                     <div className='flex flex-col'>
                       <p className='text-grey-200 font-katide-bold text-[16px]'>
                         Pam Hudson
+                      </p>
+                      <p className='text-[#4065D1]'>Crafter</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className='slide pb-4 lg:pr-4'>
+                <div className='!important flex h-[430px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg lg:w-[375px]'>
+                  <div className='flex h-full flex-col items-start p-8 text-[14px]'>
+                    <img src={testimony.src} alt='Quote' className='mb-8' />
+                    <p>
+                      Love Drizy Studio!! Fantastic selection of SVG's that cut beautifully! I recommend to anyone looking for easily accessible designs that download easily. I have learned so much from being in the group. Also lots of informative and creative people willing to help out.
+                    </p>
+                  </div>
+                  <div className='flex w-full items-center justify-start gap-4 bg-[#EBECF5] p-3 lg:p-6'>
+                    <img
+                      src={bonnie.src}
+                      className='rounded-full border-[3px] border-white'
+                      alt='avatar'
+                    />
+                    <div className='flex flex-col'>
+                      <p className='text-grey-200 font-katide-bold text-[16px]'>
+                        Bonnie Cross
+                      </p>
+                      <p className='text-[#4065D1]'>Crafter</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className='slide pb-4 lg:pr-4'>
+                <div className='!important flex h-[430px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg lg:w-[375px]'>
+                  <div className='flex h-full flex-col items-start p-8 text-[14px]'>
+                    <img src={testimony.src} alt='Quote' className='mb-8' />
+                    <p>
+                      I fell in love Drizy Studio’s designs and have used them to create some amazing gifts for family, friends, and teachers. Being able to see other artist's work showcased makes me happy. Drizy Studio goes the extra mile to help bring attention to other artists they themselves admire.
+                    </p>
+                  </div>
+                  <div className='flex w-full items-center justify-start gap-4 bg-[#EBECF5] p-3 lg:p-6'>
+                    <img
+                      src={michelle.src}
+                      className='rounded-full border-[3px] border-white'
+                      alt='avatar'
+                    />
+                    <div className='flex flex-col'>
+                      <p className='text-grey-200 font-katide-bold text-[16px]'>
+                        Michelle Lucero
                       </p>
                       <p className='text-[#4065D1]'>Crafter</p>
                     </div>

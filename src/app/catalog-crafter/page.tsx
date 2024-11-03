@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { CiYoutube } from 'react-icons/ci';
 import { FaBehance } from 'react-icons/fa';
@@ -11,8 +12,9 @@ import { toast } from 'react-toastify';
 
 import ProductCard from '@/components/ProductCard';
 
+import { getSeason } from '@/app/api/product/getCategory';
 import { getAllProduct, SortType } from '@/app/api/product/getProduct';
-import { productI } from '@/interfaces/product.interface';
+import { CategoryI, productI } from '@/interfaces/product.interface';
 
 import { catalogcrafter } from '~/images';
 
@@ -24,6 +26,7 @@ export default function CatalogCrafter() {
   const [isSeasonsDropdownOpen, setIsSeasonsDropdownOpen] = useState(false);
   const [selectedSeasonsOption, setSelectedSeasonsOption] = useState('');
   const [productData, setProductData] = useState<productI[] | []>([]);
+  const [seasonsOptions, setSeasonalData] = useState<CategoryI[] | []>([]);
 
   const shortByOptions = [
     SortType.Latest,
@@ -39,7 +42,16 @@ export default function CatalogCrafter() {
     'Lollipop Holder',
     'Egg Holder',
   ];
-  const seasonsOptions = ['Fall', 'Winter', 'Spring', 'Summer'];
+
+  const getSeasonalData = async () => {
+    try {
+      const response = await getSeason();
+      setSeasonalData(response.data);
+    } catch (error) {
+      toast('Error when trying to get category');
+    }
+  };
+
 
   const handleShortByDropdownClick = () => {
     setIsShortByDropdownOpen(!isShortByDropdownOpen);
@@ -77,8 +89,8 @@ export default function CatalogCrafter() {
       selectedSeasonsOption !== ''
         ? selectedSeasonsOption
         : selectedCategoryOption !== ''
-        ? selectedCategoryOption
-        : '';
+          ? selectedCategoryOption
+          : '';
     try {
       const response = await getAllProduct({
         page: 1,
@@ -95,6 +107,7 @@ export default function CatalogCrafter() {
 
   useEffect(() => {
     getProduct();
+    getSeasonalData();
   }, []);
 
   useEffect(() => {
@@ -122,18 +135,30 @@ export default function CatalogCrafter() {
           </p>
 
           <div className='mt-[22%] flex gap-5 text-[#AAAAAA]'>
-            <FaBehance className='h-[24px] w-[24px]' />
-            <FaFacebookF className='h-[22px] w-[22px]' />
-            <FaXTwitter className='h-[22px] w-[22px]' />
-            <FaPinterest className='h-[22px] w-[22px]' />
-            <FaInstagram className='h-[24px] w-[24px]' />
-            <CiYoutube className='h-[26px] w-[26px]' />
+            <Link href="" target='_blank'>
+              <FaBehance className='h-[24px] w-[24px]' />
+            </Link>
+            <Link href="https://www.facebook.com/DrizyStudio" target="_blank">
+              <FaFacebookF className='h-[22px] w-[22px]' />
+            </Link>
+            <Link href="" target="_blank">
+              <FaXTwitter className='h-[22px] w-[22px]' />
+            </Link>
+            <Link href="https://id.pinterest.com/Drizy_Studio/" target="_blank">
+              <FaPinterest className='h-[22px] w-[22px]' />
+            </Link>
+            <Link href="https://www.instagram.com/drizy_craft/" target="_blank">
+              <FaInstagram className='h-[24px] w-[24px]' />
+            </Link>
+            <Link href="" target="_blank">
+              <CiYoutube className='h-[26px] w-[26px]' />
+            </Link>
           </div>
         </div>
       </section>
 
       <section className='w-full bg-[#EBECF5]'>
-        <div className='flex flex-col py-[4%] max-md:px-2 lg:mx-auto lg:w-[1164px] lg:flex-row'>
+        <div className='flex flex-col py-[4%] max-md:px-2 lg:mx-auto lg:w-[1164px] lg:flex-row gap-4'>
           <div>
             <p className='font-katide-bold text-[20px]'>Filters</p>
             <div className='mt-6 rounded-lg bg-white shadow-lg'>
@@ -236,22 +261,22 @@ export default function CatalogCrafter() {
                     <div key={index} className='mb-3'>
                       <input
                         type='radio'
-                        id={option}
+                        id={option.id.toString()}
                         name='seasonsOptions'
-                        value={option}
-                        checked={selectedSeasonsOption === option}
+                        value={option.name}
+                        checked={selectedSeasonsOption === option.name}
                         onChange={handleSeasonsSelect}
                         className='h-[13px] w-[13px] text-black'
                       />
                       <label
-                        htmlFor={option}
+                        htmlFor={option.id.toString()}
                         style={{
                           marginLeft: '5%',
                           fontSize: '14px',
                           color: '#17181A',
                         }}
                       >
-                        {option}
+                        {option.name}
                       </label>
                     </div>
                   ))}
@@ -260,7 +285,7 @@ export default function CatalogCrafter() {
             </div>
           </div>
 
-          <div className='ml-[7%] flex flex-wrap'>
+          <div className='w-full flex flex-wrap items-center justify-center lg:items-start lg:justify-start'>
             {productData.map((product, index) => (
               <ProductCard key={index} data={product} />
             ))}

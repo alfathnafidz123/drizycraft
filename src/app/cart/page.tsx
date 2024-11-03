@@ -136,7 +136,7 @@ export default function Register() {
               </table>
               <button
                 onClick={handlePayment}
-                className='self-end rounded-full bg-[#4065D1] px-24 py-3 text-white'
+                className='self-end rounded-full bg-[#4065D1] hover:bg-[#2A3B80] px-24 py-3 text-white'
               >
                 Checkout
               </button>

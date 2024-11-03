@@ -11,8 +11,9 @@ import { toast } from 'react-toastify';
 
 import ProductCard from '@/components/ProductCard';
 
+import { getSeason } from '@/app/api/product/getCategory';
 import { getAllProduct, SortType } from '@/app/api/product/getProduct';
-import { productI } from '@/interfaces/product.interface';
+import { CategoryI, productI } from '@/interfaces/product.interface';
 
 import { catalogcrafter } from '~/images';
 
@@ -32,6 +33,7 @@ export default function CatalogCrafter() {
   const [isSeasonsDropdownOpen, setIsSeasonsDropdownOpen] = useState(false);
   const [selectedSeasonsOption, setSelectedSeasonsOption] = useState('');
   const [productData, setProductData] = useState<productI[] | []>([]);
+  const [seasonalData, setSeasonalData] = useState<CategoryI[] | []>([]);
 
   const categoryOptions = [
     '3D Shadow Box',
@@ -79,8 +81,8 @@ export default function CatalogCrafter() {
       selectedSeasonsOption !== ''
         ? selectedSeasonsOption
         : selectedCategoryOption !== ''
-        ? selectedCategoryOption
-        : '';
+          ? selectedCategoryOption
+          : '';
     try {
       const response = await getAllProduct({
         page: 1,
@@ -95,8 +97,18 @@ export default function CatalogCrafter() {
     }
   };
 
+  const getSeasonalData = async () => {
+    try {
+      const response = await getSeason();
+      setSeasonalData(response.data);
+    } catch (error) {
+      toast('Error when trying to get category');
+    }
+  };
+
   useEffect(() => {
     getProduct();
+    getSeasonalData();
   }, []);
 
   useEffect(() => {
@@ -137,7 +149,7 @@ export default function CatalogCrafter() {
       </section>
 
       <section className='w-full bg-[#EBECF5]'>
-        <div className='flex flex-col py-[4%] max-md:px-2 lg:mx-auto lg:w-[1164px] lg:flex-row'>
+        <div className='flex flex-col py-[4%] max-md:px-2 lg:mx-auto lg:w-[1164px] lg:flex-row gap-4'>
           <div>
             <p className='font-katide-bold text-[20px]'>Filters</p>
             <div className='mt-6 rounded-lg bg-white shadow-lg'>
@@ -234,28 +246,28 @@ export default function CatalogCrafter() {
                   <FaChevronDown className='mr-2 mt-2 w-[12px]' />
                 </div>
               </div>
-              {isSeasonsDropdownOpen && (
+              {seasonalData && (
                 <div className='dropdown-content m-2 p-2'>
-                  {seasonsOptions.map((option, index) => (
+                  {seasonalData.map((option, index) => (
                     <div key={index} className='mb-3'>
                       <input
                         type='radio'
-                        id={option}
+                        id={option.id.toString()}
                         name='seasonsOptions'
-                        value={option}
-                        checked={selectedSeasonsOption === option}
+                        value={option.name}
+                        checked={selectedSeasonsOption === option.name}
                         onChange={handleSeasonsSelect}
                         className='h-[13px] w-[13px] text-black'
                       />
                       <label
-                        htmlFor={option}
+                        htmlFor={option.id.toString()}
                         style={{
                           marginLeft: '5%',
                           fontSize: '14px',
                           color: '#17181A',
                         }}
                       >
-                        {option}
+                        {option.name}
                       </label>
                     </div>
                   ))}
@@ -264,7 +276,7 @@ export default function CatalogCrafter() {
             </div>
           </div>
 
-          <div className='ml-[7%] flex flex-wrap'>
+          <div className='w-full flex flex-wrap items-center justify-center lg:items-start lg:justify-start'>
             {productData.map((product, index) => (
               <ProductCard key={index} data={product} />
             ))}

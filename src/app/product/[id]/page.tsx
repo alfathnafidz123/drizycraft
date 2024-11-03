@@ -166,7 +166,7 @@ export default function Register() {
     try {
       setLoadingAffiliate(true);
       const res = await axios.post(
-        `https://s.drizycraft.com`,
+        `https://s.quadrakaryasantosa.com`,
         {
           originalUrl: `${window.location.href}?ref=${dataUser?.affiliate.refferalCode}`,
         },
@@ -174,7 +174,7 @@ export default function Register() {
           headers: { Authorization: `bearer ${token}` },
         }
       );
-      setShortUrl(`https://s.drizycraft.com/${res.data.shortUrl}`);
+      setShortUrl(`https://s.quadrakaryasantosa.com/${res.data.shortUrl}`);
     } catch (error) {
       const err = error as AxiosError;
       const errorData: any = err.response?.data;
@@ -320,47 +320,53 @@ export default function Register() {
               </p>
             </div>
             <div className='flex flex-col gap-4 p-2 lg:w-5/6 lg:p-0'>
-              <p className='font-katide-bold text-xs text-[#1A214C]'>
-                License Option
-              </p>
-              <div className='flex justify-between gap-2'>
-                <button
-                  onClick={() => {
-                    setType(0);
-                  }}
-                  className={
-                    type === 0
-                      ? 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#4065D1] px-4 py-1 text-[14px] text-[#e4f6fb] max-md:w-full'
-                      : 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1] max-md:w-full'
-                  }
-                >
-                  Personal
-                </button>
-                <button
-                  onClick={() => {
-                    setType(1);
-                  }}
-                  className={
-                    type === 1
-                      ? 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#4065D1] px-4 py-1 text-[14px] text-[#e4f6fb] max-md:w-full'
-                      : 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1] max-md:w-full'
-                  }
-                >
-                  Commercial
-                </button>
-                <button
-                  onClick={() => {
-                    setType(2);
-                  }}
-                  className={
-                    type === 2
-                      ? 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#4065D1] px-4 py-1 text-[14px] text-[#e4f6fb] max-md:w-full'
-                      : 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1] max-md:w-full'
-                  }
-                >
-                  Business
-                </button>
-              </div>
+              {dataUser?.coin === 0 ?
+                <>
+                  <p className='font-katide-bold text-xs text-[#1A214C]'>
+                    License Option
+                  </p>
+                  <div className='flex justify-between gap-2'>
+                    <button
+                      onClick={() => {
+                        setType(0);
+                      }}
+                      className={
+                        type === 0
+                          ? 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#4065D1] px-4 py-1 text-[14px] text-[#e4f6fb] max-md:w-full'
+                          : 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1] max-md:w-full'
+                      }
+                    >
+                      Personal
+                    </button>
+                    <button
+                      onClick={() => {
+                        setType(1);
+                      }}
+                      className={
+                        type === 1
+                          ? 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#4065D1] px-4 py-1 text-[14px] text-[#e4f6fb] max-md:w-full'
+                          : 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1] max-md:w-full'
+                      }
+                    >
+                      Commercial
+                    </button>
+                    <button
+                      onClick={() => {
+                        setType(2);
+                      }}
+                      className={
+                        type === 2
+                          ? 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#4065D1] px-4 py-1 text-[14px] text-[#e4f6fb] max-md:w-full'
+                          : 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1] max-md:w-full'
+                      }
+                    >
+                      Business
+                    </button>
+                  </div>
+                </>
+                :
+                <div />
+              }
               {dataUser?.affiliate && shortUrl === undefined && (
                 <button
                   onClick={() => {

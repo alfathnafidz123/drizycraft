@@ -9,12 +9,13 @@ interface IUserData {
   displayName: string;
   activationKey: any;
   userStatus: any;
-  coin?: 0;
+  coin?: number;
   createdAt: string;
   updatedAt: string;
   blocked: boolean;
   affiliateId: string;
   affiliate: Affiliate;
+  avatar: string;
 }
 
 export interface Affiliate {
@@ -76,8 +77,25 @@ const userSlice = createSlice({
     setToken: (state, { payload }: TokenPayload) => {
       state.token = payload.token;
     },
+    setDataCoin: (state, { payload }: { payload: { coin: number } }) => {
+      state.dataUser = { ...state.dataUser!, coin: payload.coin };
+    },
     setDataUser: (state, { payload }: UserPayload) => {
-      state.dataUser = payload.userData;
+      state.dataUser = {
+        ...state.dataUser,
+        id: payload.userData.id,
+        email: payload.userData.email,
+        username: payload.userData.username,
+        displayName: payload.userData.displayName,
+        activationKey: payload.userData.activationKey,
+        userStatus: payload.userData.userStatus,
+        createdAt: payload.userData.createdAt,
+        updatedAt: payload.userData.updatedAt,
+        blocked: payload.userData.blocked,
+        affiliateId: payload.userData.affiliateId,
+        affiliate: payload.userData.affiliate,
+        avatar: payload.userData.avatar,
+      };
     },
     setOpenModal: (state, { payload }: ModalPayload) => {
       state.openModal = payload;
@@ -85,12 +103,26 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchProfile.fulfilled, (state, action) => {
-      state.dataUser = action.payload;
+      state.dataUser = {
+        ...state.dataUser,
+        id: action.payload.id,
+        email: action.payload.email,
+        username: action.payload.username,
+        displayName: action.payload.displayName,
+        activationKey: action.payload.activationKey,
+        userStatus: action.payload.userStatus,
+        createdAt: action.payload.createdAt,
+        updatedAt: action.payload.updatedAt,
+        blocked: action.payload.blocked,
+        affiliateId: action.payload.affiliateId,
+        affiliate: action.payload.affiliate,
+        avatar: action.payload.avatar,
+      };
     });
   },
 });
 
-export const { resetUser, setDataUser, setToken, setOpenModal } =
+export const { resetUser, setDataUser, setToken, setOpenModal, setDataCoin } =
   userSlice.actions;
 
 export default userSlice.reducer;

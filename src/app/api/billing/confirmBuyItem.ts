@@ -2,8 +2,7 @@ import axios from 'axios';
 import { NextResponse } from 'next/server';
 
 interface ConfirmBuyI {
-  productId?: string;
-  licenseType?: string;
+  sessionId?: string;
   checkoutId?: string;
   token?: string;
 }

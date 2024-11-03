@@ -2,16 +2,16 @@
 /* eslint-disable @next/next/no-img-element */
 // components/Modal.tsx
 
+import Link from 'next/link';
 import React from 'react';
 import { FaArrowUpRightFromSquare } from 'react-icons/fa6';
 import { IoCloseCircleOutline } from 'react-icons/io5';
-import Slider, { CustomArrowProps } from 'react-slick';
+import { CustomArrowProps } from 'react-slick';
 
-import { CrafterI } from '@/interfaces/product.interface';
+import { CrafterI } from '@/interfaces/crafter.interfaces';
 
 import {
   avatarExample,
-  gridSlide,
   projectLike,
   projectPinterest,
   projectStars,
@@ -19,7 +19,7 @@ import {
 
 interface ModalProps {
   isOpen: boolean;
-  data: CrafterI;
+  data?: CrafterI;
   onClose: () => void;
   onLike: (id: string) => void;
 }
@@ -90,35 +90,13 @@ const ModalProjectDetail: React.FC<ModalProps> = ({
             <div className='flex flex-col gap-4 p-4 lg:flex-row lg:gap-8 lg:p-8'>
               <div className='flex flex-col items-center justify-center gap-4 lg:w-1/2'>
                 <div className='max-h-screen w-full items-center justify-center rounded-xl lg:h-[310px] lg:w-[432px]'>
-                  <Slider {...settings}>
-                    <div className='slide'>
-                      <div className='!important flex h-full w-full items-center justify-center'>
-                        <img
-                          src={gridSlide.src}
-                          alt='slider'
-                          className='w-full px-2'
-                        />
-                      </div>
-                    </div>
-                    <div className='slide'>
-                      <div className='!important flex h-full w-full items-center justify-center'>
-                        <img
-                          src={gridSlide.src}
-                          alt='slider'
-                          className='w-full px-2'
-                        />
-                      </div>
-                    </div>
-                    <div className='slide'>
-                      <div className='!important flex h-full w-full items-center justify-center'>
-                        <img
-                          src={gridSlide.src}
-                          alt='slider'
-                          className='w-full px-2'
-                        />
-                      </div>
-                    </div>
-                  </Slider>
+                  <div className='!important flex h-full w-full items-center justify-center'>
+                    <img
+                      src={data?.imageUrl}
+                      alt='slider'
+                      className='w-full px-2'
+                    />
+                  </div>
                 </div>
                 <div className='flex w-full justify-between'>
                   <div className='flex items-center text-[14px] text-[#1A204C]'>
@@ -129,13 +107,13 @@ const ModalProjectDetail: React.FC<ModalProps> = ({
                     />
                     <div className='mr-1'>By</div>
                     <div className='font-katide-bold'>
-                      {data.user.displayName}
+                      {data?.user.displayName}
                     </div>
                   </div>
                   <div className='mt-5 flex justify-between gap-5 text-center '>
                     <div
                       className='flex w-[39px] flex-col'
-                      onClick={() => onLike(data.id)}
+                      onClick={() => onLike(data!.id)}
                     >
                       <div className=' flex h-[40px] flex-col items-center rounded-full bg-[#A5272B] pt-1 hover:bg-[#872A2D]'>
                         <div className='basis-2/3'>
@@ -147,7 +125,7 @@ const ModalProjectDetail: React.FC<ModalProps> = ({
                         </div>
 
                         <a className='inline-block align-top text-[10px] text-white'>
-                          {data.likeCount > 0 && data.likeCount}
+                          {data && data.likeCount > 0 ? data.likeCount : ''}
                         </a>
                       </div>
                       <div className=' font-katide-bold text-xs text-indigo-950'>
@@ -171,7 +149,7 @@ const ModalProjectDetail: React.FC<ModalProps> = ({
               </div>
               <div className='flex flex-col gap-2 lg:gap-4'>
                 <div className='flex'>
-                  {Array.from({ length: data.price }, (_, index) => (
+                  {Array.from({ length: data!.price }, (_, index) => (
                     <img
                       loading='lazy'
                       key={index}
@@ -184,15 +162,19 @@ const ModalProjectDetail: React.FC<ModalProps> = ({
                   {data?.description}
                 </p>
                 <div className='font-katide-semibold mt-5 text-[14px] lg:mt-10'>
-                  <button className='flex w-full items-center gap-5 border-t max-md:justify-between lg:w-[55%]'>
-                    <p className='mt-3 hover:underline'>Download product 1</p>
-                    <FaArrowUpRightFromSquare className='mt-2 text-[#61A9FA]' />
-                  </button>
-                  <button className='mt-3 flex w-full items-center gap-5 border-t max-md:justify-between lg:w-[55%]'>
-                    <p className='mt-3 hover:underline'>Download product 2</p>
-                    <FaArrowUpRightFromSquare className='mt-2 text-[#61A9FA]' />
-                  </button>
-                  <button className='mt-3 flex w-full items-center gap-5 border-b border-t max-md:justify-between lg:w-[55%]'>
+                  {data?.product.map(item =>
+                    <Link key={item.id} href={`/product/${item.id}`} className='flex w-full items-center gap-5 border-t max-md:justify-between'>
+                      <p className='mt-3 hover:underline'>Download {item.name}</p>
+                      <FaArrowUpRightFromSquare className='mt-2 text-[#61A9FA]' />
+                    </Link>
+                  )}
+                  {data?.breezy.map(item =>
+                    <Link key={item.id} href={`https://breezy.drizycraft.com/${item.id}`} target='__blank' className='flex w-full items-center gap-5 border-t max-md:justify-between'>
+                      <p className='mt-3 hover:underline'>Download {item.name}</p>
+                      <FaArrowUpRightFromSquare className='mt-2 text-[#61A9FA]' />
+                    </Link>
+                  )}
+                  <button className='mt-3 flex w-full items-center gap-5 border-b border-t max-md:justify-between'>
                     <p className='mt-3 hover:underline'>Download product 3</p>
                     <FaArrowUpRightFromSquare className='mt-2 text-[#61A9FA]' />
                   </button>

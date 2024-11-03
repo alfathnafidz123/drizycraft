@@ -2,8 +2,11 @@ import axios from 'axios';
 import { NextResponse } from 'next/server';
 
 interface LoginPayload {
+  id: string;
   email: string;
   fullName: string;
+  provider: 'google' | 'facebook';
+  avatar: string;
 }
 export async function loginSocial(loginPayload: LoginPayload) {
   try {
@@ -11,7 +14,7 @@ export async function loginSocial(loginPayload: LoginPayload) {
       `https://drizy-api.quadrakaryasantosa.com/auth/user/login-sso`,
       loginPayload
     );
-    return resp.data.data;
+    return resp.data;
   } catch (error) {
     NextResponse.error();
   }

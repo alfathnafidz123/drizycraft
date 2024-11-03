@@ -12,6 +12,7 @@ import { FaAngleRight } from 'react-icons/fa6';
 import { MdClose } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
+import { fetchCart } from '@/lib/slices/cart';
 import { fetchProfile, setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
@@ -69,6 +70,7 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
       else handleCart();
     } else {
       dispatch(setOpenModal(true));
+      closeModal();
     }
   };
 
@@ -105,7 +107,8 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
       await axios.post(`https://drizy-api.quadrakaryasantosa.com/crafter/cart`, payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      router.push('/cart');
+      closeModal();
+      dispatch(fetchCart(token!));
     } catch (error: any) {
       toast(
         'Create Checkout Page failed, please reach out to the administrator'
@@ -128,7 +131,7 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
       {/* Modal content */}
       {isOpen && (
         <div className='fixed top-0 z-50 transform overflow-hidden rounded-xl bg-white shadow-lg max-md:flex max-md:h-screen max-md:w-full max-md:items-center max-md:justify-center max-md:overflow-y-auto lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2'>
-          <div className='flex w-full flex-col gap-4 pt-5 max-md:mx-2 lg:h-[423px] lg:w-[889px] lg:flex-row lg:gap-8 lg:pl-5'>
+          <div className='flex w-full flex-col gap-4 pt-5 max-md:mx-2 lg:h-[450px] lg:w-[889px] lg:flex-row lg:gap-8 lg:pl-5'>
             <div
               className='flex cursor-pointer flex-row justify-end lg:hidden'
               onClick={closeModal}
@@ -222,55 +225,58 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
                 </div>
               </div>
 
-              <div className='mt-5 flex flex-col gap-4'>
-                <p className='font-katide-semibold text-[14px] text-[#A1A1A1]'>
-                  Select License
-                </p>
-                <div className='flex gap-5'>
-                  <button
-                    id='select-type-1'
-                    aria-label='select personal license'
-                    onClick={() => {
-                      setType(0);
-                    }}
-                    className={
-                      type === 0
-                        ? 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#4065D1] px-4 py-1 text-[14px] text-[#e4f6fb]'
-                        : 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1]'
-                    }
-                  >
-                    Personal
-                  </button>
-                  <button
-                    id='select-type-1'
-                    aria-label='select commercial license'
-                    onClick={() => {
-                      setType(1);
-                    }}
-                    className={
-                      type === 1
-                        ? 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#4065D1] px-4 py-1 text-[14px] text-[#e4f6fb]'
-                        : 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1]'
-                    }
-                  >
-                    Commercial
-                  </button>
-                  <button
-                    id='select-type-1'
-                    aria-label='select business license'
-                    onClick={() => {
-                      setType(2);
-                    }}
-                    className={
-                      type === 2
-                        ? 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#4065D1] px-4 py-1 text-[14px] text-[#e4f6fb]'
-                        : 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1]'
-                    }
-                  >
-                    Business
-                  </button>
+              {dataUser?.coin === 0 ?
+                <div className='mt-5 flex flex-col gap-4'>
+                  <p className='font-katide-semibold text-[14px] text-[#A1A1A1]'>
+                    Select License
+                  </p>
+                  <div className='flex gap-5'>
+                    <button
+                      id='select-type-1'
+                      aria-label='select personal license'
+                      onClick={() => {
+                        setType(0);
+                      }}
+                      className={
+                        type === 0
+                          ? 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#4065D1] px-4 py-1 text-[14px] text-[#e4f6fb]'
+                          : 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1]'
+                      }
+                    >
+                      Personal
+                    </button>
+                    <button
+                      id='select-type-1'
+                      aria-label='select commercial license'
+                      onClick={() => {
+                        setType(1);
+                      }}
+                      className={
+                        type === 1
+                          ? 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#4065D1] px-4 py-1 text-[14px] text-[#e4f6fb]'
+                          : 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1]'
+                      }
+                    >
+                      Commercial
+                    </button>
+                    <button
+                      id='select-type-1'
+                      aria-label='select business license'
+                      onClick={() => {
+                        setType(2);
+                      }}
+                      className={
+                        type === 2
+                          ? 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#4065D1] px-4 py-1 text-[14px] text-[#e4f6fb]'
+                          : 'font-katide-semibold rounded-full border-2 border-[#C7C7C7] bg-[#E4F6FB] px-4 py-1 text-[14px] text-[#A1A1A1]'
+                      }
+                    >
+                      Business
+                    </button>
+                  </div>
                 </div>
-              </div>
+                : <div className='h-20' />
+              }
 
               <div className='mt-[13%] flex flex-row justify-between'>
                 <button

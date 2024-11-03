@@ -4,6 +4,7 @@
 
 import axios, { AxiosError } from 'axios';
 import moment from 'moment';
+import { useRouter } from 'next/navigation';
 import * as React from 'react';
 import { toast } from 'react-toastify';
 
@@ -19,7 +20,8 @@ export default function Register() {
   const { token } = useAppSelector((state) => state.user);
   const [transactions, setTransactions] = React.useState<TransactionI[]>([]);
   const [meta, setMeta] = React.useState<Meta>();
-  const [params, setParams] = React.useState({ page: 1, limit: 2 });
+  const [params, setParams] = React.useState({ page: 1, limit: 10 });
+  const router = useRouter();
 
   const getTransactions = async () => {
     if (token) {
@@ -40,6 +42,21 @@ export default function Register() {
       }
     }
   };
+
+  const downloadInvoice = async (chechoutId: string) => {
+    try {
+      const res = await axios.get(`https://drizy-api.quadrakaryasantosa.com/billing/get-invoice/${chechoutId}`,
+        { headers: { Authorization: `bearer ${token}` } }
+      );
+      router.push(res.data);
+    } catch (error) {
+      const err = error as AxiosError;
+      const errorData: any = err.response?.data;
+      toast.error(
+        (errorData.message as string) ?? 'Error when generate Invoice!'
+      );
+    }
+  }
 
   React.useEffect(() => {
     getTransactions();
@@ -70,7 +87,7 @@ export default function Register() {
                     : `$${item.price / 100}`}{' '}
                   for 1 item
                 </td>
-                <td>Invoice</td>
+                <td><div className='hover:underline cursor-pointer' onClick={() => downloadInvoice(item.checkoutId)}>Invoice</div></td>
               </tr>
             ))}
           </tbody>

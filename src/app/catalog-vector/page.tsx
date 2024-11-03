@@ -78,8 +78,8 @@ export default function CatalogCrafter() {
       selectedSeasonsOption !== ''
         ? selectedSeasonsOption
         : selectedCategoryOption !== ''
-        ? selectedCategoryOption
-        : '';
+          ? selectedCategoryOption
+          : '';
     try {
       const response = await getAllProduct({
         page: 1,
@@ -131,7 +131,7 @@ export default function CatalogCrafter() {
       </section>
 
       <section className='w-full bg-[#EBECF5]'>
-        <div className='flex flex-col py-[4%] max-md:px-2 lg:mx-auto lg:w-[1164px] lg:flex-row'>
+        <div className='flex flex-col py-[4%] max-md:px-2 lg:mx-auto lg:w-[1164px] lg:flex-row gap-4'>
           <div>
             <p className='font-katide-bold text-[20px]'>Filters</p>
             <div className='mt-6 rounded-lg bg-white shadow-lg'>
@@ -258,7 +258,7 @@ export default function CatalogCrafter() {
             </div>
           </div>
 
-          <div className='ml-[7%] flex flex-wrap'>
+          <div className='w-full flex flex-wrap items-center justify-center lg:items-start lg:justify-start'>
             {productData.map((product, index) => (
               <ProductCard key={index} data={product} />
             ))}

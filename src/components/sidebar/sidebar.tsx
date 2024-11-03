@@ -10,6 +10,8 @@ import {
   accountInactive,
   download,
   downloadInactive,
+  history,
+  historyInactive,
   order,
   orderInactive,
   subscription,
@@ -44,20 +46,25 @@ export default function ProfileMenu() {
       text: 'Download',
       link: 'download',
     },
-    // { src: history.src, text: 'History Project', link: 'history' },
+    {
+      src: history.src,
+      srcInactive: historyInactive.src,
+      text: 'History Project',
+      link: 'history'
+    },
   ];
 
   const pathname = usePathname();
   const path = pathname.split('/')[2];
   return (
-    <div className='flex flex-col gap-4 overflow-hidden rounded-lg border p-4 shadow-lg'>
+    <div className='flex flex-col overflow-hidden rounded-lg border py-4 shadow-lg'>
       {items.map((item, index) => (
         <Link href={`/profile/${item.link}`} key={index}>
           <div
             className={
-              path === item.link
-                ? 'flex cursor-pointer items-center gap-4 text-[#4065D1]'
-                : 'flex cursor-pointer items-center gap-4 text-[#a2a5b5]'
+              path == item.link
+                ? 'flex cursor-pointer items-center py-2 px-4 gap-4 text-[#4065D1] bg-[#CBEAF2] border-r-2 border-[#4065D1]'
+                : 'flex cursor-pointer items-center py-2 px-4 gap-4 text-[#a2a5b5]'
             }
           >
             <Image

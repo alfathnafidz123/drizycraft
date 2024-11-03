@@ -7,8 +7,9 @@ import { toast } from 'react-toastify';
 import ModalProduct from '@/components/modals/product';
 import ProductCard from '@/components/ProductCard';
 
+import { getSeason } from '@/app/api/product/getCategory';
 import { getAllProduct, SortType } from '@/app/api/product/getProduct';
-import { productI } from '@/interfaces/product.interface';
+import { CategoryI, productI } from '@/interfaces/product.interface';
 
 export default function CatalogCrafter() {
   const params = useParams();
@@ -23,6 +24,7 @@ export default function CatalogCrafter() {
     show: boolean;
     product?: productI;
   }>({ show: false });
+  const [seasonalData, setSeasonalData] = useState<CategoryI[] | []>([]);
 
   const shortByOptions = [
     SortType.Latest,
@@ -77,7 +79,7 @@ export default function CatalogCrafter() {
         page: 1,
         limit: 10,
         sortType: SortType.Latest,
-        search: params.search as string,
+        search: params.search ? params.search as string : undefined,
         extraCategory:
           selectedSeasonsOption !== '' ? selectedSeasonsOption : '',
       });
@@ -87,8 +89,18 @@ export default function CatalogCrafter() {
     }
   };
 
+  const getSeasonalData = async () => {
+    try {
+      const response = await getSeason();
+      setSeasonalData(response.data);
+    } catch (error) {
+      toast('Error when trying to get category');
+    }
+  };
+
   useEffect(() => {
     getProduct();
+    getSeasonalData();
   }, []);
 
   useEffect(() => {
@@ -154,26 +166,26 @@ export default function CatalogCrafter() {
             </div>
             {isSeasonsDropdownOpen && (
               <div className='dropdown-content m-2 p-2'>
-                {seasonsOptions.map((option, index) => (
+                {seasonalData.map((option, index) => (
                   <div key={index} className='mb-3'>
                     <input
                       type='radio'
-                      id={option}
+                      id={option.id.toString()}
                       name='seasonsOptions'
-                      value={option}
-                      checked={selectedSeasonsOption === option}
+                      value={option.name}
+                      checked={selectedSeasonsOption === option.name}
                       onChange={handleSeasonsSelect}
                       className='h-[13px] w-[13px] text-black'
                     />
                     <label
-                      htmlFor={option}
+                      htmlFor={option.id.toString()}
                       style={{
                         marginLeft: '5%',
                         fontSize: '14px',
                         color: '#17181A',
                       }}
                     >
-                      {option}
+                      {option.name}
                     </label>
                   </div>
                 ))}

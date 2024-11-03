@@ -10,15 +10,15 @@ export default function Contact() {
       <section className='flex flex-col lg:flex-row mx-auto w-full max-w-[1164px] py-20 gap-4'>
         <div className='flex lg:basis-5/12 flex-col gap-12 pr-16 text-[#1A214C] max-md:px-2'>
           <p className='font-katide-bold text-[20px] max-lg:text-center'>
-            DAISY IS HERE TO HELP YOU!
+            Sylvia IS HERE TO HELP YOU!
           </p>
           <p className='text-[14px]'>
             If you have any problem, any question, or anything regarding our
-            services, or simply want to say “Hi!”, our teammate Daisy is ready
+            services, or simply want to say “Hi!”, our teammate Sylvia is ready
             to help you.
             <br />
             <br />
-            Just fill-in the form below to contact drizy studio, then Daisy will
+            Just fill-in the form below to contact drizy studio, then Sylvia will
             respond to you in no time!
           </p>
           <img className='' src={ContactUs.src} alt='Contact Us' />
@@ -67,7 +67,7 @@ export default function Contact() {
             </div>
 
             <div className='mt-8 flex w-full'>
-              <button className='m-[3%] rounded-full bg-[#4065D1] px-[30%] py-[1%] font-semibold text-[#e4f6fb]'>
+              <button className='m-[3%] rounded-full bg-[#4065D1] hover:bg-[#2A3B80] px-[30%] py-[1%] font-semibold text-[#e4f6fb]'>
                 Submit
               </button>
             </div>

@@ -6,11 +6,11 @@ import dynamic from 'next/dynamic';
 import localFont from 'next/font/local';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { FaAngleRight } from 'react-icons/fa';
 import { FiUpload } from 'react-icons/fi';
-import Slider, { CustomArrowProps } from 'react-slick';
 import { toast } from 'react-toastify';
 
 import { useAppSelector } from '@/lib/store';
@@ -19,12 +19,13 @@ import AffiliateBanner from '@/components/AffiliateBanner';
 import SectionContainer from '@/components/container/sectionContainer';
 import ModalProduct from '@/components/modals/product';
 import ProductCategories from '@/components/ProductCategories';
+import SaleProductCard from '@/components/SaleProductCard';
 import SeasonCategories from '@/components/SeasonCategories';
 import ProductSlider from '@/components/slider/ProductSlider';
 import TrendingTag from '@/components/tag/TrendingTag';
 import Testimonies from '@/components/testimonies';
 
-import { getCategory } from '@/app/api/product/getCategory';
+import { getSeason } from '@/app/api/product/getCategory';
 import { getHomepage } from '@/app/api/product/getHomepage';
 import {
   CategoryI,
@@ -33,16 +34,26 @@ import {
 } from '@/interfaces/product.interface';
 
 import {
+  andy,
   arrowRight,
-  avatarExample,
-  cartProduct,
+  bonnie,
+  cat1,
+  cat2,
+  cat3,
+  cat4,
+  cat5,
+  cat6,
+  cat7,
+  cat8,
+  cat9,
+  cat10,
   coffeeFloating,
-  crafterItem1,
   gridCrafter,
-  gridSlide,
-  sale,
+  leslie,
+  michelle,
+  nad,
+  pam,
   search,
-  seasonCategory,
   starBadge,
 } from '~/images';
 
@@ -62,28 +73,20 @@ const CustomerSupportLottie = dynamic(
 export default function HomePage() {
   const { token } = useAppSelector((state) => state.user);
   // const dispatch = useAppDispatch();
-  const [categoryData, setCategoryData] = useState<CategoryI[] | []>([]);
+  const [seasonalData, setSeasonalData] = useState<CategoryI[] | []>([]);
   const [homeProduct, setHomeProduct] =
     useState<HomepageDataI>(defaultHomepageData);
   const [showProductDetail, setShowProductDetail] = useState<{
     show: boolean;
     product?: productI;
   }>({ show: false });
+  const [searchValue, setSearchValue] = useState('');
+  const router = useRouter();
 
-  const CustomPrevArrow: React.FC<CustomArrowProps> = ({ onClick }) => (
-    <div
-      className='slick-arrow slick-prev'
-      style={{ left: '10px', zIndex: 1 }}
-      onClick={onClick}
-    >
-      &lt;
-    </div>
-  );
-
-  const getCategoryHome = async () => {
+  const getSeasonalHome = async () => {
     try {
-      const response = await getCategory();
-      setCategoryData(response.data);
+      const response = await getSeason();
+      setSeasonalData(response.data);
     } catch (error) {
       toast('Error when trying to get category');
     }
@@ -99,147 +102,22 @@ export default function HomePage() {
   };
 
   useEffect(() => {
-    getCategoryHome();
+    getSeasonalHome();
     getHomepageData();
   }, []);
 
-  const CustomNextArrow: React.FC<CustomArrowProps> = ({ onClick }) => (
-    <div
-      className='slick-arrow slick-next'
-      style={{ right: '10px', zIndex: 1 }}
-      onClick={onClick}
-    >
-      &gt;
-    </div>
-  );
-  const settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    prevArrow: <CustomPrevArrow />,
-    nextArrow: <CustomNextArrow />,
-    autoplay: true,
-  };
-
-  const seasonCategoryData = [
-    { name: 'Fall', image: seasonCategory },
-    { name: 'Halloween', image: seasonCategory },
-    { name: 'Winter', image: seasonCategory },
-    { name: 'Christmas', image: seasonCategory },
-    { name: 'Spring', image: seasonCategory },
-    { name: 'Summer', image: seasonCategory },
-  ];
-  const crafterSlider = [
-    {
-      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
-      imageUrl: crafterItem1.src,
-      price: 5,
-      description: '',
-    },
-    {
-      name: 'A5 Cricut Christmas Card with Adorable Stocking - Warm Winter Wishes',
-      imageUrl: crafterItem1.src,
-      price: 5,
-      description: '',
-    },
-    {
-      name: 'Winter Village with Aurora 3D Shadow Box - Northern Lights 3D Light Box',
-      imageUrl: crafterItem1.src,
-      price: 5,
-      description: '',
-    },
-    {
-      name: 'Girl and Fox by The Forest 3D Shadow Box - Winter SVG Paper Cut',
-      imageUrl: crafterItem1.src,
-      price: 5,
-      description: '',
-    },
-    {
-      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
-      imageUrl: crafterItem1.src,
-      price: 5,
-      description: '',
-    },
-    {
-      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
-      imageUrl: crafterItem1.src,
-      price: 5,
-      description: '',
-    },
-    {
-      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
-      imageUrl: crafterItem1.src,
-      price: 5,
-      description: '',
-    },
-    {
-      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
-      imageUrl: crafterItem1.src,
-      price: 5,
-      description: '',
-    },
-  ];
-
-  const exclusivePartnerSlider = [
-    {
-      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
-      imageUrl: crafterItem1.src,
-      price: [2, 3, 4],
-      description: '',
-      partnerName: 'Tiptop Graphics',
-    },
-    {
-      name: 'A5 Cricut Christmas Card with Adorable Stocking - Warm Winter Wishes',
-      imageUrl: crafterItem1.src,
-      price: [2, 3, 4],
-      description: '',
-      partnerName: 'Tiptop Graphics',
-    },
-    {
-      name: 'Winter Village with Aurora 3D Shadow Box - Northern Lights 3D Light Box',
-      imageUrl: crafterItem1.src,
-      price: [2, 3, 4],
-      description: '',
-      partnerName: 'Tiptop Graphics',
-    },
-    {
-      name: 'Girl and Fox by The Forest 3D Shadow Box - Winter SVG Paper Cut',
-      imageUrl: crafterItem1.src,
-      price: [2, 3, 4],
-      description: '',
-      partnerName: 'Tiptop Graphics',
-    },
-    {
-      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
-      imageUrl: crafterItem1.src,
-      price: [2, 3, 4],
-      description: '',
-      partnerName: 'Tiptop Graphics',
-    },
-    {
-      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
-      imageUrl: crafterItem1.src,
-      price: [2, 3, 4],
-      description: '',
-      partnerName: 'Tiptop Graphics',
-    },
-    {
-      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
-      imageUrl: crafterItem1.src,
-      price: [2, 3, 4],
-      description: '',
-      partnerName: 'Tiptop Graphics',
-    },
-    {
-      name: 'Winter Characters 3D Shadow Box - Christmas Light Box',
-      imageUrl: crafterItem1.src,
-      price: [2, 3, 4],
-      description: '',
-      partnerName: 'Tiptop Graphics',
-    },
-  ];
+  const categoryStatic = [
+    { name: 'Free SVGs', image: cat1.src },
+    { name: 'Shadow Box SVG', image: cat2.src },
+    { name: 'Circut SVG', image: cat3.src },
+    { name: 'SVG Cut File', image: cat4.src },
+    { name: 'Monogram Designs', image: cat5.src },
+    { name: 'Sticker SVG', image: cat6.src },
+    { name: 'Printable Craft', image: cat7.src },
+    { name: 'Card Making', image: cat8.src },
+    { name: 'Tshirt Design', image: cat9.src },
+    { name: 'Papercut Template', image: cat10.src },
+  ]
 
   return (
     <main>
@@ -255,6 +133,8 @@ export default function HomePage() {
           <input
             placeholder='Search for unique craft designs, categories, occasions...'
             className='!focus:border-none !focus:outline-none flex-grow truncate border-none bg-transparent text-sm tracking-wide !outline-none placeholder:tracking-wide placeholder:text-[#6F6F6F] focus:ring-0'
+            onChange={(e) => setSearchValue(e.target.value)}
+            value={searchValue}
           ></input>
           <div className='flex rounded-full bg-[#008ECC]'>
             <img
@@ -262,7 +142,7 @@ export default function HomePage() {
               className='w-[32px] flex-grow transition-all duration-300 group-hover:w-0 group-hover:opacity-0'
               alt='search'
             />
-            <div className='w-0 overflow-hidden transition-all duration-300 group-hover:w-[80px]'>
+            <div onClick={() => { router.push(`/category/search/${searchValue}`) }} className='w-0 overflow-hidden transition-all duration-300 group-hover:w-[80px]'>
               <p className='px-4 py-2 text-center text-white'>Search</p>
             </div>
           </div>
@@ -272,11 +152,11 @@ export default function HomePage() {
             Trending:
           </p>
           <div className='flex flex-wrap items-center justify-center gap-2'>
-            <TrendingTag name='Shadow Box Svg' />
-            <TrendingTag name='Laser cut' />
-            <TrendingTag name='Sublimation' />
-            <TrendingTag name='Free Svg' />
-            <TrendingTag name='Papercut' />
+            <TrendingTag name='Shadow Box Svg' onClick={() => setSearchValue("Shadow Box Svg")} />
+            <TrendingTag name='Laser cut' onClick={() => setSearchValue("Laser cut")} />
+            <TrendingTag name='Sublimation' onClick={() => setSearchValue("Sublimation")} />
+            <TrendingTag name='Free Svg' onClick={() => setSearchValue("Free Svg")} />
+            <TrendingTag name='Papercut' onClick={() => setSearchValue("Papercut")} />
           </div>
         </div>
         <div className='h-76 mt-20 w-screen px-4 lg:w-full'>
@@ -312,22 +192,22 @@ export default function HomePage() {
                     </p>
                     <div className='flex'>
                       <img
-                        src={avatarExample.src}
+                        src={andy.src}
                         className='lg:-ml-6 -ml-4 rounded-full border-[3px] border-white h-10 w-10 lg:h-14 lg:w-14'
                         alt='avatar'
                       />
                       <img
-                        src={avatarExample.src}
+                        src={leslie.src}
                         className='lg:-ml-6 -ml-4 rounded-full border-[3px] border-white h-10 w-10 lg:h-14 lg:w-14'
                         alt='avatar'
                       />
                       <img
-                        src={avatarExample.src}
+                        src={nad.src}
                         className='lg:-ml-6 -ml-4 rounded-full border-[3px] border-white h-10 w-10 lg:h-14 lg:w-14'
                         alt='avatar'
                       />
                       <img
-                        src={avatarExample.src}
+                        src={pam.src}
                         className='lg:-ml-6 -ml-4 rounded-full border-[3px] border-white h-10 w-10 lg:h-14 lg:w-14'
                         alt='avatar'
                       />
@@ -401,33 +281,35 @@ export default function HomePage() {
                   <div className='lg:flex lg:w-full lg:items-center'>
                     <div className='hidden lg:flex'>
                       <img
-                        src={avatarExample.src}
+                        src={bonnie.src}
                         className='h-[36px] rounded-full border-[3px] border-[#D2FF3A]'
                         alt='avatar'
                       />
                       <img
-                        src={avatarExample.src}
+                        src={leslie.src}
                         className='-ml-4 h-[36px] rounded-full border-[3px] border-[#D2FF3A]'
                         alt='avatar'
                       />
                       <img
-                        src={avatarExample.src}
+                        src={michelle.src}
                         className='-ml-4 h-[36px] rounded-full border-[3px] border-[#D2FF3A]'
                         alt='avatar'
                       />
                       <img
-                        src={avatarExample.src}
+                        src={andy.src}
                         className='-ml-4 h-[36px] rounded-full border-[3px] border-[#D2FF3A]'
                         alt='avatar'
                       />
                     </div>
-                    <button
+                    <Link
+                      href="https://www.facebook.com/groups/507583644200287/?ref=share_group_link"
+                      target='__blank'
                       id='join-community'
                       aria-label='Request join community'
                       className='flex justify-center rounded-full bg-[#55668c] p-3 text-[10px] lg:ml-7 lg:px-3.5 lg:py-3 lg:text-xs'
                     >
                       Click here to request to join!
-                    </button>
+                    </Link>
                   </div>
                 </div>
                 <div className='absolute hidden h-full w-full flex-col items-start justify-center gap-2 px-5 py-5 text-white opacity-0 transition-all duration-300 hover:opacity-100 group-hover:opacity-100 lg:flex'>
@@ -449,52 +331,14 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <div className='relative mt-8 h-full w-full rounded-2xl border-4 border-[#61A9FA] bg-white p-2 lg:mt-0 lg:w-3/12'>
-              <Slider {...settings}>
-                <div className='slide'>
-                  <div className='!important flex h-full items-center justify-center'>
-                    <img src={gridSlide.src} alt='slider' />
-                  </div>
-                </div>
-                <div className='slide'>
-                  <div className='!important flex h-full items-center justify-center'>
-                    <img src={gridSlide.src} alt='slider' />
-                  </div>
-                </div>
-                <div className='slide'>
-                  <div className='!important flex h-full items-center justify-center'>
-                    <img src={gridSlide.src} alt='slider' />
-                  </div>
-                </div>
-              </Slider>
-              <span className='relative z-[2] flex h-[54px] w-[257px] shrink-0 items-start justify-start self-stretch overflow-hidden text-left text-[16px] font-semibold leading-[17.6px] text-[#1a204c]'>
-                Girl and Fox by The Forest
-                <br />
-                3D Shadow Box - Winter
-                <br />
-                SVG Paper Cut
-              </span>
-              <div className='mt-2 flex gap-2'>
-                <button
-                  id='buy'
-                  aria-label='Buy product'
-                  className='flex h-[37px] flex-grow items-center justify-center rounded-[8px] bg-[#2a3b80] px-16 py-4'
-                >
-                  <span className='font-katide-bold z-[5] text-[20px] leading-[16px] text-white'>
-                    $1
-                  </span>
-                </button>
-                <button
-                  id='add-to-cart'
-                  className='flex h-[37px] items-center justify-center gap-[8px] rounded-[8px] border-2 border-gray-400 bg-white pb-[12px] pl-[24px] pr-[24px] pt-[12px]'
-                >
-                  <img src={cartProduct.src} alt='cart'></img>
-                </button>
-              </div>
-              <div className='absolute left-1 top-[-50px]'>
-                <img src={sale.src} alt='sale' />
-              </div>
-            </div>
+            {homeProduct.bestSellerData[0] &&
+              <SaleProductCard
+                handleShowDetail={(data) =>
+                  setShowProductDetail({ show: true, product: data })
+                }
+                data={homeProduct.bestSellerData[0]}
+              />
+            }
           </div>
         </div>
       </SectionContainer>
@@ -508,11 +352,11 @@ export default function HomePage() {
             Browse Product Categories
           </div>
           <div className='mt-6 grid grid-cols-2 justify-between gap-3 md:grid-cols-3 lg:mt-12 lg:grid-cols-5'>
-            {categoryData.map((data, index) => (
+            {categoryStatic.map((data, index) => (
               <ProductCategories
                 key={index.toString()}
                 name={data.name}
-                image={data.backgroundImage}
+                image={data.image}
               />
             ))}
           </div>
@@ -528,11 +372,11 @@ export default function HomePage() {
             Browse Season Categories
           </div>
           <div className='flex flex-wrap justify-center gap-[42px]'>
-            {seasonCategoryData?.map((data, index) => (
+            {seasonalData?.slice(0, 6).map((data, index) => (
               <SeasonCategories
                 name={data.name}
                 key={index}
-                image={data.image}
+                image={data.backgroundImage}
               />
             ))}
           </div>
@@ -562,7 +406,7 @@ export default function HomePage() {
               }
             />
           </div>
-          <div className='flex justify-center gap-4 lg:hidden'>
+          <Link href="/catalog-crafter" className='flex justify-center gap-4 lg:hidden'>
             <span>see more</span>
             <Image
               src={arrowRight.src}
@@ -570,7 +414,7 @@ export default function HomePage() {
               height={8}
               alt='arrow right'
             />
-          </div>
+          </Link>
         </div>
       </SectionContainer>
 
@@ -593,7 +437,7 @@ export default function HomePage() {
               }
             />
           </div>
-          <div className='flex justify-center gap-4 lg:hidden'>
+          <Link href="/catalog-crafter" className='flex justify-center gap-4 lg:hidden'>
             <span>see more</span>
             <Image
               src={arrowRight.src}
@@ -601,7 +445,7 @@ export default function HomePage() {
               height={8}
               alt='arrow right'
             />
-          </div>
+          </Link>
         </div>
       </SectionContainer>
 
@@ -628,7 +472,7 @@ export default function HomePage() {
               }
             />
           </div>
-          <div className='flex justify-center gap-4 lg:hidden'>
+          <Link href='/catalog-bundles' className='flex justify-center gap-4 lg:hidden'>
             <span>see more</span>
             <Image
               src={arrowRight.src}
@@ -636,75 +480,79 @@ export default function HomePage() {
               height={8}
               alt='arrow right'
             />
-          </div>
+          </Link>
         </div>
       </SectionContainer>
 
-      <SectionContainer bgColor='#FFBB3C' fullwidth>
-        <div className='flex flex-col pb-12 pt-2 font-bold'>
-          <div className='mb-4 mt-12 flex max-w-[1164px] items-center justify-between'>
-            <div className='font-katide-bold text-[24px] leading-10 text-indigo-950'>
-              Exclusive Partner
+      {homeProduct.exclusiveData.length > 0 &&
+        <SectionContainer bgColor='#FFBB3C' fullwidth>
+          <div className='flex flex-col pb-12 pt-2 font-bold'>
+            <div className='mb-4 mt-12 flex max-w-[1164px] items-center justify-between'>
+              <div className='font-katide-bold text-[24px] leading-10 text-indigo-950'>
+                Exclusive Partner
+              </div>
+              <div className='hidden cursor-pointer flex-row gap-3 text-right text-base font-bold leading-none text-[#4065D1] lg:flex'>
+                <div>Explore Crative Contributors SVG</div>
+                <FaAngleRight />
+              </div>
             </div>
-            <div className='hidden cursor-pointer flex-row gap-3 text-right text-base font-bold leading-none text-[#4065D1] lg:flex'>
-              <div>Explore Crative Contributors SVG</div>
-              <FaAngleRight />
+            <div className='lg:h-[400px]'>
+              <ProductSlider
+                items={homeProduct.exclusiveData}
+                handleShowDetail={(data) =>
+                  setShowProductDetail({ show: true, product: data })
+                }
+              />
+            </div>
+            <div className='flex justify-center gap-4 lg:hidden'>
+              <span>see more</span>
+              <Image
+                src={arrowRight.src}
+                width={8}
+                height={8}
+                alt='arrow right'
+              />
             </div>
           </div>
-          <div className='lg:h-[400px]'>
-            <ProductSlider
-              items={homeProduct.exclusiveData}
-              handleShowDetail={(data) =>
-                setShowProductDetail({ show: true, product: data })
-              }
-            />
-          </div>
-          <div className='flex justify-center gap-4 lg:hidden'>
-            <span>see more</span>
-            <Image
-              src={arrowRight.src}
-              width={8}
-              height={8}
-              alt='arrow right'
-            />
-          </div>
-        </div>
-      </SectionContainer>
+        </SectionContainer>
+      }
 
-      <SectionContainer bgColor='white' fullwidth>
-        <div className='flex flex-col pb-12 pt-2 font-bold'>
-          <div className='mb-4 mt-12 flex max-w-[1164px] items-center justify-between'>
-            <div className='font-katide-bold text-[24px] leading-10 text-indigo-950'>
-              Vector
+      {homeProduct.vectorData.length > 0 &&
+        <SectionContainer bgColor='white' fullwidth>
+          <div className='flex flex-col pb-12 pt-2 font-bold'>
+            <div className='mb-4 mt-12 flex max-w-[1164px] items-center justify-between'>
+              <div className='font-katide-bold text-[24px] leading-10 text-indigo-950'>
+                Vector
+              </div>
+              <Link
+                href='/catalog-vector'
+                className='hidden cursor-pointer flex-row gap-3 text-right text-base font-bold leading-none text-[#4065D1] lg:flex'
+              >
+                <div>Explore Vector</div>
+                <FaAngleRight />
+              </Link>
             </div>
-            <Link
-              href='/catalog-vector'
-              className='hidden cursor-pointer flex-row gap-3 text-right text-base font-bold leading-none text-[#4065D1] lg:flex'
-            >
-              <div>Explore Vector</div>
-              <FaAngleRight />
+            <div className='lg:h-[400px]'>
+              <ProductSlider
+                more='/catalog-vector'
+                items={homeProduct.vectorData}
+                handleShowDetail={(data) =>
+                  setShowProductDetail({ show: true, product: data })
+                }
+              />
+            </div>
+            <Link href='/catalog-vector' className='flex justify-center gap-4 lg:hidden'>
+              <span>see more</span>
+              <Image
+                src={arrowRight.src}
+                width={8}
+                height={8}
+                alt='arrow right'
+              />
             </Link>
           </div>
-          <div className='lg:h-[400px]'>
-            <ProductSlider
-              more='/catalog-vector'
-              items={homeProduct.vectorData}
-              handleShowDetail={(data) =>
-                setShowProductDetail({ show: true, product: data })
-              }
-            />
-          </div>
-          <div className='flex justify-center gap-4 lg:hidden'>
-            <span>see more</span>
-            <Image
-              src={arrowRight.src}
-              width={8}
-              height={8}
-              alt='arrow right'
-            />
-          </div>
-        </div>
-      </SectionContainer>
+        </SectionContainer>
+      }
 
       <Testimonies />
 
@@ -750,16 +598,16 @@ export default function HomePage() {
             Upgrade your membership{' '}
             <span className='text-[#FFBB3C]'>for unlimited downloads</span>
           </p>
-          <div className='flex rounded-lg border-2 border-[#FFDE9F] bg-[#FFBB3C] px-4 py-2 shadow-lg'>
+          <Link href="/membership" className='flex rounded-lg border-2 border-[#FFDE9F] bg-[#FFBB3C] px-4 py-2 shadow-lg'>
             DRIZY VIP<span className='font-base'>+</span>
-          </div>
+          </Link>
         </div>
       </div>
-      <div className="fixed bottom-0 right-0">
+      <Link href="http://tawk.to/" target='_blank' className="fixed bottom-0 right-0 z-[500]">
         <div className='-mb-8 max-w-[200px]'>
           <CustomerSupportLottie />
         </div>
-      </div>
+      </Link>
       <ModalProduct
         isOpen={showProductDetail.show}
         product={showProductDetail.product}

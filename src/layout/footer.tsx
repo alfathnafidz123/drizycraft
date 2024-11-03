@@ -17,17 +17,17 @@ const Footer = () => {
             <div className='font-katide-bold text-[18px]'>Find</div>
             <div className='font-katide-regular mt-2 flex flex-col gap-2 text-[14px] lg:mt-9 lg:gap-4'>
               <Link href='/blog'>Blogs</Link>
-              <div>Newest</div>
-              <div>Popular</div>
+              <Link href="/catalog-crafter">Newest</Link>
+              <Link href="/catalog-crafter">Popular</Link>
             </div>
           </nav>
           <nav>
             <div className='font-katide-bold text-[18px]'>Categories</div>
             <div className='font-katide-regular mt-2 flex flex-col gap-2 text-[14px] lg:mt-9 lg:gap-4'>
-              <div>Shadow box</div>
-              <div>Paper Cut Template</div>
-              <div>Sublimation</div>
-              <div>Vector</div>
+              <Link href="/category/Shadow box">Shadow box</Link>
+              <Link href="/category/Paper Cut Template">Paper Cut Template</Link>
+              <Link href="/category/Sublimation">Sublimation</Link>
+              <Link href="/category/Vector">Vector</Link>
             </div>
           </nav>
           <nav>
@@ -62,10 +62,22 @@ const Footer = () => {
                 Follow us
               </div>
               <div className='mt-5 flex justify-evenly lg:justify-between gap-5 whitespace-nowrap text-xl'>
-                <FaFacebookF />
-                <FaXTwitter />
-                <FaPinterest />
-                <FaInstagram />
+                <Link href="https://www.facebook.com/DrizyStudio" target='__blank'>
+                  <FaFacebookF />
+                </Link>
+
+                <Link href="" target='__blank'>
+                  <FaXTwitter />
+                </Link>
+
+                <Link href="https://id.pinterest.com/Drizy_Studio/" target='__blank'>
+                  <FaPinterest />
+                </Link>
+
+                <Link href="https://www.instagram.com/drizy_craft/ " target='__blank'>
+                  <FaInstagram />
+                </Link>
+
               </div>
             </div>
             <img

@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 // components/Modal.tsx
 
+import FacebookLogin from '@greatsumini/react-facebook-login';
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import { Loader } from 'lucide-react';
@@ -47,10 +48,10 @@ const ModalLogin: React.FC = () => {
     }
   };
 
-  const handleLoginSocial = async (email: string, fullName: string) => {
+  const handleLoginSocial = async (email: string, fullName: string, gid: string, avatar: string, provider: "google" | "facebook") => {
     try {
       setLoading(true);
-      const response = await loginSocial({ email, fullName });
+      const response = await loginSocial({ email, fullName, id: `${gid}`, avatar, provider });
       const { user, token } = response;
       dispatch(setDataUser({ userData: user }));
       dispatch(setToken({ token }));
@@ -80,7 +81,7 @@ const ModalLogin: React.FC = () => {
           }
         )
         .then((res) => {
-          handleLoginSocial(res.data.email, res.data.name);
+          handleLoginSocial(res.data.email, res.data.name, res.data.id, res.data.picture, "google");
         })
         .catch(() => toast('Google analytics error'));
     }
@@ -92,13 +93,13 @@ const ModalLogin: React.FC = () => {
       {isOpen && (
         <div
           onClick={closeModal}
-          className='fixed left-0 top-0 z-50 h-full w-full bg-black bg-opacity-50'
+          className='fixed left-0 top-0 z-[90] h-full w-full bg-black bg-opacity-50'
         ></div>
       )}
 
       {/* Modal content */}
       {isOpen && (
-        <div className='fixed left-1/2 top-1/2 z-50 max-h-screen w-full -translate-x-1/2 -translate-y-1/2 transform overflow-y-auto rounded-3xl bg-[#E5F6FB] p-8 shadow-lg lg:h-fit lg:w-fit lg:overflow-scroll'>
+        <div className='fixed left-1/2 top-1/2 z-[90] max-h-screen w-full -translate-x-1/2 -translate-y-1/2 transform overflow-y-auto rounded-3xl bg-[#E5F6FB] p-8 shadow-lg lg:h-fit lg:w-fit lg:overflow-hidden'>
           <div className='flex flex-col gap-4 lg:flex-row lg:gap-16'>
             <div className='flex flex-col justify-between gap-8'>
               {/* <img src={loginImage.src} alt='login' /> */}
@@ -147,14 +148,29 @@ const ModalLogin: React.FC = () => {
                 >
                   {loading ? <Loader color='#fff' /> : 'LOGIN'}
                 </button>
-                <p className='text-grey-700 max-md:text-right'>
-                  Lost your password?
-                </p>
+                <Link href="/forget-password" className='text-grey-700 hover:text-grey-800 max-md:text-right cursor-pointer'>
+                  <span onClick={() => dispatch(setOpenModal(false))}>
+                    Lost your password?
+                  </span>
+                </Link>
               </div>
-              <button className='mt-2 flex items-center gap-4 rounded-full border-2 border-[#4065D1] px-6 py-2 font-semibold text-[#4065D1] max-md:justify-center'>
-                <FaFacebookF style={{ color: '#4065D1' }} />
-                <p>Login with Facebook</p>
-              </button>
+              <FacebookLogin
+                appId="3917524378531645"
+                onProfileSuccess={(res) => {
+                  handleLoginSocial(res.email!, res.name!, res.id!, res.picture!.data.url, "facebook");
+                }}
+                onFail={(res) => {
+                  toast.error(res.status);
+                }}
+                render={({ onClick }) => {
+                  return (
+                    <button onClick={onClick} className='mt-2 flex items-center gap-4 rounded-full border-2 border-[#4065D1] px-6 py-2 font-semibold text-[#4065D1] max-md:justify-center'>
+                      <FaFacebookF style={{ color: '#4065D1' }} />
+                      <p>Login with Facebook</p>
+                    </button>
+                  )
+                }}
+              />
               {/* <GoogleLogin onSuccess={responseMessage} onError={errorMessage} /> */}
               <button
                 onClick={() => {

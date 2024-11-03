@@ -1,27 +1,37 @@
 'use client';
 
+import axios from 'axios';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 
 import { useAppSelector } from '@/lib/store';
 
-import { confirmSubs } from '@/app/api/billing/confirmSubs';
-
 import { success } from '~/images';
 
 export default function SubSuccess() {
-  const params = useParams();
-  const { sessionId } = params;
+  const params = useSearchParams();
+  const router = useRouter();
+
+  const sessionId = params.get("sessionId");
   const { token } = useAppSelector((state) => state.user);
 
   const handleSubSuccess = async () => {
     try {
-      await confirmSubs({
-        checkoutId: sessionId as string,
-        token: token,
-      });
+      await axios.post(
+        `https://drizy-api.quadrakaryasantosa.com/billing/confirm-subs-payment`,
+        {
+          checkoutId: sessionId as string,
+        },
+        {
+          headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${token ?? ''}`,
+          },
+        }
+      );
+      router.replace("/");
     } catch (error: any) {
       toast('Subs failed, please reach out to the administrator');
     }

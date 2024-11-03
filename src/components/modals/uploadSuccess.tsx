@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 // components/Modal.tsx
 
+import Link from 'next/link';
 import React from 'react';
 import { IoCloseCircleOutline } from 'react-icons/io5';
 
@@ -45,10 +46,10 @@ const ModalUploadSuccess: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               <br />
               We will need a maximum of 3 days to review it before it is
               published. In the meantime, you can check the history and upload
-              status of your projects by
-              <span className='cursor-pointer text-[#4065D1]'>
+              status of your projects by{" "}
+              <Link type='span' href='/profile/history' className='cursor-pointer text-[#4065D1]'>
                 clicking here .
-              </span>
+              </Link>
             </p>
           </div>
         </div>

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { FaFacebook, FaInstagram, FaPinterest, FaWhatsapp } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 
-import { CrafterI } from '@/interfaces/product.interface';
+import { CrafterI } from '@/interfaces/crafter.interfaces';
 
 import { avatarExample, projectLike, projectShare1, projectStars } from '~/images';
 interface ModalProps {

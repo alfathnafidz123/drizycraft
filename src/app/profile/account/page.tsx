@@ -99,14 +99,14 @@ export default function Register() {
         <p className='pl-4 text-lg font-semibold text-[#1A214C]'>
           Account Details
         </p>
-        <div className='flex justify-between'>
-          <div className='flex flex-col'>
+        <div className='flex flex-col lg:flex-row w-full gap-4'>
+          <div className='flex flex-col flex-grow'>
             <label className='pl-4 text-[#1A214C]'>
               First Name <span className='text-red-500'>*</span>
             </label>
             <input
               type='text'
-              className='my-2 w-[300px] rounded-full border border-[#abaaab] p-4 placeholder-[#abaaab]'
+              className='my-2 min-w-full rounded-full border border-[#abaaab] p-4 placeholder-[#abaaab]'
               placeholder='Name'
               name='firstName'
               value={data.firstName}
@@ -114,13 +114,13 @@ export default function Register() {
               required
             ></input>
           </div>
-          <div className='flex flex-col'>
+          <div className='flex flex-col flex-grow'>
             <label className='pl-4 text-[#1A214C]'>
               Last Name <span className='text-red-500'>*</span>
             </label>
             <input
               type='text'
-              className='my-2 w-[300px] rounded-full border border-[#abaaab] p-4 placeholder-[#abaaab]'
+              className='my-2 min-w-full rounded-full border border-[#abaaab] p-4 placeholder-[#abaaab]'
               placeholder='Name'
               name='lastName'
               value={data.lastName}
@@ -129,14 +129,14 @@ export default function Register() {
             ></input>
           </div>
         </div>
-        <div className='flex justify-between'>
-          <div className='flex flex-col'>
+        <div className='flex flex-col lg:flex-row w-full gap-4'>
+          <div className='flex flex-col flex-grow'>
             <label className='pl-4 text-[#1A214C]'>
               Display Name <span className='text-red-500'>*</span>
             </label>
             <input
               type='text'
-              className='my-2 w-[300px] rounded-full border border-[#abaaab] p-4 placeholder-[#abaaab]'
+              className='my-2 min-w-full rounded-full border border-[#abaaab] p-4 placeholder-[#abaaab]'
               placeholder='Display Name'
               name='displayName'
               value={data.displayName}
@@ -144,13 +144,13 @@ export default function Register() {
               required
             ></input>
           </div>
-          <div className='flex flex-col'>
+          <div className='flex flex-col flex-grow'>
             <label className='pl-4 text-[#1A214C]'>
               Email Address <span className='text-red-500'>*</span>
             </label>
             <input
               type='text'
-              className='my-2 w-[300px] rounded-full border border-[#abaaab] p-4 placeholder-[#abaaab]'
+              className='my-2 min-w-full rounded-full border border-[#abaaab] p-4 placeholder-[#abaaab]'
               placeholder='name@gmail.com'
               name='email'
               value={data.email}

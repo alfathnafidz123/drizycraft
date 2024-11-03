@@ -31,7 +31,7 @@ export default function Privacy() {
         FAQ
       </section>
 
-      <section className='flex flex-col gap-16 bg-[#EBECF5] px-40 py-20'>
+      <section className='flex flex-col gap-16 bg-[#EBECF5] container mx-auto py-20'>
         {data.map((item, index) => (
           <FAQCard
             key={index}

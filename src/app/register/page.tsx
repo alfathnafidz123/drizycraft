@@ -1,16 +1,26 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
+import FacebookLogin from '@greatsumini/react-facebook-login';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import axios from 'axios';
+import { Loader } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaFacebookF } from 'react-icons/fa';
-import { FcGoogle } from 'react-icons/fc';
 import { toast } from 'react-toastify';
 
-import { register } from '@/app/api/auth/register';
+import { setDataUser, setOpenModal, setToken } from '@/lib/slices/user';
+import { useAppDispatch } from '@/lib/store';
+
+import GoogleLoginButton from '@/components/buttons/GoogleLogin';
+
+import { loginSocial } from '@/app/api/auth/loginSocial';
 
 const LoginLottie = dynamic(() => import('../../components/lottie/login'), { ssr: false });
 
@@ -23,133 +33,190 @@ export default function Register() {
   const [lastName, setLastName] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const dispatch = useAppDispatch();
+  const [googleUser, setUser] = useState<any>([]);
+  const router = useRouter();
+
+  const handleLoginSocial = async (email: string, fullName: string, gid: string, avatar: string, provider: "google" | "facebook") => {
+    try {
+      setLoading(true);
+      const response = await loginSocial({ email, fullName, id: `${gid}`, avatar, provider });
+      const { user, token } = response;
+      dispatch(setDataUser({ userData: user }));
+      dispatch(setToken({ token }));
+      router.replace("/");
+    } catch (error: any) {
+      toast('Login failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleRegister = async () => {
     try {
-      const response = await register({
-        email,
-        username: firstName,
-        displayName,
-      });
-      if (response.success === true) {
-        toast('Success');
-      }
+      await axios.post(
+        `https://drizy-api.quadrakaryasantosa.com/auth/user/register`,
+        {
+          email,
+          username: firstName,
+          displayName,
+        }
+      );
       setFirstName('');
       setLastName('');
       setEmail('');
       setDisplayName('');
+      toast('Please check your email to set the password!');
     } catch (error) {
       toast('Email already registered');
     }
   };
 
+  useEffect(() => {
+    dispatch(setOpenModal(false));
+  }, [])
+
+
+  useEffect(() => {
+    if (googleUser.access_token !== undefined) {
+      axios
+        .get(
+          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${googleUser.access_token}`,
+          {
+            headers: {
+              Authorization: `Bearer ${googleUser.access_token}`,
+              Accept: 'application/json',
+            },
+          }
+        )
+        .then((res) => {
+          handleLoginSocial(res.data.email, res.data.name, res.data.id, res.data.picture, "google");
+        })
+        .catch(() => toast('Google analytics error'));
+    }
+  }, [googleUser]);
+
   return (
-    <main>
-      <section className='flex flex-col gap-12 bg-[#E5F6FB] p-8 lg:flex-row lg:gap-0 lg:bg-white lg:p-20'>
-        <div className='flex basis-5/12 flex-col-reverse gap-12 pr-16 lg:flex-col'>
-          <div className='flex flex-col gap-12'>
-            <p className='text-3xl font-semibold'>Sign Up</p>
-            <p>
-              Your personal data will be used to enhance your website
-              experience, manage account access, and fulfill other purposes
-              outlined in our{' '}
-              <strong className='font-katide-semibold'>
-                <Link href='/privacy'>privacy policy.</Link>
-              </strong>
-            </p>
+    <GoogleOAuthProvider clientId='660205853013-i0r4emab9r16stvggpb9gu24gmd0mgqr.apps.googleusercontent.com' >
+      <main>
+        <section className='flex flex-col gap-12 bg-[#E5F6FB] p-8 lg:flex-row lg:gap-0 lg:bg-white lg:p-20'>
+          <div className='flex basis-5/12 flex-col-reverse gap-12 pr-16 lg:flex-col'>
+            <div className='flex flex-col gap-12'>
+              <p className='text-3xl font-semibold'>Sign Up</p>
+              <p>
+                Your personal data will be used to enhance your website
+                experience, manage account access, and fulfill other purposes
+                outlined in our{' '}
+                <strong className='font-katide-semibold'>
+                  <Link href='/privacy'>privacy policy.</Link>
+                </strong>
+              </p>
+            </div>
+            <LoginLottie />
           </div>
-          <LoginLottie />
-        </div>
-        <div className='basis-7/12 rounded-xl bg-[#E5F6FB] lg:p-8 lg:shadow-lg '>
-          <div className='grid grid-cols-1 gap-4 lg:grid-cols-2'>
-            <div className='flex w-full flex-col'>
-              <label className='pl-4 text-[#1A214C]'>
-                First Name <span className='text-red-500'>*</span>
-              </label>
-              <input
-                type='text'
-                className='border-grey-700 my-2 w-full rounded-full border p-4'
-                placeholder='Name'
-                required
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-              ></input>
-            </div>
-            <div className='flex w-full flex-col'>
-              <label className='pl-4 text-[#1A214C]'>
-                Last Name <span className='text-red-500'>*</span>
-              </label>
-              <input
-                type='text'
-                className='border-grey-700 my-2 w-full rounded-full border p-4'
-                placeholder='Names'
-                required
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-              ></input>
-            </div>
-            <div className='flex w-full flex-col'>
-              <label className='pl-4 text-[#1A214C]'>
-                Display Name <span className='text-red-500'>*</span>
-              </label>
-              <input
-                type='text'
-                className='border-grey-700 my-2 w-full rounded-full border p-4'
-                placeholder='Display Name'
-                required
-                value={displayName}
-                onChange={(e) => setDisplayName(e.target.value)}
-              ></input>
-            </div>
-            <div className='flex w-full flex-col'>
-              <div className='flex flex-col'>
+          <div className='basis-7/12 rounded-xl bg-[#E5F6FB] lg:p-8 lg:shadow-lg '>
+            <div className='grid grid-cols-1 gap-4 lg:grid-cols-2'>
+              <div className='flex w-full flex-col'>
                 <label className='pl-4 text-[#1A214C]'>
-                  Email address <span className='text-red-500'>*</span>
+                  First Name <span className='text-red-500'>*</span>
                 </label>
                 <input
                   type='text'
                   className='border-grey-700 my-2 w-full rounded-full border p-4'
-                  placeholder='Name@gmail.com'
+                  placeholder='Name'
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                 ></input>
               </div>
+              <div className='flex w-full flex-col'>
+                <label className='pl-4 text-[#1A214C]'>
+                  Last Name <span className='text-red-500'>*</span>
+                </label>
+                <input
+                  type='text'
+                  className='border-grey-700 my-2 w-full rounded-full border p-4'
+                  placeholder='Names'
+                  required
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                ></input>
+              </div>
+              <div className='flex w-full flex-col'>
+                <label className='pl-4 text-[#1A214C]'>
+                  Display Name <span className='text-red-500'>*</span>
+                </label>
+                <input
+                  type='text'
+                  className='border-grey-700 my-2 w-full rounded-full border p-4'
+                  placeholder='Display Name'
+                  required
+                  value={displayName}
+                  onChange={(e) => setDisplayName(e.target.value)}
+                ></input>
+              </div>
+              <div className='flex w-full flex-col'>
+                <div className='flex flex-col'>
+                  <label className='pl-4 text-[#1A214C]'>
+                    Email address <span className='text-red-500'>*</span>
+                  </label>
+                  <input
+                    type='text'
+                    className='border-grey-700 my-2 w-full rounded-full border p-4'
+                    placeholder='Name@gmail.com'
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  ></input>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div className='mt-8 flex w-full justify-center'>
-            <button
-              onClick={handleRegister}
-              className='rounded-full bg-[#008ECC] px-20 py-3 font-semibold text-[#e4f6fb]'
-            >
-              Sign Up
-            </button>
-          </div>
-          <div className='col-span-2 col-start-2 row-span-1 w-full'>
-            <div className='flex justify-center'>
-              <p className='rounded-full px-20 py-3 font-semibold text-[#1A214C]'>
-                Or
-              </p>
+            <div className='mt-8 flex w-full justify-center'>
+              <button
+                onClick={handleRegister}
+                className='rounded-full bg-[#008ECC] px-20 py-3 font-semibold text-[#e4f6fb]'
+              >
+                {loading ? <Loader color='#fff' /> : 'Sign Up'}
+              </button>
+            </div>
+            <div className='col-span-2 col-start-2 row-span-1 w-full'>
+              <div className='flex justify-center'>
+                <p className='rounded-full px-20 py-3 font-semibold text-[#1A214C]'>
+                  Or
+                </p>
+              </div>
+            </div>
+            <div className='flex flex-col justify-center lg:flex-row lg:gap-8'>
+              <GoogleLoginButton onSuccess={(data) => setUser(data)} />
+              <FacebookLogin
+                appId="3917524378531645"
+                onProfileSuccess={(res) => {
+                  handleLoginSocial(res.email!, res.name!, res.id!, res.picture!.data.url, "facebook");
+                }}
+                onFail={(res) => {
+                  toast.error(res.status);
+                }}
+                render={({ onClick }) => {
+                  return (
+                    <button onClick={onClick} className='mt-2 flex items-center gap-4 rounded-full border-2 border-[#4065D1] px-6 py-2 font-semibold text-[#4065D1]'>
+                      <FaFacebookF style={{ color: '#4065D1' }} />
+                      <p>Login with Facebook</p>
+                    </button>
+                  )
+                }}
+              />
+            </div>
+            <div className='mt-4 flex items-center justify-center gap-2'>
+              <p>Already have an account?</p>
+              <button onClick={() => { dispatch(setOpenModal(true)); }} className='flex items-center gap-4 rounded-full border-2 border-[#4065D1] px-6 py-2 font-semibold text-[#4065D1]'>
+                <p>Sign in</p>
+              </button>
             </div>
           </div>
-          <div className='flex flex-col justify-center lg:flex-row lg:gap-8'>
-            <button className='mt-2 flex items-center gap-4 rounded-full border-2 border-[#1A214C] px-6 py-2 font-semibold text-[#1A214C]'>
-              <FcGoogle />
-              <p>Login with Facebook</p>
-            </button>
-            <button className='mt-2 flex items-center gap-4 rounded-full border-2 border-[#4065D1] px-6 py-2 font-semibold text-[#4065D1]'>
-              <FaFacebookF style={{ color: '#4065D1' }} />
-              <p>Login with Facebook</p>
-            </button>
-          </div>
-          <div className='mt-4 flex items-center justify-center gap-2'>
-            <p>Already have an account?</p>
-            <button className='flex items-center gap-4 rounded-full border-2 border-[#4065D1] px-6 py-2 font-semibold text-[#4065D1]'>
-              <p>Sign in</p>
-            </button>
-          </div>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+    </GoogleOAuthProvider>
   );
 }

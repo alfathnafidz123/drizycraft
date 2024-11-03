@@ -15,6 +15,7 @@ import Project from '@/components/Project';
 
 import { getAllCrafter } from '@/app/api/product/getCrafter';
 import { likeCrafter } from '@/app/api/product/likeCrafter';
+import { GetCarfterResI } from '@/interfaces/crafter.interfaces';
 
 import {
   projectImage,
@@ -26,7 +27,7 @@ import {
 
 export default function Register() {
   const { token } = useAppSelector((state) => state.user);
-  const [crafterData, setCrafterData] = useState([]);
+  const [crafterData, setCrafterData] = useState<GetCarfterResI>();
   const [isPopUpShow, setIsPopUpShow] = useState(false);
   const [isUploadSuccessShow, setIsUploadSuccessShow] = useState(false);
   const [isProjectDetailShow, setIsProjectDetailShow] = useState(false);
@@ -35,7 +36,7 @@ export default function Register() {
   const getCrafter = async () => {
     try {
       const response = await getAllCrafter({ page: 1, limit: 10 });
-      setCrafterData(response.data);
+      setCrafterData(response);
     } catch (error) {
       toast('Error when trying to get crafter');
     }
@@ -59,11 +60,11 @@ export default function Register() {
         onClose={() => setIsPopUpShow(false)}
         onSuccess={() => setIsUploadSuccessShow(true)}
       />
-      {crafterData && (
+      {(crafterData && isProjectDetailShow) && (
         <ModalProjectDetail
           isOpen={isProjectDetailShow}
           onClose={() => setIsProjectDetailShow(false)}
-          data={crafterData[selectedIndex]}
+          data={crafterData.data[selectedIndex]}
           onLike={likeCrafterPost}
         />
       )}
@@ -128,7 +129,7 @@ export default function Register() {
           </div>
         </div>
 
-        {crafterData?.map((data, index) => {
+        {crafterData && crafterData?.data.map((data, index) => {
           return (
             <Project
               key={index}

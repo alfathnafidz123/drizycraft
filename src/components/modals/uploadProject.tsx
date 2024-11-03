@@ -1,10 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 // components/Modal.tsx
 
-import React from 'react';
+import { SortType } from '@/app/api/product/getProduct';
+import { useAppSelector } from '@/lib/store';
+import axios from 'axios';
+import React, { useState } from 'react';
 import { FaPlusSquare } from 'react-icons/fa';
 import { IoCloseCircleOutline } from 'react-icons/io5';
-import { IoSearch } from 'react-icons/io5';
+import { SingleValue } from 'react-select';
+import Select from 'react-select/async';
+import { toast } from 'react-toastify';
 
 interface ModalProps {
   isOpen: boolean;
@@ -17,6 +22,13 @@ const ModalUploadProject: React.FC<ModalProps> = ({
   onClose,
   onSuccess,
 }) => {
+  const { token } = useAppSelector(state => state.user);
+  const [image, setImage] = useState<FileList>();
+  const [products, setProducts] = useState<SingleValue<{
+    label: string;
+    value: string;
+  }>[]>([]);
+  const [description, setDescription] = useState('');
   const closeModal = () => {
     onClose && onClose();
   };
@@ -24,6 +36,67 @@ const ModalUploadProject: React.FC<ModalProps> = ({
     onSuccess && onSuccess();
   };
 
+  const getProducts = async (search: string) => {
+    try {
+      // if (search.includes('#')) {
+
+      // } else {
+      const res = await axios.get('https://drizy-api.quadrakaryasantosa.com/crafter/product', {
+        params: {
+          page: 1,
+          limit: 10,
+          search,
+          sortType: SortType.Latest
+        }
+      });
+      return res.data.data.map((item: any) => ({
+        value: item.id,
+        label: item.name,
+      }));
+      // }
+    } catch (error) {
+      return [];
+    }
+  }
+
+  const loadOptions = (inputValue: string) =>
+    new Promise<{ label: string, value: string }[]>((resolve) => {
+      resolve(getProducts(inputValue));
+    });
+
+  const handleSubmit = async () => {
+    try {
+      const bodyFormData = new FormData();
+      bodyFormData.append("file", image![0]);
+      bodyFormData.append("type", "OTHER_URL");
+      const response = await fetch(
+        `https://drizy-media.quadrakaryasantosa.com/image`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "*/*",
+            Authorization: `Bearer ${token}`,
+          },
+          body: bodyFormData,
+        },
+      );
+      const imgResponse = await response.json();
+      const imageUrl = imgResponse.data.filename;
+
+      await axios.post('https://drizy-api.quadrakaryasantosa.com/crafter/crafter',
+        {
+          "description": description,
+          "imageUrl": imageUrl,
+          "productIds": products.map(item => item?.value)
+        },
+        { headers: { "Authorization": `Bearer ${token}` } }
+      )
+      onClose();
+      successUpload();
+    } catch (error) {
+      toast.error('Upload Project Failed')
+    }
+  }
   return (
     <div>
       {/* Modal overlay */}
@@ -49,19 +122,23 @@ const ModalUploadProject: React.FC<ModalProps> = ({
             </div>
             <div className='flex flex-col gap-8 p-2 lg:flex-row lg:p-8'>
               <div className='flex w-full flex-col items-end justify-center gap-4'>
-                <div className='flex h-[200px] w-full items-center justify-center rounded-xl bg-gray-100 p-4 lg:h-[400px] lg:w-[600px]'>
-                  <div className='flex h-full w-full flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed border-gray-400 border-opacity-25 px-8'>
-                    <FaPlusSquare className='text-gray-300' size={70} />
-                    <p className='text-sm text-gray-300'>
-                      Upload Image Project Result
-                    </p>
-                  </div>
-                </div>
+                {image ?
+                  <label htmlFor='chooseImage' className='flex h-[200px] w-full items-center justify-center rounded-xl bg-gray-100 p-4 lg:h-[400px] lg:w-[600px]'>
+                    <img alt='project image' src={URL.createObjectURL(image[0])} className='w-full h-full object-cover' />
+                  </label>
+                  :
+                  <label htmlFor='chooseImage' className='flex h-[200px] w-full items-center justify-center rounded-xl bg-gray-100 p-4 lg:h-[400px] lg:w-[600px]'>
+                    <div className='flex h-full w-full flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed border-gray-400 border-opacity-25 px-8'>
+                      <FaPlusSquare className='text-gray-300' size={70} />
+                      <p className='text-sm text-gray-300'>
+                        Upload Image Project Result
+                      </p>
+                    </div>
+                  </label>
+                }
+                <input type='file' className='hidden' id='chooseImage' accept='image/*' onChange={(e) => { if (e.target.files) setImage(e.target.files) }} />
                 <button
-                  onClick={() => {
-                    onClose();
-                    successUpload();
-                  }}
+                  onClick={handleSubmit}
                   className='flex max-w-[100px] items-center gap-2 rounded-full bg-[#61A9FA] px-6 py-3 font-semibold text-white max-md:hidden'
                 >
                   Upload
@@ -73,6 +150,8 @@ const ModalUploadProject: React.FC<ModalProps> = ({
                     Description
                   </label>
                   <textarea
+                    onChange={(e) => setDescription(e.target.value)}
+                    value={description}
                     className='my-2 h-[150px] w-full rounded-lg border border-gray-300 bg-gray-100 p-4 placeholder:text-gray-300 lg:w-[350px]'
                     placeholder='Add description here'
                     required
@@ -82,52 +161,19 @@ const ModalUploadProject: React.FC<ModalProps> = ({
                   <label className='pl-4 font-semibold text-[#1A214C]'>
                     Search product 1
                   </label>
-                  <div className='relative'>
-                    <input
-                      type='text'
-                      className='pl-18 my-2 w-full rounded-full border border-gray-300 bg-gray-100 pl-16 placeholder:text-gray-300 lg:w-[300px]'
-                      placeholder='Search Product'
-                      required
-                    ></input>
-                    <div className='absolute left-4 top-0 flex h-full items-center gap-2 text-gray-300'>
-                      <IoSearch size={25} />
-                      <div className='h-1/3 w-[2px] bg-gray-300'></div>
-                    </div>
-                  </div>
+                  <Select cacheOptions loadOptions={loadOptions} defaultOptions onChange={(e) => setProducts(prev => [...prev, e])} />
                 </div>
                 <div className='flex flex-col'>
                   <label className='pl-4 font-semibold text-[#1A214C]'>
                     Search product 2
                   </label>
-                  <div className='relative'>
-                    <input
-                      type='text'
-                      className='pl-18 my-2 w-full rounded-full border border-gray-300 bg-gray-100 pl-16 placeholder:text-gray-300 lg:w-[300px]'
-                      placeholder='Search Product'
-                      required
-                    ></input>
-                    <div className='absolute left-4 top-0 flex h-full items-center gap-2 text-gray-300'>
-                      <IoSearch size={25} />
-                      <div className='h-1/3 w-[2px] bg-gray-300'></div>
-                    </div>
-                  </div>
+                  <Select cacheOptions loadOptions={loadOptions} defaultOptions onChange={(e) => setProducts(prev => [...prev, e])} />
                 </div>
                 <div className='flex flex-col'>
                   <label className='pl-4 font-semibold text-[#1A214C]'>
                     Search product 3
                   </label>
-                  <div className='relative'>
-                    <input
-                      type='text'
-                      className='pl-18 my-2 w-full rounded-full border border-gray-300 bg-gray-100 pl-16 placeholder:text-gray-300 lg:w-[300px]'
-                      placeholder='Search Product'
-                      required
-                    ></input>
-                    <div className='absolute left-4 top-0 flex h-full items-center gap-2 text-gray-300'>
-                      <IoSearch size={25} />
-                      <div className='h-1/3 w-[2px] bg-gray-300'></div>
-                    </div>
-                  </div>
+                  <Select cacheOptions loadOptions={loadOptions} defaultOptions onChange={(e) => setProducts(prev => [...prev, e])} />
                 </div>
                 <p className='font-katide-light text-[#61A9FA]'>
                   *max 3 Product
@@ -136,10 +182,7 @@ const ModalUploadProject: React.FC<ModalProps> = ({
             </div>
             <div className='mb-5 flex w-full px-2 lg:hidden'>
               <button
-                onClick={() => {
-                  onClose();
-                  successUpload();
-                }}
+                onClick={handleSubmit}
                 className='flex w-full items-center justify-center gap-2 rounded-full bg-[#61A9FA] px-6 py-3 font-semibold text-white'
               >
                 Upload

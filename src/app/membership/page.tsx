@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 import Image from 'next/image';
-import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { useAppSelector } from '@/lib/store';
@@ -33,76 +32,77 @@ import {
 } from '~/images';
 
 export default function Membership() {
-  const [selectedPlan, setSelectedPlan] = useState(0);
   const { token } = useAppSelector((state) => state.user);
   const subscriptionPlans = [
     {
       duration: '1 Day',
-      buttonText: 'TRY NOW',
+      buttonText: 'START FREE !',
       price: 'Free Trial',
+      discount: undefined,
+      extra: undefined,
+      text: "Get started on Drizy VIP+ risk free with a free trial. Download 5 premium products for free. Billed $4.99/month after trial ends. Cancel anytime.",
+      coin: <p className='text-sm'>
+        <span className='font-katide-semibold'>5 Drizy Coins</span> for a day
+      </p>,
       features: [
-        'Personal License',
-        '5 Drizy Coins for a day',
-        'New SVG Every Day',
+        { title: 'Daily SVG Updates', desc: 'always something new to explore' },
+        { title: 'Breezy Mode', desc: 'seamless creations with drag & drop' },
+        { title: 'Machine Compatibility', desc: 'works seamlessly with cutting, laser, and sublimation devices' },
       ],
       exclude: [
-        'Be the first to know about new features and surprises',
-        'Receive VIP treatment with fast, dedicated support',
-        'Access to Projects from Crafters',
-        '10% off every purchase',
-        'Recive a free Exclusive Seasonal bundle once',
+        { title: 'Custom Designs on Request', desc: 'chat with our team for unique creations' },
+        { title: 'Full License Coverage', desc: 'includes commercial and POD licensing' },
+        { title: 'Business Assistance', desc: 'tools and support to elevate your project' },
+        { title: 'Premium Support', desc: 'priority access to our dedicated artist team' },
       ],
-      priceId: 'price_1PFrgOGNsowyAud71NGolxlL',
+      priceId: 'price_1QFIvHQinl9UJNy4A7OlQ2V5',
     },
     {
-      duration: '1 Month',
-      buttonText: 'SUBSCRIBE',
-      price: '$9.49/month',
+      duration: 'MONTHLY ACCESS',
+      buttonText: 'GO UNLIMITED !',
+      price: '$3.99/mo',
+      discount: '$9.99',
+      extra: undefined,
+      text: "Get unlimited access to all premium assets. Unleash boundless crafting joy, as effortless as drag-and-drop onto your beloved cutting, laser & sublimation machines. Commercial and POD license included. <br /><br />Billed $4.99/month after trial ends. Cancel anytime.",
+      coin: <p className='text-sm'>
+        <span className='font-katide-semibold'>50 Drizy Coins</span> to all premium products
+      </p>,
       features: [
-        'Personal License',
-        '10 Drizy Coins for a month',
-        'New SVG Every Day',
-        'Be the first to know about new features and surprises',
-        'Receive VIP treatment with fast, dedicated support',
-        'Access to Projects from Crafters',
-        '10% off every purchase',
+        { title: 'Daily SVG Updates', desc: 'always something new to explore' },
+        { title: 'Breezy Mode', desc: 'seamless creations with drag & drop' },
+        { title: 'Machine Compatibility', desc: 'works seamlessly with cutting, laser, and sublimation devices' },
+        { title: 'Custom Designs on Request', desc: 'chat with our team for unique creations' },
+        { title: 'Full License Coverage', desc: 'includes commercial and POD licensing' },
       ],
-      exclude: ['Recive a free Exclusive Seasonal bundle once'],
-      priceId: 'price_1PF9jAGNsowyAud7Z9wea3bZ',
+      exclude: [
+        { title: 'Business Assistance', desc: 'tools and support to elevate your project' },
+        { title: 'Premium Support', desc: 'priority access to our dedicated artist team' },
+      ],
+      priceId: 'price_1QFhEmQinl9UJNy4k26MqmEz',
     },
     {
-      duration: '3 Months',
-      buttonText: 'SUBSCRIBE',
-      price: '$24.49/3 months',
+      duration: 'ANNUAL ACCESS',
+      buttonText: 'GET YEARLY !',
+      price: '$2.99/mo',
+      discount: '$199.88',
+      extra: '($35.88/year)',
+      text: "Crafting your Way! Unlock a year of premium features at the lowest price. Save more. <br/><br/>Billed $35.88/year after trial ends. Cancel anytime.",
+      coin: <p className='text-sm'>
+        <span className='font-katide-semibold'>Unlimited Drizy Coins</span> for
+        Diverse Crafting Options
+      </p>,
       features: [
-        'Personal License',
-        '100 Drizy Coins for 3 months to spend on our exclusive products',
-        'New SVG Every Day',
-        'Be the first to know about new features and surprises',
-        'Receive VIP treatment with fast, dedicated support',
-        'Access to Projects from Crafters',
-        '20% off every purchase',
-        'Recive a free Exclusive Seasonal bundle once',
+        { title: 'Unlimited Premium Products', desc: 'access every asset, all year long' },
+        { title: 'Daily SVG Updates', desc: 'always something new to explore' },
+        { title: 'Breezy Mode', desc: 'seamless creations with drag & drop' },
+        { title: 'Machine Compatibility', desc: 'works seamlessly with cutting, laser, and sublimation devices' },
+        { title: 'Custom Designs on Request', desc: 'chat with our team for unique creations' },
+        { title: 'Full License Coverage', desc: 'includes commercial and POD licensing' },
+        { title: 'Business Assistance', desc: 'tools and support to elevate your project' },
+        { title: 'Premium Support', desc: 'priority access to our dedicated artist team' },
       ],
       exclude: [],
-      priceId: 'price_1PF9jQGNsowyAud7yoSqaeJn',
-    },
-    {
-      duration: '1 Year',
-      buttonText: 'SUBSCRIBE',
-      price: '$99.49/year',
-      features: [
-        'Personal License',
-        'Unlimited Drizy Coins to spend on our exclusive products (max. 100 coins per month)',
-        'New SVG Every Day',
-        'Be the first to know about new features and surprises',
-        'Receive VIP treatment with fast, dedicated support',
-        'Access to Projects from Crafters',
-        '20% off every purchase',
-        'Recive a free Exclusive Seasonal bundle once',
-      ],
-      exclude: [],
-      priceId: 'price_1PFrepGNsowyAud7x3FESmnr',
+      priceId: 'price_1QFhGQQinl9UJNy4fUw2mFRY',
     },
   ];
 
@@ -151,7 +151,7 @@ export default function Membership() {
                 height={60}
               />
               <div className='flex flex-col gap-4'>
-                <p className='font-katide-bold text-[24px] text-[#4065D1]'>
+                <p className='font-katide-bold text-2xl text-[#4065D1]'>
                   No conditions
                 </p>
                 <p className='text-[#1A214C] lg:pr-16'>
@@ -168,7 +168,7 @@ export default function Membership() {
                 height={60}
               />
               <div className='flex flex-col gap-4'>
-                <p className='font-katide-bold text-[24px] text-[#4065D1]'>
+                <p className='font-katide-bold text-2xl text-[#4065D1]'>
                   No commitments
                 </p>
                 <p className='text-[#1A214C] lg:pr-16'>
@@ -185,7 +185,7 @@ export default function Membership() {
                 height={60}
               />
               <div className='flex flex-col gap-4'>
-                <p className='font-katide-bold text-[24px] text-[#4065D1]'>
+                <p className='font-katide-bold text-2xl text-[#4065D1]'>
                   No hidden fees
                 </p>
                 <p className='text-[#1A214C] lg:pr-16'>
@@ -202,7 +202,7 @@ export default function Membership() {
                 height={60}
               />
               <div className='flex flex-col gap-4'>
-                <p className='font-katide-bold text-[24px] text-[#4065D1]'>
+                <p className='font-katide-bold text-2xl text-[#4065D1]'>
                   Cancel anytime
                 </p>
                 <p className='text-[#1A214C] lg:pr-16'>
@@ -215,80 +215,40 @@ export default function Membership() {
 
           <div className='relative flex flex-col flex-wrap items-center justify-center rounded-lg border border-[#1A214C] p-2 lg:p-12 mt-24'>
             <div className='absolute -top-3 left-0 flex w-full justify-center'>
-              <p className='bg-[#EBECF5] px-4 text-[24px] tracking-[0.12em]'>
-                SELECT LICENSE
+              <p className='bg-[#EBECF5] px-4 text-base lg:text-2xl tracking-[0.12em]'>
+                CHOOSE YOUR CREATIVE POWER
               </p>
             </div>
-            <div className='relative mt-4 flex h-[66px] items-center justify-center gap-8 rounded-full border-2 border-white bg-[#4065D1] px-6 shadow-lg lg:mt-0 lg:px-12'>
-              <p
-                onClick={() => {
-                  setSelectedPlan(0);
-                }}
-                className={`${selectedPlan === 0
-                  ? 'absolute -top-1 left-0 flex h-[70px] items-center rounded-full border-8 border-[#FFBB3C] bg-[#1A214C] px-6 align-middle text-[24px] text-white'
-                  : 'align-middle text-[24px] text-white'
-                  } font-katide-bold`}
-              >
-                Personal use
-              </p>
-              <p
-                onClick={() => {
-                  setSelectedPlan(1);
-                }}
-                className={`${selectedPlan === 1
-                  ? 'absolute -top-1 right-0 flex h-[70px] items-center rounded-full border-8 border-[#FFBB3C] bg-[#1A214C] px-6 align-middle text-[24px] text-white'
-                  : 'align-middle text-[24px] text-white'
-                  } font-katide-bold`}
-              >
-                Commercial
-              </p>
-              {selectedPlan === 1 && (
-                <p
-                  className='font-katide-bold align-middle text-[24px] text-white'
-                  onClick={() => {
-                    setSelectedPlan(0);
-                  }}
-                >
-                  Personal use
-                </p>
-              )}
-              {selectedPlan === 0 && (
-                <p
-                  className='font-katide-bold align-middle text-[24px] text-white'
-                  onClick={() => {
-                    setSelectedPlan(1);
-                  }}
-                >
-                  Commercial
-                </p>
-              )}
-            </div>
-            <p className='py-8 text-center tracking-[0.12em] text-[#1A214C]'>
-              Subscribe Now and Enjoy up to{' '}
-              <span className='font-semibold'>68% OFF</span>
+            <p className='pb-10 pt-6 lg:pt-2 text-center tracking-[0.12em] text-[#1A214C]'>
+              Start small, go unlimited, or unlock it all.
             </p>
 
-            <div className='flex w-full flex-col lg:flex-row gap-4'>
+            <div className='flex w-full flex-col justify-center lg:flex-row gap-4 lg:gap-16 max-lg:px-8'>
               {subscriptionPlans.map((plan, index) => (
                 <div
                   key={index}
-                  className='rounded-2xl bg-white shadow-lg max-md:min-w-[350px] max-md:min-h-[600px] lg:w-1/4 relative'
+                  className='rounded-2xl bg-white shadow-lg max-md:min-h-[950px] lg:!min-h-[850px] lg:w-1/4 relative group border-2 border-white hover:border-[#EE4C73] transition-all'
                 >
-                  {plan.duration === "1 Year" &&
+                  {plan.duration === "ANNUAL ACCESS" &&
                     <div className='bg-[#EE4C73] w-full h-36 absolute top-0 left-0 rounded-t-2xl' />
                   }
-                  {plan.duration === "1 Year" &&
+                  {plan.duration === "0" &&
+                    <div className='bg-[#61A9FA] w-full h-36 absolute top-0 left-0 rounded-t-2xl' />
+                  }
+                  {plan.duration === "ANNUAL ACCESS" &&
                     <img src={bestValue.src} alt='best value' className='absolute -top-10 -right-10 z-20' />
                   }
-                  <div className={`flex flex-col rounded-2xl p-2 lg:p-6 z-10 w-full ${plan.duration === "1 Year" && "absolute bg-transparent"}`}>
-                    <div className='flex flex-col items-center gap-4 rounded-2xl border border-[#DDDDDD] bg-[#F8F8FA] pt-4'>
-                      <p className='w-1/2 rounded-xl bg-[#1A214C] py-2 text-center text-white'>
+                  <div className={`flex flex-col rounded-2xl p-2 lg:p-6 z-10 w-full ${plan.duration === "ANNUAL ACCESS" ? "absolute bg-transparent" : ""}`}>
+                    <div className='flex flex-col items-center gap-4 rounded-2xl border border-[#DDDDDD] bg-[#F8F8FA] pt-4 h-[274px] relative'>
+                      <p className='w-4/5 rounded-xl bg-[#1A214C] py-2 text-center text-white whitespace-nowrap'>
                         {plan.duration}
                       </p>
                       {plan.price === 'Free Trial' ? (
-                        <p className='font-katide-heavy py-[26px] text-[32px]'>
-                          {plan.price}
-                        </p>
+                        <div className='h-[128px] flex items-center uppercase'>
+                          <p className='font-katide-heavy py-[26px] text-[32px]'>
+                            {plan.price}
+                          </p>
+                        </div>
                       ) : (
                         <div className='rounded-[20px] bg-[#EBECF5] p-3.5'>
                           <div className='flex flex-row items-center gap-1'>
@@ -304,42 +264,57 @@ export default function Membership() {
                               </p>
                             </div>
                           </div>
+                          {plan.extra && <div className='text-[#1A214C] text-xl font-katide-bold'>{plan.extra}</div>}
+                          <div className='text-center font-katide-semibold text-gray-400 line-through'>{plan.discount}</div>
                         </div>
                       )}
-                      <div className='flex w-full justify-center gap-2 rounded-2xl bg-[#C2E5FF] p-2'>
+                      <div className='absolute bottom-0 left-0 flex w-full items-center gap-6 rounded-2xl bg-[#C2E5FF] p-2 h-14'>
                         <Image
                           src={drizzyCoin.src}
                           alt='coin'
                           width={40}
                           height={40}
+                          className='h-7'
                         />
-                        <p className='text-sm'>
-                          <span className='font-semibold'>5 Drizy Coins</span> for
-                          Diverse Crafting Options
-                        </p>
+                        {plan.coin}
                       </div>
                     </div>
-                    <button
-                      className='font-katide-bold my-4 rounded-xl bg-[#EE4C73] py-6 text-[20px] tracking-[0.12em] text-white shadow-lg'
-                      onClick={() => {
-                        handleSubscribe(plan.priceId, token as string);
-                      }}
-                    >
-                      {plan.buttonText}
-                    </button>
+                    <div className='h-32 flex items-center justify-center text-[#1A214C] text-[10px] leading-tight text-center mt-2' dangerouslySetInnerHTML={{ __html: plan.text }} />
+                    {plan.duration !== "0" ?
+                      <button
+                        className='font-katide-bold my-4 rounded-xl bg-[#EE4C73] py-6 text-[20px] tracking-[0.12em] group-hover:bg-[#FFBB3C] text-white shadow-lg transition-all group-hover:text-[#1A214C] hover:!bg-[#ED9B37]'
+                        onClick={() => {
+                          handleSubscribe(plan.priceId, token as string);
+                        }}
+                      >
+                        {plan.buttonText}
+                      </button>
+                      :
+                      <button
+                        className='font-katide-bold my-4 rounded-xl bg-[#4065D1] py-6 text-[20px] tracking-[0.12em] text-white shadow-lg transition-all hover:!bg-[#2A3B80]'
+                        onClick={() => {
+                          handleSubscribe(plan.priceId, token as string);
+                        }}
+                      >
+                        {plan.buttonText}
+                      </button>
+                    }
                     <div className='flex flex-col gap-3.5'>
                       <p className='font-katide-bold text-xs text-[#1A214C]'>
                         This includes:
                       </p>
                       {plan.features.map((feature, idx) => (
-                        <div key={idx} className='flex gap-3'>
+                        <div key={idx} className='flex items-center gap-3'>
                           <Image
                             src={checkblue.src}
                             alt='check'
                             width={15}
                             height={15}
                           />
-                          <p className='text-xs text-[#1A214C]'>{feature}</p>
+                          <div>
+                            <p className='text-xs font-katide-bold text-[#1A214C]'>{feature.title}</p>
+                            <p className='text-xs font-katide-light text-[#1A214C]'>{feature.desc}</p>
+                          </div>
                         </div>
                       ))}
                       {plan.exclude.map((feature, idx) => (
@@ -350,11 +325,19 @@ export default function Membership() {
                             width={15}
                             height={15}
                           />
-                          <p className='text-xs text-[#AAAAAA]'>{feature}</p>
+                          <div>
+                            <p className='text-xs font-katide-bold text-[#AAAAAA]'>{feature.title}</p>
+                            <p className='text-xs font-katide-light text-[#AAAAAA]'>{feature.desc}</p>
+                          </div>
                         </div>
                       ))}
                     </div>
                   </div>
+                  {plan.duration === "0" &&
+                    <p className='bg-[#F8F8FA] w-full absolute bottom-0 left-0 rounded-2xl text-[#1A214C] text-xs text-center p-8 leading-[24px]'>
+                      Take your business to the next level with the <span className='font-bold'>Reseller Pro Plan</span>. Join now and boost your online store’s offerings and profitability. Consult now!
+                    </p>
+                  }
                 </div>
               ))}
             </div>

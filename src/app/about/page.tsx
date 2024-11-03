@@ -8,6 +8,10 @@ import { FaFacebookF } from 'react-icons/fa';
 import { FaPinterest } from 'react-icons/fa';
 import { FaInstagram } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
+const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
+
+import localFont from 'next/font/local';
+import Link from 'next/link';
 
 import Button from '@/components/buttons/Button';
 
@@ -33,11 +37,21 @@ export default function Register() {
           <div className='flex h-full items-center gap-6 text-[#AAAAAA] flex-col'>
             <div className='h-32 w-[2px] flex-grow bg-[#AAAAAA]' />
             <FaBehance className='h-10 w-10 max-md:h-5 max-md:w-5' />
-            <FaFacebookF className='h-10 w-10 max-md:h-5 max-md:w-5' />
-            <FaPinterest className='h-10 w-10 max-md:h-5 max-md:w-5' />
-            <FaInstagram className='h-10 w-10 max-md:h-5 max-md:w-5' />
-            <CiYoutube className='h-10 w-10 max-md:h-5 max-md:w-5' />
-            <FaXTwitter className='h-10 w-10 max-md:h-5 max-md:w-5' />
+            <Link href="https://www.facebook.com/DrizyStudio" target='_blank'>
+              <FaFacebookF className='h-10 w-10 max-md:h-5 max-md:w-5' />
+            </Link>
+            <Link href="https://id.pinterest.com/Drizy_Studio/" target='_blank'>
+              <FaPinterest className='h-10 w-10 max-md:h-5 max-md:w-5' />
+            </Link>
+            <Link href="https://www.instagram.com/drizy_craft/" target='_blank'>
+              <FaInstagram className='h-10 w-10 max-md:h-5 max-md:w-5' />
+            </Link>
+            <Link href="" target='_blank'>
+              <CiYoutube className='h-10 w-10 max-md:h-5 max-md:w-5' />
+            </Link>
+            <Link href="" target='_blank'>
+              <FaXTwitter className='h-10 w-10 max-md:h-5 max-md:w-5' />
+            </Link>
             <div className='h-32 w-[2px] flex-grow bg-[#AAAAAA]' />
           </div>
           <div className='flex-col lg:flex-row flex gap-4 lg:gap-24'>
@@ -87,7 +101,7 @@ export default function Register() {
             <div className='mt-16 flex flex-col gap-4 lg:flex-row'>
               <div className='z-20 h-6 w-6 flex-shrink-0 rounded-full border-[6px] border-[#4065D1] bg-white' />
               <div className='ml-5 lg:ml-0'>
-                <p className='mb-4 text-[32pt] leading-10 font-semibold font-hastle'>
+                <p className={`mb-4 text-[32pt] leading-10 font-semibold font-hastle ${myFont.className}`}>
                   Font <br /> Design
                 </p>
                 <p className='text-[20pt]'>2016</p>
@@ -109,16 +123,16 @@ export default function Register() {
                 </p>
                 <p className='mb-8'>Featured on:</p>
                 <Image src={samsung} width={312} height={48} alt='Samsung' />
-                <button className='mt-12 flex w-2/3 justify-center rounded-full border-none bg-[#1A214C] px-8 py-4 font-semibold'>
+                <Link href="https://drizyfont.com/" target='_blank' className='mt-12 flex w-2/3 justify-center rounded-full border-none bg-[#1A214C] px-8 py-4 font-semibold'>
                   <p className='text-lg'>Explore our fonts here</p>
-                </button>
+                </Link>
               </div>
             </div>
 
             <div className='mt-36 flex flex-col justify-between gap-4 lg:flex-row'>
               <div className='z-20 h-6 w-6 flex-shrink-0 rounded-full border-[6px] border-[#4065D1] bg-white' />
               <div className='ml-5 lg:ml-0'>
-                <p className='mb-4 text-[32pt] font-semibold leading-tight font-hastle'>
+                <p className={`mb-4 text-[32pt] font-semibold leading-tight ${myFont.className}`}>
                   Vector Graphic &
                   <br />
                   Illustration
@@ -147,11 +161,11 @@ export default function Register() {
                       className='h-[42px] w-[202px]'
                     />
                   </div>
-                  <button className='mt-12 flex w-2/3 justify-center rounded-full border-none bg-[#1A214C] px-8 py-4 font-semibold'>
+                  <Link href="/catalog-vector" className='mt-12 flex w-2/3 justify-center rounded-full border-none bg-[#1A214C] px-8 py-4 font-semibold'>
                     <p className='font-katide-bold text-base'>
                       Explore our vectors here
                     </p>
-                  </button>
+                  </Link>
                 </div>
               </div>
               <div className='w-full max-md:px-4 lg:ml-16'>
@@ -170,7 +184,7 @@ export default function Register() {
             <div className='absolute  left-[11px] h-[100px] w-[2px] bg-[#AAAAAA]' />
             <div className='z-20 h-6 w-6 flex-shrink-0 rounded-full border-[6px] border-[#4065D1] bg-white' />
             <div className='ml-5 lg:ml-0'>
-              <p className='mb-4 text-[32pt] font-semibold leading-tight'>
+              <p className={`mb-4 text-[32pt] font-semibold leading-tight ${myFont.className}`}>
                 Crafters <br /> Product
               </p>
               <p className='text-[20pt]'>2016</p>
@@ -204,11 +218,11 @@ export default function Register() {
                 height={48}
                 alt='Samsung'
               />
-              <button className='mt-12 flex w-2/3 justify-center rounded-full border-none bg-[#1A214C] px-8 py-4 font-semibold max-md:mx-auto'>
+              <Link href="/catalog-crafter" className='mt-12 flex w-2/3 justify-center rounded-full border-none bg-[#1A214C] px-8 py-4 font-semibold max-md:mx-auto'>
                 <p className='font-katide-bold text-base'>
                   Explore our Crafty heree
                 </p>
-              </button>
+              </Link>
             </div>
           </div>
         </div>

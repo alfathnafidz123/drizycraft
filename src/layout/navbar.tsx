@@ -3,6 +3,7 @@
 'use client';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import axios, { AxiosError } from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -13,12 +14,15 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import { IoPerson } from 'react-icons/io5';
 import { MdArrowOutward } from 'react-icons/md';
 import { MdArrowForwardIos } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
 import { fetchCart } from '@/lib/slices/cart';
-import { setOpenModal } from '@/lib/slices/user';
+import { fetchSubs } from '@/lib/slices/subcription';
+import { fetchProfile, setDataCoin, setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 import useOutsideClick from '@/lib/useOutsideClick';
 
+import Button from '@/components/buttons/Button';
 import ModalLogin from '@/components/modals/login';
 
 import {
@@ -49,6 +53,8 @@ const Navbar: React.FC = () => {
   const router = useRouter();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isCrafterMenuOpen, setCrafterMenuOpen] = useState(false);
+  const [coin, setCoin] = useState(0);
+  const [showTopup, setShowTopup] = useState(false);
   const [showMenu, setShowMenu] = useState<MenuState>({
     crafter: false,
     vector: false,
@@ -99,25 +105,28 @@ const Navbar: React.FC = () => {
   useEffect(() => {
     if (isLogin) {
       dispatch(fetchCart(isLogin));
+      dispatch(fetchProfile(isLogin));
+      dispatch(fetchSubs(isLogin));
+      getCoin();
     }
   }, [isLogin]);
 
-  // const getCarts = async () => {
-  //   try {
-  //     const res = await axios.get(
-  //       'https://drizy-api.quadrakaryasantosa.com/crafter/cart',
-  //       {
-  //         headers: { Authorization: `bearer ${token}` },
-  //         params: { page: 1, limit: 25 },
-  //       }
-  //     );
-  //     setCartData(res.data);
-  //   } catch (error) {
-  //     const err = error as AxiosError;
-  //     const errorData: any = err.response?.data;
-  //     toast.error((errorData.message as string) ?? 'Cannot get cart');
-  //   }
-  // };
+  const getCoin = async () => {
+    try {
+      const res = await axios.get(
+        'https://drizy-api.quadrakaryasantosa.com/billing/coin',
+        {
+          headers: { Authorization: `bearer ${isLogin}` },
+        }
+      );
+      setCoin(res.data.data.coinAmount);
+      dispatch(setDataCoin({ coin: res.data.data.coinAmount }));
+    } catch (error) {
+      const err = error as AxiosError;
+      const errorData: any = err.response?.data;
+      toast.error((errorData.message as string) ?? 'Cannot get cart');
+    }
+  };
 
   const openModalLogin = () => {
     dispatch(setOpenModal(true));
@@ -151,7 +160,7 @@ const Navbar: React.FC = () => {
     router.push('/');
   };
   return (
-    <GoogleOAuthProvider clientId='573180511153-d4i99q167jv717sa0jq8o0enld076gub.apps.googleusercontent.com'>
+    <GoogleOAuthProvider clientId='660205853013-i0r4emab9r16stvggpb9gu24gmd0mgqr.apps.googleusercontent.com'>
       <nav className='sticky top-0 z-30 hidden h-[139px] items-center bg-white shadow-xl lg:flex'>
         <ModalLogin />
         <div className='container mx-auto flex w-[1164px] items-center justify-between'>
@@ -275,7 +284,7 @@ const Navbar: React.FC = () => {
                         <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
                           <div
                             onClick={() => {
-                              router.push('/category/Summer');
+                              router.push('/category/Summer SVG');
                             }}
                             className='group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
@@ -284,7 +293,7 @@ const Navbar: React.FC = () => {
                           </div>
                           <div
                             onClick={() => {
-                              router.push('/category/Fall');
+                              router.push('/category/Fall SVG');
                             }}
                             className='group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
@@ -293,7 +302,7 @@ const Navbar: React.FC = () => {
                           </div>
                           <div
                             onClick={() => {
-                              router.push('/category/Halloween');
+                              router.push('/category/Halloween SVG');
                             }}
                             className='group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
@@ -302,7 +311,7 @@ const Navbar: React.FC = () => {
                           </div>
                           <div
                             onClick={() => {
-                              router.push('/category/Thanksgiving');
+                              router.push('/category/Thanksgiving SVG');
                             }}
                             className='group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
@@ -311,7 +320,7 @@ const Navbar: React.FC = () => {
                           </div>
                           <div
                             onClick={() => {
-                              router.push('/category/Winter');
+                              router.push('/category/Winter SVG');
                             }}
                             className='group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
@@ -323,7 +332,7 @@ const Navbar: React.FC = () => {
                         <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
                           <div
                             onClick={() => {
-                              router.push('/category/Christmas');
+                              router.push('/category/Christmas SVG');
                             }}
                             className='group flex justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
@@ -332,7 +341,7 @@ const Navbar: React.FC = () => {
                           </div>
                           <div
                             onClick={() => {
-                              router.push('/category/Easter');
+                              router.push('/category/Easter SVG');
                             }}
                             className='group flex justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
@@ -341,7 +350,7 @@ const Navbar: React.FC = () => {
                           </div>
                           <div
                             onClick={() => {
-                              router.push('/category/Spring');
+                              router.push('/category/Spring SVG');
                             }}
                             className='group flex justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
@@ -358,7 +367,7 @@ const Navbar: React.FC = () => {
                         <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
                           <div
                             onClick={() => {
-                              router.push('/category/Free SVG');
+                              router.push('/category/Free SVGs');
                             }}
                             className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
@@ -367,7 +376,7 @@ const Navbar: React.FC = () => {
                           </div>
                           <div
                             onClick={() => {
-                              router.push('/category/Shadow Box');
+                              router.push('/category/Shadow Box SVG');
                             }}
                             className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
@@ -376,7 +385,7 @@ const Navbar: React.FC = () => {
                           </div>
                           <div
                             onClick={() => {
-                              router.push('/category/Circuit');
+                              router.push('/category/Circut SVG');
                             }}
                             className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
@@ -385,7 +394,7 @@ const Navbar: React.FC = () => {
                           </div>
                           <div
                             onClick={() => {
-                              router.push('/category/SVG Cut Files');
+                              router.push('/category/SVG cut files');
                             }}
                             className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
@@ -394,7 +403,7 @@ const Navbar: React.FC = () => {
                           </div>
                           <div
                             onClick={() => {
-                              router.push('/category/Tshirt');
+                              router.push('/category/Tshirt Designs');
                             }}
                             className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
@@ -404,7 +413,7 @@ const Navbar: React.FC = () => {
                         </div>
                         <div
                           onClick={() => {
-                            router.push('/category/Printable');
+                            router.push('/category/Printable Craft');
                           }}
                           className='h-full w-[1px] bg-[#E5E7EB]'
                         ></div>
@@ -415,7 +424,7 @@ const Navbar: React.FC = () => {
                           </div>
                           <div
                             onClick={() => {
-                              router.push('/category/Papercut');
+                              router.push('/category/Papercut Templates');
                             }}
                             className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
@@ -424,7 +433,7 @@ const Navbar: React.FC = () => {
                           </div>
                           <div
                             onClick={() => {
-                              router.push('/category/Monogram');
+                              router.push('/category/Monogram Designs');
                             }}
                             className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
@@ -442,7 +451,7 @@ const Navbar: React.FC = () => {
                           </div>
                           <div
                             onClick={() => {
-                              router.push('/category/Sticker');
+                              router.push('/category/Sticker SVG');
                             }}
                             className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
@@ -558,15 +567,32 @@ const Navbar: React.FC = () => {
                     {cartData.length}
                   </div>
                 </Link>
-                <button
-                  id='coin'
-                  className='font-katide-semibold flex h-[39px] items-center gap-4 rounded-full border border-solid border-gray-300 py-1 pl-0.5 pr-2 text-[10px] text-gray-300 hover:bg-[#E4F6FB]'
-                >
-                  <img src={drizzyCoin.src} alt='cart' />
-                  <span className='font-katide-semibold text-[14px] text-[#008ECC]'>
-                    {isLogin && dataUser ? (
-                      dataUser.coin !== 0 ? (
-                        dataUser.coin
+                <div className='relative'>
+                  <button
+                    id='coin'
+                    onClick={() => {
+                      if (isLogin) {
+                        setShowTopup(!showTopup);
+                      } else {
+                        openModalLogin();
+                      }
+                    }}
+                    className='font-katide-semibold flex h-[39px] items-center gap-4 rounded-full border border-solid border-gray-300 py-1 pl-0.5 pr-2 text-[10px] text-gray-300 hover:bg-[#E4F6FB]'
+                  >
+                    <img src={drizzyCoin.src} alt='cart' />
+                    <span className='font-katide-semibold text-[14px] text-[#008ECC]'>
+                      {isLogin && dataUser ? (
+                        (coin === 0) ? (
+                          <Image
+                            src={emptyCoin.src}
+                            alt='empty-coin'
+                            width={80}
+                            height={80}
+                            className='h-4 w-4'
+                          />
+                        ) : coin === -1 ? "♾️" : (
+                          coin
+                        )
                       ) : (
                         <Image
                           src={emptyCoin.src}
@@ -575,19 +601,36 @@ const Navbar: React.FC = () => {
                           height={80}
                           className='h-4 w-4'
                         />
-                      )
-                    ) : (
-                      <Image
-                        src={emptyCoin.src}
-                        alt='empty-coin'
-                        width={80}
-                        height={80}
-                        className='h-4 w-4'
-                      />
-                    )}
-                  </span>
-                  COIN
-                </button>
+                      )}
+                    </span>
+                    COIN
+                  </button>
+                  {showTopup &&
+                    <div className='flex flex-col justify-center items-center gap-2 rounded-xl absolute -bottom-40 right-0 bg-gray-50 p-2 w-52'>
+                      <p className='font-katide-bold text-sm'>Your Drizy Coins</p>
+                      <img src={drizzyCoin.src} alt='cart' className='w-8 h-8' />
+                      <p className=''>
+                        {(coin === 0) ? (
+                          <Image
+                            src={emptyCoin.src}
+                            alt='empty-coin'
+                            width={80}
+                            height={80}
+                            className='h-4 w-4'
+                          />
+                        ) : coin === -1 ? "♾️" : (
+                          coin
+                        )}
+                      </p>
+                      <Button onClick={() => {
+                        if (coin === -1) toast('You have unlimited coin');
+                        else router.push('/profile/subscription');
+                      }} className='font-katide-bold flex w-full items-center justify-center rounded-full border-none bg-[#008ECC] hover:bg-[#008ECC]/90 text-xs'>
+                        TOP UP HERE
+                      </Button>
+                    </div>
+                  }
+                </div>
               </div>
 
               <div className='flex flex-row justify-between gap-4 pt-[10px]'>

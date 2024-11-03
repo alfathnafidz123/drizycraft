@@ -7,8 +7,9 @@ import { toast } from 'react-toastify';
 import ModalProduct from '@/components/modals/product';
 import ProductCard from '@/components/ProductCard';
 
+import { getSeason } from '@/app/api/product/getCategory';
 import { getAllProduct, SortType } from '@/app/api/product/getProduct';
-import { productI } from '@/interfaces/product.interface';
+import { CategoryI, productI } from '@/interfaces/product.interface';
 
 export default function CatalogCrafter() {
   const params = useParams();
@@ -25,6 +26,7 @@ export default function CatalogCrafter() {
     show: boolean;
     product?: productI;
   }>({ show: false });
+  const [seasonalData, setSeasonalData] = useState<CategoryI[] | []>([]);
 
   const shortByOptions = [
     SortType.Latest,
@@ -89,8 +91,18 @@ export default function CatalogCrafter() {
     }
   };
 
+  const getSeasonalData = async () => {
+    try {
+      const response = await getSeason();
+      setSeasonalData(response.data);
+    } catch (error) {
+      toast('Error when trying to get category');
+    }
+  };
+
   useEffect(() => {
     getProduct();
+    getSeasonalData();
   }, []);
 
   useEffect(() => {
@@ -99,19 +111,19 @@ export default function CatalogCrafter() {
 
   return (
     <main>
-      <section className='flex bg-[#EBECF5] p-[4%] pl-[8%]'>
+      <section className='flex flex-col py-[4%] max-md:px-2 lg:mx-auto lg:w-[1164px] lg:flex-row gap-4'>
         <div>
           <p className='font-katide-bold text-[20px]'>Filters</p>
           <div className='mt-6 rounded-lg bg-white shadow-lg'>
             <div className='rounded-tl-lg rounded-tr-lg border-b-2'>
               <div
-                className='short-by-dropdown m-1 flex w-[252px] cursor-pointer justify-between p-2'
+                className='short-by-dropdown m-1 flex w-full cursor-pointer justify-between p-2 lg:w-[252px]'
                 onClick={handleShortByDropdownClick}
               >
-                <p className='font-katide-semibold mt-2 w-[252px] text-[14px] text-[#1A214C]'>
+                <p className='font-katide-semibold mt-2 w-full text-[14px] text-[#1A214C] lg:w-[252px]'>
                   Short by
                 </p>
-                <FaChevronDown className='mt-2 w-[12px]' />
+                <FaChevronDown className='mr-2 mt-2 w-[12px]' />
               </div>
             </div>
             {isShortByDropdownOpen && (
@@ -145,37 +157,37 @@ export default function CatalogCrafter() {
           <div className='mt-6 rounded-lg bg-white shadow-lg'>
             <div className='rounded-tl-lg rounded-tr-lg border-b-2'>
               <div
-                className='seasons-dropdown m-1 flex w-[252px] cursor-pointer justify-between p-2'
+                className='category-dropdown m-1 flex w-full cursor-pointer justify-between p-2 lg:w-[252px]'
                 onClick={handleSeasonsDropdownClick}
               >
-                <p className='font-katide-semibold mt-2 w-[252px] text-[14px] text-[#1A214C]'>
+                <p className='font-katide-semibold mt-2 w-full text-[14px] text-[#1A214C] lg:w-[252px]'>
                   Seasons
                 </p>
-                <FaChevronDown className='mt-2 w-[12px]' />
+                <FaChevronDown className='mt-2 mr-2 w-[12px]' />
               </div>
             </div>
             {isSeasonsDropdownOpen && (
               <div className='dropdown-content m-2 p-2'>
-                {seasonsOptions.map((option, index) => (
+                {seasonalData.map((option, index) => (
                   <div key={index} className='mb-3'>
                     <input
                       type='radio'
-                      id={option}
+                      id={option.id.toString()}
                       name='seasonsOptions'
-                      value={option}
-                      checked={selectedSeasonsOption === option}
+                      value={option.name}
+                      checked={selectedSeasonsOption === option.name}
                       onChange={handleSeasonsSelect}
                       className='h-[13px] w-[13px] text-black'
                     />
                     <label
-                      htmlFor={option}
+                      htmlFor={option.id.toString()}
                       style={{
                         marginLeft: '5%',
                         fontSize: '14px',
                         color: '#17181A',
                       }}
                     >
-                      {option}
+                      {option.name}
                     </label>
                   </div>
                 ))}
@@ -184,7 +196,7 @@ export default function CatalogCrafter() {
           </div>
         </div>
 
-        <div className='ml-[7%] flex flex-wrap'>
+        <div className='w-full flex flex-wrap items-center justify-center lg:items-start lg:justify-start'>
           {productData.map((product, index) => (
             <ProductCard
               key={index}

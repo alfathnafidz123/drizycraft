@@ -1,31 +1,42 @@
 'use client';
 
+import axios from 'axios';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 
 import { useAppSelector } from '@/lib/store';
 
-import { confirmBuyItem } from '@/app/api/billing/confirmBuyItem';
-
 import { success } from '~/images';
 
 export default function SubSuccess() {
-  const params = useParams();
-  const { productId, licenseType, checkoutId } = params;
+  const params = useSearchParams();
+  const router = useRouter();
+
+  const sessionId = params.get("sessionId");
+  const checkoutId = params.get("checkoutId");
   const { token } = useAppSelector((state) => state.user);
 
   const handleBuySuccess = async () => {
     try {
-      await confirmBuyItem({
-        checkoutId: checkoutId as string,
-        productId: productId as string,
-        licenseType: licenseType as string,
-        token: token,
-      });
+      await axios.post(
+        `https://drizy-api.quadrakaryasantosa.com/billing/confirm-item-payment`,
+        {
+          checkoutId: checkoutId,
+          sessionId: sessionId,
+          token: token,
+        },
+        {
+          headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${token ?? ''}`,
+          },
+        }
+      );
+      router.replace('/profile/download');
     } catch (error: any) {
-      toast('Subs failed, please reach out to the administrator');
+      toast('Payment failed, please reach out to the administrator');
     }
   };
 

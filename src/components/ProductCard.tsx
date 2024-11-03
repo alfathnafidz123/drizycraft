@@ -118,7 +118,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
       (isDiscount && data.discount[0] === 0) ||
       data.price[0] === 0
     ) {
-      handleDownload();
+      if (token) {
+        handleDownload();
+      } else {
+        dispatch(setOpenModal(true));
+      }
     } else {
       router.push(`/product/${data?.meta?.[0].title}`);
     }

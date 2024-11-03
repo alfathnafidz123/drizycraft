@@ -145,6 +145,13 @@
     font-style: normal;
   }
 
+  @font-face {
+    font-family: 'Hastle';
+    src: url('/fonts/Hastle.woff2') format('otf');
+    font-weight: 800;
+    font-style: normal;
+  }
+
   .cursor-newtab {
     cursor: url('/images/new-tab.png') 10 10, pointer;
   }
@@ -286,4 +293,148 @@
      linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor; /*5'*/
           mask-composite: exclude; /*5*/
+}
+
+.button-coin {
+  position: relative;
+  width: 10rem;
+  height: 3rem;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.button-coin svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.border-coin {
+  width: 100%;
+  height: 100%;
+  stroke: black;
+  stroke-width: 2px;
+  fill: #0000;
+  rx: 1em;
+  ry: 1em;
+  stroke-dasharray: 25;
+  transition: fill 0.25s;
+  animation: 4s linear infinite stroke-animation;
+}
+
+.button-coin:hover .border-coin {
+  fill: #0001;
+}
+
+.button-coin:focus .border-coin {
+  transition: fill 0.25s 3.75s;
+  fill: #0000;
+}
+
+@keyframes stroke-animation {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.txt-upload {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.txt-upload::after {
+  content: "";
+}
+
+.button-coin:focus .rect {
+  stroke-dasharray: 50;
+}
+.button-coin:focus .border-coin {
+  stroke: #0000;
+}
+
+.button-coin:focus .txt-upload {
+  opacity: 0;
+  transition: opacity 0.25s 3s;
+}
+
+.button-coin:focus .txt-upload::after {
+  animation: 0.66666s anim step-end forwards,
+    1.33333s 0.6666s anim2 linear infinite alternate;
+}
+
+@keyframes anim {
+  0% {
+    content: "";
+  }
+  50% {
+    content: ".";
+  }
+  to {
+    content: ".";
+  }
+}
+
+@keyframes anim2 {
+  0% {
+    content: "";
+  }
+  33% {
+    content: ".";
+  }
+  66% {
+    content: "..";
+  }
+  to {
+    content: "...";
+  }
+}
+
+.loading-coin {
+  width: 100%;
+  height: 100%;
+  stroke: #0055d4;
+  stroke-width: 2px;
+  fill: none;
+  rx: 1em;
+  ry: 1em;
+  stroke-dasharray: 0 100;
+}
+
+.button-coin:focus .loading-coin {
+  transition: stroke 0.5s 7.5s, stroke-dasharray 3s 0.5s ease-out;
+  stroke: #08ca08;
+  stroke-dasharray: 100 0;
+}
+
+.done {
+  fill: none;
+  stroke: #000;
+  stroke-dasharray: 0 100;
+}
+
+.button-coin:focus .done-cloud {
+  transition: stroke-dasharray 0.75s 8.5s ease-out;
+  stroke-dasharray: 100 0;
+}
+
+.button-coin:focus .done-check {
+  transition: stroke-dasharray 0.5s 9.2s ease-out;
+  stroke: #08ca08;
+  stroke-dasharray: 100 0;
+}
+
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 }
