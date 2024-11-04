@@ -82,6 +82,22 @@ export default function HomePage() {
   }>({ show: false });
   const [searchValue, setSearchValue] = useState('');
   const router = useRouter();
+  const [showChat, setShowChat] = useState(false);
+  const refChat = React.useRef<any>();
+
+  useEffect(() => {
+    const handleClick = (event: any) => {
+      console.log(refChat.current.contains(event.target), event.target);
+      if (refChat.current && !refChat.current.contains(event.target)) {
+        setShowChat(false);
+      }
+    };
+    document.addEventListener('click', handleClick);
+
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, [showChat]);
 
   const getSeasonalHome = async () => {
     try {
@@ -321,13 +337,15 @@ export default function HomePage() {
                     , a group of 21,000+ friendly home crafters who are all
                     there to help each other succeed & get free product updates
                   </p>
-                  <button
+                  <Link
+                    href="https://www.facebook.com/groups/507583644200287/?ref=share_group_link"
+                    target='__blank'
                     id='join-community-2'
                     aria-label='Request Join Community'
                     className='flex justify-center self-center rounded-full bg-[#61A9FA] p-2 text-indigo-950 transition-all duration-500 hover:bg-indigo-950 hover:text-white'
                   >
                     Click here to request to join!
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -603,11 +621,17 @@ export default function HomePage() {
           </Link>
         </div>
       </div>
-      <Link href="http://tawk.to/" target='_blank' className="fixed bottom-0 right-0 z-[500]">
-        <div className='-mb-8 max-w-[200px]'>
-          <CustomerSupportLottie />
+      {showChat ?
+        <div ref={refChat} className='fixed bottom-0 right-0 z-[99]'>
+          <iframe height={500} src='https://tawk.to/chat/672866874304e3196adcbd50/1ibqt10pq' />
         </div>
-      </Link>
+        :
+        <div onClick={() => setShowChat(true)} className="fixed bottom-0 right-0 z-[500]">
+          <div className='-mb-8 max-w-[200px]'>
+            <CustomerSupportLottie />
+          </div>
+        </div>
+      }
       <ModalProduct
         isOpen={showProductDetail.show}
         product={showProductDetail.product}

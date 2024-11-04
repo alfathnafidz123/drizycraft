@@ -695,12 +695,46 @@ const Navbar: React.FC = () => {
                   {cartData.length}
                 </div>
               </Link>
-              <button
-                id='cartmobile'
-                className='font-katide-semibold flex h-8 w-8 items-center gap-4 rounded-full border border-solid border-gray-300 px-1 py-1 text-[10px] text-gray-300 hover:bg-[#E4F6FB]'
-              >
-                <img src={drizzyCoin.src} alt='cart' />
-              </button>
+              <div className='relative'>
+                <button
+                  onClick={() => {
+                    if (isLogin) {
+                      setShowTopup(!showTopup);
+                    } else {
+                      openModalLogin();
+                    }
+                  }}
+                  id='cartmobile'
+                  className='font-katide-semibold flex h-8 w-8 items-center gap-4 rounded-full border border-solid border-gray-300 px-1 py-1 text-[10px] text-gray-300 hover:bg-[#E4F6FB]'
+                >
+                  <img src={drizzyCoin.src} alt='cart' />
+                </button>
+                {showTopup &&
+                  <div className='flex flex-col justify-center items-center gap-2 rounded-xl absolute -bottom-40 right-0 bg-gray-50 p-2 w-52'>
+                    <p className='font-katide-bold text-sm'>Your Drizy Coins</p>
+                    <img src={drizzyCoin.src} alt='cart' className='w-8 h-8' />
+                    <p className=''>
+                      {(coin === 0) ? (
+                        <Image
+                          src={emptyCoin.src}
+                          alt='empty-coin'
+                          width={80}
+                          height={80}
+                          className='h-4 w-4'
+                        />
+                      ) : coin === -1 ? "♾️" : (
+                        coin
+                      )}
+                    </p>
+                    <Button onClick={() => {
+                      if (coin === -1) toast('You have unlimited coin');
+                      else router.push('/profile/subscription');
+                    }} className='font-katide-bold flex w-full items-center justify-center rounded-full border-none bg-[#008ECC] hover:bg-[#008ECC]/90 text-xs'>
+                      TOP UP HERE
+                    </Button>
+                  </div>
+                }
+              </div>
             </div>
           </div>
           <div className='container mx-auto flex h-1/2 items-center justify-between gap-2 max-md:mx-0 lg:px-0'>
