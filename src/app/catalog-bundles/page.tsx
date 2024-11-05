@@ -1,12 +1,12 @@
 'use client';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { CiYoutube } from 'react-icons/ci';
-import { FaBehance } from 'react-icons/fa';
+import { FaBehance, FaUsers } from 'react-icons/fa';
 import { FaFacebookF } from 'react-icons/fa';
 import { FaPinterest } from 'react-icons/fa';
 import { FaInstagram } from 'react-icons/fa';
 import { FaChevronDown } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
 import { toast } from 'react-toastify';
 
 import ProductCard from '@/components/ProductCard';
@@ -138,12 +138,24 @@ export default function CatalogCrafter() {
           </p>
 
           <div className='mt-[22%] flex gap-5 text-[#AAAAAA]'>
-            <FaBehance className='h-[24px] w-[24px]' />
-            <FaFacebookF className='h-[22px] w-[22px]' />
-            <FaXTwitter className='h-[22px] w-[22px]' />
-            <FaPinterest className='h-[22px] w-[22px]' />
-            <FaInstagram className='h-[24px] w-[24px]' />
-            <CiYoutube className='h-[26px] w-[26px]' />
+            <Link href="" target='__blank'>
+              <FaBehance className='h-[24px] w-[24px]' />
+            </Link>
+            <Link href="https://www.facebook.com/DrizyStudio" target='__blank'>
+              <FaFacebookF className='h-[22px] w-[22px]' />
+            </Link>
+            <Link href="https://www.facebook.com/groups/drizyfreebies" target='__blank'>
+              <FaUsers className='h-[22px] w-[22px]' />
+            </Link>
+            <Link href="https://id.pinterest.com/Drizy_Studio/" target='__blank'>
+              <FaPinterest className='h-[22px] w-[22px]' />
+            </Link>
+            <Link href="https://www.instagram.com/drizy_craft/" target='__blank'>
+              <FaInstagram className='h-[24px] w-[24px]' />
+            </Link>
+            <Link href="" target='__blank'>
+              <CiYoutube className='h-[26px] w-[26px]' />
+            </Link>
           </div>
         </div>
       </section>

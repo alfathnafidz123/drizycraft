@@ -13,8 +13,6 @@ const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
 import localFont from 'next/font/local';
 import Link from 'next/link';
 
-import Button from '@/components/buttons/Button';
-
 import {
   aboutHeader,
   crafterProduct,
@@ -71,12 +69,12 @@ export default function Register() {
                 we present to you our hand-crafted graphics.
               </p>
               <div className='flex w-full flex-row gap-5 lg:gap-10'>
-                <Button className='font-katide-bold flex w-full items-center justify-center rounded-full border-none bg-[#008ECC] py-2 lg:py-5 text-lg lg:w-[195px] lg:text-2xl'>
+                <Link target='_blank' href="http://profile.drizystudio.com/contact" className='font-katide-bold flex w-full items-center justify-center rounded-full border-none hover:bg-[#008ECC]/90 bg-[#008ECC] py-2 lg:py-5 text-lg lg:w-[195px] lg:text-2xl text-white'>
                   HIRE ME
-                </Button>
-                <Button className='font-katide-bold flex w-full items-center justify-center rounded-full border-2 border-[#008ECC] bg-[#1A214C] py-2 lg:py-5 text-lg lg:w-[195px] lg:text-2xl'>
+                </Link>
+                <Link target='_blank' href="http://profile.drizystudio.com/" className='font-katide-bold flex w-full items-center justify-center rounded-full border-2 border-[#008ECC] bg-[#1A214C] hover:bg-[#008ECC] py-2 lg:py-5 text-lg lg:w-[195px] lg:text-2xl text-white'>
                   KNOW MORE!
-                </Button>
+                </Link>
               </div>
             </div>
             <div className='w-[366px]'>

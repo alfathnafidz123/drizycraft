@@ -69,6 +69,19 @@ export const fetchProfile = createAsyncThunk(
   }
 );
 
+export const fetchCoin = createAsyncThunk(
+  'user/fetchCoin',
+  async (token: string) => {
+    const res = await axios.get(
+      'https://drizy-api.quadrakaryasantosa.com/billing/coin',
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return res.data.data.coinAmount as number;
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -117,6 +130,13 @@ const userSlice = createSlice({
         affiliateId: action.payload.affiliateId,
         affiliate: action.payload.affiliate,
         avatar: action.payload.avatar,
+      };
+    });
+
+    builder.addCase(fetchCoin.fulfilled, (state, action) => {
+      state.dataUser = {
+        ...state.dataUser!,
+        coin: action.payload,
       };
     });
   },

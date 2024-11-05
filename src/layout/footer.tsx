@@ -1,9 +1,9 @@
 import Link from 'next/link';
+import { FaUsers } from 'react-icons/fa';
 import {
   FaFacebookF,
   FaInstagram,
   FaPinterest,
-  FaXTwitter,
 } from 'react-icons/fa6';
 
 import { GuaranteeBadge } from '~/images';
@@ -66,8 +66,8 @@ const Footer = () => {
                   <FaFacebookF />
                 </Link>
 
-                <Link href="" target='__blank'>
-                  <FaXTwitter />
+                <Link href="https://www.facebook.com/groups/drizyfreebies" target='__blank'>
+                  <FaUsers />
                 </Link>
 
                 <Link href="https://id.pinterest.com/Drizy_Studio/" target='__blank'>

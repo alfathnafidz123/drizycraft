@@ -6,9 +6,11 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 
-import { useAppSelector } from '@/lib/store';
+import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import { success } from '~/images';
+import { fetchCoin } from '@/lib/slices/user';
+import { fetchSubs } from '@/lib/slices/subcription';
 
 export default function SubSuccess() {
   const params = useSearchParams();
@@ -16,6 +18,7 @@ export default function SubSuccess() {
 
   const sessionId = params.get("sessionId");
   const { token } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
   const handleSubSuccess = async () => {
     try {
@@ -31,6 +34,8 @@ export default function SubSuccess() {
           },
         }
       );
+      dispatch(fetchSubs(token!));
+      dispatch(fetchCoin(token!));
       router.replace("/");
     } catch (error: any) {
       toast('Subs failed, please reach out to the administrator');

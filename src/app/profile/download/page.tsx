@@ -9,6 +9,7 @@ import { FaInfinity } from 'react-icons/fa6';
 import { toast } from 'react-toastify';
 
 import { useAppSelector } from '@/lib/store';
+import { Loader } from 'lucide-react';
 
 interface Product {
   id: string;
@@ -52,6 +53,7 @@ interface OrderI {
 export default function Register() {
   const { token } = useAppSelector((state) => state.user);
   const [ordersData, setOrdersData] = React.useState<OrderI[]>([]);
+  const [loading, setLoading] = React.useState(false);
 
   const getTransactionData = async () => {
     try {
@@ -72,6 +74,7 @@ export default function Register() {
 
   const handleDownloadClick = async (id: number) => {
     try {
+      setLoading(true);
       const res = await fetch(
         `https://drizy-api.quadrakaryasantosa.com/billing/get-file-download/${id}`,
         {
@@ -107,6 +110,8 @@ export default function Register() {
     } catch (error) {
       const err = error as AxiosError;
       toast.error(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -142,7 +147,11 @@ export default function Register() {
                       }}
                       className='rounded-full bg-[#008ECC] px-10 py-2 font-semibold text-[#e4f6fb]'
                     >
-                      Download
+                      {loading ?
+                        <Loader className='animate-spin' />
+                        :
+                        "Download"
+                      }
                     </button>
                   </td>
                 </tr>

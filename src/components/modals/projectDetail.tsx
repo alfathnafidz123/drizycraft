@@ -163,7 +163,7 @@ const ModalProjectDetail: React.FC<ModalProps> = ({
                 </p>
                 <div className='font-katide-semibold mt-5 text-[14px] lg:mt-10'>
                   {data?.product.map(item =>
-                    <Link key={item.id} href={`/product/${item.id}`} className='flex w-full items-center gap-5 border-t max-md:justify-between'>
+                    <Link key={item.id} href={`/product/${item.meta[0].title}`} className='flex w-full items-center gap-5 border-t max-md:justify-between'>
                       <p className='mt-3 hover:underline'>Download {item.name}</p>
                       <FaArrowUpRightFromSquare className='mt-2 text-[#61A9FA]' />
                     </Link>
@@ -174,10 +174,6 @@ const ModalProjectDetail: React.FC<ModalProps> = ({
                       <FaArrowUpRightFromSquare className='mt-2 text-[#61A9FA]' />
                     </Link>
                   )}
-                  <button className='mt-3 flex w-full items-center gap-5 border-b border-t max-md:justify-between'>
-                    <p className='mt-3 hover:underline'>Download product 3</p>
-                    <FaArrowUpRightFromSquare className='mt-2 text-[#61A9FA]' />
-                  </button>
                 </div>
               </div>
             </div>

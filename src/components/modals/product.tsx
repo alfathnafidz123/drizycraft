@@ -51,7 +51,7 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
 
   const generatePrice = (): string => {
     let price = `$0`;
-    if (activeSubcription && dataUser?.coin && dataUser?.coin > 0) {
+    if (activeSubcription && dataUser?.coin && dataUser?.coin !== 0) {
       price = `${product?.coinPrice[type] ?? 0} Coin`;
     } else {
       if (isDiscount) {
@@ -65,7 +65,7 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
 
   const handleBuy = async () => {
     if (token) {
-      if (activeSubcription && dataUser?.coin && dataUser?.coin > 0)
+      if (activeSubcription && dataUser?.coin && dataUser?.coin !== 0)
         handleBuyPoint();
       else handleCart();
     } else {
@@ -175,7 +175,7 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
                       !(
                         activeSubcription &&
                         dataUser?.coin &&
-                        dataUser?.coin > 0
+                        dataUser?.coin !== 0
                       ) ? (
                       <p className='font-katide-regular text-sm text-[#A1A1A1] line-through'>
                         ${product?.price[type]}
@@ -290,7 +290,7 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
                     <Loader color='#fff' />
                   ) : (
                     <div className='font-katide-bold text-right text-sm tracking-[1%] text-white'>
-                      {activeSubcription && dataUser?.coin && dataUser?.coin > 0
+                      {activeSubcription && dataUser?.coin && dataUser?.coin !== 0
                         ? 'Buy with coin'
                         : 'Add to cart'}
                     </div>

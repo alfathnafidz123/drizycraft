@@ -62,7 +62,7 @@ const SaleProductCard = ({ data, handleShowDetail }: { data: productI; handleSho
 
   const generatePrice = (): string => {
     let price = `$0`;
-    if (activeSubcription && dataUser?.coin && dataUser?.coin > 0) {
+    if (activeSubcription && dataUser?.coin && dataUser?.coin !== 0) {
       price = `${data?.coinPrice[0] ?? 0} Coin`;
     } else {
       if (isDiscount) {

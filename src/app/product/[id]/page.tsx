@@ -14,7 +14,7 @@ import { FaStar } from 'react-icons/fa';
 import { FaPencilAlt } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
-import { fetchProfile, setOpenModal } from '@/lib/slices/user';
+import { fetchCoin, fetchProfile, setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import AffiliateBanner from '@/components/AffiliateBanner';
@@ -111,7 +111,7 @@ export default function Register() {
 
   const handleBuy = async () => {
     if (token) {
-      if (activeSubcription && dataUser?.coin && dataUser?.coin > 0)
+      if (activeSubcription && dataUser?.coin && (dataUser?.coin !== 0))
         handleBuyPoint();
       else handleCart();
     } else {
@@ -134,6 +134,7 @@ export default function Register() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       dispatch(fetchProfile(token!));
+      dispatch(fetchCoin(token!));
       toast.success(`Successfully buy ${productData?.product?.name}!`);
       router.push('/profile/download');
     } catch (error: any) {
@@ -211,7 +212,7 @@ export default function Register() {
 
   const generatePrice = (): string => {
     let price = '$0';
-    if (activeSubcription && dataUser?.coin && dataUser?.coin > 0) {
+    if (activeSubcription && dataUser?.coin && dataUser?.coin !== 0) {
       price = `${productData?.product.coinPrice[type] ?? 0} Coin`;
     } else {
       if (isDiscount) {
@@ -310,7 +311,7 @@ export default function Register() {
             </p>
             <div className='flex flex-row items-end gap-1'>
               {isDiscount &&
-                !(activeSubcription && dataUser?.coin && dataUser?.coin > 0) ? (
+                !(activeSubcription && dataUser?.coin && dataUser?.coin !== 0) ? (
                 <p className='font-katide-regular text-lg text-gray-500 line-through'>
                   ${productData.product.price[type]}
                 </p>
@@ -392,7 +393,7 @@ export default function Register() {
                 }}
                 className='w-full rounded-full bg-[#1A214C] px-10 py-2 font-semibold text-[#e4f6fb]'
               >
-                {activeSubcription && dataUser?.coin && dataUser?.coin > 0
+                {activeSubcription && dataUser?.coin && dataUser?.coin !== 0
                   ? 'Buy with coin'
                   : 'Add to cart'}
               </button>

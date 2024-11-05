@@ -3,12 +3,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { Loader } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import * as React from 'react';
 import { toast } from 'react-toastify';
 
+import errorHandler from '@/lib/errorHandler';
 import { setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch } from '@/lib/store';
 
@@ -58,11 +59,7 @@ export default function Register() {
       toast('Password succesfully set. Please login!');
       router.push('/');
     } catch (error) {
-      const err = error as AxiosError;
-      const errorData: any = err.response?.data;
-      toast.error(
-        (errorData.message as string) ?? 'Cannot generate affiliate link'
-      );
+      errorHandler(error);
     } finally {
       setLoading(false);
     }

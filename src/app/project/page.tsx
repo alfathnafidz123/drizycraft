@@ -32,6 +32,7 @@ export default function Register() {
   const [isUploadSuccessShow, setIsUploadSuccessShow] = useState(false);
   const [isProjectDetailShow, setIsProjectDetailShow] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const { activeSubcription } = useAppSelector(state => state.subs);
 
   const getCrafter = async () => {
     try {
@@ -111,23 +112,26 @@ export default function Register() {
         <img src={projectImage.src} className='' />
       </section>
       <section className='flex flex-wrap justify-center gap-5 bg-[#EBECF5] p-2 xl:p-20'>
-        <div
-          onClick={() => setIsPopUpShow(true)}
-          className='h-[456px] w-[369px] cursor-pointer rounded-xl bg-white bg-opacity-30 px-8 py-8 text-center text-indigo-950 text-opacity-20 shadow-lg hover:bg-white'
-        >
-          <div className='flex flex-col rounded-xl border-2 border-dashed border-black border-opacity-10 py-12'>
-            <img
-              loading='lazy'
-              src={projectUpload.src}
-              className='mt-24 self-center'
-            />
-            <div className='mb-16 mt-4'>
-              Upload your project results
-              <br />
-              and get Drizy Coins!
+        {activeSubcription &&
+          <div
+            onClick={() => setIsPopUpShow(true)}
+            className='h-[456px] w-[369px] cursor-pointer rounded-xl bg-white bg-opacity-30 px-8 py-8 text-center text-indigo-950 text-opacity-20 shadow-lg hover:bg-white'
+          >
+            <div className='flex flex-col rounded-xl border-2 border-dashed border-black border-opacity-10 py-12'>
+              <img
+                loading='lazy'
+                src={projectUpload.src}
+                className='mt-24 self-center'
+                alt='upload project'
+              />
+              <div className='mb-16 mt-4'>
+                Upload your project results
+                <br />
+                and get Drizy Coins!
+              </div>
             </div>
           </div>
-        </div>
+        }
 
         {crafterData && crafterData?.data.map((data, index) => {
           return (

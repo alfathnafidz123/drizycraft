@@ -2,13 +2,13 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { setOpenModal } from '@/lib/slices/user';
+import { fetchCoin, fetchProfile, setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import { itemPayment } from '@/app/api/billing/itemPayment';
@@ -93,13 +93,29 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const handleDownload = async () => {
     try {
       if (token) {
-        const payment = await itemPayment({
-          productId: [data.id],
-          licenseType: [0],
-          affiliateId: [''],
-          token: token,
-        });
-        window.location.replace(payment.data);
+        if (activeSubcription) {
+          const payload: { [key: string]: string | number } = {
+            productId: data.id,
+            licenseType: 0,
+          };
+          await axios.post(
+            `https://drizy-api.quadrakaryasantosa.com/billing/buy-with-coin`,
+            payload,
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          dispatch(fetchProfile(token!));
+          dispatch(fetchCoin(token!));
+          toast.success(`Successfully buy ${data?.name}!`);
+          router.push('/profile/download');
+        } else {
+          const payment = await itemPayment({
+            productId: [data.id],
+            licenseType: [0],
+            affiliateId: [''],
+            token: token,
+          });
+          window.location.replace(payment.data);
+        }
       } else {
         dispatch(setOpenModal(true));
       }
@@ -130,7 +146,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const generatePrice = (): string => {
     let price = `$0`;
-    if (activeSubcription && dataUser?.coin && dataUser?.coin > 0) {
+    if (activeSubcription && dataUser?.coin && dataUser?.coin !== 0) {
       price = `${data?.coinPrice[0] ?? 0} Coin`;
     } else {
       if (isDiscount) {
@@ -155,7 +171,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   };
 
   const generateSale = () => {
-    if (activeSubcription && dataUser?.coin && dataUser?.coin > 0) {
+    if (activeSubcription && dataUser?.coin && dataUser?.coin !== 0) {
       return null;
     } else {
       if (isDiscount) {
@@ -190,7 +206,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             >
               <span className='font-katide-bold z-[5] flex flex-row items-center gap-1 text-[20px] leading-[16px] text-[#fff] transition-all group-hover:scale-0'>
                 {isDiscount &&
-                  !(activeSubcription && dataUser?.coin && dataUser?.coin > 0) ? (
+                  !(activeSubcription && dataUser?.coin && dataUser?.coin !== 0) ? (
                   <p className='font-katide-regular text-sm text-white line-through'>
                     ${data?.price[0]}
                   </p>

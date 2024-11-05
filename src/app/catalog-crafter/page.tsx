@@ -10,6 +10,7 @@ import { FaChevronDown } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { toast } from 'react-toastify';
 
+import ModalProduct from '@/components/modals/product';
 import ProductCard from '@/components/ProductCard';
 
 import { getSeason } from '@/app/api/product/getCategory';
@@ -27,6 +28,10 @@ export default function CatalogCrafter() {
   const [selectedSeasonsOption, setSelectedSeasonsOption] = useState('');
   const [productData, setProductData] = useState<productI[] | []>([]);
   const [seasonsOptions, setSeasonalData] = useState<CategoryI[] | []>([]);
+  const [showProductDetail, setShowProductDetail] = useState<{
+    show: boolean;
+    product?: productI;
+  }>({ show: false });
 
   const shortByOptions = [
     SortType.Latest,
@@ -287,11 +292,16 @@ export default function CatalogCrafter() {
 
           <div className='w-full flex flex-wrap items-center justify-center lg:items-start lg:justify-start'>
             {productData.map((product, index) => (
-              <ProductCard key={index} data={product} />
+              <ProductCard key={index} data={product} handleShowDetail={(data) => setShowProductDetail({ show: true, product: data })} />
             ))}
           </div>
         </div>
       </section>
+      <ModalProduct
+        isOpen={showProductDetail.show}
+        product={showProductDetail.product}
+        onClose={() => setShowProductDetail({ show: false })}
+      />
     </main>
   );
 }

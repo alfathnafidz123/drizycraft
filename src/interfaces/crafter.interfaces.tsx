@@ -1,3 +1,5 @@
+import { MetaProductI } from "@/interfaces/product.interface"
+
 export interface GetCarfterResI {
   data: CrafterI[]
   meta: Meta
@@ -43,6 +45,7 @@ export interface Product {
   updatedAt: any
   deletedAt: any
   authorId: any
+  meta: MetaProductI[]
 }
 
 export interface User {

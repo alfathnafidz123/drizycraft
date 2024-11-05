@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { FaSistrix } from 'react-icons/fa6';
 
 import { helpcenter1, helpcenter2 } from '~/images';
@@ -41,74 +42,74 @@ export default function HelpCenter() {
             <div className='ml-10 '>
               <div className='mt-10 flex'>
                 <img src={helpcenter2.src} alt='Help Center' />
-                <p className='ml-6 mt-2 text-[14px]'>
+                <Link href="https://drizystudio.com/docs/affiliate-rules/" target='_blank' className='ml-6 mt-2 text-[14px]'>
                   Affiliate Rules (Terms and Conditions)
-                </p>
+                </Link>
               </div>
 
               <div className='mt-6 flex'>
                 <img src={helpcenter2.src} alt='Help Center' />
-                <p className='ml-6 mt-2 text-[14px]'>Registration Flow</p>
+                <Link href="https://drizystudio.com/docs/registration-flow/" target='_blank' className='ml-6 mt-2 text-[14px]'>Registration Flow</Link>
               </div>
 
               <div className='mt-6 flex'>
                 <img src={helpcenter2.src} alt='Help Center' />
-                <p className='ml-6 mt-2 text-[14px]'>
+                <Link href="https://drizystudio.com/docs/how-to-register-as-an-affiliate/" target='_blank' className='ml-6 mt-2 text-[14px]'>
                   How to Register as an Affiliate
-                </p>
+                </Link>
               </div>
 
               <div className='mt-6 flex'>
                 <img src={helpcenter2.src} alt='Help Center' />
-                <p className='ml-6 mt-2 text-[14px]'>
+                <Link href="https://drizystudio.com/docs/get-to-know-the-menus-on-the-dashboard/" target='_blank' className='ml-6 mt-2 text-[14px]'>
                   Get to Know the Menus on the Dashboard
-                </p>
+                </Link>
               </div>
 
               <div className='mt-6 flex'>
                 <img src={helpcenter2.src} alt='Help Center' />
-                <p className='ml-6 mt-2 text-[14px]'>First Thing to Do </p>
+                <Link href="https://drizystudio.com/docs/first-thing-to-do/" target='_blank' className='ml-6 mt-2 text-[14px]'>First Thing to Do </Link>
               </div>
 
               <div className='mt-6 flex'>
                 <img src={helpcenter2.src} alt='Help Center' />
-                <p className='ml-6 mt-2 text-[14px]'>
+                <Link href="https://drizystudio.com/docs/how-to-create-and-share-affiliate-links/" target='_blank' className='ml-6 mt-2 text-[14px]'>
                   How to Create and Share Affiliate Links
-                </p>
+                </Link>
               </div>
 
               <div className='mt-6 flex'>
                 <img src={helpcenter2.src} alt='Help Center' />
-                <p className='ml-6 mt-2 text-[14px]'>
+                <Link href="https://drizystudio.com/docs/how-to-track-visitors-and-commissions/" target='_blank' className='ml-6 mt-2 text-[14px]'>
                   How to Track Visitors and Commissions
-                </p>
+                </Link>
               </div>
 
               <div className='mt-6 flex'>
                 <img src={helpcenter2.src} alt='Help Center' />
-                <p className='ml-6 mt-2 text-[14px]'>
+                <Link href="https://drizystudio.com/docs/how-to-create-a-custom-coupon/" target='_blank' className='ml-6 mt-2 text-[14px]'>
                   How to Create a Custom Coupon
-                </p>
+                </Link>
               </div>
 
               <div className='mt-6 flex'>
                 <img src={helpcenter2.src} alt='Help Center' />
-                <p className='ml-6 mt-2 text-[14px]'>
+                <Link href="https://drizystudio.com/docs/best-practices-for-affiliates-to-maximize-earning/" target='_blank' className='ml-6 mt-2 text-[14px]'>
                   Best Practices for Affiliates to Maximize Earning
-                </p>
+                </Link>
               </div>
 
               <div className='mt-6 flex'>
                 <img src={helpcenter2.src} alt='Help Center' />
-                <p className='ml-6 mt-2 text-[14px]'>
+                <Link href="https://drizystudio.com/docs/payment-policy-and-affiliate-fund-withdrawal-procedures/" target="_blank" className='ml-6 mt-2 text-[14px]'>
                   Payment Policy and Affiliate Fund Withdrawal Procedures
-                </p>
+                </Link>
               </div>
             </div>
 
-            <button className='font-katide-bold mb-[4%] ml-10 mt-[4%] rounded-full border-[1px] border-[#4065D1] bg-white px-8 py-2 text-center text-[14px] text-[#4065D1]'>
+            <Link href="https://drizystudio.com/docs-category/affiliates/" target='_blank' className='font-katide-bold mb-[4%] ml-10 mt-[4%] rounded-full border-[1px] border-[#4065D1] bg-white px-8 py-2 text-center text-[14px] text-[#4065D1]'>
               Explore More
-            </button>
+            </Link>
           </div>
 
           <div className='mb-[6%] ml-[4%] mr-[4%] mt-[6%] rounded-xl bg-white shadow-md'>
@@ -128,14 +129,14 @@ export default function HelpCenter() {
 
             <div className='ml-10 mt-10 flex'>
               <img src={helpcenter2.src} alt='Help Center' />
-              <p className='ml-6 mt-2 text-[14px]'>
+              <Link href="https://drizystudio.com/docs/how-to-join-drizy-studio-community/" target="_blank" className='ml-6 mt-2 text-[14px]'>
                 How to Join Drizy Studio Community
-              </p>
+              </Link>
             </div>
 
-            <button className='font-katide-bold mb-[4%] ml-10 mt-[4%] rounded-full border-[1px] border-[#4065D1] bg-white px-8 py-2 text-center text-[14px] text-[#4065D1]'>
+            <Link href="https://drizystudio.com/docs-category/community/" target='_blank' className='font-katide-bold mb-[4%] ml-10 mt-[4%] rounded-full border-[1px] border-[#4065D1] bg-white px-8 py-2 text-center text-[14px] text-[#4065D1]'>
               Explore More
-            </button>
+            </Link>
           </div>
 
           <div className='mb-[6%] ml-[4%] mr-[4%] mt-[6%] rounded-xl bg-white shadow-md'>
@@ -155,14 +156,14 @@ export default function HelpCenter() {
 
             <div className='ml-10 mt-10 flex'>
               <img src={helpcenter2.src} alt='Help Center' />
-              <p className='ml-6 mt-2 text-[14px]'>
+              <Link href="https://drizystudio.com/docs/getting-started-drizy-vip-membership/" target='_blank' className='ml-6 mt-2 text-[14px]'>
                 Getting Started: Drizy VIP+ Membership
-              </p>
+              </Link>
             </div>
 
-            <button className='font-katide-bold mb-[4%] ml-10 mt-[4%] rounded-full border-[1px] border-[#4065D1] bg-white px-8 py-2 text-center text-[14px] text-[#4065D1]'>
+            <Link href="https://drizystudio.com/docs-category/membership/" target='_blank' className='font-katide-bold mb-[4%] ml-10 mt-[4%] rounded-full border-[1px] border-[#4065D1] bg-white px-8 py-2 text-center text-[14px] text-[#4065D1]'>
               Explore More
-            </button>
+            </Link>
           </div>
         </section>
       </div>

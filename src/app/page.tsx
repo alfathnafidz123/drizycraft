@@ -87,7 +87,6 @@ export default function HomePage() {
 
   useEffect(() => {
     const handleClick = (event: any) => {
-      console.log(refChat.current.contains(event.target), event.target);
       if (refChat.current && !refChat.current.contains(event.target)) {
         setShowChat(false);
       }
@@ -599,6 +598,7 @@ export default function HomePage() {
                 role='button'
                 id='subscribe'
                 aria-label='Subscribe'
+                onClick={() => toast("Email subscribed")}
               >
                 Subscribe
               </button>

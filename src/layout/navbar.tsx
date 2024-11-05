@@ -3,7 +3,6 @@
 'use client';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import axios, { AxiosError } from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -18,7 +17,7 @@ import { toast } from 'react-toastify';
 
 import { fetchCart } from '@/lib/slices/cart';
 import { fetchSubs } from '@/lib/slices/subcription';
-import { fetchProfile, setDataCoin, setOpenModal } from '@/lib/slices/user';
+import { fetchCoin, fetchProfile, setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 import useOutsideClick from '@/lib/useOutsideClick';
 
@@ -47,13 +46,13 @@ interface SubMenuState {
 
 const Navbar: React.FC = () => {
   const dispatch = useAppDispatch();
-  const isLogin = useAppSelector((state) => state.user?.token);
+  const isLogin = useAppSelector((state) => state.user.token);
   const dataUser = useAppSelector((state) => state.user.dataUser);
   const cartData = useAppSelector((state) => state.cart.cart);
   const router = useRouter();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isCrafterMenuOpen, setCrafterMenuOpen] = useState(false);
-  const [coin, setCoin] = useState(0);
+  const [coin, setCoin] = useState(dataUser?.coin);
   const [showTopup, setShowTopup] = useState(false);
   const [showMenu, setShowMenu] = useState<MenuState>({
     crafter: false,
@@ -107,26 +106,9 @@ const Navbar: React.FC = () => {
       dispatch(fetchCart(isLogin));
       dispatch(fetchProfile(isLogin));
       dispatch(fetchSubs(isLogin));
-      getCoin();
+      dispatch(fetchCoin(isLogin));
     }
   }, [isLogin]);
-
-  const getCoin = async () => {
-    try {
-      const res = await axios.get(
-        'https://drizy-api.quadrakaryasantosa.com/billing/coin',
-        {
-          headers: { Authorization: `bearer ${isLogin}` },
-        }
-      );
-      setCoin(res.data.data.coinAmount);
-      dispatch(setDataCoin({ coin: res.data.data.coinAmount }));
-    } catch (error) {
-      const err = error as AxiosError;
-      const errorData: any = err.response?.data;
-      toast.error((errorData.message as string) ?? 'Cannot get cart');
-    }
-  };
 
   const openModalLogin = () => {
     dispatch(setOpenModal(true));
