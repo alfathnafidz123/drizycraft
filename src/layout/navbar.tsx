@@ -110,6 +110,12 @@ const Navbar: React.FC = () => {
     }
   }, [isLogin]);
 
+  useEffect(() => {
+    if (dataUser?.coin) {
+      setCoin(dataUser.coin);
+    }
+  }, [dataUser?.coin]);
+
   const openModalLogin = () => {
     dispatch(setOpenModal(true));
   };

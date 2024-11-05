@@ -136,7 +136,7 @@ export default function Register() {
           <button className='rounded-full bg-[#008ECC] px-14 py-3 font-semibold text-[#e4f6fb] whitespace-nowrap'>
             Cancel subscription
           </button>
-          {activeSubcription && subsData?.coin !== -1 &&
+          {subsData && subsData?.coin !== -1 &&
             <div className='w-full flex justify-center lg:justify-end'>
               <button className="button-coin" onClick={() => { setShowRecharge(true) }}>
                 <svg xmlns="http://www.w3.org/2000/svg">

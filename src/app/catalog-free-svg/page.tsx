@@ -1,13 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { CiYoutube } from 'react-icons/ci';
-import { FaBehance } from 'react-icons/fa';
+import { FaBehance, FaUsers } from 'react-icons/fa';
 import { FaFacebookF } from 'react-icons/fa';
 import { FaPinterest } from 'react-icons/fa';
 import { FaInstagram } from 'react-icons/fa';
 import { FaChevronDown } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
 import { toast } from 'react-toastify';
 
 import ProductCard from '@/components/ProductCard';
@@ -121,12 +121,24 @@ export default function CatalogCrafter() {
         </p>
 
         <div className='mb-9 mt-[55px] flex gap-5 text-[#AAAAAA]'>
-          <FaBehance className='h-[24px] w-[24px]' />
-          <FaFacebookF className='h-[22px] w-[22px]' />
-          <FaXTwitter className='h-[22px] w-[22px]' />
-          <FaPinterest className='h-[22px] w-[22px]' />
-          <FaInstagram className='h-[24px] w-[24px]' />
-          <CiYoutube className='h-[26px] w-[26px]' />
+          <Link href="https://www.behance.net/drizycraft" target='_blank'>
+            <FaBehance className='h-10 w-10 max-md:h-5 max-md:w-5' />
+          </Link>
+          <Link href="https://www.facebook.com/DrizyStudio" target='_blank'>
+            <FaFacebookF className='h-10 w-10 max-md:h-5 max-md:w-5' />
+          </Link>
+          <Link href="https://www.facebook.com/groups/drizyfreebies" target='_blank'>
+            <FaUsers className='h-10 w-10 max-md:h-5 max-md:w-5' />
+          </Link>
+          <Link href="https://id.pinterest.com/Drizy_Studio/" target='_blank'>
+            <FaPinterest className='h-10 w-10 max-md:h-5 max-md:w-5' />
+          </Link>
+          <Link href="https://www.instagram.com/drizy_craft/" target='_blank'>
+            <FaInstagram className='h-10 w-10 max-md:h-5 max-md:w-5' />
+          </Link>
+          <Link href="https://www.youtube.com/@drizystudio" target='_blank'>
+            <CiYoutube className='h-10 w-10 max-md:h-5 max-md:w-5' />
+          </Link>
         </div>
         <img
           src={freeSVGBanner.src}

@@ -119,6 +119,7 @@ export default function HomePage() {
   useEffect(() => {
     getSeasonalHome();
     getHomepageData();
+    console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
   }, []);
 
   const categoryStatic = [

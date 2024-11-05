@@ -1,6 +1,8 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
+import Link from 'next/link';
 import { CiYoutube } from 'react-icons/ci';
+import { FaUsers } from 'react-icons/fa';
 import {
   FaBehance,
   FaFacebookF,
@@ -127,12 +129,24 @@ export default async function Article({ params }: { params: { id: string } }) {
               <div className=' ml-[90px] flex flex-col items-center justify-center text-[#AAAAAA]'>
                 <div className=' text-center text-[16px]'>Follow</div>
                 <div className='ml-[18px] mt-0.5 flex gap-3 text-[17px]'>
-                  <FaBehance />
-                  <FaFacebookF />
-                  <FaXTwitter />
-                  <FaPinterest />
-                  <FaInstagram />
-                  <CiYoutube />
+                  <Link href="https://www.behance.net/drizycraft" target='_blank'>
+                    <FaBehance className='h-10 w-10 max-md:h-5 max-md:w-5' />
+                  </Link>
+                  <Link href="https://www.facebook.com/DrizyStudio" target='_blank'>
+                    <FaFacebookF className='h-10 w-10 max-md:h-5 max-md:w-5' />
+                  </Link>
+                  <Link href="https://www.facebook.com/groups/drizyfreebies" target='_blank'>
+                    <FaUsers className='h-10 w-10 max-md:h-5 max-md:w-5' />
+                  </Link>
+                  <Link href="https://id.pinterest.com/Drizy_Studio/" target='_blank'>
+                    <FaPinterest className='h-10 w-10 max-md:h-5 max-md:w-5' />
+                  </Link>
+                  <Link href="https://www.instagram.com/drizy_craft/" target='_blank'>
+                    <FaInstagram className='h-10 w-10 max-md:h-5 max-md:w-5' />
+                  </Link>
+                  <Link href="https://www.youtube.com/@drizystudio" target='_blank'>
+                    <CiYoutube className='h-10 w-10 max-md:h-5 max-md:w-5' />
+                  </Link>
                 </div>
               </div>
             </div>

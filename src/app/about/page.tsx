@@ -3,11 +3,10 @@
 import Image from 'next/image';
 import * as React from 'react';
 import { CiYoutube } from 'react-icons/ci';
-import { FaBehance } from 'react-icons/fa';
+import { FaBehance, FaUsers } from 'react-icons/fa';
 import { FaFacebookF } from 'react-icons/fa';
 import { FaPinterest } from 'react-icons/fa';
 import { FaInstagram } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
 const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
 
 import localFont from 'next/font/local';
@@ -34,7 +33,9 @@ export default function Register() {
         <div className='mx-auto flex w-full max-w-[1164px] items-center justify-between gap-4 lg:gap-24 flex-row '>
           <div className='flex h-full items-center gap-6 text-[#AAAAAA] flex-col'>
             <div className='h-32 w-[2px] flex-grow bg-[#AAAAAA]' />
-            <FaBehance className='h-10 w-10 max-md:h-5 max-md:w-5' />
+            <Link href="https://www.behance.net/drizycraft" target='_blank'>
+              <FaBehance className='h-10 w-10 max-md:h-5 max-md:w-5' />
+            </Link>
             <Link href="https://www.facebook.com/DrizyStudio" target='_blank'>
               <FaFacebookF className='h-10 w-10 max-md:h-5 max-md:w-5' />
             </Link>
@@ -44,11 +45,11 @@ export default function Register() {
             <Link href="https://www.instagram.com/drizy_craft/" target='_blank'>
               <FaInstagram className='h-10 w-10 max-md:h-5 max-md:w-5' />
             </Link>
-            <Link href="" target='_blank'>
+            <Link href="https://www.youtube.com/@drizystudio" target='_blank'>
               <CiYoutube className='h-10 w-10 max-md:h-5 max-md:w-5' />
             </Link>
-            <Link href="" target='_blank'>
-              <FaXTwitter className='h-10 w-10 max-md:h-5 max-md:w-5' />
+            <Link href="https://www.facebook.com/groups/drizyfreebies" target='_blank'>
+              <FaUsers className='h-10 w-10 max-md:h-5 max-md:w-5' />
             </Link>
             <div className='h-32 w-[2px] flex-grow bg-[#AAAAAA]' />
           </div>

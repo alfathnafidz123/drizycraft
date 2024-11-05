@@ -11,13 +11,17 @@ import {
 export const fetchSubs = createAsyncThunk(
   'subcription/fetchSubss',
   async (token: string) => {
-    const res = await axios.get(
-      'https://drizy-api.quadrakaryasantosa.com/billing/current-sub',
-      {
-        headers: { Authorization: `bearer ${token}` },
-      }
-    );
-    return res.data as SubcriptionResI;
+    try {
+      const res = await axios.get(
+        'https://drizy-api.quadrakaryasantosa.com/billing/current-sub',
+        {
+          headers: { Authorization: `bearer ${token}` },
+        }
+      );
+      return res.data as SubcriptionResI;
+    } catch (error) {
+      return undefined;
+    }
   }
 );
 
@@ -38,11 +42,15 @@ const subcriptionSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchSubs.fulfilled, (state, action) => {
-      const isActive = moment(new Date()).isBefore(
-        new Date(action.payload.data.end_date)
-      );
-      state.subcription = action.payload.data;
-      state.activeSubcription = isActive;
+      if (action.payload) {
+        const isActive = moment(new Date()).isBefore(
+          new Date(action.payload.data.end_date)
+        );
+        state.subcription = action.payload.data;
+        state.activeSubcription = isActive;
+      } else {
+        state.subcription = undefined;
+      }
     });
   },
 });

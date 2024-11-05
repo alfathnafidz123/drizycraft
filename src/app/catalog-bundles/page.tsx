@@ -138,7 +138,7 @@ export default function CatalogCrafter() {
           </p>
 
           <div className='mt-[22%] flex gap-5 text-[#AAAAAA]'>
-            <Link href="" target='__blank'>
+            <Link href="https://www.behance.net/drizycraft" target='__blank'>
               <FaBehance className='h-[24px] w-[24px]' />
             </Link>
             <Link href="https://www.facebook.com/DrizyStudio" target='__blank'>
@@ -153,7 +153,7 @@ export default function CatalogCrafter() {
             <Link href="https://www.instagram.com/drizy_craft/" target='__blank'>
               <FaInstagram className='h-[24px] w-[24px]' />
             </Link>
-            <Link href="" target='__blank'>
+            <Link href="https://www.youtube.com/@drizystudio" target='__blank'>
               <CiYoutube className='h-[26px] w-[26px]' />
             </Link>
           </div>
