@@ -7,7 +7,7 @@ import { PagingArticleI } from '@/interfaces/article.interfaces';
 export async function allArticle(params: PagingArticleI) {
   try {
     const resp = await axios.get(
-      `https://drizy-api.quadrakaryasantosa.com/crafter/article`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/article`,
       {
         headers: {
           Accept: 'application/json',

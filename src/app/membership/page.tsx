@@ -227,7 +227,7 @@ export default function Membership() {
               {subscriptionPlans.map((plan, index) => (
                 <div
                   key={index}
-                  className='rounded-2xl bg-white shadow-lg max-md:min-h-[950px] lg:!min-h-[850px] lg:w-1/4 relative group border-2 border-white hover:border-[#EE4C73] transition-all'
+                  className='rounded-2xl bg-white shadow-lg max-md:min-h-[950px] lg:!min-h-[1020px] lg:w-1/4 relative group border-2 border-white hover:border-[#EE4C73] transition-all'
                 >
                   {plan.duration === "ANNUAL ACCESS" &&
                     <div className='bg-[#EE4C73] w-full h-36 absolute top-0 left-0 rounded-t-2xl' />

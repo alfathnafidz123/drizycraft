@@ -24,7 +24,7 @@ export default function HelpCenter() {
             </div>
           </div>
 
-          <div className='mb-[6%] ml-[4%] mr-[4%] mt-[6%] rounded-xl bg-white shadow-md'>
+          <div className='mb-[6%] ml-[4%] mr-[4%] mt-[6%] rounded-xl bg-white shadow-md pb-6'>
             <div className='p-6'></div>
 
             <div className='flex items-center bg-[#E4F6FB] pb-8 pl-10 pt-8'>
@@ -105,14 +105,16 @@ export default function HelpCenter() {
                   Payment Policy and Affiliate Fund Withdrawal Procedures
                 </Link>
               </div>
-            </div>
 
-            <Link href="https://drizystudio.com/docs-category/affiliates/" target='_blank' className='font-katide-bold mb-[4%] ml-10 mt-[4%] rounded-full border-[1px] border-[#4065D1] bg-white px-8 py-2 text-center text-[14px] text-[#4065D1]'>
-              Explore More
-            </Link>
+              <div className='mt-6'>
+                <Link href="https://drizystudio.com/docs-category/affiliates/" target='_blank' className='font-katide-bold rounded-full border-[1px] border-[#4065D1] bg-white px-8 py-2 text-center text-[14px] text-[#4065D1]'>
+                  Explore More
+                </Link>
+              </div>
+            </div>
           </div>
 
-          <div className='mb-[6%] ml-[4%] mr-[4%] mt-[6%] rounded-xl bg-white shadow-md'>
+          <div className='mb-[6%] ml-[4%] mr-[4%] mt-[6%] rounded-xl bg-white shadow-md pb-6'>
             <div className='p-6'></div>
 
             <div className='flex items-center bg-[#E4F6FB] pb-8 pl-10 pt-8'>
@@ -134,12 +136,14 @@ export default function HelpCenter() {
               </Link>
             </div>
 
-            <Link href="https://drizystudio.com/docs-category/community/" target='_blank' className='font-katide-bold mb-[4%] ml-10 mt-[4%] rounded-full border-[1px] border-[#4065D1] bg-white px-8 py-2 text-center text-[14px] text-[#4065D1]'>
-              Explore More
-            </Link>
+            <div className='ml-10 mt-6'>
+              <Link href="https://drizystudio.com/docs-category/community/" target='_blank' className='font-katide-bold rounded-full border-[1px] border-[#4065D1] bg-white px-8 py-2 text-center text-[14px] text-[#4065D1]'>
+                Explore More
+              </Link>
+            </div>
           </div>
 
-          <div className='mb-[6%] ml-[4%] mr-[4%] mt-[6%] rounded-xl bg-white shadow-md'>
+          <div className='mb-[6%] ml-[4%] mr-[4%] mt-[6%] rounded-xl bg-white shadow-md pb-6'>
             <div className='p-6'></div>
 
             <div className='flex items-center bg-[#E4F6FB] pb-8 pl-10 pt-8'>
@@ -161,9 +165,11 @@ export default function HelpCenter() {
               </Link>
             </div>
 
-            <Link href="https://drizystudio.com/docs-category/membership/" target='_blank' className='font-katide-bold mb-[4%] ml-10 mt-[4%] rounded-full border-[1px] border-[#4065D1] bg-white px-8 py-2 text-center text-[14px] text-[#4065D1]'>
-              Explore More
-            </Link>
+            <div className='mt-6 ml-10'>
+              <Link href="https://drizystudio.com/docs-category/membership/" target='_blank' className='font-katide-bold rounded-full border-[1px] border-[#4065D1] bg-white px-8 py-2 text-center text-[14px] text-[#4065D1]'>
+                Explore More
+              </Link>
+            </div>
           </div>
         </section>
       </div>

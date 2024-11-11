@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 export async function getCurrentSubs() {
   try {
     const resp = await axios.get(
-      `https://drizy-api.quadrakaryasantosa.com/billing/current-sub`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/current-sub`
     );
     return resp.data;
   } catch (error) {

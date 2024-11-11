@@ -1,8 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 // components/Modal.tsx
 
-import { SortType } from '@/app/api/product/getProduct';
-import { useAppSelector } from '@/lib/store';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { FaPlusSquare } from 'react-icons/fa';
@@ -10,6 +8,10 @@ import { IoCloseCircleOutline } from 'react-icons/io5';
 import { SingleValue } from 'react-select';
 import Select from 'react-select/async';
 import { toast } from 'react-toastify';
+
+import { useAppSelector } from '@/lib/store';
+
+import { SortType } from '@/app/api/product/getProduct';
 
 interface ModalProps {
   isOpen: boolean;
@@ -41,7 +43,7 @@ const ModalUploadProject: React.FC<ModalProps> = ({
       // if (search.includes('#')) {
 
       // } else {
-      const res = await axios.get('https://drizy-api.quadrakaryasantosa.com/crafter/product', {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/product`, {
         params: {
           page: 1,
           limit: 10,
@@ -70,7 +72,7 @@ const ModalUploadProject: React.FC<ModalProps> = ({
       bodyFormData.append("file", image![0]);
       bodyFormData.append("type", "OTHER_URL");
       const response = await fetch(
-        `https://drizy-media.quadrakaryasantosa.com/image`,
+        `${process.env.NEXT_PUBLIC_MEDIA_URL}/image`,
         {
           method: "POST",
           headers: {
@@ -83,7 +85,7 @@ const ModalUploadProject: React.FC<ModalProps> = ({
       const imgResponse = await response.json();
       const imageUrl = imgResponse.data.filename;
 
-      await axios.post('https://drizy-api.quadrakaryasantosa.com/crafter/crafter',
+      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/crafter`,
         {
           "description": description,
           "imageUrl": imageUrl,

@@ -33,7 +33,7 @@ const ModalRechargeCoin: React.FC<ModalProps> = ({
   const handlePayment = async () => {
     try {
       const resp = await axios.post(
-        `https://drizy-api.quadrakaryasantosa.com/billing/coin-payment`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/coin-payment`,
         {
           priceId: productId,
           qty: productId === "price_1QFii6Qinl9UJNy4N7tw2yyH" ? customAmount : 1

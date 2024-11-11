@@ -58,7 +58,7 @@ export default function Register() {
 
   const handleDelete = async (id: string) => {
     try {
-      await axios.delete(`https://drizy-api.quadrakaryasantosa.com/crafter/cart/${id}`, {
+      await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/cart/${id}`, {
         headers: { Authorization: `bearer ${token}` },
         params: { page: 1, limit: 25 },
       });

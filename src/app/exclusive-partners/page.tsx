@@ -126,7 +126,7 @@ export default function CatalogCrafter() {
 
         <div className='mt-4 flex flex-col items-center p-2 lg:ml-8 lg:mt-2 lg:items-start lg:p-0'>
           <div className='font-katide-bold inline-flex h-16 w-48 items-center justify-center rounded-full bg-[#61A9FA] px-9 text-center text-[24px] text-white shadow-md'>
-            Exclusive Partners
+            CRAFTERS
           </div>
 
           <p className='font-katide-bold mt-10 text-center text-[16px] text-[#1A214C] lg:text-start'>

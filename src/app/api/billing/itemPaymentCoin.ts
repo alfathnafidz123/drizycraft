@@ -12,7 +12,7 @@ interface PaymentCoinI {
 export async function itemPaymentCoin(data: PaymentCoinI) {
   try {
     const resp = await axios.post(
-      `https://drizy-api.quadrakaryasantosa.com/billing/buy-with-coin`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/buy-with-coin`,
       data,
       {
         headers: {

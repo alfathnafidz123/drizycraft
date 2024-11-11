@@ -23,7 +23,7 @@ export default function SubSuccess() {
   const handleSubSuccess = async () => {
     try {
       await axios.post(
-        `https://drizy-api.quadrakaryasantosa.com/billing/confirm-subs-payment`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/confirm-subs-payment`,
         {
           checkoutId: sessionId as string,
         },

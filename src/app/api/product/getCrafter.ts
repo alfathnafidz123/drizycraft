@@ -10,7 +10,7 @@ interface GetProductPayload {
 export async function getAllCrafter(data: GetProductPayload) {
   try {
     const resp = await axios.get(
-      `https://drizy-api.quadrakaryasantosa.com/crafter/crafter?page=${data.page}&limit=${data.limit}`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/crafter?page=${data.page}&limit=${data.limit}`
     );
     return resp.data;
   } catch (error) {

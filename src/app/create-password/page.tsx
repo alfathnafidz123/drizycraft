@@ -52,7 +52,7 @@ export default function Register() {
     try {
       e.preventDefault();
       setLoading(true);
-      await axios.post('https://drizy-api.quadrakaryasantosa.com/auth/user/reset-password', {
+      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/user/reset-password`, {
         password: form.password,
         token,
       });

@@ -49,7 +49,7 @@ export default function Register() {
   const handleRegister = async () => {
     try {
       await axios.post(
-        `https://drizy-api.quadrakaryasantosa.com/auth/user/request-reset-password`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/user/request-reset-password`,
         {
           email,
         }

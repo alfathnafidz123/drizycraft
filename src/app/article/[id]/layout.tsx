@@ -15,7 +15,7 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const id = params.id;
   const res = await fetch(
-    `https://drizy-api.quadrakaryasantosa.com/crafter/article/meta/${id}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/article/meta/${id}`,
     { cache: 'no-store' }
   );
   const resMetadata: ResArticleMetadata = await res.json();

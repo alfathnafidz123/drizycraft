@@ -27,7 +27,7 @@ export default function Register() {
     if (token) {
       try {
         const res = await axios.get(
-          'https://drizy-api.quadrakaryasantosa.com/billing/get-transaction',
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-transaction`,
           { headers: { Authorization: `bearer ${token}` }, params }
         );
         const transactionData = res.data as TransactionResI;
@@ -45,7 +45,7 @@ export default function Register() {
 
   const downloadInvoice = async (chechoutId: string) => {
     try {
-      const res = await axios.get(`https://drizy-api.quadrakaryasantosa.com/billing/get-invoice/${chechoutId}`,
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-invoice/${chechoutId}`,
         { headers: { Authorization: `bearer ${token}` } }
       );
       router.push(res.data);

@@ -5,7 +5,7 @@
 import axios, { AxiosError } from 'axios';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { fetchCoin, fetchProfile, setOpenModal } from '@/lib/slices/user';
@@ -34,10 +34,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
   handleShowDetail,
 }) => {
   const router = useRouter();
-  const { token, dataUser, activeSubcription } = useAppSelector((state) => ({
-    ...state.user,
-    ...state.subs,
-  }));
+  // const { token: tokenState, dataUser: dataUserState, activeSubcription: activeSubcriptionState } = useAppSelector((state) => ({
+  //   ...state.user,
+  //   ...state.subs,
+  // }));
+  const dataUserState = useAppSelector(state => state.user);
+  const activeSubcriptionState = useAppSelector(state => state.subs);
+  const token = useMemo(() => {
+    return dataUserState.token;
+  }, [dataUserState.token]);
+  const dataUser = useMemo(() => {
+    return dataUserState.dataUser;
+  }, [dataUserState.dataUser]);
+  const activeSubcription = useMemo(() => {
+    return activeSubcriptionState;
+  }, [activeSubcriptionState]);
   const [isDiscount, setIsDiscount] = useState(false);
   const dispatch = useAppDispatch();
 
@@ -76,7 +87,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     //   };
     //   if (token) {
     //     await axios.post(
-    //       `https://drizy-api.quadrakaryasantosa.com/crafter/cart`,
+    //       `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/cart`,
     //       payload,
     //       { headers: { Authorization: `Bearer ${token}` } }
     //     );
@@ -99,7 +110,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             licenseType: 0,
           };
           await axios.post(
-            `https://drizy-api.quadrakaryasantosa.com/billing/buy-with-coin`,
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/buy-with-coin`,
             payload,
             { headers: { Authorization: `Bearer ${token}` } }
           );

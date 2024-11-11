@@ -8,7 +8,7 @@ export const fetchCart = createAsyncThunk(
   'cart/fetchCarts',
   async (token: string) => {
     const res = await axios.get(
-      'https://drizy-api.quadrakaryasantosa.com/crafter/cart',
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/cart`,
       {
         headers: { Authorization: `bearer ${token}` },
         params: { page: 1, limit: 25 },

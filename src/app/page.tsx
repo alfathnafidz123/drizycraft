@@ -34,7 +34,6 @@ import {
 } from '@/interfaces/product.interface';
 
 import {
-  andy,
   arrowRight,
   bonnie,
   cat1,
@@ -51,7 +50,6 @@ import {
   gridCrafter,
   leslie,
   michelle,
-  nad,
   pam,
   search,
   starBadge,
@@ -119,7 +117,6 @@ export default function HomePage() {
   useEffect(() => {
     getSeasonalHome();
     getHomepageData();
-    console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
   }, []);
 
   const categoryStatic = [
@@ -208,17 +205,17 @@ export default function HomePage() {
                     </p>
                     <div className='flex'>
                       <img
-                        src={andy.src}
-                        className='lg:-ml-6 -ml-4 rounded-full border-[3px] border-white h-10 w-10 lg:h-14 lg:w-14'
-                        alt='avatar'
-                      />
-                      <img
                         src={leslie.src}
                         className='lg:-ml-6 -ml-4 rounded-full border-[3px] border-white h-10 w-10 lg:h-14 lg:w-14'
                         alt='avatar'
                       />
                       <img
-                        src={nad.src}
+                        src={michelle.src}
+                        className='lg:-ml-6 -ml-4 rounded-full border-[3px] border-white h-10 w-10 lg:h-14 lg:w-14'
+                        alt='avatar'
+                      />
+                      <img
+                        src={bonnie.src}
                         className='lg:-ml-6 -ml-4 rounded-full border-[3px] border-white h-10 w-10 lg:h-14 lg:w-14'
                         alt='avatar'
                       />
@@ -302,17 +299,17 @@ export default function HomePage() {
                         alt='avatar'
                       />
                       <img
-                        src={leslie.src}
-                        className='-ml-4 h-[36px] rounded-full border-[3px] border-[#D2FF3A]'
-                        alt='avatar'
-                      />
-                      <img
                         src={michelle.src}
                         className='-ml-4 h-[36px] rounded-full border-[3px] border-[#D2FF3A]'
                         alt='avatar'
                       />
                       <img
-                        src={andy.src}
+                        src={pam.src}
+                        className='-ml-4 h-[36px] rounded-full border-[3px] border-[#D2FF3A]'
+                        alt='avatar'
+                      />
+                      <img
+                        src={leslie.src}
                         className='-ml-4 h-[36px] rounded-full border-[3px] border-[#D2FF3A]'
                         alt='avatar'
                       />

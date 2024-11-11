@@ -1,3 +1,7 @@
+'use client'
+
+import { toast } from 'react-toastify';
+
 import { ContactUs } from '~/images';
 
 export default function Contact() {
@@ -67,7 +71,12 @@ export default function Contact() {
             </div>
 
             <div className='mt-8 flex w-full'>
-              <button className='m-[3%] rounded-full bg-[#4065D1] hover:bg-[#2A3B80] px-[30%] py-[1%] font-semibold text-[#e4f6fb]'>
+              <button
+                onClick={() => {
+                  toast.info('Message sent!');
+                }}
+                className='m-[3%] rounded-full bg-[#4065D1] hover:bg-[#2A3B80] px-[30%] py-[1%] font-semibold text-[#e4f6fb]'
+              >
                 Submit
               </button>
             </div>

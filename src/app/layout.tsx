@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 // import Navbar from '@/layout/navbar';
 import dynamic from 'next/dynamic';
 import * as React from 'react';
+import { Suspense } from 'react';
 import { ToastContainer } from 'react-toastify';
 
 import '@/styles/globals.css';
@@ -10,6 +11,7 @@ import '@/styles/globals.css';
 import '@/styles/colors.css';
 import 'react-toastify/dist/ReactToastify.css';
 
+import Loading from '@/app/loading';
 import StoreProvider from '@/app/StoreProvider';
 import { siteConfig } from '@/constant/config';
 import AsyncCSSSlick from '@/layout/asyncCssSlick';
@@ -194,7 +196,9 @@ export default function RootLayout({
         <StoreProvider>
           {/* <ComingSoonModal /> */}
           <Navbar />
-          {children}
+          <Suspense fallback={<Loading />}>
+            {children}
+          </Suspense>
           <ToastContainer />
           <Footer />
         </StoreProvider>

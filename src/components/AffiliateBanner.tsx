@@ -17,7 +17,7 @@ const AffiliateBanner = () => {
       try {
         setLoading(true);
         await axios.post(
-          'https://drizy-api.quadrakaryasantosa.com/affiliate/user/request',
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/affiliate/user/request`,
           {},
           { headers: { Authorization: `bearer ${token}` } }
         );

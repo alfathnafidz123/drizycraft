@@ -3,6 +3,8 @@
 import * as React from 'react';
 import { RiAlarmWarningFill } from 'react-icons/ri';
 
+import logger from '@/lib/logger';
+
 import TextButton from '@/components/buttons/TextButton';
 
 export default function Error({
@@ -13,8 +15,7 @@ export default function Error({
   reset: () => void;
 }) {
   React.useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.error(error);
+    logger(error);
   }, [error]);
 
   return (

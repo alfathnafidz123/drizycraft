@@ -56,7 +56,7 @@ export default function Register() {
   const handleRegister = async () => {
     try {
       await axios.post(
-        `https://drizy-api.quadrakaryasantosa.com/auth/user/register`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/user/register`,
         {
           email,
           username: firstName,

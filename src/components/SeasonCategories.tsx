@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
+import { memo } from 'react';
 
 interface SeasonCategoriesProps {
   name: string;
@@ -28,4 +29,4 @@ const SeasonCategories: React.FC<SeasonCategoriesProps> = ({ name, image }) => {
   );
 };
 
-export default SeasonCategories;
+export default memo(SeasonCategories);

@@ -9,7 +9,7 @@ interface RegisterPayload {
 export async function register(registerPayload: RegisterPayload) {
   try {
     const resp = await axios.post(
-      `https://drizy-api.quadrakaryasantosa.com/auth/user/register`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/user/register`,
       registerPayload
     );
     return resp.data;

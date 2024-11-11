@@ -9,7 +9,7 @@ interface LikeCrafterI {
 export async function likeCrafter(data: LikeCrafterI) {
   try {
     const resp = await axios.post(
-      `https://drizy-api.quadrakaryasantosa.com/crafter/crafter/like`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/crafter/like`,
       data,
       {
         headers: {

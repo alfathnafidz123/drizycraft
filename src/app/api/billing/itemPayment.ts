@@ -12,7 +12,7 @@ interface ItemPaymentI {
 export async function itemPayment(data: ItemPaymentI) {
   try {
     const resp = await axios.post(
-      `https://drizy-api.quadrakaryasantosa.com/billing/item-payment`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/item-payment`,
       data,
       {
         headers: {

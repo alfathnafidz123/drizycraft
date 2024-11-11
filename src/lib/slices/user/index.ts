@@ -58,7 +58,7 @@ export const fetchProfile = createAsyncThunk(
   'user/fetchProfile',
   async (token: string) => {
     const res = await axios.get(
-      'https://drizy-api.quadrakaryasantosa.com/auth/user/profile',
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/user/profile`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -73,7 +73,7 @@ export const fetchCoin = createAsyncThunk(
   'user/fetchCoin',
   async (token: string) => {
     const res = await axios.get(
-      'https://drizy-api.quadrakaryasantosa.com/billing/coin',
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/coin`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }

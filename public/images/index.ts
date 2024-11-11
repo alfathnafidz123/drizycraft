@@ -52,6 +52,7 @@ import comingSoonNotify from './coming-soon/notify.svg';
 import comingSoonNotifyHover from './coming-soon/notify-hover.svg';
 import pinterest from './coming-soon/pinterest.svg';
 import ContactUs from './contact-us.svg';
+import Copy from './copy.svg';
 import cov from './cov-product.png.png';
 import crafter1 from './crafter.svg';
 import crafterProduct from './crafters-product.svg';
@@ -92,6 +93,7 @@ import jiffy from './jiffy.svg';
 import license1 from './license1.svg';
 import license2 from './license2.svg';
 import loginImage from './login-image.png';
+import newBadge from './new-badge.svg';
 import newMember from './newMember.svg';
 import membership2 from './nocommitment.svg';
 import membership1 from './nocondition.svg';
@@ -117,6 +119,7 @@ import sale from './sale.png';
 import saleSvg from './sale.svg';
 import saleProduct from './sale-product.png';
 import samsung from './samsung.svg';
+import samsungHome from './samsung-home.svg';
 import search from './search.png';
 import searchBlue from './search-blue.png';
 import seasonCategory from './season-category.png';
@@ -196,6 +199,7 @@ export {
   comingSoonNotify,
   comingSoonNotifyHover,
   ContactUs,
+  Copy,
   cov,
   crafter1,
   crafterItem1,
@@ -247,6 +251,7 @@ export {
   membership4,
   michelle,
   nad,
+  newBadge,
   newMember,
   optimizedSVG,
   order,
@@ -271,6 +276,7 @@ export {
   saleProduct,
   saleSvg,
   samsung,
+  samsungHome,
   search,
   searchBlue,
   seasonCategory,

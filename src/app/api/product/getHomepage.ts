@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 export async function getHomepage() {
   try {
     const resp = await axios.get(
-      `https://drizy-api.quadrakaryasantosa.com/crafter/product/homepage`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/product/homepage`
     );
     return resp.data;
   } catch (error) {

@@ -7,12 +7,13 @@ import axios from 'axios';
 import { Loader } from 'lucide-react';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FaAngleRight } from 'react-icons/fa6';
 import { MdClose } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
 import { fetchCart } from '@/lib/slices/cart';
+import { fetchSubs } from '@/lib/slices/subcription';
 import { fetchProfile, setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
@@ -29,10 +30,21 @@ interface ModalProps {
 const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { token, dataUser, activeSubcription } = useAppSelector((state) => ({
-    ...state.user,
-    ...state.subs,
-  }));
+  // const { token, dataUser, activeSubcription } = useAppSelector((state) => ({
+  //   ...state.user,
+  //   ...state.subs,
+  // }));
+  const dataUserState = useAppSelector(state => state.user);
+  const activeSubcriptionState = useAppSelector(state => state.subs);
+  const token = useMemo(() => {
+    return dataUserState.token;
+  }, [dataUserState.token]);
+  const dataUser = useMemo(() => {
+    return dataUserState.dataUser;
+  }, [dataUserState.dataUser]);
+  const activeSubcription = useMemo(() => {
+    return activeSubcriptionState;
+  }, [activeSubcriptionState]);
   const [type, setType] = useState(0);
   const [isDiscount, setIsDiscount] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -82,11 +94,12 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
         licenseType: type,
       };
       await axios.post(
-        `https://drizy-api.quadrakaryasantosa.com/billing/buy-with-coin`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/buy-with-coin`,
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       dispatch(fetchProfile(token!));
+      dispatch(fetchSubs(token!));
       toast.success(`Successfully buy ${product?.name}!`);
       router.push('/profile/download');
     } catch (error: any) {
@@ -104,7 +117,7 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
         productId: product!.id,
         licenseType: type,
       };
-      await axios.post(`https://drizy-api.quadrakaryasantosa.com/crafter/cart`, payload, {
+      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/cart`, payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
       closeModal();

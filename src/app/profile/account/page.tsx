@@ -49,7 +49,7 @@ export default function Register() {
         displayName: data.displayName,
         email: data.email,
       };
-      await axios.put('https://drizy-api.quadrakaryasantosa.com/auth/user/profile', body, {
+      await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/user/profile`, body, {
         headers: { Authorization: `Bearer ${token}` },
       });
       updatePassword();
@@ -71,7 +71,7 @@ export default function Register() {
           newPassword: formPassword.newPassword,
         };
         await axios.put(
-          'https://drizy-api.quadrakaryasantosa.com/auth/user/change-password',
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/user/change-password`,
           body,
           { headers: { Authorization: `Bearer ${token}` } }
         );

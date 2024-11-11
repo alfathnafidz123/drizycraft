@@ -28,7 +28,7 @@ export default function Register() {
   const getSubscriptionData = async () => {
     try {
       const res = await axios.get(
-        'https://drizy-api.quadrakaryasantosa.com/billing/current-sub',
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/current-sub`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -38,7 +38,7 @@ export default function Register() {
       setSubsData(res.data.data);
     } catch (error) {
       const err = error as AxiosError;
-      toast.error(err.message);
+      toast.error((err.response?.data as any).message ?? "Unknown error");
     }
   };
 

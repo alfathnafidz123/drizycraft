@@ -9,7 +9,7 @@ interface GetReviewPayload {
 export async function getReviews(data: GetReviewPayload) {
   try {
     const resp = await axios.get(
-      `https://drizy-api.quadrakaryasantosa.com/crafter/product/reviews/${data?.id}?page=${data.page}&limit=${data.limit}`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/product/reviews/${data?.id}?page=${data.page}&limit=${data.limit}`
     );
     return resp.data;
   } catch (error) {

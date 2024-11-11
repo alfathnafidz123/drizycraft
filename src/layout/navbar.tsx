@@ -10,7 +10,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { FaChevronDown } from 'react-icons/fa6';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { IoPerson } from 'react-icons/io5';
+import { IoCloseCircle, IoPerson } from 'react-icons/io5';
 import { MdArrowOutward } from 'react-icons/md';
 import { MdArrowForwardIos } from 'react-icons/md';
 import { toast } from 'react-toastify';
@@ -29,6 +29,7 @@ import {
   drizzyCoin,
   emptyCoin,
   logodrizy,
+  newBadge,
   newMember,
   search,
 } from '~/images';
@@ -162,7 +163,6 @@ const Navbar: React.FC = () => {
                 <option value=''>All Product</option>
                 <option value='Bundles'>Bundles</option>
                 <option value='Crafters'>Crafters</option>
-                <option value='Font'>Font</option>
                 <option value='Freebies'>Freebies</option>
                 <option value='Membership'>Membership</option>
                 <option value='Vector'>Vector</option>
@@ -466,7 +466,7 @@ const Navbar: React.FC = () => {
                 ></input>
                 <div
                   onClick={() => router.push(`/category/search/${inputValue}`)}
-                  className='flex rounded-full bg-[#008ECC]'
+                  className='flex rounded-full bg-[#008ECC] cursor-pointer'
                 >
                   <img
                     src={search.src}
@@ -497,18 +497,18 @@ const Navbar: React.FC = () => {
                       } absolute top-16 z-10 w-[285px] overflow-hidden rounded-bl-3xl rounded-br-3xl bg-[#E4F6FB]`}
                   >
                     <div className='flex w-full min-w-[285px] flex-col'>
-                      <div className='group flex justify-between py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                      <Link href='/catalog-vector?filter=Illustration' className='group flex justify-between py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                         <p>Illustration</p>
                         <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                      </div>
-                      <div className='group flex justify-between py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                      </Link>
+                      <Link href='/catalog-vector?filter=Icon' className='group flex justify-between py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                         <p>Icon</p>
                         <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                      </div>
-                      <div className='group flex justify-between py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                      </Link>
+                      <Link href='/catalog-vector?filter=Print Template' className='group flex justify-between py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                         <p>Print Template</p>
                         <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                      </div>
+                      </Link>
                       {showMenu.vector && showSubMenu.craft && <div></div>}
                     </div>
                   </div>
@@ -594,28 +594,33 @@ const Navbar: React.FC = () => {
                     COIN
                   </button>
                   {showTopup &&
-                    <div className='flex flex-col justify-center items-center gap-2 rounded-xl absolute -bottom-40 right-0 bg-gray-50 p-2 w-52'>
-                      <p className='font-katide-bold text-sm'>Your Drizy Coins</p>
-                      <img src={drizzyCoin.src} alt='cart' className='w-8 h-8' />
-                      <p className=''>
-                        {(coin === 0) ? (
-                          <Image
-                            src={emptyCoin.src}
-                            alt='empty-coin'
-                            width={80}
-                            height={80}
-                            className='h-4 w-4'
-                          />
-                        ) : coin === -1 ? "♾️" : (
-                          coin
-                        )}
-                      </p>
-                      <Button onClick={() => {
-                        if (coin === -1) toast('You have unlimited coin');
-                        else router.push('/profile/subscription');
-                      }} className='font-katide-bold flex w-full items-center justify-center rounded-full border-none bg-[#008ECC] hover:bg-[#008ECC]/90 text-xs'>
-                        TOP UP HERE
-                      </Button>
+                    <div className='rounded-xl absolute -bottom-40 right-0 bg-gray-50 p-2 w-52'>
+                      <div className='flex flex-col justify-center items-center gap-2 relative'>
+                        <div className='absolute right-1 top-1 cursor-pointer' onClick={() => setShowTopup(false)}>
+                          <IoCloseCircle />
+                        </div>
+                        <p className='font-katide-bold text-sm'>Your Drizy Coins</p>
+                        <img src={drizzyCoin.src} alt='cart' className='w-8 h-8' />
+                        <p className=''>
+                          {(coin === 0) ? (
+                            <Image
+                              src={emptyCoin.src}
+                              alt='empty-coin'
+                              width={80}
+                              height={80}
+                              className='h-4 w-4'
+                            />
+                          ) : coin === -1 ? "♾️" : (
+                            coin
+                          )}
+                        </p>
+                        <Button onClick={() => {
+                          if (coin === -1) toast('You have unlimited coin');
+                          else router.push('/profile/subscription');
+                        }} className='font-katide-bold flex w-full items-center justify-center rounded-full border-none bg-[#008ECC] hover:bg-[#008ECC]/90 text-xs'>
+                          TOP UP HERE
+                        </Button>
+                      </div>
                     </div>
                   }
                 </div>
@@ -698,28 +703,33 @@ const Navbar: React.FC = () => {
                   <img src={drizzyCoin.src} alt='cart' />
                 </button>
                 {showTopup &&
-                  <div className='flex flex-col justify-center items-center gap-2 rounded-xl absolute -bottom-40 right-0 bg-gray-50 p-2 w-52'>
-                    <p className='font-katide-bold text-sm'>Your Drizy Coins</p>
-                    <img src={drizzyCoin.src} alt='cart' className='w-8 h-8' />
-                    <p className=''>
-                      {(coin === 0) ? (
-                        <Image
-                          src={emptyCoin.src}
-                          alt='empty-coin'
-                          width={80}
-                          height={80}
-                          className='h-4 w-4'
-                        />
-                      ) : coin === -1 ? "♾️" : (
-                        coin
-                      )}
-                    </p>
-                    <Button onClick={() => {
-                      if (coin === -1) toast('You have unlimited coin');
-                      else router.push('/profile/subscription');
-                    }} className='font-katide-bold flex w-full items-center justify-center rounded-full border-none bg-[#008ECC] hover:bg-[#008ECC]/90 text-xs'>
-                      TOP UP HERE
-                    </Button>
+                  <div className='rounded-xl absolute -bottom-40 right-0 bg-gray-50 p-2 w-52'>
+                    <div className='flex flex-col justify-center items-center gap-2 relative'>
+                      <div className='absolute right-1 top-1 cursor-pointer' onClick={() => setShowTopup(false)}>
+                        <IoCloseCircle />
+                      </div>
+                      <p className='font-katide-bold text-sm'>Your Drizy Coins</p>
+                      <img src={drizzyCoin.src} alt='cart' className='w-8 h-8' />
+                      <p className=''>
+                        {(coin === 0) ? (
+                          <Image
+                            src={emptyCoin.src}
+                            alt='empty-coin'
+                            width={80}
+                            height={80}
+                            className='h-4 w-4'
+                          />
+                        ) : coin === -1 ? "♾️" : (
+                          coin
+                        )}
+                      </p>
+                      <Button onClick={() => {
+                        if (coin === -1) toast('You have unlimited coin');
+                        else router.push('/profile/subscription');
+                      }} className='font-katide-bold flex w-full items-center justify-center rounded-full border-none bg-[#008ECC] hover:bg-[#008ECC]/90 text-xs'>
+                        TOP UP HERE
+                      </Button>
+                    </div>
                   </div>
                 }
               </div>
@@ -730,7 +740,6 @@ const Navbar: React.FC = () => {
               <option value=''>All Product</option>
               <option value='Bundles'>Bundles</option>
               <option value='Crafters'>Crafters</option>
-              <option value='Font'>Font</option>
               <option value='Freebies'>Freebies</option>
               <option value='Membership'>Membership</option>
               <option value='Vector'>Vector</option>
@@ -742,9 +751,14 @@ const Navbar: React.FC = () => {
             <div className='group flex h-[42px] grow items-center gap-4 rounded-full border border-solid border-blue-500 border-opacity-25 p-2 pl-4 text-left text-sm font-normal leading-4 tracking-tighter text-[#6F6F6F]'>
               <input
                 placeholder='Search for unique craft designs, categories, occasions...'
-                className='flex-grow truncate border-none text-sm outline-none'
+                className='w-full truncate border-none text-sm outline-none'
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
               ></input>
-              <div className='flex rounded-full bg-[#008ECC]'>
+              <div
+                onClick={() => router.push(`/category/search/${inputValue}`)}
+                className='flex rounded-full bg-[#008ECC] cursor-pointer'
+              >
                 <img
                   src={search.src}
                   className='w-[32px] flex-grow transition-all duration-300'
@@ -765,7 +779,7 @@ const Navbar: React.FC = () => {
                   }}
                   className='flex w-full justify-between border-t-2 '
                 >
-                  <p className='p-4 font-semibold'>Crafters</p>
+                  <p className='p-4 font-katide-semibold'>Crafters</p>
                   <div className='flex items-center justify-center border-l px-6 py-4'>
                     <FaChevronDown
                       className={`${isCrafterMenuOpen ? 'rotate-0' : '-rotate-90'
@@ -776,84 +790,97 @@ const Navbar: React.FC = () => {
                 {isCrafterMenuOpen && (
                   <>
                     <div className='ml-4 border-t-2 p-4'>
-                      <p className='font-semibold'>Featured</p>
+                      <p className='font-katide-semibold'>Featured</p>
                     </div>
                     <div
                       onClick={() => {
                         router.push('/category/Premium SVG');
+                        setSidebarOpen(false);
                       }}
                       className='ml-4 border-t-2 p-4'
                     >
-                      <p className='font-semibold'>Premium SVG</p>
+                      <p className='font-katide-semibold'>Premium SVG</p>
                     </div>
-                    <div className='ml-4 border-t-2 p-4'>
-                      <p className='font-semibold'>Exclusive Partner</p>
+                    <div onClick={() => {
+                      router.push('/exclusive-partners');
+                      setSidebarOpen(false);
+                    }} className='ml-4 border-t-2 p-4'>
+                      <p className='font-katide-semibold'>Exclusive Partner</p>
                     </div>
                     <div
                       onClick={() => {
                         router.push('/category/Seasonal');
+                        setSidebarOpen(false);
                       }}
                       className='ml-4 border-t-2 p-4'
                     >
-                      <p className='font-semibold'>Seasonal</p>
+                      <p className='font-katide-semibold'>Seasonal</p>
                     </div>
                     <div
                       onClick={() => {
                         router.push('/category/Craft Design SVG');
+                        setSidebarOpen(false);
                       }}
                       className='ml-4 border-t-2 p-4'
                     >
-                      <p className='font-semibold'>Craft Design SVG</p>
+                      <p className='font-katide-semibold'>Craft Design SVG</p>
                     </div>
                   </>
                 )}
                 <div
                   onClick={() => {
                     router.push('/category/Vector');
+                    setSidebarOpen(false);
                   }}
                   className='border-t-2 p-4'
                 >
-                  <p className='font-semibold'>Vector</p>
+                  <p className='font-katide-semibold'>Vector</p>
                 </div>
                 <div
                   onClick={() => {
                     router.push('/category/Bundle');
+                    setSidebarOpen(false);
                   }}
                   className='border-t-2 p-4'
                 >
-                  <p className='font-semibold'>Bundle</p>
+                  <p className='font-katide-semibold'>Bundle</p>
                 </div>
                 <div
                   onClick={() => {
                     router.push('/category/Free SVG');
+                    setSidebarOpen(false);
                   }}
                   className='border-t-2 p-4'
                 >
-                  <p className='font-semibold'>Free SVGs</p>
+                  <p className='font-katide-semibold'>Free SVGs</p>
                 </div>
                 <div
                   onClick={() => {
                     router.push('/blog');
+                    setSidebarOpen(false);
                   }}
                   className='border-t-2 p-4'
                 >
-                  <p className='font-semibold'>Blog</p>
+                  <p className='font-katide-semibold'>Blog</p>
                 </div>
                 <div
                   onClick={() => {
                     router.push('/project');
+                    setSidebarOpen(false);
                   }}
                   className='border-t-2 p-4'
                 >
-                  <p className='font-semibold'>Project</p>
+                  <p className='font-katide-semibold'>Project</p>
                 </div>
                 <div
                   onClick={() => {
                     router.push('/membership');
+                    setSidebarOpen(false);
                   }}
-                  className='border-t-2 p-4'
+                  className='border-t-2 p-4 flex flex-row gap-2 items-center'
                 >
-                  <p className='font-semibold'>Membership</p>
+                  <img src={newBadge.src} />
+                  <p className='font-katide-semibold text-[#EE4C73]'>Membership</p>
                 </div>
               </div>
               <div className='h-screen grow bg-black opacity-20'></div>

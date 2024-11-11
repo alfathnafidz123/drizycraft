@@ -18,10 +18,14 @@ import { useAppDispatch, useAppSelector } from '@/lib/store';
 import { login } from '@/app/api/auth/login';
 import { loginSocial } from '@/app/api/auth/loginSocial';
 
+import { Copy } from '~/images';
+
 const LoginLottie = dynamic(() => import('../lottie/login'), { ssr: false });
 
 const ModalLogin: React.FC = () => {
   const dispatch = useAppDispatch();
+  const [support, setSupport] = useState(true);
+  const [coppied, setCoppied] = useState(false);
   const isOpen = useAppSelector((state) => state.user?.openModal);
   const closeModal = () => {
     dispatch(setOpenModal(false));
@@ -67,6 +71,14 @@ const ModalLogin: React.FC = () => {
     onSuccess: (codeResponse) => setUser(codeResponse),
     onError: (error) => toast('Login failed'),
   });
+
+  useEffect(() => {
+    const userAgent = window.navigator.userAgent;
+    if (userAgent.match(/FBAN|FBAV/i) || userAgent.includes('LinkedInApp')) {
+      setSupport(false);
+    }
+  }, []);
+
 
   useEffect(() => {
     if (googleUser.access_token !== undefined) {
@@ -154,33 +166,59 @@ const ModalLogin: React.FC = () => {
                   </span>
                 </Link>
               </div>
-              <FacebookLogin
-                appId="3917524378531645"
-                onProfileSuccess={(res) => {
-                  handleLoginSocial(res.email!, res.name!, res.id!, res.picture!.data.url, "facebook");
-                }}
-                onFail={(res) => {
-                  toast.error(res.status);
-                }}
-                render={({ onClick }) => {
-                  return (
-                    <button onClick={onClick} className='mt-2 flex items-center gap-4 rounded-full border-2 border-[#4065D1] px-6 py-2 font-semibold text-[#4065D1] max-md:justify-center'>
-                      <FaFacebookF style={{ color: '#4065D1' }} />
-                      <p>Login with Facebook</p>
-                    </button>
-                  )
-                }}
-              />
-              {/* <GoogleLogin onSuccess={responseMessage} onError={errorMessage} /> */}
-              <button
-                onClick={() => {
-                  loginGoogle();
-                }}
-                className='mt-2 flex items-center gap-4 rounded-full border-2 border-[#1A214C] px-6 py-2 font-semibold text-[#1A214C] max-md:justify-center'
-              >
-                <FcGoogle />
-                <p>Login with Google</p>
-              </button>
+              {support ?
+                <>
+                  <FacebookLogin
+                    appId="3917524378531645"
+                    onProfileSuccess={(res) => {
+                      handleLoginSocial(res.email!, res.name!, res.id!, res.picture!.data.url, "facebook");
+                    }}
+                    onFail={(res) => {
+                      toast.error(res.status);
+                    }}
+                    render={({ onClick }) => {
+                      return (
+                        <button onClick={onClick} className='mt-2 flex items-center gap-4 rounded-full border-2 border-[#4065D1] px-6 py-2 font-semibold text-[#4065D1] max-md:justify-center'>
+                          <FaFacebookF style={{ color: '#4065D1' }} />
+                          <p>Login with Facebook</p>
+                        </button>
+                      )
+                    }}
+                  />
+                  <button
+                    onClick={() => {
+                      loginGoogle();
+                    }}
+                    className='mt-2 flex items-center gap-4 rounded-full border-2 border-[#1A214C] px-6 py-2 font-semibold text-[#1A214C] max-md:justify-center'
+                  >
+                    <FcGoogle />
+                    <p>Login with Google</p>
+                  </button>
+                </>
+                :
+                <>
+                  <p className='text-sm text-start'>
+                    We’re sorry, but your browser is not supported for social login.
+                    For the best experience, please open this page on <span className='font-bold font-katide-bold'>your mobile browser</span>.
+                    <br />Copy the link below:
+                  </p>
+                  <div
+                    onClick={() => {
+                      navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_URL}`).then(() => {
+                        toast.info("Link coppied");
+                        setCoppied(true);
+                      });
+                    }}
+                    className='border border-gray-300 rounded-xl flex flex-row justify-between items-start gap-4 px-4 py-2 mt-2 cursor-pointer'
+                  >
+                    <p>{process.env.NEXT_PUBLIC_URL}</p>
+                    <img src={Copy.src} alt='copy' />
+                  </div>
+                  {coppied &&
+                    <p className='text-xs text-green-600'>Link coppied</p>
+                  }
+                </>
+              }
               <p className='text-grey-900 mt-4 block lg:hidden'>
                 New User?
                 <Link href='/register'>

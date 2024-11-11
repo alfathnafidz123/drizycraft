@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import moment from "moment";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Slider, { CustomArrowProps } from "react-slick";
 import { toast } from "react-toastify";
 
@@ -15,10 +15,17 @@ import { cartProduct, sale } from "~/images";
 
 const SaleProductCard = ({ data, handleShowDetail }: { data: productI; handleShowDetail: (product: productI) => void; }) => {
   const router = useRouter();
-  const { token, dataUser, activeSubcription } = useAppSelector((state) => ({
-    ...state.user,
-    ...state.subs,
-  }));
+  const dataUserState = useAppSelector(state => state.user);
+  const activeSubcriptionState = useAppSelector(state => state.subs);
+  const token = useMemo(() => {
+    return dataUserState.token;
+  }, [dataUserState.token]);
+  const dataUser = useMemo(() => {
+    return dataUserState.dataUser;
+  }, [dataUserState.dataUser]);
+  const activeSubcription = useMemo(() => {
+    return activeSubcriptionState;
+  }, [activeSubcriptionState]);
   const [isDiscount, setIsDiscount] = useState(false);
   const dispatch = useAppDispatch();
   const CustomNextArrow: React.FC<CustomArrowProps> = ({ onClick }) => (

@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 export async function getSeason() {
   try {
     const resp = await axios.get(
-      `https://drizy-api.quadrakaryasantosa.com/crafter/product/child/Seasonal`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/product/child/Seasonal`
     );
     return resp.data;
   } catch (error) {

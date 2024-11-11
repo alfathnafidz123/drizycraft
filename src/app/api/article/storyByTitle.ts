@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 export async function storyByTitle(title: string) {
   try {
     const resp = await axios.get(
-      `https://drizy-api.quadrakaryasantosa.com/crafter/story/${title}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/story/${title}`,
       {
         headers: {
           Accept: 'application/json',

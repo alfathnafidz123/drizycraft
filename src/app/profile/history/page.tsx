@@ -6,11 +6,11 @@ import axios from 'axios';
 import Image from 'next/image';
 import * as React from 'react';
 import { FaSpinner } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 import { useAppSelector } from '@/lib/store';
 
 import { GetCarfterResI } from '@/interfaces/crafter.interfaces';
-import { toast } from 'react-toastify';
 
 export default function HistoryProject() {
   const { token } = useAppSelector(state => state.user);
@@ -24,7 +24,7 @@ export default function HistoryProject() {
   const getHistory = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("https://drizy-api.quadrakaryasantosa.com/crafter/crafter/my",
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/crafter/my`,
         {
           headers: { "Authorization": `Bearer ${token}` },
           params

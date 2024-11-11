@@ -11,7 +11,7 @@ interface LoginPayload {
 export async function loginSocial(loginPayload: LoginPayload) {
   try {
     const resp = await axios.post(
-      `https://drizy-api.quadrakaryasantosa.com/auth/user/login-sso`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/user/login-sso`,
       loginPayload
     );
     return resp.data;

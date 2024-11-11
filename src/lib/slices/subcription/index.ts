@@ -13,7 +13,7 @@ export const fetchSubs = createAsyncThunk(
   async (token: string) => {
     try {
       const res = await axios.get(
-        'https://drizy-api.quadrakaryasantosa.com/billing/current-sub',
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/current-sub`,
         {
           headers: { Authorization: `bearer ${token}` },
         }

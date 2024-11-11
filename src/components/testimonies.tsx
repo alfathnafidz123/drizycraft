@@ -22,7 +22,7 @@ import {
   nad,
   optimizedSVG,
   pam,
-  samsung,
+  samsungHome,
   testimony,
   wordBank,
 } from '~/images';
@@ -285,7 +285,7 @@ const Testimonies = () => {
         />
         <img
           loading='lazy'
-          src={samsung.src}
+          src={samsungHome.src}
           className='w-1/3 md:w-auto'
           alt='samsung'
         />

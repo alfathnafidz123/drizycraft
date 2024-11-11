@@ -15,6 +15,7 @@ import {
 import { MdKeyboardDoubleArrowRight } from 'react-icons/md';
 
 import AffiliateBanner from '@/components/AffiliateBanner';
+import NextImage from '@/components/NextImage';
 import RelatedPost from '@/components/RelatedPost';
 
 import { ResArticleI } from '@/interfaces/article.interfaces';
@@ -28,7 +29,7 @@ import {
 
 async function getArticle(id: string) {
   const res = await fetch(
-    `https://drizy-api.quadrakaryasantosa.com/crafter/article/by-id/${id}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/article/by-id/${id}`,
     { cache: 'no-store' }
   );
   const article: ResArticleI = await res.json();
@@ -47,10 +48,13 @@ export default async function Article({ params }: { params: { id: string } }) {
   return (
     <main className='w-full max-w-full'>
       <section>
-        <img
+        <NextImage
           src={article.banner ?? bannerArticle.src}
           alt={article.title}
-          className='h-[420px] w-full'
+          width={1000}
+          height={1000}
+          className='w-full object-center'
+          classNames={{ image: 'object-center w-full' }}
         />
 
         <div className='flex h-16 flex-col items-center gap-2 bg-[#EBECF5] px-4 py-2 xl:flex-row xl:justify-between xl:py-6'>

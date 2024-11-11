@@ -66,7 +66,7 @@ export default function Register() {
   const getSubscriptionData = async () => {
     try {
       const res = await axios.get(
-        'https://drizy-api.quadrakaryasantosa.com/billing/current-sub',
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/current-sub`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -129,7 +129,7 @@ export default function Register() {
         payload.refCode = refCode;
       }
       await axios.post(
-        `https://drizy-api.quadrakaryasantosa.com/billing/buy-with-coin`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/buy-with-coin`,
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -152,7 +152,7 @@ export default function Register() {
       if (refCode) {
         payload.refCode = refCode;
       }
-      await axios.post(`https://drizy-api.quadrakaryasantosa.com/crafter/cart`, payload, {
+      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/cart`, payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
       router.push('/cart');
@@ -167,7 +167,7 @@ export default function Register() {
     try {
       setLoadingAffiliate(true);
       const res = await axios.post(
-        `https://s.quadrakaryasantosa.com`,
+        `${process.env.NEXT_PUBLIC_SHORTLINK_URL}`,
         {
           originalUrl: `${window.location.href}?ref=${dataUser?.affiliate.refferalCode}`,
         },
@@ -175,7 +175,7 @@ export default function Register() {
           headers: { Authorization: `bearer ${token}` },
         }
       );
-      setShortUrl(`https://s.quadrakaryasantosa.com/${res.data.shortUrl}`);
+      setShortUrl(`${process.env.NEXT_PUBLIC_SHORTLINK_URL}/${res.data.shortUrl}`);
     } catch (error) {
       const err = error as AxiosError;
       const errorData: any = err.response?.data;
@@ -321,7 +321,7 @@ export default function Register() {
               </p>
             </div>
             <div className='flex flex-col gap-4 p-2 lg:w-5/6 lg:p-0'>
-              {dataUser?.coin === 0 ?
+              {(!dataUser || dataUser?.coin === 0) ?
                 <>
                   <p className='font-katide-bold text-xs text-[#1A214C]'>
                     License Option

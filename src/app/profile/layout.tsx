@@ -76,7 +76,7 @@ export default function RootLayout({
         bodyFormData.append("file", avatar[0]);
         bodyFormData.append("type", "OTHER_URL");
         const response = await fetch(
-          `https://drizy-media.quadrakaryasantosa.com/image`,
+          `${process.env.NEXT_PUBLIC_MEDIA_URL}/image`,
           {
             method: "POST",
             headers: {
@@ -88,7 +88,7 @@ export default function RootLayout({
         );
         const imgResponse = await response.json();
         const imageUrl = imgResponse.data.filename;
-        await axios.put('https://drizy-api.quadrakaryasantosa.com/auth/user/avatar',
+        await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/user/avatar`,
           {
             "avatar": imageUrl,
           },

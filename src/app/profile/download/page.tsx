@@ -3,13 +3,13 @@
 'use client';
 
 import axios, { AxiosError } from 'axios';
+import { Loader } from 'lucide-react';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { FaInfinity } from 'react-icons/fa6';
 import { toast } from 'react-toastify';
 
 import { useAppSelector } from '@/lib/store';
-import { Loader } from 'lucide-react';
 
 interface Product {
   id: string;
@@ -58,7 +58,7 @@ export default function Register() {
   const getTransactionData = async () => {
     try {
       const res = await axios.get(
-        'https://drizy-api.quadrakaryasantosa.com/billing/get-transaction?page=1&limit=10',
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-transaction?page=1&limit=10`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -76,7 +76,7 @@ export default function Register() {
     try {
       setLoading(true);
       const res = await fetch(
-        `https://drizy-api.quadrakaryasantosa.com/billing/get-file-download/${id}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-file-download/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

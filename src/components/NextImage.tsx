@@ -1,3 +1,4 @@
+'use client'
 import Image, { ImageProps } from 'next/image';
 import * as React from 'react';
 
@@ -11,9 +12,9 @@ type NextImageProps = {
   };
   alt: string;
 } & (
-  | { width: string | number; height: string | number }
-  | { layout: 'fill'; width?: string | number; height?: string | number }
-) &
+    | { width: string | number; height: string | number }
+    | { layout: 'fill'; width?: string | number; height?: string | number }
+  ) &
   ImageProps;
 
 /**

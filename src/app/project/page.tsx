@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
+import Link from 'next/link';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -85,7 +86,7 @@ export default function Register() {
           <div className='mt-6 flex flex-row'>
             <img src={projectSign.src} />
             <p className='self-center pl-5'>
-              <b>Sign up:</b>
+              <b>Sign up: </b>
               <span className='cursor-pointer text-[#4065D1]'>
                 Create an account
               </span>
@@ -95,10 +96,10 @@ export default function Register() {
             <img src={projectSubscribe.src} />
             <p className='self-center pl-5'>
               <b>Subscribe:</b> Select one of our membership plans. <br />
-              Don't worry, we offer a <b>free trial</b> for you.
-              <span className='cursor-pointer text-[#4065D1]'>
+              Don't worry, we offer a <b>free trial</b> for you.{" "}
+              <Link type='span' href="/membership" className='cursor-pointer text-[#4065D1]'>
                 Just click here!
-              </span>
+              </Link>
             </p>
           </div>
           <div className='mt-6 flex flex-row'>

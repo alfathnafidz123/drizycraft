@@ -11,7 +11,7 @@ interface ReviewI {
 export async function addReview(data: ReviewI) {
   try {
     const resp = await axios.post(
-      `https://drizy-api.quadrakaryasantosa.com/crafter/product/reviews`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/product/reviews`,
       data,
       {
         headers: {
