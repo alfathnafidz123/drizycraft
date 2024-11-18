@@ -5,15 +5,18 @@ import Link from 'next/link';
 interface ProductCategoriesProps {
   name: string;
   image: string;
+  link: string;
 }
 
 const ProductCategories: React.FC<ProductCategoriesProps> = ({
   name,
   image,
+  link,
 }) => {
   return (
     <Link
-      href={`/category/${name}`}
+      prefetch={true}
+      href={`/category/${link}`}
       aria-label={`show-product-${name}`}
       id={`show-product-${name}`}
       className='relative h-16 w-full overflow-hidden rounded-[32px]'

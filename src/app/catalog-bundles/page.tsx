@@ -1,6 +1,7 @@
 'use client';
+import { Loader } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { CiYoutube } from 'react-icons/ci';
 import { FaBehance, FaUsers } from 'react-icons/fa';
 import { FaFacebookF } from 'react-icons/fa';
@@ -9,6 +10,7 @@ import { FaInstagram } from 'react-icons/fa';
 import { FaChevronDown } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
+import ModalProduct from '@/components/modals/product';
 import ProductCard from '@/components/ProductCard';
 
 import { getSeason } from '@/app/api/product/getCategory';
@@ -34,6 +36,13 @@ export default function CatalogCrafter() {
   const [selectedSeasonsOption, setSelectedSeasonsOption] = useState('');
   const [productData, setProductData] = useState<productI[] | []>([]);
   const [seasonalData, setSeasonalData] = useState<CategoryI[] | []>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(false);
+  const [showProductDetail, setShowProductDetail] = useState<{
+    show: boolean;
+    product?: productI;
+  }>({ show: false });
 
   const categoryOptions = [
     '3D Shadow Box',
@@ -76,7 +85,7 @@ export default function CatalogCrafter() {
     return str.replace(/([A-Z])/g, ' $1').trim();
   }
 
-  const getProduct = async () => {
+  const getProduct = useCallback(async () => {
     const extraCat =
       selectedSeasonsOption !== ''
         ? selectedSeasonsOption
@@ -85,17 +94,18 @@ export default function CatalogCrafter() {
           : '';
     try {
       const response = await getAllProduct({
-        page: 1,
+        page: currentPage,
         limit: 10,
         sortType: selectedShortByOption,
         category: 'Bundles',
         extraCategory: extraCat !== '' ? extraCat : '',
       });
       setProductData(response.data);
+      setHasMore(response.meta.hasNextPage);
     } catch (error) {
       toast('Error when trying to get all products');
     }
-  };
+  }, [currentPage, selectedCategoryOption, selectedSeasonsOption, selectedShortByOption]);
 
   const getSeasonalData = async () => {
     try {
@@ -107,13 +117,12 @@ export default function CatalogCrafter() {
   };
 
   useEffect(() => {
-    getProduct();
     getSeasonalData();
   }, []);
 
   useEffect(() => {
     getProduct();
-  }, [selectedCategoryOption, selectedSeasonsOption, selectedShortByOption]);
+  }, [selectedCategoryOption, selectedSeasonsOption, selectedShortByOption, currentPage, getProduct]);
 
   return (
     <main>
@@ -288,13 +297,31 @@ export default function CatalogCrafter() {
             </div>
           </div>
 
-          <div className='w-full flex flex-wrap items-center justify-center lg:items-start lg:justify-start'>
-            {productData.map((product, index) => (
-              <ProductCard key={index} data={product} />
-            ))}
+          <div className='w-full'>
+            <div className='w-full flex flex-wrap items-center justify-center lg:items-start lg:justify-start'>
+              {productData.map((product, index) => (
+                <ProductCard
+                  key={index}
+                  data={product}
+                  handleShowDetail={(data) =>
+                    setShowProductDetail({ show: true, product: data })
+                  }
+                />
+              ))}
+            </div>
+            {hasMore &&
+              <div onClick={() => { !loading ? setCurrentPage(prev => prev + 1) : null }} className='flex items-center justify-center cursor-pointer text-center mt-10'>
+                {loading ? <Loader className='animate-spin' /> : 'load more...'}
+              </div>
+            }
           </div>
         </div>
       </section>
+      <ModalProduct
+        isOpen={showProductDetail.show}
+        product={showProductDetail.product}
+        onClose={() => setShowProductDetail({ show: false })}
+      />
     </main>
   );
 }

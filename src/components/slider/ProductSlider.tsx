@@ -77,7 +77,7 @@ const ProductSlider: React.FC<SwipeToSlideProps> = ({
             </div>
           );
         })}
-        <div className='hidden lg:block'>
+        <div className='hidden lg:block w-[294px]'>
           <div className='ml-4 hidden items-center justify-center lg:flex lg:h-[335px]'>
             <button
               id='see-more'

@@ -364,7 +364,7 @@ const Navbar: React.FC = () => {
                           </div>
                           <div
                             onClick={() => {
-                              router.push('/category/Shadow Box SVG');
+                              router.push('/category/3D Shadow Box SVGs');
                             }}
                             className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
@@ -373,7 +373,7 @@ const Navbar: React.FC = () => {
                           </div>
                           <div
                             onClick={() => {
-                              router.push('/category/Circut SVG');
+                              router.push('/category/Cricut SVG');
                             }}
                             className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
@@ -382,7 +382,7 @@ const Navbar: React.FC = () => {
                           </div>
                           <div
                             onClick={() => {
-                              router.push('/category/SVG cut files');
+                              router.push('/category/SVG Cut files');
                             }}
                             className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
@@ -391,7 +391,7 @@ const Navbar: React.FC = () => {
                           </div>
                           <div
                             onClick={() => {
-                              router.push('/category/Tshirt Designs');
+                              router.push('/category/T-Shirt Designs');
                             }}
                             className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
@@ -401,7 +401,7 @@ const Navbar: React.FC = () => {
                         </div>
                         <div
                           onClick={() => {
-                            router.push('/category/Printable Craft');
+                            router.push('/category/Printable Crafts');
                           }}
                           className='h-full w-[1px] bg-[#E5E7EB]'
                         ></div>
@@ -412,7 +412,7 @@ const Navbar: React.FC = () => {
                           </div>
                           <div
                             onClick={() => {
-                              router.push('/category/Papercut Templates');
+                              router.push('/category/Paper Cut Templates');
                             }}
                             className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
@@ -439,7 +439,7 @@ const Navbar: React.FC = () => {
                           </div>
                           <div
                             onClick={() => {
-                              router.push('/category/Sticker SVG');
+                              router.push('/category/Stickers SVG');
                             }}
                             className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
@@ -751,7 +751,7 @@ const Navbar: React.FC = () => {
             <div className='group flex h-[42px] grow items-center gap-4 rounded-full border border-solid border-blue-500 border-opacity-25 p-2 pl-4 text-left text-sm font-normal leading-4 tracking-tighter text-[#6F6F6F]'>
               <input
                 placeholder='Search for unique craft designs, categories, occasions...'
-                className='w-full truncate border-none text-sm outline-none'
+                className='w-full truncate border-none text-sm outline-none placeholder:text-gray-300'
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
               ></input>

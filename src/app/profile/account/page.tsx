@@ -7,9 +7,11 @@ import { Loader } from 'lucide-react';
 import * as React from 'react';
 import { toast } from 'react-toastify';
 
+import logger from '@/lib/logger';
 import { fetchProfile } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
+import { AffiliateI, StatusType } from '@/interfaces/affiliate.interface';
 import {
   PasswordFormI,
   PasswordPayloadI,
@@ -32,9 +34,24 @@ export default function Register() {
     newPassword: '',
     confirmPassword: '',
   });
+  const [affiliateData, setAffiliateData] = React.useState<AffiliateI>();
+
+  const getRequestAffiliate = async () => {
+    try {
+      if (token) {
+        const affiliateData = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/affiliate/user/request`, { headers: { Authorization: `bearer ${token}` } })
+        if (affiliateData.data !== '') {
+          setAffiliateData(affiliateData.data);
+        }
+      }
+    } catch (error) {
+      logger(error);
+    }
+  }
 
   React.useEffect(() => {
     getDataUser();
+    getRequestAffiliate();
   }, []);
 
   const getDataUser = async () => {
@@ -159,6 +176,22 @@ export default function Register() {
             ></input>
           </div>
         </div>
+        {affiliateData &&
+          <div className='flex flex-col items-end'>
+            <label className='pl-4 text-[#1A214C]'>
+              Affiliate Status
+            </label>
+            {affiliateData?.status === StatusType.pending &&
+              <div className='ml-4 rounded-full w-fit px-5 py-1 bg-blue-400 text-white'>In-review</div>
+            }
+            {affiliateData?.status === StatusType.rejected &&
+              <div className='ml-4 rounded-full w-fit px-5 py-1 bg-red-400 text-white'>Rejected</div>
+            }
+            {affiliateData?.status === StatusType.accepted &&
+              <div className='ml-4 rounded-full w-fit px-5 py-1 bg-green-400 text-white'>Active</div>
+            }
+          </div>
+        }
         <p className='w-1/2 text-sm italic text-[#1A214C]/50'>
           This will be how your name will be displayed in the account section
           and in reviews.

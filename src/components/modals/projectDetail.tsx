@@ -133,13 +133,13 @@ const ModalProjectDetail: React.FC<ModalProps> = ({
                       </div>
                     </div>
                     <div className='flex w-[39px] flex-col'>
-                      <div className=' flex h-[39px] items-center rounded-full bg-[#A5272B] hover:bg-[#872A2D]'>
+                      <Link href={`https://pinterest.com/pin/create/button/?description=${data?.description}&url=${process.env.NEXT_PUBLIC_URL}/project?id=${data?.id}&media=${data?.imageUrl}`} target='_blank' className=' flex h-[39px] items-center rounded-full bg-[#A5272B] hover:bg-[#872A2D]'>
                         <img
                           loading='lazy'
                           src={projectPinterest.src}
                           className='mx-auto h-[20px] transition-all duration-300 hover:scale-110'
                         />
-                      </div>
+                      </Link>
                       <div className=' font-katide-bold text-xs text-indigo-950'>
                         Share
                       </div>

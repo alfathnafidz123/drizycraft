@@ -9,7 +9,9 @@ import SectionContainer from '@/components/container/sectionContainer';
 // const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
 const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
 
+import dynamic from 'next/dynamic';
 import localFont from 'next/font/local';
+import { useEffect, useRef, useState } from 'react';
 
 import AffiliateBanner from '@/components/AffiliateBanner';
 
@@ -30,6 +32,10 @@ import {
   membership4,
   vip,
 } from '~/images';
+const CustomerSupportLottie = dynamic(
+  () => import('../../components/lottie/customer-support'),
+  { ssr: false }
+);
 
 export default function Membership() {
   const { token } = useAppSelector((state) => state.user);
@@ -55,7 +61,7 @@ export default function Membership() {
         { title: 'Business Assistance', desc: 'tools and support to elevate your project' },
         { title: 'Premium Support', desc: 'priority access to our dedicated artist team' },
       ],
-      priceId: 'price_1QFIvHQinl9UJNy4A7OlQ2V5',
+      priceId: process.env.NEXT_PUBLIC_PRICE_TRIAL,
     },
     {
       duration: 'MONTHLY ACCESS',
@@ -78,7 +84,7 @@ export default function Membership() {
         { title: 'Business Assistance', desc: 'tools and support to elevate your project' },
         { title: 'Premium Support', desc: 'priority access to our dedicated artist team' },
       ],
-      priceId: 'price_1QFhEmQinl9UJNy4k26MqmEz',
+      priceId: process.env.NEXT_PUBLIC_PRICE_MONTHLY,
     },
     {
       duration: 'ANNUAL ACCESS',
@@ -102,9 +108,24 @@ export default function Membership() {
         { title: 'Premium Support', desc: 'priority access to our dedicated artist team' },
       ],
       exclude: [],
-      priceId: 'price_1QFhGQQinl9UJNy4fUw2mFRY',
+      priceId: process.env.NEXT_PUBLIC_PRICE_ANNUAL,
     },
   ];
+  const [showChat, setShowChat] = useState(false);
+  const refChat = useRef<any>();
+
+  useEffect(() => {
+    const handleClick = (event: any) => {
+      if (refChat.current && !refChat.current.contains(event.target)) {
+        setShowChat(false);
+      }
+    };
+    document.addEventListener('click', handleClick);
+
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, [showChat]);
 
   const handleSubscribe = async (priceId: string, token: string) => {
     try {
@@ -284,7 +305,7 @@ export default function Membership() {
                       <button
                         className='font-katide-bold my-4 rounded-xl bg-[#EE4C73] py-6 text-[20px] tracking-[0.12em] group-hover:bg-[#FFBB3C] text-white shadow-lg transition-all group-hover:text-[#1A214C] hover:!bg-[#ED9B37]'
                         onClick={() => {
-                          handleSubscribe(plan.priceId, token as string);
+                          handleSubscribe(plan.priceId!, token as string);
                         }}
                       >
                         {plan.buttonText}
@@ -293,7 +314,7 @@ export default function Membership() {
                       <button
                         className='font-katide-bold my-4 rounded-xl bg-[#4065D1] py-6 text-[20px] tracking-[0.12em] text-white shadow-lg transition-all hover:!bg-[#2A3B80]'
                         onClick={() => {
-                          handleSubscribe(plan.priceId, token as string);
+                          handleSubscribe(plan.priceId!, token as string);
                         }}
                       >
                         {plan.buttonText}
@@ -498,6 +519,17 @@ export default function Membership() {
       <section>
         <AffiliateBanner />
       </section>
+      {showChat ?
+        <div ref={refChat} className='fixed bottom-0 right-0 z-[99]'>
+          <iframe height={500} src='https://tawk.to/chat/672866874304e3196adcbd50/1ibqt10pq' />
+        </div>
+        :
+        <div onClick={() => setShowChat(true)} className="fixed bottom-0 right-0 z-[500]">
+          <div className='-mb-8 max-w-[200px]'>
+            <CustomerSupportLottie />
+          </div>
+        </div>
+      }
     </main>
   );
 }

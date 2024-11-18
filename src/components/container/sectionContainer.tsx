@@ -22,7 +22,7 @@ const SectionContainer: React.FC<SectionContainerProps> = ({
     >
       {fullwidth ? (
         <div
-          className={`mx-auto w-full overflow-visible lg:min-h-[592px] lg:max-w-[1164px] ${className}`}
+          className={`mx-auto w-full overflow-hidden lg:min-h-[592px] lg:max-w-[1164px] ${className}`}
         >
           <div className='w-screen px-8 lg:px-0'>{children}</div>
         </div>

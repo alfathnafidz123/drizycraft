@@ -32,20 +32,24 @@ const ModalRechargeCoin: React.FC<ModalProps> = ({
 
   const handlePayment = async () => {
     try {
-      const resp = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/coin-payment`,
-        {
-          priceId: productId,
-          qty: productId === "price_1QFii6Qinl9UJNy4N7tw2yyH" ? customAmount : 1
-        },
-        {
-          headers: {
-            Accept: 'application/json',
-            Authorization: `Bearer ${token ?? ''}`,
+      if (productId === undefined && customAmount < 2) {
+        toast.error('Minimum 2 coins');
+      } else {
+        const resp = await axios.post(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/coin-payment`,
+          {
+            priceId: productId,
+            qty: productId ? 1 : customAmount,
           },
-        }
-      );
-      window.location.replace(resp.data.data);
+          {
+            headers: {
+              Accept: 'application/json',
+              Authorization: `Bearer ${token ?? ''}`,
+            },
+          }
+        );
+        window.location.replace(resp.data.data);
+      }
     } catch (error) {
       const err = error as AxiosError;
       const errorData: any = err.response?.data;
@@ -96,16 +100,16 @@ const ModalRechargeCoin: React.FC<ModalProps> = ({
                 <p className='text-[#AAAAAA] text-xs font-katide-bold'>$25</p>
                 <input type='radio' onChange={(e) => setProductId(e.target.value)} name='coin' className='hidden' id='150' value="price_1QFinRQinl9UJNy4UbaEWrdd" />
               </label>
-              <label htmlFor='custom' className={`border-[3px] ${productId === "price_1QFii6Qinl9UJNy4N7tw2yyH" ? "border-[#FFBB3C]" : "border-[#AAAAAA]"} rounded-xl cursor-pointer px-3 pt-4 pb-2 flex flex-col items-center`}>
+              <label htmlFor='custom' className={`border-[3px] ${productId === undefined ? "border-[#FFBB3C]" : "border-[#AAAAAA]"} rounded-xl cursor-pointer px-3 pt-4 pb-2 flex flex-col items-center`}>
                 <p className='text-[#AAAAAA] text-xs font-katide-regular text-center'>Choose Your Amount</p>
                 <input value={customAmount} onChange={(e) => setCustomAmount(Number(e.target.value))} type='number' className='mt-2 w-full rounded-md border-[#999999] bg-[#EBECF5] h-5 text-xs text-center' />
                 <p className='text-[#AAAAAA] text-xs font-katide-regular mt-1.5'>Drizy Coin</p>
                 <p className='text-[#AAAAAA] text-xs font-katide-bold mt-7'>${(customAmount * (1 / 3)).toFixed(2)}</p>
-                <input type='radio' onChange={(e) => setProductId(e.target.value)} name='coin' className='hidden' id='custom' value="price_1QFii6Qinl9UJNy4N7tw2yyH" />
+                <input type='radio' onChange={() => setProductId(undefined)} name='coin' className='hidden' id='custom' value="price_1QFii6Qinl9UJNy4N7tw2yyH" />
               </label>
             </div>
             <div className='px-5'>
-              <button onClick={handlePayment} disabled={loading || !productId} className='bg-[#FFBB3C] disabled:bg-[#FFBB3C]/80 disabled:cursor-not-allowed w-full rounded-full py-2.5 font-katide-bold'>
+              <button onClick={handlePayment} disabled={loading} className='bg-[#FFBB3C] disabled:bg-[#FFBB3C]/80 disabled:cursor-not-allowed w-full rounded-full py-2.5 font-katide-bold'>
                 {loading ? <FaSpinner className='animate-spin' /> : "GET DRIZY COIN"}
               </button>
             </div>

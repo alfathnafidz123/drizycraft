@@ -1,6 +1,7 @@
 'use client';
+import { Loader } from 'lucide-react';
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
@@ -27,6 +28,9 @@ export default function CatalogCrafter() {
     product?: productI;
   }>({ show: false });
   const [seasonalData, setSeasonalData] = useState<CategoryI[] | []>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(false);
 
   const shortByOptions = [
     SortType.Latest,
@@ -75,21 +79,25 @@ export default function CatalogCrafter() {
     return str.replace(/([A-Z])/g, ' $1').trim();
   }
 
-  const getProduct = async () => {
+  const getProduct = useCallback(async () => {
     try {
+      setLoading(true);
       const response = await getAllProduct({
-        page: 1,
-        limit: 10,
+        page: currentPage,
+        limit: 15,
         sortType: selectedShortByOption,
         category: params.id as string,
         extraCategory:
           selectedSeasonsOption !== '' ? selectedSeasonsOption : '',
       });
-      setProductData(response.data);
+      setProductData(prev => ([...prev, ...response.data]));
+      setHasMore(response.meta.hasNextPage);
     } catch (error) {
       toast('Error when trying to get all products');
+    } finally {
+      setLoading(false);
     }
-  };
+  }, [currentPage, selectedCategoryOption, selectedSeasonsOption, selectedShortByOption]);
 
   const getSeasonalData = async () => {
     try {
@@ -101,13 +109,12 @@ export default function CatalogCrafter() {
   };
 
   useEffect(() => {
-    getProduct();
     getSeasonalData();
   }, []);
 
   useEffect(() => {
     getProduct();
-  }, [selectedCategoryOption, selectedSeasonsOption, selectedShortByOption]);
+  }, [selectedCategoryOption, selectedSeasonsOption, selectedShortByOption, currentPage, getProduct]);
 
   return (
     <main>
@@ -196,16 +203,23 @@ export default function CatalogCrafter() {
           </div>
         </div>
 
-        <div className='w-full flex flex-wrap items-center justify-center lg:items-start lg:justify-start'>
-          {productData.map((product, index) => (
-            <ProductCard
-              key={index}
-              data={product}
-              handleShowDetail={(data) =>
-                setShowProductDetail({ show: true, product: data })
-              }
-            />
-          ))}
+        <div className='w-full'>
+          <div className='w-full flex flex-wrap items-center justify-center lg:items-start lg:justify-start'>
+            {productData.map((product, index) => (
+              <ProductCard
+                key={index}
+                data={product}
+                handleShowDetail={(data) =>
+                  setShowProductDetail({ show: true, product: data })
+                }
+              />
+            ))}
+          </div>
+          {hasMore &&
+            <div onClick={() => { !loading ? setCurrentPage(prev => prev + 1) : null }} className='flex items-center justify-center cursor-pointer text-center mt-10'>
+              {loading ? <Loader className='animate-spin' /> : 'load more...'}
+            </div>
+          }
         </div>
       </section>
       <ModalProduct

@@ -15,12 +15,14 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   refreshReview: () => Promise<void>;
+  productId?: string;
 }
 
 const ModalAddReview: React.FC<ModalProps> = ({
   isOpen,
   onClose,
   refreshReview,
+  productId,
 }) => {
   const dispatch = useAppDispatch();
   const { token } = useAppSelector((state) => state.user);
@@ -39,7 +41,7 @@ const ModalAddReview: React.FC<ModalProps> = ({
         token: token as string,
         comment: text,
         star: star,
-        productId: params.id as string,
+        productId: productId!,
       });
       refreshReview();
     }

@@ -28,6 +28,7 @@ import { getReviews } from '@/app/api/product/getReview';
 import { SubscriptionI } from '@/app/profile/subscription/page';
 import {
   MetaProductI,
+  OrderI,
   productI,
   ReviewI,
 } from '@/interfaces/product.interface';
@@ -53,6 +54,7 @@ export default function Register() {
   const [limit, setLimit] = useState(5);
   const [subsData, setSubsData] = useState<SubscriptionI>();
   const refCode = searchParams.get('ref');
+  const [loadingDownload, setLoadingDownload] = useState(false);
 
   const getProduct = async () => {
     try {
@@ -121,6 +123,7 @@ export default function Register() {
 
   const handleBuyPoint = async () => {
     try {
+      setLoadingDownload(true);
       const payload: { [key: string]: string | number } = {
         productId: productData!.productId,
         licenseType: type,
@@ -135,14 +138,75 @@ export default function Register() {
       );
       dispatch(fetchProfile(token!));
       dispatch(fetchCoin(token!));
+      await getTransactionData();
       toast.success(`Successfully buy ${productData?.product?.name}!`);
-      router.push('/profile/download');
     } catch (error: any) {
       toast(
         'Create Checkout Page failed, please reach out to the administrator'
       );
+    } finally {
+      setLoadingDownload(false);
     }
   };
+
+  const getTransactionData = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-transaction?page=1&limit=1`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const orders: OrderI[] = res.data.data;
+      await handleDownloadClick(orders[0].id);
+    } catch (error) {
+      const err = error as AxiosError;
+      toast.error(err.message);
+    }
+  };
+
+  const handleDownloadClick = async (id: number) => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-file-download/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error(`Failed to download file: ${res.statusText}`);
+      }
+      const blob = await res.blob();
+
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.href = url;
+
+      let fileName = 'downloaded-file.zip';
+      const contentDisposition = res.headers.get('content-disposition');
+      if (contentDisposition) {
+        const matches = contentDisposition.match(/filename="(.+)"/);
+        if (matches && matches.length === 2) {
+          fileName = matches[1];
+        }
+      }
+      link.setAttribute('download', fileName);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => window.URL.revokeObjectURL(url), 100);
+    } catch (error) {
+      const err = error as AxiosError;
+      toast.error(err.message);
+    }
+  };
+
   const handleCart = async () => {
     try {
       const payload: { [key: string]: string | number } = {
@@ -230,6 +294,7 @@ export default function Register() {
         isOpen={isShowModal}
         onClose={() => setIsShowModal(false)}
         refreshReview={getReview}
+        productId={productData.product.id}
       />
       <section className='mx-auto flex w-full max-w-[1164px] flex-col gap-12 max-md:p-2 lg:py-16'>
         <p className='text-xs text-[#B8B8B8]'>
@@ -391,10 +456,13 @@ export default function Register() {
                 onClick={() => {
                   handleBuy();
                 }}
-                className='w-full rounded-full bg-[#1A214C] px-10 py-2 font-semibold text-[#e4f6fb]'
+                disabled={loadingDownload}
+                className='w-full rounded-full bg-[#1A214C] px-10 py-2 font-semibold text-[#e4f6fb] disabled:bg-[#1A214C]/80'
               >
                 {activeSubcription && dataUser?.coin && dataUser?.coin !== 0
-                  ? 'Buy with coin'
+                  ? loadingDownload
+                    ? <div className='flex w-full items-center justify-center'><Loader className='animate-spin' /></div>
+                    : 'Buy with coin'
                   : 'Add to cart'}
               </button>
               <div className='my-4 w-full border-t-2 border-[#1A214C]/15' />

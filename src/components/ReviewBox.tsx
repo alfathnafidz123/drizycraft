@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React from 'react';
 import { FaStar } from 'react-icons/fa';
 
@@ -15,7 +16,7 @@ const ReviewBox: React.FC<ReviewProps> = ({ data }) => {
           <p className='text-lg font-semibold text-[#1A214C]'>
             {data.user.displayName}
           </p>
-          <p className='text-lg font-thin text-[#1A214C]'>{data.createdAt}</p>
+          <p className='text-lg font-thin text-[#1A214C]'>{moment(data.createdAt).format("DD MMM, YYYY")}</p>
         </div>
       </div>
       <div className='flex items-center gap-2 text-[#ED9B37]'>

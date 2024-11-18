@@ -11,44 +11,7 @@ import { toast } from 'react-toastify';
 
 import { useAppSelector } from '@/lib/store';
 
-interface Product {
-  id: string;
-  name: string;
-  imageUrl: string[];
-  description: string;
-  category: string;
-  url: string;
-  categories: string[];
-  subCategories: string[];
-  chilSubCategories: string[];
-  tags: string[];
-  purchasedCount: number;
-  price: number[];
-  coinPrice: number[];
-  enableDiscount: boolean;
-  discount: number[];
-  discountPeriod: string;
-  fileType: string;
-  fileSize: number;
-  createdAt: string;
-  updatedAt: string | null;
-  deletedAt: string | null;
-  authorId: string;
-}
-
-interface OrderI {
-  id: number;
-  checkoutId: string;
-  sessionId: string;
-  status: boolean;
-  licenseType: number;
-  price: number;
-  createdAt: string;
-  userId: string;
-  productId: string;
-  affiliateId: string | null;
-  product: Product;
-}
+import { OrderI } from '@/interfaces/product.interface';
 
 export default function Register() {
   const { token } = useAppSelector((state) => state.user);

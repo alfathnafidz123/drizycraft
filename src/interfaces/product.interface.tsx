@@ -74,3 +74,44 @@ export interface ReviewI {
   createdAt: string;
   user: UserI;
 }
+
+
+
+export interface ProductOrder {
+  id: string;
+  name: string;
+  imageUrl: string[];
+  description: string;
+  category: string;
+  url: string;
+  categories: string[];
+  subCategories: string[];
+  chilSubCategories: string[];
+  tags: string[];
+  purchasedCount: number;
+  price: number[];
+  coinPrice: number[];
+  enableDiscount: boolean;
+  discount: number[];
+  discountPeriod: string;
+  fileType: string;
+  fileSize: number;
+  createdAt: string;
+  updatedAt: string | null;
+  deletedAt: string | null;
+  authorId: string;
+}
+
+export interface OrderI {
+  id: number;
+  checkoutId: string;
+  sessionId: string;
+  status: boolean;
+  licenseType: number;
+  price: number;
+  createdAt: string;
+  userId: string;
+  productId: string;
+  affiliateId: string | null;
+  product: ProductOrder;
+}

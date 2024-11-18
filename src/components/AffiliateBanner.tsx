@@ -2,25 +2,36 @@
 import axios, { AxiosError } from 'axios';
 import { Loader } from 'lucide-react';
 import localFont from 'next/font/local';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
+import logger from '@/lib/logger';
 import { setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
+
+import { AffiliateI, StatusType } from '@/interfaces/affiliate.interface';
 const myFont = localFont({ src: '../../public/fonts/Hastle.woff2' });
 const AffiliateBanner = () => {
   const dispatch = useAppDispatch();
   const { token, dataUser } = useAppSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
+  const [affiliateData, setAffiliateData] = useState<AffiliateI>();
+  const router = useRouter();
+
   const handleRequestAffiliate = async () => {
     if (token) {
       try {
         setLoading(true);
-        await axios.post(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/affiliate/user/request`,
-          {},
-          { headers: { Authorization: `bearer ${token}` } }
-        );
+        if (affiliateData?.status === StatusType.pending) {
+          router.push('/profile/account');
+        } else {
+          await axios.post(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/affiliate/user/request`,
+            {},
+            { headers: { Authorization: `bearer ${token}` } }
+          );
+        }
       } catch (error) {
         const err = error as AxiosError;
         const errorData: any = err.response?.data;
@@ -34,6 +45,24 @@ const AffiliateBanner = () => {
       dispatch(setOpenModal(true));
     }
   };
+
+  const getRequestAffiliate = async () => {
+    try {
+      if (token) {
+        const affiliateData = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/affiliate/user/request`, { headers: { Authorization: `bearer ${token}` } })
+        if (affiliateData.data !== '') {
+          setAffiliateData(affiliateData.data);
+        }
+      }
+    } catch (error) {
+      logger(error);
+    }
+  }
+
+  useEffect(() => {
+    getRequestAffiliate();
+  }, [token]);
+
   return dataUser?.affiliate ? null : (
     <div
       className='font-montserrat z-20 flex flex-col justify-center bg-[#3D5DD1] text-center text-white'

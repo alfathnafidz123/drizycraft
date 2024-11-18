@@ -1,39 +1,32 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
 import { Loader } from 'lucide-react';
-import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
-import { CiYoutube } from 'react-icons/ci';
-import { FaBehance, FaUsers } from 'react-icons/fa';
-import { FaFacebookF } from 'react-icons/fa';
-import { FaPinterest } from 'react-icons/fa';
-import { FaInstagram } from 'react-icons/fa';
 import { FaChevronDown } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
 import ModalProduct from '@/components/modals/product';
 import ProductCard from '@/components/ProductCard';
 
+import { getSeason } from '@/app/api/product/getCategory';
 import { getAllProduct, SortType } from '@/app/api/product/getProduct';
-import { productI } from '@/interfaces/product.interface';
-
-import { freeSVGBanner } from '~/images';
+import { CategoryI, productI } from '@/interfaces/product.interface';
 
 export default function CatalogCrafter() {
   const [isShortByDropdownOpen, setIsShortByDropdownOpen] = useState(false);
-  const [selectedShortByOption, setSelectedShortByOption] = useState(SortType.Latest);
+  const [selectedShortByOption, setSelectedShortByOption] = useState<SortType>(SortType.Popularity);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [selectedCategoryOption, setSelectedCategoryOption] = useState('');
   const [isSeasonsDropdownOpen, setIsSeasonsDropdownOpen] = useState(false);
   const [selectedSeasonsOption, setSelectedSeasonsOption] = useState('');
   const [productData, setProductData] = useState<productI[] | []>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(false);
   const [showProductDetail, setShowProductDetail] = useState<{
     show: boolean;
     product?: productI;
   }>({ show: false });
+  const [seasonalData, setSeasonalData] = useState<CategoryI[] | []>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(false);
 
   const shortByOptions = [
     SortType.Latest,
@@ -41,22 +34,9 @@ export default function CatalogCrafter() {
     SortType.LowToHigh,
     SortType.HighToLow,
   ];
-  const categoryOptions = [
-    '3D Shadow Box',
-    'Greeting Card',
-    'Sublimation',
-    'Tumbler 20oz',
-    'Lollipop Holder',
-    'Egg Holder',
-  ];
-  const seasonsOptions = ['Fall', 'Winter', 'Spring', 'Summer'];
 
   const handleShortByDropdownClick = () => {
     setIsShortByDropdownOpen(!isShortByDropdownOpen);
-  };
-
-  const handleCategoryDropdownClick = () => {
-    setIsCategoryDropdownOpen(!isCategoryDropdownOpen);
   };
 
   const handleSeasonsDropdownClick = () => {
@@ -66,11 +46,6 @@ export default function CatalogCrafter() {
   const handleShortBySelect = (event: any) => {
     const option = event.target.value;
     setSelectedShortByOption(option);
-  };
-
-  const handleCategorySelect = (event: any) => {
-    const option = event.target.value;
-    setSelectedCategoryOption(option);
   };
 
   const handleSeasonsSelect = (event: any) => {
@@ -83,22 +58,16 @@ export default function CatalogCrafter() {
   }
 
   const getProduct = useCallback(async () => {
-    const extraCat =
-      selectedSeasonsOption !== ''
-        ? selectedSeasonsOption
-        : selectedCategoryOption !== ''
-          ? selectedCategoryOption
-          : '';
     try {
       setLoading(true);
       const response = await getAllProduct({
         page: currentPage,
         limit: 15,
         sortType: selectedShortByOption,
-        category: 'Free SVGs',
-        extraCategory: extraCat !== '' ? extraCat : '',
+        extraCategory:
+          selectedSeasonsOption !== '' ? selectedSeasonsOption : '',
       });
-      setProductData(response.data);
+      setProductData(prev => ([...prev, ...response.data]));
       setHasMore(response.meta.hasNextPage);
     } catch (error) {
       toast('Error when trying to get all products');
@@ -107,57 +76,27 @@ export default function CatalogCrafter() {
     }
   }, [currentPage, selectedCategoryOption, selectedSeasonsOption, selectedShortByOption]);
 
+  const getSeasonalData = async () => {
+    try {
+      const response = await getSeason();
+      setSeasonalData(response.data);
+    } catch (error) {
+      toast('Error when trying to get category');
+    }
+  };
+
+  useEffect(() => {
+    getSeasonalData();
+  }, []);
+
   useEffect(() => {
     getProduct();
-  }, [selectedCategoryOption, selectedSeasonsOption, selectedShortByOption, currentPage, getProduct]);
+  }, [selectedCategoryOption, selectedSeasonsOption, selectedShortByOption, getProduct]);
 
   return (
-    <main>
-      <section className='flex w-full flex-col items-center'>
-        <div className='font-katide-bold mt-16 text-center text-[36px] text-[#1A214C]'>
-          DISCOVER FREE SVG
-        </div>
-
-        <p className='font-katide-regular mt-16 max-w-[777px] text-center text-[16px] text-[#1A214C]'>
-          Searching for costless SVG templates for yourself or a special gift?
-          We've got you covered! Presenting our collection of free SVG and craft
-          files, created with the same level of quality as our paid files.
-        </p>
-
-        <p className='font-katide-bold mt-8 text-center text-[16px] text-[#1A214C] lg:text-start'>
-          At Drizy Studio, you'll be sure to find designs that perfectly match
-          your needs.
-        </p>
-
-        <div className='mb-9 mt-[55px] flex gap-5 text-[#AAAAAA]'>
-          <Link href="https://www.behance.net/drizycraft" target='_blank'>
-            <FaBehance className='h-10 w-10 max-md:h-5 max-md:w-5' />
-          </Link>
-          <Link href="https://www.facebook.com/DrizyStudio" target='_blank'>
-            <FaFacebookF className='h-10 w-10 max-md:h-5 max-md:w-5' />
-          </Link>
-          <Link href="https://www.facebook.com/groups/drizyfreebies" target='_blank'>
-            <FaUsers className='h-10 w-10 max-md:h-5 max-md:w-5' />
-          </Link>
-          <Link href="https://id.pinterest.com/Drizy_Studio/" target='_blank'>
-            <FaPinterest className='h-10 w-10 max-md:h-5 max-md:w-5' />
-          </Link>
-          <Link href="https://www.instagram.com/drizy_craft/" target='_blank'>
-            <FaInstagram className='h-10 w-10 max-md:h-5 max-md:w-5' />
-          </Link>
-          <Link href="https://www.youtube.com/@drizystudio" target='_blank'>
-            <CiYoutube className='h-10 w-10 max-md:h-5 max-md:w-5' />
-          </Link>
-        </div>
-        <img
-          src={freeSVGBanner.src}
-          alt='Free SVG'
-          className='max-md:h-40 max-md:object-cover lg:w-full lg:object-contain'
-        />
-      </section>
-
-      <section className='w-full bg-[#EBECF5]'>
-        <div className='flex flex-col py-[4%] max-md:px-2 lg:mx-auto lg:w-[1164px] lg:flex-row gap-4'>
+    <main className='w-full'>
+      <section className='flex bg-[#EBECF5] w-full'>
+        <div className='flex flex-col py-[4%] max-md:px-2 lg:mx-auto lg:w-[1164px] lg:flex-row gap-4 w-full'>
           <div>
             <p className='font-katide-bold text-[20px]'>Filters</p>
             <div className='mt-6 rounded-lg bg-white shadow-lg'>
@@ -169,7 +108,7 @@ export default function CatalogCrafter() {
                   <p className='font-katide-semibold mt-2 w-full text-[14px] text-[#1A214C] lg:w-[252px]'>
                     Short by
                   </p>
-                  <FaChevronDown className='mr-2 mt-2 w-[12px]' />
+                  <FaChevronDown className='mt-2 mr-2 w-[12px]' />
                 </div>
               </div>
               {isShortByDropdownOpen && (
@@ -200,82 +139,40 @@ export default function CatalogCrafter() {
                 </div>
               )}
             </div>
-
             <div className='mt-6 rounded-lg bg-white shadow-lg'>
               <div className='rounded-tl-lg rounded-tr-lg border-b-2'>
                 <div
-                  className='category-dropdown m-1 flex w-full cursor-pointer justify-between p-2 lg:w-[252px]'
-                  onClick={handleCategoryDropdownClick}
-                >
-                  <p className='font-katide-semibold mt-2 w-full text-[14px] text-[#1A214C] lg:w-[252px]'>
-                    Category
-                  </p>
-                  <FaChevronDown className='mr-2 mt-2 w-[12px]' />
-                </div>
-              </div>
-              {isCategoryDropdownOpen && (
-                <div className='dropdown-content m-2 p-2'>
-                  {categoryOptions.map((option, index) => (
-                    <div key={index} className='mb-3'>
-                      <input
-                        type='radio'
-                        id={option}
-                        name='categoryOptions'
-                        value={option}
-                        checked={selectedCategoryOption === option}
-                        onChange={handleCategorySelect}
-                        className='h-[13px] w-[13px] text-black'
-                      />
-                      <label
-                        htmlFor={option}
-                        style={{
-                          marginLeft: '5%',
-                          fontSize: '14px',
-                          color: '#17181A',
-                        }}
-                      >
-                        {option}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div className='mt-6 rounded-lg bg-white shadow-lg'>
-              <div className='rounded-tl-lg rounded-tr-lg border-b-2'>
-                <div
-                  className='seasons-dropdown m-1 flex w-full cursor-pointer justify-between p-2 lg:w-[252px]'
+                  className='short-by-dropdown m-1 flex w-full cursor-pointer justify-between p-2 lg:w-[252px]'
                   onClick={handleSeasonsDropdownClick}
                 >
                   <p className='font-katide-semibold mt-2 w-full text-[14px] text-[#1A214C] lg:w-[252px]'>
                     Seasons
                   </p>
-                  <FaChevronDown className='mr-2 mt-2 w-[12px]' />
+                  <FaChevronDown className='mt-2 mr-2 w-[12px]' />
                 </div>
               </div>
               {isSeasonsDropdownOpen && (
                 <div className='dropdown-content m-2 p-2'>
-                  {seasonsOptions.map((option, index) => (
+                  {seasonalData.map((option, index) => (
                     <div key={index} className='mb-3'>
                       <input
                         type='radio'
-                        id={option}
+                        id={option.id.toString()}
                         name='seasonsOptions'
-                        value={option}
-                        checked={selectedSeasonsOption === option}
+                        value={option.name}
+                        checked={selectedSeasonsOption === option.name}
                         onChange={handleSeasonsSelect}
                         className='h-[13px] w-[13px] text-black'
                       />
                       <label
-                        htmlFor={option}
+                        htmlFor={option.id.toString()}
                         style={{
                           marginLeft: '5%',
                           fontSize: '14px',
                           color: '#17181A',
                         }}
                       >
-                        {option}
+                        {option.name}
                       </label>
                     </div>
                   ))}

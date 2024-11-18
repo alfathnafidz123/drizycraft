@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     siteName: siteConfig.title,
     images: [
-      { url: `/images/drizylogo.svg`, width: 1200, height: 630, alt: 'Drizy' },
+      { url: `/images/drizy-simple-icon.png`, width: 1200, height: 630, alt: 'Drizy' },
     ],
     type: 'website',
     locale: 'en_US',
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
     images: [
-      { url: `/images/drizylogo.svg`, width: 1200, height: 630, alt: 'Drizy' },
+      { url: `/images/drizy-simple-icon.png`, width: 1200, height: 630, alt: 'Drizy' },
     ],
   },
   authors: [

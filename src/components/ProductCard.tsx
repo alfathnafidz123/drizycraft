@@ -4,6 +4,7 @@
 'use client';
 import axios, { AxiosError } from 'axios';
 import moment from 'moment';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -63,9 +64,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
       return 'group relative h-[380px] lg:w-1/4 w-full';
     }
     if (data.author) {
-      return 'group relative my-4 h-[395px] w-[294px]';
+      return 'group relative my-4 h-[395px] w-full md:w-[294px]';
     }
-    return 'group relative my-4 h-[335px] w-[294px]';
+    return 'group relative my-4 h-[335px] w-full md:w-[294px]';
   };
 
   const cardClassNames = () => {
@@ -73,9 +74,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
       return 'absolute left-0 top-0 flex h-[380px] w-full flex-col flex-nowrap items-start gap-[24px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-[12px] shadow-xl transition-none hover:border-[2px]';
     }
     if (data.author) {
-      return 'absolute left-0 top-0 flex h-[395px] w-[281px] flex-col flex-nowrap items-start gap-[24px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-[12px] shadow-xl transition-none hover:border-[2px]';
+      return 'absolute left-0 top-0 flex h-[395px] w-full md:w-[281px] flex-col flex-nowrap items-start gap-[24px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-[12px] shadow-xl transition-none hover:border-[2px]';
     }
-    return 'absolute left-0 top-0 flex h-[335px] w-[281px] flex-col flex-nowrap items-start gap-[24px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-[12px] shadow-xl transition-none hover:border-[2px]';
+    return 'absolute left-0 top-0 flex h-[335px] w-full md:w-[281px] flex-col flex-nowrap items-start gap-[24px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-[12px] shadow-xl transition-none hover:border-[2px]';
   };
 
   const handleCart = async () => {
@@ -256,16 +257,20 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </div>
           )}
 
-          <img
-            src={hoverPinterest.src}
-            className='absolute left-[7px] top-[5px] z-[6] h-[40px] w-[40px] cursor-pointer bg-no-repeat opacity-0 transition-all duration-500 group-hover:opacity-100'
-            alt={`share-pinterest-${data.name}`}
-          />
-          <img
-            src={hoverWA.src}
-            className='absolute left-[55px] top-[5px] z-[7] h-[40px] w-[40px] cursor-pointer bg-no-repeat opacity-0 transition-all duration-500 group-hover:opacity-100'
-            alt={`share-whatsapp-${data.name}`}
-          />
+          <Link href={`https://id.pinterest.com/pin/create/button/?description=${data?.name}&url=${process.env.NEXT_PUBLIC_URL}/product/${data?.meta?.[0].title}&media=${data?.imageUrl[0]}`} target='_blank' className='absolute left-[7px] top-[5px] z-[7] cursor-pointer bg-no-repeat opacity-0 transition-all duration-500 group-hover:opacity-100'>
+            <img
+              src={hoverPinterest.src}
+              className='h-[40px] w-[40px]'
+              alt={`share-pinterest-${data.name}`}
+            />
+          </Link>
+          <Link href={`https://api.whatsapp.com/send?text=${process.env.NEXT_PUBLIC_URL}/product/${data?.meta?.[0].title}`} target='_blank' className='absolute left-[55px] top-[5px] z-[7] cursor-pointer bg-no-repeat opacity-0 transition-all duration-500 group-hover:opacity-100'>
+            <img
+              src={hoverWA.src}
+              className='h-[40px] w-[40px]'
+              alt={`share-whatsapp-${data.name}`}
+            />
+          </Link>
         </div>
       </div>
     </>

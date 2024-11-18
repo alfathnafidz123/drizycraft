@@ -3,7 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 // components/Modal.tsx
 'use client';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { Loader } from 'lucide-react';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
@@ -17,7 +17,7 @@ import { fetchSubs } from '@/lib/slices/subcription';
 import { fetchProfile, setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
-import { productI } from '@/interfaces/product.interface';
+import { OrderI, productI } from '@/interfaces/product.interface';
 
 import { hoverPinterest, hoverWA, projectStars } from '~/images';
 
@@ -86,6 +86,64 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
     }
   };
 
+  const getTransactionData = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-transaction?page=1&limit=1`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const orders: OrderI[] = res.data.data;
+      await handleDownloadClick(orders[0].id);
+    } catch (error) {
+      const err = error as AxiosError;
+      toast.error(err.message);
+    }
+  };
+
+  const handleDownloadClick = async (id: number) => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-file-download/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error(`Failed to download file: ${res.statusText}`);
+      }
+      const blob = await res.blob();
+
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.href = url;
+
+      let fileName = 'downloaded-file.zip';
+      const contentDisposition = res.headers.get('content-disposition');
+      if (contentDisposition) {
+        const matches = contentDisposition.match(/filename="(.+)"/);
+        if (matches && matches.length === 2) {
+          fileName = matches[1];
+        }
+      }
+      link.setAttribute('download', fileName);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => window.URL.revokeObjectURL(url), 100);
+    } catch (error) {
+      const err = error as AxiosError;
+      toast.error(err.message);
+    }
+  }
+
   const handleBuyPoint = async () => {
     try {
       setLoading(true);
@@ -100,6 +158,7 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
       );
       dispatch(fetchProfile(token!));
       dispatch(fetchSubs(token!));
+      await getTransactionData();
       toast.success(`Successfully buy ${product?.name}!`);
       router.push('/profile/download');
     } catch (error: any) {

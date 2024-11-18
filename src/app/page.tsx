@@ -2,7 +2,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import dynamic from 'next/dynamic';
 import localFont from 'next/font/local';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -63,10 +62,6 @@ const defaultHomepageData: HomepageDataI = {
   bestSellerData: [],
   exclusiveData: [],
 };
-const CustomerSupportLottie = dynamic(
-  () => import('../components/lottie/customer-support'),
-  { ssr: false }
-);
 
 export default function HomePage() {
   const { token } = useAppSelector((state) => state.user);
@@ -80,21 +75,6 @@ export default function HomePage() {
   }>({ show: false });
   const [searchValue, setSearchValue] = useState('');
   const router = useRouter();
-  const [showChat, setShowChat] = useState(false);
-  const refChat = React.useRef<any>();
-
-  useEffect(() => {
-    const handleClick = (event: any) => {
-      if (refChat.current && !refChat.current.contains(event.target)) {
-        setShowChat(false);
-      }
-    };
-    document.addEventListener('click', handleClick);
-
-    return () => {
-      document.removeEventListener('click', handleClick);
-    };
-  }, [showChat]);
 
   const getSeasonalHome = async () => {
     try {
@@ -120,16 +100,16 @@ export default function HomePage() {
   }, []);
 
   const categoryStatic = [
-    { name: 'Free SVGs', image: cat1.src },
-    { name: 'Shadow Box SVG', image: cat2.src },
-    { name: 'Circut SVG', image: cat3.src },
-    { name: 'SVG Cut File', image: cat4.src },
-    { name: 'Monogram Designs', image: cat5.src },
-    { name: 'Sticker SVG', image: cat6.src },
-    { name: 'Printable Craft', image: cat7.src },
-    { name: 'Card Making', image: cat8.src },
-    { name: 'Tshirt Design', image: cat9.src },
-    { name: 'Papercut Template', image: cat10.src },
+    { name: 'Free SVGs', link: 'Free SVGs', image: cat1.src },
+    { name: 'Shadow Box SVG', link: '3D Shadow Box SVGs', image: cat2.src },
+    { name: 'Circut SVG', link: 'Cricut SVG', image: cat3.src },
+    { name: 'SVG Cut File', link: 'SVG Cut Files', image: cat4.src },
+    { name: 'Monogram Designs', link: 'Monogram Designs', image: cat5.src },
+    { name: 'Sticker SVG', link: 'Stickers SVG', image: cat6.src },
+    { name: 'Printable Craft', link: 'Printable Crafts', image: cat7.src },
+    { name: 'Card Making', link: 'Card Making', image: cat8.src },
+    { name: 'T-Shirt Designs', link: 'T-Shirt Designs', image: cat9.src },
+    { name: 'Papercut Template', link: 'Paper Cut Templates', image: cat10.src },
   ]
 
   return (
@@ -152,7 +132,7 @@ export default function HomePage() {
           <div className='flex rounded-full bg-[#008ECC]'>
             <img
               src={search.src}
-              className='w-[32px] flex-grow transition-all duration-300 group-hover:w-0 group-hover:opacity-0'
+              className='w-[32px] flex-grow transition-opacity duration-300 group-hover:w-0 group-hover:opacity-0'
               alt='search'
             />
             <div onClick={() => { router.push(`/category/search/${searchValue}`) }} className='w-0 overflow-hidden transition-all duration-300 group-hover:w-[80px]'>
@@ -372,6 +352,7 @@ export default function HomePage() {
                 key={index.toString()}
                 name={data.name}
                 image={data.image}
+                link={data.link}
               />
             ))}
           </div>
@@ -439,20 +420,24 @@ export default function HomePage() {
             <div className='font-katide-bold text-[24px] leading-10 text-indigo-950'>
               Best Seller
             </div>
-            {/* <div className='lg:flex hidden cursor-pointer flex-row gap-3 text-right text-base font-bold leading-none text-[#4065D1]'>
-              <div>Explore Crafters</div>
+            <Link
+              href='/category'
+              className='hidden cursor-pointer flex-row gap-3 text-right text-base font-bold leading-none text-[#4065D1] lg:flex'
+            >
+              <div>Explore Best Seller</div>
               <FaAngleRight />
-            </div> */}
+            </Link>
           </div>
           <div className='lg:h-[400px]'>
             <ProductSlider
+              more='/category'
               items={homeProduct.bestSellerData}
               handleShowDetail={(data) =>
                 setShowProductDetail({ show: true, product: data })
               }
             />
           </div>
-          <Link href="/catalog-crafter" className='flex justify-center gap-4 lg:hidden'>
+          <Link href="/category" className='flex justify-center gap-4 lg:hidden'>
             <span>see more</span>
             <Image
               src={arrowRight.src}
@@ -619,17 +604,6 @@ export default function HomePage() {
           </Link>
         </div>
       </div>
-      {showChat ?
-        <div ref={refChat} className='fixed bottom-0 right-0 z-[99]'>
-          <iframe height={500} src='https://tawk.to/chat/672866874304e3196adcbd50/1ibqt10pq' />
-        </div>
-        :
-        <div onClick={() => setShowChat(true)} className="fixed bottom-0 right-0 z-[500]">
-          <div className='-mb-8 max-w-[200px]'>
-            <CustomerSupportLottie />
-          </div>
-        </div>
-      }
       <ModalProduct
         isOpen={showProductDetail.show}
         product={showProductDetail.product}

@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 'use client';
+import Link from 'next/link';
 import { useState } from 'react';
 import { FaFacebook, FaInstagram, FaPinterest, FaWhatsapp } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
@@ -47,12 +48,22 @@ const Project: React.FC<ModalProps> = ({ onClick, item, onLike }) => {
           <div
             className="absolute top-0 right-0 z-20"
           >
-            <div className='h-[200px] w-[45px] rounded-lg bg-black/60 p-3 pt-5 text-white'>
-              <FaInstagram className='aspect-square h-[22px] w-[22px]' />
-              <FaWhatsapp className='mt-4 aspect-square h-[22px] w-[22px]' />
-              <FaXTwitter className='mt-4 aspect-square h-[22px] w-[22px]' />
-              <FaFacebook className='mt-4 aspect-square h-[22px] w-[22px]' />
-              <FaPinterest className='mt-4 aspect-square h-[22px] w-[22px]' />
+            <div className='h-[200px] w-[45px] rounded-lg bg-black/60 p-3 pt-5 text-white flex flex-col justify-between items-center'>
+              <Link href={`https://api.whatsapp.com/send?text=${process.env.NEXT_PUBLIC_URL}/project`} target='_blank'>
+                <FaInstagram className='aspect-square h-[22px] w-[22px]' />
+              </Link>
+              <Link className='mt-4' href={`https://api.whatsapp.com/send?text=${process.env.NEXT_PUBLIC_URL}/project`} target='_blank'>
+                <FaWhatsapp className='aspect-square h-[22px] w-[22px]' />
+              </Link>
+              <Link className='mt-4' href={`https://twitter.com/intent/tweet?text=${item.description}&url=${process.env.NEXT_PUBLIC_URL}/project?id=${item.id}&hashtags=DrizyCraft`} target='_blank'>
+                <FaXTwitter className='aspect-square h-[22px] w-[22px]' />
+              </Link>
+              <Link className='mt-4' href={`https://www.facebook.com/sharer/sharer.php?u=${process.env.NEXT_PUBLIC_URL}/project?id=${item.id}&quote=${item.description}`} target='_blank'>
+                <FaFacebook className='aspect-square h-[22px] w-[22px]' />
+              </Link>
+              <Link className='mt-4' href={`https://pinterest.com/pin/create/button/?description=${item.description}&url=${process.env.NEXT_PUBLIC_URL}/project?id=${item.id}&media=${item.imageUrl}`} target='_blank'>
+                <FaPinterest className='aspect-square h-[22px] w-[22px]' />
+              </Link>
             </div>
           </div>
         }
