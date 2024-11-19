@@ -13,7 +13,7 @@ import { fetchCoin, fetchProfile, setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import { itemPayment } from '@/app/api/billing/itemPayment';
-import { productI } from '@/interfaces/product.interface';
+import { OrderI, productI } from '@/interfaces/product.interface';
 
 import {
   cartProduct,
@@ -61,22 +61,22 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const containerClassNames = () => {
     if (!isSlider) {
-      return 'group relative h-[380px] lg:w-1/4 w-full';
+      return 'group relative h-[335px] lg:w-[294px] w-full';
     }
     if (data.author) {
-      return 'group relative my-4 h-[395px] w-full md:w-[294px]';
+      return 'group relative my-4 h-[395px] w-[294px]';
     }
-    return 'group relative my-4 h-[335px] w-full md:w-[294px]';
+    return 'group relative my-4 h-[335px] w-[294px]';
   };
 
   const cardClassNames = () => {
     if (!isSlider) {
-      return 'absolute left-0 top-0 flex h-[380px] w-full flex-col flex-nowrap items-start gap-[24px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-[12px] shadow-xl transition-none hover:border-[2px]';
+      return 'absolute left-0 top-0 flex h-[335px] w-full lg:w-[281px] flex-col flex-nowrap items-start gap-[24px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-[12px] shadow-xl transition-none hover:border-[2px]';
     }
     if (data.author) {
-      return 'absolute left-0 top-0 flex h-[395px] w-full md:w-[281px] flex-col flex-nowrap items-start gap-[24px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-[12px] shadow-xl transition-none hover:border-[2px]';
+      return 'absolute left-0 top-0 flex h-[395px] w-[281px] flex-col flex-nowrap items-start gap-[24px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-[12px] shadow-xl transition-none hover:border-[2px]';
     }
-    return 'absolute left-0 top-0 flex h-[335px] w-full md:w-[281px] flex-col flex-nowrap items-start gap-[24px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-[12px] shadow-xl transition-none hover:border-[2px]';
+    return 'absolute left-0 top-0 flex h-[335px] w-[281px] flex-col flex-nowrap items-start gap-[24px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-[12px] shadow-xl transition-none hover:border-[2px]';
   };
 
   const handleCart = async () => {
@@ -105,7 +105,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const handleDownload = async () => {
     try {
       if (token) {
-        if (activeSubcription) {
+        if (activeSubcription.activeSubcription) {
           const payload: { [key: string]: string | number } = {
             productId: data.id,
             licenseType: 0,
@@ -118,7 +118,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           dispatch(fetchProfile(token!));
           dispatch(fetchCoin(token!));
           toast.success(`Successfully buy ${data?.name}!`);
-          router.push('/profile/download');
+          await getTransactionData();
         } else {
           const payment = await itemPayment({
             productId: [data.id],
@@ -137,6 +137,64 @@ const ProductCard: React.FC<ProductCardProps> = ({
       toast.error(
         (errorData.message as string) ?? 'Error when generate payment!'
       );
+    }
+  };
+
+  const getTransactionData = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-transaction?page=1&limit=1`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const orders: OrderI[] = res.data.data;
+      await handleDownloadClick(orders[0].id);
+    } catch (error) {
+      const err = error as AxiosError;
+      toast.error(err.message);
+    }
+  };
+
+  const handleDownloadClick = async (id: number) => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-file-download/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error(`Failed to download file: ${res.statusText}`);
+      }
+      const blob = await res.blob();
+
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.href = url;
+
+      let fileName = 'downloaded-file.zip';
+      const contentDisposition = res.headers.get('content-disposition');
+      if (contentDisposition) {
+        const matches = contentDisposition.match(/filename="(.+)"/);
+        if (matches && matches.length === 2) {
+          fileName = matches[1];
+        }
+      }
+      link.setAttribute('download', fileName);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => window.URL.revokeObjectURL(url), 100);
+    } catch (error) {
+      const err = error as AxiosError;
+      toast.error(err.message);
     }
   };
 

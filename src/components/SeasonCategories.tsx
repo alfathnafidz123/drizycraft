@@ -22,7 +22,7 @@ const SeasonCategories: React.FC<SeasonCategoriesProps> = ({ name, image }) => {
           className='aspect-square rounded-full border-[9px] border-stone-300 transition-transform hover:scale-110 hover:border-[4px] hover:border-[#FFBB3C]'
         />
       </div>
-      <div className='font-katide-bold pt-1 text-center text-black decoration-2 underline-offset-[7px] group-hover:underline'>
+      <div className='font-katide-bold pt-1 text-center text-black decoration-2 underline-offset-[7px] group-hover:underline text-xs lg:text-base'>
         {name}
       </div>
     </Link>

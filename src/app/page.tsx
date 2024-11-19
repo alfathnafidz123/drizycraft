@@ -367,7 +367,7 @@ export default function HomePage() {
           <div className='font-katide-bold mb-16 self-center whitespace-nowrap text-2xl text-indigo-950'>
             Browse Season Categories
           </div>
-          <div className='flex flex-wrap justify-center gap-[42px]'>
+          <div className='grid grid-cols-3 lg:grid-cols-6 gap-6 lg:gap-[42px] px-2 lg:p-0'>
             {seasonalData?.slice(0, 6).map((data, index) => (
               <SeasonCategories
                 name={data.name}
@@ -591,9 +591,9 @@ export default function HomePage() {
       </section>
       <AffiliateBanner />
       <div className='fixed bottom-4 z-20 hidden w-full items-end justify-center lg:flex'>
-        <div className='flex justify-end'>
+        <Link href="https://buymeacoffee.com/drizystudio" target="_blank" className='flex justify-end'>
           <Image src={coffeeFloating.src} alt='Help' width={75} height={75} />
-        </div>
+        </Link>
         <div className='flex items-center gap-16 rounded-lg border-2 border-[#FFDE9F] bg-[#EE4C73] px-8 py-4 font-semibold shadow-xl'>
           <p className='text-white'>
             Upgrade your membership{' '}

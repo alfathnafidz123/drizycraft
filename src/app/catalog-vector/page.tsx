@@ -66,16 +66,22 @@ export default function CatalogCrafter() {
   const handleShortBySelect = (event: any) => {
     const option = event.target.value;
     setSelectedShortByOption(option);
+    setCurrentPage(1);
+    setProductData([]);
   };
 
   const handleCategorySelect = (event: any) => {
     const option = event.target.value;
     setSelectedCategoryOption(option);
+    setCurrentPage(1);
+    setProductData([]);
   };
 
   const handleSeasonsSelect = (event: any) => {
     const option = event.target.value;
     setSelectedSeasonsOption(option);
+    setCurrentPage(1);
+    setProductData([]);
   };
 
   function optionFormatter(str: string) {
@@ -280,7 +286,7 @@ export default function CatalogCrafter() {
           </div>
 
           <div className='w-full'>
-            <div className='w-full flex flex-wrap items-center justify-center lg:items-start lg:justify-start'>
+            <div className='w-full flex flex-wrap items-center justify-center lg:items-start lg:justify-start gap-y-2'>
               {productData.map((product, index) => (
                 <ProductCard
                   key={index}
@@ -288,6 +294,7 @@ export default function CatalogCrafter() {
                   handleShowDetail={(data) =>
                     setShowProductDetail({ show: true, product: data })
                   }
+                  isSlider={false}
                 />
               ))}
             </div>

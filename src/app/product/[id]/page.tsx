@@ -24,6 +24,7 @@ import ReviewBox from '@/components/ReviewBox';
 
 import { getAllProduct, SortType } from '@/app/api/product/getProduct';
 import { getProductById } from '@/app/api/product/getProductById';
+import { getProductOwnedById } from '@/app/api/product/getProductOwnedById';
 import { getReviews } from '@/app/api/product/getReview';
 import { SubscriptionI } from '@/app/profile/subscription/page';
 import {
@@ -55,6 +56,7 @@ export default function Register() {
   const [subsData, setSubsData] = useState<SubscriptionI>();
   const refCode = searchParams.get('ref');
   const [loadingDownload, setLoadingDownload] = useState(false);
+  const [ownerStatus, setOwnerStatus] = useState(false);
 
   const getProduct = async () => {
     try {
@@ -64,6 +66,17 @@ export default function Register() {
       toast('Error when trying to get all products');
     }
   };
+
+  const getOwnerStatus = async () => {
+    try {
+      if (token) {
+        const response = await getProductOwnedById({ title: params.id as string, token });
+        setOwnerStatus(response.owned);
+      }
+    } catch (error) {
+      toast('Error when trying to get all products');
+    }
+  }
 
   const getSubscriptionData = async () => {
     try {
@@ -160,14 +173,38 @@ export default function Register() {
         }
       );
       const orders: OrderI[] = res.data.data;
-      await handleDownloadClick(orders[0].id);
+      await downloadFile(orders[0].id);
     } catch (error) {
       const err = error as AxiosError;
       toast.error(err.message);
     }
   };
 
-  const handleDownloadClick = async (id: number) => {
+  const handleClickDownload = async () => {
+    try {
+      setLoadingDownload(true);
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-transaction?page=1&limit=500`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const orders: OrderI[] = res.data.data;
+      const found = orders.find(item => item.productId === productData?.productId);
+      if (found) {
+        await downloadFile(found.id);
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      toast.error(err.message);
+    } finally {
+      setLoadingDownload(false);
+    }
+  };
+
+  const downloadFile = async (id: number) => {
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-file-download/${id}`,
@@ -259,6 +296,7 @@ export default function Register() {
   };
 
   useEffect(() => {
+    getOwnerStatus();
     getProduct();
     getProductSlider();
     getReview();
@@ -304,23 +342,25 @@ export default function Register() {
         <div className='grid gap-8 lg:grid-cols-5'>
           <div className='flex flex-col gap-4 lg:col-span-3'>
             <div className='grid grid-cols-1 gap-8 lg:grid-cols-5'>
-              <div className='order-last flex flex-row gap-4 lg:order-first lg:flex-col'>
-                {productData?.product.imageUrl?.map((url, index) => (
-                  <Image
-                    key={index}
-                    src={url}
-                    alt='Product'
-                    width={50}
-                    height={50}
-                    className={`h-[50px] w-[50px] rounded-md object-cover ${index === selectedImage ? 'opacity-100' : 'opacity-50'
-                      }`}
-                    onClick={() => {
-                      setSelectedImage(index);
-                    }}
-                    priority={true}
-                    loading='eager'
-                  />
-                ))}
+              <div className='max-w-full max-md:overflow-scroll lg:order-first order-last'>
+                <div className='flex flex-row gap-4 w-full lg:flex-col'>
+                  {productData?.product.imageUrl?.map((url, index) => (
+                    <Image
+                      key={index}
+                      src={url}
+                      alt='Product'
+                      width={50}
+                      height={50}
+                      className={`h-[50px] w-[50px] rounded-md object-cover ${index === selectedImage ? 'opacity-100' : 'opacity-50'
+                        }`}
+                      onClick={() => {
+                        setSelectedImage(index);
+                      }}
+                      priority={true}
+                      loading='eager'
+                    />
+                  ))}
+                </div>
               </div>
               {productData && (
                 <Image
@@ -328,7 +368,7 @@ export default function Register() {
                   alt='Product'
                   width={724}
                   height={300}
-                  className='order-first col-span-4 w-full rounded-xl object-cover lg:order-last'
+                  className='order-first lg:col-span-4 w-full rounded-xl object-cover lg:order-last'
                   priority={true}
                   loading='eager'
                 />
@@ -452,42 +492,99 @@ export default function Register() {
                   <Copy />
                 </button>
               )}
-              <button
-                onClick={() => {
-                  handleBuy();
-                }}
-                disabled={loadingDownload}
-                className='w-full rounded-full bg-[#1A214C] px-10 py-2 font-semibold text-[#e4f6fb] disabled:bg-[#1A214C]/80'
-              >
-                {activeSubcription && dataUser?.coin && dataUser?.coin !== 0
-                  ? loadingDownload
+              {ownerStatus ?
+                <button
+                  onClick={handleClickDownload}
+                  disabled={loadingDownload}
+                  className='w-full rounded-full bg-[#1A214C] px-10 py-2 font-semibold text-[#e4f6fb] disabled:bg-[#1A214C]/80'
+                >
+                  {loadingDownload
                     ? <div className='flex w-full items-center justify-center'><Loader className='animate-spin' /></div>
-                    : 'Buy with coin'
-                  : 'Add to cart'}
-              </button>
+                    :
+                    "Download"
+                  }
+                </button>
+                :
+                <button
+                  onClick={() => {
+                    handleBuy();
+                  }}
+                  disabled={loadingDownload}
+                  className='w-full rounded-full bg-[#1A214C] px-10 py-2 font-semibold text-[#e4f6fb] disabled:bg-[#1A214C]/80'
+                >
+                  {activeSubcription && dataUser?.coin && dataUser?.coin !== 0
+                    ? loadingDownload
+                      ? <div className='flex w-full items-center justify-center'><Loader className='animate-spin' /></div>
+                      : 'Buy with coin'
+                    : 'Add to cart'}
+                </button>
+              }
               <div className='my-4 w-full border-t-2 border-[#1A214C]/15' />
               <p className='text-lg font-semibold text-[#777777]'>
                 License Terms
               </p>
-              <ul className='list-disc text-[12px] text-[#777777]'>
-                <li>Personal Use Only</li>
-                <li>
-                  End Products Not For Resell, sub-license, share or
-                  (re)distribute any of the digital files
-                </li>
-                <li>
-                  You can give physical works as gifts, but not for commercial
-                  purposes such as trade, services or others
-                </li>
-                <li>
-                  Do not modify it to make a new work that is recognized as your
-                  work
-                </li>
-                <li>
-                  Digital files may not be shared or sold again, either offline
-                  or online on marketplace sites and the like
-                </li>
-              </ul>
+              {type === 0 &&
+                <ul className='list-disc text-[12px] text-[#777777]'>
+                  <li>Personal Use Only</li>
+                  <li>
+                    End Products Not For Resell, sub-license, share or
+                    (re)distribute any of the digital files
+                  </li>
+                  <li>
+                    You can give physical works as gifts, but not for commercial
+                    purposes such as trade, services or others
+                  </li>
+                  <li>
+                    Do not modify it to make a new work that is recognized as your
+                    work
+                  </li>
+                  <li>
+                    Digital files may not be shared or sold again, either offline
+                    or online on marketplace sites and the like
+                  </li>
+                </ul>
+              }
+              {type === 1 &&
+                <ul className='list-disc text-[12px] text-[#777777]'>
+                  <li>It can be for commercial purposes, by selling physical works made from our designs</li>
+                  <li>
+                    Can be used to trade physical products, craft fairs, gift services, craft services and other end product commercial purposes
+                  </li>
+                  <li>
+                    End Products Not For Resell, sub-license, share or (re)distribute any of the digital files
+                  </li>
+                  <li>
+                    Do not modify it to make a new work that is recognized as your work
+                  </li>
+                  <li>
+                    Digital files may not be shared or sold again, either offline or online on marketplace sites and the like
+                  </li>
+                  <li>
+                    Physical & Digital End Products (Read more)
+                  </li>
+                </ul>
+              }
+              {type === 2 &&
+                <ul className='list-disc text-[12px] text-[#777777]'>
+                  <li>Unlimited POD License</li>
+                  <li>It can be for commercial purposes, by selling physical works made from our designs</li>
+                  <li>
+                    Can be used to trade physical products, craft fairs, gift services, craft services and other end product commercial purposes
+                  </li>
+                  <li>
+                    End Products Not For Resell, sub-license, share or (re)distribute any of the digital files
+                  </li>
+                  <li>
+                    Do not modify it to make a new work that is recognized as your work
+                  </li>
+                  <li>
+                    Digital files may not be shared or sold again, either offline or online on marketplace sites and the like
+                  </li>
+                  <li>
+                    Physical & Digital End Products (Read more)
+                  </li>
+                </ul>
+              }
             </div>
           </div>
         </div>
