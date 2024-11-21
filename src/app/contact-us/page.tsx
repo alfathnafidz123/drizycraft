@@ -64,7 +64,7 @@ export default function Contact() {
               <label className='pl-4 text-[#1A214C]'>Your message</label>
               <input
                 type='input'
-                className='border-grey-100 m-[3%] rounded-xl border-[1px] p-[15%]'
+                className='border-grey-100 m-[3%] rounded-xl border-[1px]'
                 placeholder=''
                 required
               ></input>

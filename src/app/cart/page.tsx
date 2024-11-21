@@ -1,13 +1,9 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import axios, { AxiosError } from 'axios';
 import Image from 'next/image';
 import * as React from 'react';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
-import Lottie from 'react-lottie';
 import { toast } from 'react-toastify';
 
 import { fetchCart } from '@/lib/slices/cart';
@@ -15,7 +11,11 @@ import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import { itemPayment } from '@/app/api/billing/itemPayment';
 
-import animationData from '~/lottie/005_CHECKOUT-600px.json';
+import dynamic from 'next/dynamic';
+const CartLottie = dynamic(
+  () => import('../../components/lottie/cart'),
+  { ssr: false }
+);
 
 export default function Register() {
   const dispatch = useAppDispatch();
@@ -75,16 +75,7 @@ export default function Register() {
       <section className='flex flex-col gap-4 max-md:p-2 lg:flex-row lg:py-20 mx-auto w-full max-w-[1164px]'>
         <div className='flex basis-3/12 flex-col items-center gap-12 rounded-xl bg-white p-8 pr-16 shadow-lg'>
           <p className='text-3xl font-bold'>My Cart</p>
-          <Lottie
-            options={{
-              loop: true,
-              autoplay: true,
-              animationData: animationData, // the animation data
-              rendererSettings: {
-                preserveAspectRatio: 'xMidYMid slice',
-              },
-            }}
-          />
+          <CartLottie />
         </div>
         <div className='flex h-1/2 flex-grow flex-col items-center justify-center gap-4 rounded-xl bg-white p-4 shadow-lg lg:p-8'>
           {cart.length === 0 ? (

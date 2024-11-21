@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
@@ -7,7 +8,7 @@ import axios, { AxiosError } from 'axios';
 import { Loader } from 'lucide-react';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { memo, useEffect, useMemo, useState } from 'react';
 import { FaAngleRight } from 'react-icons/fa6';
 import { MdClose } from 'react-icons/md';
 import { toast } from 'react-toastify';
@@ -77,9 +78,9 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
 
   const handleBuy = async () => {
     if (token) {
-      if (activeSubcription && dataUser?.coin && dataUser?.coin !== 0)
+      if (activeSubcription.activeSubcription) {
         handleBuyPoint();
-      else handleCart();
+      } else handleCart();
     } else {
       dispatch(setOpenModal(true));
       closeModal();
@@ -89,7 +90,7 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
   const getTransactionData = async () => {
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-transaction?page=1&limit=1`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-transaction?page=1&limit=500`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -97,7 +98,10 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
         }
       );
       const orders: OrderI[] = res.data.data;
-      await handleDownloadClick(orders[0].id);
+      const found = orders.find(item => item.productId === product?.id);
+      if (found) {
+        await handleDownloadClick(found.id);
+      }
     } catch (error) {
       const err = error as AxiosError;
       toast.error(err.message);
@@ -125,7 +129,7 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
       const link = document.createElement('a');
       link.href = url;
 
-      let fileName = 'downloaded-file.zip';
+      let fileName = `${product?.name}.zip`;
       const contentDisposition = res.headers.get('content-disposition');
       if (contentDisposition) {
         const matches = contentDisposition.match(/filename="(.+)"/);
@@ -160,11 +164,18 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
       dispatch(fetchSubs(token!));
       await getTransactionData();
       toast.success(`Successfully buy ${product?.name}!`);
-      router.push('/profile/download');
     } catch (error: any) {
-      toast(
-        'Create Checkout Page failed, please reach out to the administrator'
-      );
+      if (error.response?.data) {
+        const responseData = error.response.data as any;
+        toast(responseData.message);
+        if (responseData.statusCode === 409) {
+          router.push('/profile/download');
+        }
+      } else {
+        toast(
+          'Server error, please reach out to the administrator'
+        );
+      }
     } finally {
       setLoading(false);
     }
@@ -182,9 +193,18 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
       closeModal();
       dispatch(fetchCart(token!));
     } catch (error: any) {
-      toast(
-        'Create Checkout Page failed, please reach out to the administrator'
-      );
+      const err = error as AxiosError;
+      if (err.response?.data) {
+        const responseData = err.response.data as any;
+        toast(responseData.message);
+        if (responseData.statusCode === 409) {
+          router.push('/profile/download');
+        }
+      } else {
+        toast(
+          'Server error, please reach out to the administrator'
+        );
+      }
     } finally {
       setLoading(false);
     }
@@ -359,10 +379,10 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
                   aria-label={`Buy ${product?.name}`}
                 >
                   {loading ? (
-                    <Loader color='#fff' />
+                    <Loader color='#fff' className='animate-spin' />
                   ) : (
                     <div className='font-katide-bold text-right text-sm tracking-[1%] text-white'>
-                      {activeSubcription && dataUser?.coin && dataUser?.coin !== 0
+                      {activeSubcription.activeSubcription
                         ? 'Buy with coin'
                         : 'Add to cart'}
                     </div>
@@ -390,4 +410,4 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
   );
 };
 
-export default ModalProduct;
+export default memo(ModalProduct);

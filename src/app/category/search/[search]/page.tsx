@@ -1,19 +1,23 @@
 'use client';
 import { Loader } from 'lucide-react';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
+import { IoChevronDown } from 'react-icons/io5';
 import { toast } from 'react-toastify';
 
 import ModalProduct from '@/components/modals/product';
 import ProductCard from '@/components/ProductCard';
 
-import { getSeason } from '@/app/api/product/getCategory';
 import { getAllProduct, SortType } from '@/app/api/product/getProduct';
+import { getSeason } from '@/app/api/product/getSeason';
 import { CategoryI, productI } from '@/interfaces/product.interface';
 
 export default function CatalogCrafter() {
   const params = useParams();
+  const query = useSearchParams();
+
+  const categoryQuery = query.get("category");
   const [isShortByDropdownOpen, setIsShortByDropdownOpen] = useState(false);
   const [selectedShortByOption, setSelectedShortByOption] = useState<SortType>(SortType.Latest);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
@@ -35,14 +39,6 @@ export default function CatalogCrafter() {
     SortType.Popularity,
     SortType.LowToHigh,
     SortType.HighToLow,
-  ];
-  const categoryOptions = [
-    '3D Shadow Box',
-    'Greeting Card',
-    'Sublimation',
-    'Tumbler 20oz',
-    'Lollipop Holder',
-    'Egg Holder',
   ];
 
   const handleShortByDropdownClick = () => {
@@ -88,6 +84,7 @@ export default function CatalogCrafter() {
         limit: 15,
         sortType: selectedShortByOption,
         search: params.search ? params.search as string : undefined,
+        category: categoryQuery === "all" ? undefined : categoryQuery!,
         extraCategory:
           selectedSeasonsOption !== '' ? selectedSeasonsOption : '',
       });
@@ -98,7 +95,7 @@ export default function CatalogCrafter() {
     } finally {
       setLoading(false);
     }
-  }, [currentPage, selectedCategoryOption, selectedSeasonsOption, selectedShortByOption]);
+  }, [currentPage, selectedShortByOption, params.search, categoryQuery, selectedSeasonsOption]);
 
   const getSeasonalData = async () => {
     try {
@@ -115,7 +112,7 @@ export default function CatalogCrafter() {
 
   useEffect(() => {
     getProduct();
-  }, [selectedCategoryOption, selectedSeasonsOption, selectedShortByOption, getProduct]);
+  }, [selectedCategoryOption, selectedSeasonsOption, selectedShortByOption, getProduct, params.search, categoryQuery]);
 
   return (
     <main className='w-full'>
@@ -220,7 +217,13 @@ export default function CatalogCrafter() {
             </div>
             {hasMore &&
               <div onClick={() => { !loading ? setCurrentPage(prev => prev + 1) : null }} className='flex items-center justify-center cursor-pointer text-center mt-10'>
-                {loading ? <Loader className='animate-spin' /> : 'load more...'}
+                {loading
+                  ? <Loader className='animate-spin' />
+                  :
+                  <div className='flex flex-row gap-2 items-center justify-center'>
+                    <p>Load More</p>
+                    <IoChevronDown />
+                  </div>}
               </div>
             }
           </div>

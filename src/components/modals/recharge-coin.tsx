@@ -78,27 +78,27 @@ const ModalRechargeCoin: React.FC<ModalProps> = ({
               <p className='text-center text-sm'>Coin validity aligns with your subscription period. Any purchased coins will expire if you cancel your Drizy VIP+ subscription.</p>
             </div>
             <div className='grid grid-cols-4 py-5 px-4 gap-3'>
-              <label htmlFor='15' className={`border-[3px] ${productId === "price_1QFimeQinl9UJNy4P8LopNDo" ? "border-[#FFBB3C]" : "border-[#AAAAAA]"} rounded-xl cursor-pointer px-3 pt-4 pb-2 flex flex-col items-center`}>
+              <label htmlFor='15' className={`border-[3px] ${productId === process.env.NEXT_PUBLIC_PRICE_FIFTEEN ? "border-[#FFBB3C]" : "border-[#AAAAAA]"} rounded-xl cursor-pointer px-3 pt-4 pb-2 flex flex-col items-center`}>
                 <img src={drizzyCoin.src} alt='coin' className='w-8 h-8 mt-2' />
                 <p className='text-[#AAAAAA] text-xl font-katide-bold mt-3.5'>15</p>
                 <p className='text-[#AAAAAA] text-xs font-katide-regular'>Drizy Coin</p>
                 <p className='text-[#AAAAAA] text-xs font-katide-bold mt-7'>$5</p>
-                <input type='radio' onChange={(e) => setProductId(e.target.value)} name='coin' className='hidden' id='15' value="price_1QFimeQinl9UJNy4P8LopNDo" />
+                <input type='radio' onChange={(e) => setProductId(e.target.value)} name='coin' className='hidden' id='15' value={process.env.NEXT_PUBLIC_PRICE_FIFTEEN} />
               </label>
-              <label htmlFor='30' className={`border-[3px] ${productId === "price_1QFimxQinl9UJNy40j28fVSo" ? "border-[#FFBB3C]" : "border-[#AAAAAA]"} rounded-xl cursor-pointer px-3 pt-4 pb-2 flex flex-col items-center`}>
+              <label htmlFor='30' className={`border-[3px] ${productId === process.env.NEXT_PUBLIC_PRICE_THIRTY ? "border-[#FFBB3C]" : "border-[#AAAAAA]"} rounded-xl cursor-pointer px-3 pt-4 pb-2 flex flex-col items-center`}>
                 <img src={drizzyCoin.src} alt='coin' className='w-8 h-8 mt-2' />
                 <p className='text-[#AAAAAA] text-xl font-katide-bold mt-3.5'>30</p>
                 <p className='text-[#AAAAAA] text-xs font-katide-regular'>Drizy Coin</p>
                 <p className='text-[#AAAAAA] text-xs font-katide-bold mt-7'>$10</p>
-                <input type='radio' onChange={(e) => setProductId(e.target.value)} name='coin' className='hidden' id='30' value="price_1QFimxQinl9UJNy40j28fVSo" />
+                <input type='radio' onChange={(e) => setProductId(e.target.value)} name='coin' className='hidden' id='30' value={process.env.NEXT_PUBLIC_PRICE_THIRTY} />
               </label>
-              <label htmlFor='150' className={`border-[3px] ${productId === "price_1QFinRQinl9UJNy4UbaEWrdd" ? "border-[#FFBB3C]" : "border-[#AAAAAA]"} rounded-xl cursor-pointer px-3 pt-4 pb-2 flex flex-col items-center`}>
+              <label htmlFor='150' className={`border-[3px] ${productId === process.env.NEXT_PUBLIC_PRICE_HUNDREDFIFTY ? "border-[#FFBB3C]" : "border-[#AAAAAA]"} rounded-xl cursor-pointer px-3 pt-4 pb-2 flex flex-col items-center`}>
                 <img src={drizzyCoin.src} alt='coin' className='w-8 h-8 mt-2' />
                 <p className='text-[#AAAAAA] text-xl font-katide-bold mt-3.5'>150</p>
                 <p className='text-[#AAAAAA] text-xs font-katide-regular'>Drizy Coin</p>
                 <p className='text-[#AAAAAA] text-xs font-katide-regular mt-5 line-through'>$50</p>
                 <p className='text-[#AAAAAA] text-xs font-katide-bold'>$25</p>
-                <input type='radio' onChange={(e) => setProductId(e.target.value)} name='coin' className='hidden' id='150' value="price_1QFinRQinl9UJNy4UbaEWrdd" />
+                <input type='radio' onChange={(e) => setProductId(e.target.value)} name='coin' className='hidden' id='150' value={process.env.NEXT_PUBLIC_PRICE_HUNDREDFIFTY} />
               </label>
               <label htmlFor='custom' className={`border-[3px] ${productId === undefined ? "border-[#FFBB3C]" : "border-[#AAAAAA]"} rounded-xl cursor-pointer px-3 pt-4 pb-2 flex flex-col items-center`}>
                 <p className='text-[#AAAAAA] text-xs font-katide-regular text-center'>Choose Your Amount</p>

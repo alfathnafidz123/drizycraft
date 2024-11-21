@@ -11,35 +11,42 @@ import { toast } from 'react-toastify';
 
 import { useAppSelector } from '@/lib/store';
 
-import { OrderI } from '@/interfaces/product.interface';
+import { Meta, TransactionI, TransactionResI } from '@/interfaces/transaction.interfaces';
 
 export default function Register() {
   const { token } = useAppSelector((state) => state.user);
-  const [ordersData, setOrdersData] = React.useState<OrderI[]>([]);
+  const [ordersData, setOrdersData] = React.useState<TransactionI[]>([]);
+  const [meta, setMeta] = React.useState<Meta>();
   const [loading, setLoading] = React.useState<{ loading: boolean; id?: number }>({ loading: false });
+  const [params, setParams] = React.useState({
+    page: 1,
+    limit: 10,
+  })
 
   const getTransactionData = async () => {
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-transaction?page=1&limit=10`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-transaction?page=${params.page}&limit=${params.limit}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      setOrdersData(res.data.data);
+      const transactionData = res.data as TransactionResI;
+      setOrdersData(prev => ([...prev, ...transactionData.data]));
+      setMeta(transactionData.meta);
     } catch (error) {
       const err = error as AxiosError;
       toast.error(err.message);
     }
   };
 
-  const handleDownloadClick = async (id: number) => {
+  const handleDownloadClick = async (item: TransactionI) => {
     try {
-      setLoading({ loading: true, id });
+      setLoading({ loading: true, id: item.id });
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-file-download/${id}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-file-download/${item.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -57,7 +64,7 @@ export default function Register() {
       const link = document.createElement('a');
       link.href = url;
 
-      let fileName = 'downloaded-file.zip';
+      let fileName = `${item.product.name}.zip`;
       const contentDisposition = res.headers.get('content-disposition');
       if (contentDisposition) {
         const matches = contentDisposition.match(/filename="(.+)"/);
@@ -80,7 +87,7 @@ export default function Register() {
 
   useEffect(() => {
     getTransactionData();
-  }, []);
+  }, [params.page]);
 
   return (
     <>
@@ -106,7 +113,7 @@ export default function Register() {
                   <td>
                     <button
                       onClick={() => {
-                        handleDownloadClick(item?.id);
+                        handleDownloadClick(item);
                       }}
                       className='rounded-full bg-[#008ECC] px-10 py-2 font-semibold text-[#e4f6fb]'
                     >
@@ -122,6 +129,16 @@ export default function Register() {
             })}
           </tbody>
         </table>
+        {meta?.hasNextPage && (
+          <button
+            onClick={() =>
+              setParams((prev) => ({ ...prev, page: prev.page + 1 }))
+            }
+            className='mt-8 flex w-full cursor-pointer justify-center text-blue-600 underline'
+          >
+            Load more...
+          </button>
+        )}
         <div className='mt-8 flex w-full justify-center'></div>
       </div>
     </>

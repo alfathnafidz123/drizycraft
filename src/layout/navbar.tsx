@@ -55,6 +55,7 @@ const Navbar: React.FC = () => {
   const [isCrafterMenuOpen, setCrafterMenuOpen] = useState(false);
   const [coin, setCoin] = useState(dataUser?.coin);
   const [showTopup, setShowTopup] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [showMenu, setShowMenu] = useState<MenuState>({
     crafter: false,
     vector: false,
@@ -135,19 +136,11 @@ const Navbar: React.FC = () => {
     });
   };
 
-  const toggleSubMenu = (key: keyof SubMenuState) => {
-    setShowSubMenu((prevState) => {
-      const updatedState: SubMenuState = {
-        seasonal: key === 'seasonal' ? !prevState.seasonal : false,
-        craft: key === 'craft' ? !prevState.craft : false,
-      };
+  const handleSearch = (e: any) => {
+    e.preventDefault();
+    router.push(`/category/search/${inputValue}?category=${selectedCategory}`)
+  }
 
-      return updatedState;
-    });
-  };
-  const handleLogoClick = () => {
-    router.push('/');
-  };
   return (
     <GoogleOAuthProvider clientId='660205853013-i0r4emab9r16stvggpb9gu24gmd0mgqr.apps.googleusercontent.com'>
       <nav className='sticky top-0 z-30 hidden h-[139px] items-center bg-white shadow-xl lg:flex'>
@@ -159,8 +152,8 @@ const Navbar: React.FC = () => {
 
           <div className='flex flex-row'>
             <div className='mr-2 flex flex-col '>
-              <select className='font-katide-bold mb-2 mr-2 max-w-[130px] border-none text-sm outline-none ring-0 focus:ring-0'>
-                <option value=''>All Product</option>
+              <select onChange={(e) => { setSelectedCategory(e.target.value) }} value={selectedCategory} className='font-katide-bold mb-2 mr-2 max-w-[130px] border-none text-sm outline-none ring-0 focus:ring-0'>
+                <option value='all'>All Product</option>
                 <option value='Bundles'>Bundles</option>
                 <option value='Crafters'>Crafters</option>
                 <option value='Freebies'>Freebies</option>
@@ -457,15 +450,15 @@ const Navbar: React.FC = () => {
             </div>
 
             <div className='mr-2 flex flex-col'>
-              <div className='group flex h-[42px] w-[480px] items-center gap-4 rounded-full border border-solid border-blue-500 border-opacity-25 bg-[#F1F2FB] p-2 pl-4 pr-1 text-left text-sm font-normal leading-4 tracking-tighter text-[#6F6F6F] transition-all focus-within:bg-white'>
+              <form onSubmit={handleSearch} className='group flex h-[42px] w-[480px] items-center gap-4 rounded-full border border-solid border-blue-500 border-opacity-25 bg-[#F1F2FB] p-2 pl-4 pr-1 text-left text-sm font-normal leading-4 tracking-tighter text-[#6F6F6F] transition-all focus-within:bg-white'>
                 <input
                   placeholder='Search for unique craft designs, categories, occasions...'
                   className='!focus:border-none !focus:outline-none flex-grow truncate border-none bg-transparent text-sm tracking-wide !outline-none placeholder:tracking-wide placeholder:text-[#6F6F6F] focus:ring-0'
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                 ></input>
-                <div
-                  onClick={() => router.push(`/category/search/${inputValue}`)}
+                <button
+                  type="submit"
                   className='flex rounded-full bg-[#008ECC] cursor-pointer'
                 >
                   <img
@@ -476,8 +469,8 @@ const Navbar: React.FC = () => {
                   <div className='w-0 overflow-hidden transition-all duration-300 group-hover:w-[80px]'>
                     <p className='px-4 py-2 text-center text-white'>Search</p>
                   </div>
-                </div>
-              </div>
+                </button>
+              </form>
 
               <div className='font-katide-semibold flex flex-row justify-between pt-2 text-[14px]'>
                 <div className='relative'>
@@ -736,27 +729,27 @@ const Navbar: React.FC = () => {
             </div>
           </div>
           <div className='container mx-auto flex h-1/2 items-center justify-between gap-2 max-md:mx-0 lg:px-0'>
-            <select className='font-katide-bold max-w-[130px] border-none text-sm outline-none ring-0 focus:ring-0'>
-              <option value=''>All Product</option>
+            <select onChange={(e) => { setSelectedCategory(e.target.value) }} value={selectedCategory} className='font-katide-bold max-w-[130px] border-none text-sm outline-none ring-0 focus:ring-0'>
+              <option value='all'>All Product</option>
               <option value='Bundles'>Bundles</option>
               <option value='Crafters'>Crafters</option>
-              <option value='Freebies'>Freebies</option>
+              <option value='Free SVGs'>Freebies</option>
               <option value='Membership'>Membership</option>
               <option value='Vector'>Vector</option>
-              <option value='Print Template'>Print Template</option>
+              <option value='Printable Crafts'>Print Template</option>
               <option value='Time Limited Freebies'>
                 Time Limited Freebies
               </option>
             </select>
-            <div className='group flex h-[42px] grow items-center gap-4 rounded-full border border-solid border-blue-500 border-opacity-25 p-2 pl-4 text-left text-sm font-normal leading-4 tracking-tighter text-[#6F6F6F]'>
+            <form onSubmit={handleSearch} className='group flex h-[42px] grow items-center gap-4 rounded-full border border-solid border-blue-500 border-opacity-25 p-2 pl-4 text-left text-sm font-normal leading-4 tracking-tighter text-[#6F6F6F]'>
               <input
                 placeholder='Search for unique craft designs, categories, occasions...'
                 className='w-full truncate border-none text-sm outline-none placeholder:text-gray-300'
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
               ></input>
-              <div
-                onClick={() => router.push(`/category/search/${inputValue}`)}
+              <button
+                type="submit"
                 className='flex rounded-full bg-[#008ECC] cursor-pointer'
               >
                 <img
@@ -764,8 +757,8 @@ const Navbar: React.FC = () => {
                   className='w-[32px] flex-grow transition-all duration-300'
                   alt='search'
                 />
-              </div>
-            </div>
+              </button>
+            </form>
           </div>
           {isSidebarOpen && (
             <div className='absolute left-0 top-full flex w-full'>

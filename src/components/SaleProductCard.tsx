@@ -1,3 +1,5 @@
+'use client';
+
 import { AxiosError } from "axios";
 import moment from "moment";
 import { useRouter } from "next/navigation";

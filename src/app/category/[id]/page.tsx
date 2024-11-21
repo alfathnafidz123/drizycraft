@@ -3,13 +3,14 @@ import { Loader } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
+import { IoChevronDown } from 'react-icons/io5';
 import { toast } from 'react-toastify';
 
 import ModalProduct from '@/components/modals/product';
 import ProductCard from '@/components/ProductCard';
 
-import { getSeason } from '@/app/api/product/getCategory';
 import { getAllProduct, SortType } from '@/app/api/product/getProduct';
+import { getSeason } from '@/app/api/product/getSeason';
 import { CategoryI, productI } from '@/interfaces/product.interface';
 
 export default function CatalogCrafter() {
@@ -38,15 +39,6 @@ export default function CatalogCrafter() {
     SortType.LowToHigh,
     SortType.HighToLow,
   ];
-  const categoryOptions = [
-    '3D Shadow Box',
-    'Greeting Card',
-    'Sublimation',
-    'Tumbler 20oz',
-    'Lollipop Holder',
-    'Egg Holder',
-  ];
-  const seasonsOptions = ['Fall', 'Winter', 'Spring', 'Summer'];
 
   const handleShortByDropdownClick = () => {
     setIsShortByDropdownOpen(!isShortByDropdownOpen);
@@ -222,7 +214,13 @@ export default function CatalogCrafter() {
           </div>
           {hasMore &&
             <div onClick={() => { !loading ? setCurrentPage(prev => prev + 1) : null }} className='flex items-center justify-center cursor-pointer text-center mt-10'>
-              {loading ? <Loader className='animate-spin' /> : 'load more...'}
+              {loading
+                ? <Loader className='animate-spin' />
+                :
+                <div className='flex flex-row gap-2 items-center justify-center'>
+                  <p>Load More</p>
+                  <IoChevronDown />
+                </div>}
             </div>
           }
         </div>

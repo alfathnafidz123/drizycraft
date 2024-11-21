@@ -3,6 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 import axios, { AxiosError } from 'axios';
+import { Loader } from 'lucide-react';
 import moment from 'moment';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -11,6 +12,8 @@ import { toast } from 'react-toastify';
 
 import { fetchCoin, fetchProfile, setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
+
+import NextImage from '@/components/NextImage';
 
 import { itemPayment } from '@/app/api/billing/itemPayment';
 import { OrderI, productI } from '@/interfaces/product.interface';
@@ -51,6 +54,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     return activeSubcriptionState;
   }, [activeSubcriptionState]);
   const [isDiscount, setIsDiscount] = useState(false);
+  const [downloadLoading, setDownloadLoading] = useState(false);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -142,8 +146,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const getTransactionData = async () => {
     try {
+      setDownloadLoading(true);
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-transaction?page=1&limit=1`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-transaction?page=1&limit=500`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -151,10 +156,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
         }
       );
       const orders: OrderI[] = res.data.data;
-      await handleDownloadClick(orders[0].id);
+      const found = orders.find(item => item.productId === data?.id);
+      if (found) {
+        await handleDownloadClick(found.id);
+      }
     } catch (error) {
       const err = error as AxiosError;
       toast.error(err.message);
+    } finally {
+      setDownloadLoading(false);
     }
   };
 
@@ -179,7 +189,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       const link = document.createElement('a');
       link.href = url;
 
-      let fileName = 'downloaded-file.zip';
+      let fileName = `${data.name}.zip`;
       const contentDisposition = res.headers.get('content-disposition');
       if (contentDisposition) {
         const matches = contentDisposition.match(/filename="(.+)"/);
@@ -259,10 +269,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <div className={containerClassNames()}>
         {generateSale()}
         <div className={cardClassNames()}>
-          <img
+          <NextImage
             src={data.imageUrl[0]}
             alt={data.name}
+            height={200}
+            width={200}
             className='h-[172px] w-full rounded-[6px] object-cover lg:w-[257px]'
+            classNames={{ image: 'h-[172px] w-full rounded-[6px] object-cover lg:w-[257px]' }}
+            useSkeleton={true}
           />
           <span className='relative z-[2] flex h-[54px] w-[257px] shrink-0 items-start justify-start self-stretch overflow-hidden text-left text-[16px] font-semibold leading-[17.6px] text-[#1a204c]'>
             {data.name}
@@ -274,20 +288,26 @@ const ProductCard: React.FC<ProductCardProps> = ({
               onClick={handleCTA}
               className='pointer z-[3] flex h-[37px] flex-grow flex-nowrap items-center justify-center gap-[8px] rounded-[8px] bg-[#2a3b80] pb-[12px] pl-[24px] pr-[24px] pt-[12px] group-hover:bg-[#4065D1]'
             >
-              <span className='font-katide-bold z-[5] flex flex-row items-center gap-1 text-[20px] leading-[16px] text-[#fff] transition-all group-hover:scale-0'>
-                {isDiscount &&
-                  !(activeSubcription && dataUser?.coin && dataUser?.coin !== 0) ? (
-                  <p className='font-katide-regular text-sm text-white line-through'>
-                    ${data?.price[0]}
-                  </p>
-                ) : null}
-                {generatePrice()}
-              </span>
-              <span className='font-katide-bold absolute hidden items-center justify-center rounded-[8px] bg-[#4065D1] text-[16px] leading-[16px] group-hover:flex'>
-                <span className='scale-0 text-[#fff] group-hover:scale-100'>
-                  {generateCTA()}
-                </span>
-              </span>
+              {downloadLoading ?
+                <Loader className='animate-spin' />
+                :
+                <>
+                  <span className='font-katide-bold z-[5] flex flex-row items-center gap-1 text-[20px] leading-[16px] text-[#fff] transition-all group-hover:scale-0'>
+                    {isDiscount &&
+                      !(activeSubcription && dataUser?.coin && dataUser?.coin !== 0) ? (
+                      <p className='font-katide-regular text-sm text-white line-through'>
+                        ${data?.price[0]}
+                      </p>
+                    ) : null}
+                    {generatePrice()}
+                  </span>
+                  <span className='font-katide-bold absolute hidden items-center justify-center rounded-[8px] bg-[#4065D1] text-[16px] leading-[16px] group-hover:flex'>
+                    <span className='scale-0 text-[#fff] group-hover:scale-100'>
+                      {generateCTA()}
+                    </span>
+                  </span>
+                </>
+              }
             </button>
             <button
               id={`add-${data.id}-cart`}

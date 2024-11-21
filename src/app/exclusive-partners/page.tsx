@@ -13,7 +13,7 @@ import { toast } from 'react-toastify';
 import ModalProduct from '@/components/modals/product';
 import ProductCard from '@/components/ProductCard';
 
-import { getSeason } from '@/app/api/product/getCategory';
+import { getSeason } from '@/app/api/product/getSeason';
 import { getAllProduct, SortType } from '@/app/api/product/getProduct';
 import { CategoryI, productI } from '@/interfaces/product.interface';
 

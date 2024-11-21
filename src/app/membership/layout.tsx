@@ -12,7 +12,7 @@ import { siteConfig } from '@/constant/config';
 export const metadata: Metadata = {
   title: {
     default: siteConfig.title,
-    template: `%s | ${siteConfig.title}`,
+    template: `%s | Membership`,
   },
   description: siteConfig.description,
   robots: { index: true, follow: true },

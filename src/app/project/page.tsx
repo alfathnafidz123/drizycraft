@@ -85,12 +85,12 @@ export default function Register() {
           </p>
           <div className='mt-6 flex flex-row'>
             <img src={projectSign.src} />
-            <p className='self-center pl-5'>
+            <Link href="/register" className='self-center pl-5'>
               <b>Sign up: </b>
               <span className='cursor-pointer text-[#4065D1]'>
                 Create an account
               </span>
-            </p>
+            </Link>
           </div>
           <div className='mt-6 flex flex-row'>
             <img src={projectSubscribe.src} />

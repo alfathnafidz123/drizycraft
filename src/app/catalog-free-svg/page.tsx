@@ -9,13 +9,16 @@ import { FaFacebookF } from 'react-icons/fa';
 import { FaPinterest } from 'react-icons/fa';
 import { FaInstagram } from 'react-icons/fa';
 import { FaChevronDown } from 'react-icons/fa';
+import { IoChevronDown } from 'react-icons/io5';
 import { toast } from 'react-toastify';
 
 import ModalProduct from '@/components/modals/product';
 import ProductCard from '@/components/ProductCard';
 
 import { getAllProduct, SortType } from '@/app/api/product/getProduct';
-import { productI } from '@/interfaces/product.interface';
+import { getSeason } from '@/app/api/product/getSeason';
+import { getSubCategories } from '@/app/api/product/getSubCategories';
+import { CategoryI, productI } from '@/interfaces/product.interface';
 
 import { freeSVGBanner } from '~/images';
 
@@ -27,6 +30,8 @@ export default function CatalogCrafter() {
   const [isSeasonsDropdownOpen, setIsSeasonsDropdownOpen] = useState(false);
   const [selectedSeasonsOption, setSelectedSeasonsOption] = useState('');
   const [productData, setProductData] = useState<productI[] | []>([]);
+  const [seasonalData, setSeasonalData] = useState<CategoryI[] | []>([]);
+  const [categoryData, setCategoryData] = useState<CategoryI[] | []>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(false);
@@ -41,15 +46,6 @@ export default function CatalogCrafter() {
     SortType.LowToHigh,
     SortType.HighToLow,
   ];
-  const categoryOptions = [
-    '3D Shadow Box',
-    'Greeting Card',
-    'Sublimation',
-    'Tumbler 20oz',
-    'Lollipop Holder',
-    'Egg Holder',
-  ];
-  const seasonsOptions = ['Fall', 'Winter', 'Spring', 'Summer'];
 
   const handleShortByDropdownClick = () => {
     setIsShortByDropdownOpen(!isShortByDropdownOpen);
@@ -104,7 +100,7 @@ export default function CatalogCrafter() {
         category: 'Free SVGs',
         extraCategory: extraCat !== '' ? extraCat : '',
       });
-      setProductData(response.data);
+      setProductData(prev => ([...prev, ...response.data]));
       setHasMore(response.meta.hasNextPage);
     } catch (error) {
       toast('Error when trying to get all products');
@@ -112,6 +108,29 @@ export default function CatalogCrafter() {
       setLoading(false);
     }
   }, [currentPage, selectedCategoryOption, selectedSeasonsOption, selectedShortByOption]);
+
+  const getSeasonalData = async () => {
+    try {
+      const response = await getSeason();
+      setSeasonalData(response.data);
+    } catch (error) {
+      toast('Error when trying to get category');
+    }
+  };
+
+  const getSubCategoryData = async () => {
+    try {
+      const response = await getSubCategories();
+      setCategoryData(response.data);
+    } catch (error) {
+      toast('Error when trying to get category');
+    }
+  };
+
+  useEffect(() => {
+    getSeasonalData();
+    getSubCategoryData();
+  }, []);
 
   useEffect(() => {
     getProduct();
@@ -164,7 +183,7 @@ export default function CatalogCrafter() {
 
       <section className='w-full bg-[#EBECF5]'>
         <div className='flex flex-col py-[4%] max-md:px-2 lg:mx-auto lg:w-[1164px] lg:flex-row gap-4'>
-          <div>
+          <div className="lg:max-w-[252px]">
             <p className='font-katide-bold text-[20px]'>Filters</p>
             <div className='mt-6 rounded-lg bg-white shadow-lg'>
               <div className='rounded-tl-lg rounded-tr-lg border-b-2'>
@@ -207,8 +226,8 @@ export default function CatalogCrafter() {
               )}
             </div>
 
-            <div className='mt-6 rounded-lg bg-white shadow-lg'>
-              <div className='rounded-tl-lg rounded-tr-lg border-b-2'>
+            <div className='mt-6 rounded-lg bg-white shadow-lg max-h-[400px] overflow-auto relative'>
+              <div className='rounded-tl-lg rounded-tr-lg border-b-2 sticky top-0 bg-white'>
                 <div
                   className='category-dropdown m-1 flex w-full cursor-pointer justify-between p-2 lg:w-[252px]'
                   onClick={handleCategoryDropdownClick}
@@ -221,27 +240,26 @@ export default function CatalogCrafter() {
               </div>
               {isCategoryDropdownOpen && (
                 <div className='dropdown-content m-2 p-2'>
-                  {categoryOptions.map((option, index) => (
+                  {categoryData.map((option, index) => (
                     <div key={index} className='mb-3'>
                       <input
                         type='radio'
-                        id={option}
+                        id={option.id.toString()}
                         name='categoryOptions'
-                        value={option}
-                        checked={selectedCategoryOption === option}
+                        value={option.name}
+                        checked={selectedCategoryOption === option.name}
                         onChange={handleCategorySelect}
                         className='h-[13px] w-[13px] text-black'
                       />
                       <label
-                        htmlFor={option}
+                        htmlFor={option.id.toString()}
                         style={{
                           marginLeft: '5%',
                           fontSize: '14px',
                           color: '#17181A',
                         }}
-                      >
-                        {option}
-                      </label>
+                        dangerouslySetInnerHTML={{ __html: option.name }}
+                      />
                     </div>
                   ))}
                 </div>
@@ -260,28 +278,28 @@ export default function CatalogCrafter() {
                   <FaChevronDown className='mr-2 mt-2 w-[12px]' />
                 </div>
               </div>
-              {isSeasonsDropdownOpen && (
+              {seasonalData && (
                 <div className='dropdown-content m-2 p-2'>
-                  {seasonsOptions.map((option, index) => (
+                  {seasonalData.map((option, index) => (
                     <div key={index} className='mb-3'>
                       <input
                         type='radio'
-                        id={option}
+                        id={option.id.toString()}
                         name='seasonsOptions'
-                        value={option}
-                        checked={selectedSeasonsOption === option}
+                        value={option.name}
+                        checked={selectedSeasonsOption === option.name}
                         onChange={handleSeasonsSelect}
                         className='h-[13px] w-[13px] text-black'
                       />
                       <label
-                        htmlFor={option}
+                        htmlFor={option.id.toString()}
                         style={{
                           marginLeft: '5%',
                           fontSize: '14px',
                           color: '#17181A',
                         }}
                       >
-                        {option}
+                        {option.name}
                       </label>
                     </div>
                   ))}
@@ -305,7 +323,13 @@ export default function CatalogCrafter() {
             </div>
             {hasMore &&
               <div onClick={() => { !loading ? setCurrentPage(prev => prev + 1) : null }} className='flex items-center justify-center cursor-pointer text-center mt-10'>
-                {loading ? <Loader className='animate-spin' /> : 'load more...'}
+                {loading
+                  ? <Loader className='animate-spin' />
+                  :
+                  <div className='flex flex-row gap-2 items-center justify-center'>
+                    <p>Load More</p>
+                    <IoChevronDown />
+                  </div>}
               </div>
             }
           </div>
