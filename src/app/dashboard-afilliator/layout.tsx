@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { Suspense } from 'react';
 
 import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
@@ -58,9 +57,7 @@ export default function RootLayout({
 
   return (
     <SectionContainer className="max-md:p-2 lg:py-16">
-      <Suspense fallback={null}>
-        <AffiliatorNavigation />
-      </Suspense>
+      <AffiliatorNavigation />
       {children}
     </SectionContainer>
   );
