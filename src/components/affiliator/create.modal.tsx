@@ -1,7 +1,9 @@
+'use client';
+
+import { IoClose } from "@react-icons/all-files/io5/IoClose";
 import moment from "moment";
 import { useEffect } from "react";
 import { Controller } from "react-hook-form";
-import { IoClose } from "@react-icons/all-files/io5/IoClose";
 
 import useCouponUpsert from "@/lib/hooks/useCouponUpsert";
 

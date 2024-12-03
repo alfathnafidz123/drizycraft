@@ -1,8 +1,8 @@
 'use client';
 
-import Lottie from "react-lottie";
+import dynamic from "next/dynamic";
 
-import EmptyLottie from "~/lottie/empty.json";
+const Lottie = dynamic(() => import('@/components/lottie/loading-table'));
 
 export interface Columns<T> {
   fieldId: keyof T | "index";
@@ -113,18 +113,7 @@ export function Table<T>({
                 className="p-4 text-center whitespace-nowrap text-sm text-[#201B1C]"
               >
                 <div className="flex flex-col items-center">
-                  <Lottie
-                    options={{
-                      loop: true,
-                      autoplay: true,
-                      animationData: EmptyLottie,
-                      rendererSettings: {
-                        preserveAspectRatio: "xMidYMid slice",
-                      },
-                    }}
-                    height={100}
-                    width={100}
-                  />
+                  <Lottie />
                   <span className="text-base text-[#7C7C7C] ">
                     No Data Found
                   </span>
