@@ -1,4 +1,5 @@
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Metadata } from 'next';
 // import Navbar from '@/layout/navbar';
 import dynamic from 'next/dynamic';
@@ -197,6 +198,7 @@ export default function RootLayout({
       </head>
 
       <body>
+        <SpeedInsights />
         <StoreProvider>
           {/* <ComingSoonModal /> */}
           <Navbar />
