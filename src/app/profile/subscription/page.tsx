@@ -3,7 +3,6 @@
 'use client';
 
 import axios, { AxiosError } from 'axios';
-import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -23,7 +22,6 @@ export default function Register() {
   const { token } = useAppSelector((state) => state.user);
   const [subsData, setSubsData] = useState<SubscriptionI>();
   const [showRecharge, setShowRecharge] = useState(false);
-  const { activeSubcription } = useAppSelector(state => state.subs);
 
   const getSubscriptionData = async () => {
     try {

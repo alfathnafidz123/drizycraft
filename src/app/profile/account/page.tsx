@@ -4,7 +4,7 @@
 
 import axios, { AxiosError } from 'axios';
 import { Loader } from 'lucide-react';
-import * as React from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import logger from '@/lib/logger';
@@ -22,19 +22,19 @@ import {
 export default function Register() {
   const dispatch = useAppDispatch();
   const { token, dataUser } = useAppSelector((state) => state.user);
-  const [loading, setLoading] = React.useState(false);
-  const [data, setData] = React.useState<UserFormI>({
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState<UserFormI>({
     email: dataUser?.email ?? '',
     displayName: dataUser?.displayName ?? '',
     firstName: dataUser?.username?.split(' ')[0] ?? '',
     lastName: dataUser?.username?.split(' ')[1] ?? '',
   });
-  const [formPassword, setFormPassword] = React.useState<PasswordFormI>({
+  const [formPassword, setFormPassword] = useState<PasswordFormI>({
     oldPassword: '',
     newPassword: '',
     confirmPassword: '',
   });
-  const [affiliateData, setAffiliateData] = React.useState<AffiliateI>();
+  const [affiliateData, setAffiliateData] = useState<AffiliateI>();
 
   const getRequestAffiliate = async () => {
     try {
@@ -49,7 +49,7 @@ export default function Register() {
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     getDataUser();
     getRequestAffiliate();
   }, []);
@@ -102,11 +102,11 @@ export default function Register() {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
     setFormPassword((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 

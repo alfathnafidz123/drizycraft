@@ -2,9 +2,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import * as React from 'react';
-import { useState } from 'react';
 import { BsFillCreditCard2BackFill } from '@react-icons/all-files/bs/BsFillCreditCard2BackFill';
+import { useState } from 'react';
 import Select from 'react-select';
 
 interface OptionType {

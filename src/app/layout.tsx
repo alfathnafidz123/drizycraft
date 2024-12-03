@@ -16,6 +16,7 @@ import { siteConfig } from '@/constant/config';
 import AsyncCSSSlick from '@/layout/asyncCssSlick';
 import AsyncCSSThemeSlick from '@/layout/asyncCssThemeSlick';
 const Footer = lazy(() => import('@/layout/footer'));
+const Navbar = lazy(() => import('../layout/navbar'));
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -57,8 +58,6 @@ export const metadata: Metadata = {
     },
   ],
 };
-
-const Navbar = lazy(() => import('../layout/navbar'));
 
 export default function RootLayout({
   children,
