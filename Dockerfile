@@ -15,6 +15,7 @@ COPY next.config.js ./
 COPY .next/standalone ./
 COPY .next/static ./.next/static
 
+ENV NEXT_SHARP_PATH=/tmp/node_modules/sharp
 EXPOSE 3000
 
 CMD ["node", "server.js"]
