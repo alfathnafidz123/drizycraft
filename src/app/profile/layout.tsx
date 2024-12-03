@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { Loader } from 'lucide-react';
 import Image from 'next/image';
+import { ReactNode, Suspense, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import '@/styles/globals.css';
@@ -11,11 +12,8 @@ import '@/styles/colors.css';
 import { fetchProfile } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
-const ProfileMenu = lazy(() => import('@/components/sidebar/sidebar'));
-
-import { lazy, ReactNode, useCallback, useEffect, useState } from 'react';
-
 import ProfileLottie from '@/components/lottie/profile';
+import ProfileMenu from '@/components/sidebar/sidebar';
 
 import { defaultAvatar } from '~/images';
 
@@ -125,7 +123,9 @@ export default function RootLayout({
           </div>
         </div>
         <div className='flex basis-2/12 flex-col gap-8 min-w-[192px]'>
-          <ProfileMenu />
+          <Suspense fallback={null}>
+            <ProfileMenu />
+          </Suspense>
           <div className='flex flex-col items-center gap-4 overflow-hidden rounded-lg border p-4 shadow-lg'>
             <p className='font-semibold text-[#1A214C]'>My profile picture</p>
             <Image
