@@ -139,7 +139,7 @@ import testimony from './testimony.png';
 import member1 from './usr_rev_1.png';
 import member2 from './usr_rev_2.png';
 import member3 from './usr_rev_3.png';
-import arrowRight from './vector.svg';
+import arrowRight from './Vector.svg';
 import vectorBanner from './vector-banner.png';
 import vectorDesign from './vector-design.png';
 import vip from './VIP+.png.png';
