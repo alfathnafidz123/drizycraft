@@ -4,19 +4,21 @@
 /* eslint-disable @next/next/no-img-element */
 // components/Modal.tsx
 'use client';
+import { FaAngleRight } from '@react-icons/all-files/fa6/FaAngleRight';
+import { MdClose } from '@react-icons/all-files/md/MdClose';
 import axios, { AxiosError } from 'axios';
 import { Loader } from 'lucide-react';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
 import React, { memo, useEffect, useMemo, useState } from 'react';
-import { FaAngleRight } from '@react-icons/all-files/fa6/FaAngleRight';
-import { MdClose } from '@react-icons/all-files/md/MdClose';
 import { toast } from 'react-toastify';
 
 import { fetchCart } from '@/lib/slices/cart';
 import { fetchSubs } from '@/lib/slices/subcription';
 import { fetchProfile, setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
+
+import NextImage from '@/components/NextImage';
 
 import { OrderI, productI } from '@/interfaces/product.interface';
 
@@ -231,12 +233,20 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
               <MdClose className='h-8 w-8' />
             </div>
             <div className='flex flex-col justify-center'>
-              <img
-                alt={product?.name}
-                loading='lazy'
-                src={product?.imageUrl[0]}
-                className='h-[310px] w-[450px] object-cover'
-              />
+              {product?.imageUrl[0] &&
+                <NextImage
+                  alt={product?.name ?? ''}
+                  loading='lazy'
+                  src={product?.imageUrl[0]}
+                  width={310}
+                  height={450}
+                  className='h-[310px] w-[450px] object-cover'
+                  classNames={{
+                    image: 'h-[310px] w-[450px] object-contain'
+                  }}
+                  useSkeleton
+                />
+              }
               <div className='mt-3 flex flex-row max-md:justify-end lg:mt-8 lg:pb-6'>
                 <img
                   alt={`share-pinterest-${product?.name}`}

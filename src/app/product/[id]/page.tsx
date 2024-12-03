@@ -3,18 +3,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
+import { FaPencilAlt } from '@react-icons/all-files/fa/FaPencilAlt';
+import { FaStar } from '@react-icons/all-files/fa/FaStar';
+import { IoChevronBack } from '@react-icons/all-files/io5/IoChevronBack';
+import { IoChevronForward } from '@react-icons/all-files/io5/IoChevronForward';
 import axios, { AxiosError } from 'axios';
 import { Copy, Loader } from 'lucide-react';
 import moment from 'moment';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { FaStar } from '@react-icons/all-files/fa/FaStar';
-import { FaPencilAlt } from '@react-icons/all-files/fa/FaPencilAlt';
-import { IoChevronBack } from '@react-icons/all-files/io5/IoChevronBack';
-import { IoChevronForward } from '@react-icons/all-files/io5/IoChevronForward';
 import { toast } from 'react-toastify';
 
 import { fetchCoin, fetchProfile, setOpenModal } from '@/lib/slices/user';
@@ -23,6 +22,7 @@ import { useAppDispatch, useAppSelector } from '@/lib/store';
 import AffiliateBanner from '@/components/AffiliateBanner';
 import ModalAddReview from '@/components/modals/addReview';
 import ModalProduct from '@/components/modals/product';
+import NextImage from '@/components/NextImage';
 import ProductCard from '@/components/ProductCard';
 import ReviewBox from '@/components/ReviewBox';
 
@@ -354,18 +354,23 @@ export default function Register() {
                 <div className='max-w-full max-md:overflow-scroll lg:order-first order-last'>
                   <div className='flex flex-row gap-4 w-full lg:flex-col'>
                     {productData?.product.imageUrl?.map((url, index) => (
-                      <Image
+                      <NextImage
                         key={index}
                         src={url}
                         alt='Product'
                         width={50}
                         height={50}
-                        className={`h-[50px] w-[50px] rounded-md object-cover ${index === selectedImage ? 'opacity-100' : 'opacity-50'
+                        className={`h-[50px] w-[50px] rounded-md object-contain ${index === selectedImage ? 'opacity-100' : 'opacity-50'
                           }`}
+                        classNames={{
+                          image: `h-[50px] w-[50px] rounded-md object-contain ${index === selectedImage ? 'opacity-100' : 'opacity-50'}`
+                        }}
                         onClick={() => {
                           setSelectedImage(index);
                         }}
                         priority={true}
+                        quality={60}
+                        useSkeleton
                         loading='eager'
                       />
                     ))}
@@ -373,12 +378,17 @@ export default function Register() {
                 </div>
                 {productData && (
                   <div className='w-full relative order-first lg:col-span-4'>
-                    <Image
+                    <NextImage
                       src={productData?.product.imageUrl[selectedImage]}
                       alt='Product'
                       width={724}
                       height={300}
+                      quality={70}
                       className='order-first w-full rounded-xl object-cover lg:order-last'
+                      classNames={{
+                        image: 'w-full rounded-xl object-cover'
+                      }}
+                      useSkeleton
                       priority={true}
                       loading='eager'
                     />
