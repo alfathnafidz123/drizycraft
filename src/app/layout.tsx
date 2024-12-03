@@ -11,7 +11,7 @@ import '@/styles/colors.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Loading from '@/app/loading';
-import StoreProvider from '@/app/StoreProvider';
+const StoreProvider = lazy(() => import('@/app/StoreProvider'));
 import { siteConfig } from '@/constant/config';
 import AsyncCSSSlick from '@/layout/asyncCssSlick';
 import AsyncCSSThemeSlick from '@/layout/asyncCssThemeSlick';
@@ -193,19 +193,21 @@ export default function RootLayout({
 
       <body>
         <SpeedInsights />
-        <StoreProvider>
-          {/* <ComingSoonModal /> */}
-          <Suspense fallback={null}>
-            <Navbar />
-          </Suspense>
-          <Suspense fallback={<Loading />}>
-            {children}
-          </Suspense>
-          <ToastContainer />
-          <Suspense fallback={null}>
-            <Footer />
-          </Suspense>
-        </StoreProvider>
+        <Suspense fallback={<Loading />}>
+          <StoreProvider>
+            {/* <ComingSoonModal /> */}
+            <Suspense fallback={null}>
+              <Navbar />
+            </Suspense>
+            <Suspense fallback={<Loading />}>
+              {children}
+            </Suspense>
+            <ToastContainer />
+            <Suspense fallback={null}>
+              <Footer />
+            </Suspense>
+          </StoreProvider>
+        </Suspense>
       </body>
       <GoogleAnalytics gaId='G-S80R5B2E8S' />
     </html>

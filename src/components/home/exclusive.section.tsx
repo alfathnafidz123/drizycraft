@@ -1,12 +1,12 @@
 'use client';
 
-import Image from "next/image";
-import { useState } from "react";
 import { FaAngleRight } from "@react-icons/all-files/fa/FaAngleRight";
+import Image from "next/image";
+import { lazy, useState } from "react";
 
 import SectionContainer from "@/components/container/sectionContainer";
 import ModalProduct from "@/components/modals/product";
-import ProductSlider from "@/components/slider/ProductSlider";
+const ProductSlider = lazy(() => import("@/components/slider/ProductSlider"));
 
 import { productI } from "@/interfaces/product.interface";
 

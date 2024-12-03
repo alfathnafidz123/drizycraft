@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { Loader } from 'lucide-react';
 import Image from 'next/image';
-import { ReactNode, Suspense, useCallback, useEffect, useState } from 'react';
+import { lazy, ReactNode, Suspense, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import '@/styles/globals.css';
@@ -13,7 +13,7 @@ import { fetchProfile } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import ProfileLottie from '@/components/lottie/profile';
-import ProfileMenu from '@/components/sidebar/sidebar';
+const ProfileMenu = lazy(() => import('@/components/sidebar/sidebar'));
 
 import { defaultAvatar } from '~/images';
 
