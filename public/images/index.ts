@@ -3,7 +3,7 @@ import account from './account.svg';
 import accountIllustration from './account-illustration.png';
 import accountInactive from './accountInactive.svg';
 import address from './address.png';
-import affiliatebanner from './affiliatebanner.svg';
+import affiliatebanner from './affiliatebanner.webp';
 import AO from './AO.svg';
 import articlePage from './articlePage.svg';
 import AssetSubscribe from './AssetSubscribe.svg';

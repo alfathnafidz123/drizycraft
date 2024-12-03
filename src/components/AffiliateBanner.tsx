@@ -67,9 +67,10 @@ const AffiliateBanner = () => {
     <div
       className='font-montserrat z-20 flex flex-col justify-center bg-[#3D5DD1] text-center text-white'
       style={{
-        backgroundImage: `url('/images/affiliatebanner.svg')`,
+        backgroundImage: `url('/images/affiliatebanner.webp')`,
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
+        backgroundSize: 'cover',
       }}
     >
       <div className='relative flex min-h-[321px] w-full flex-col items-center justify-center overflow-hidden px-16 py-12 max-md:max-w-full max-md:px-5'>
