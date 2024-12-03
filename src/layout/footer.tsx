@@ -1,10 +1,10 @@
 'use client';
 
-import Link from 'next/link';
 import { FaUsers } from '@react-icons/all-files/fa/FaUsers';
 import { FaFacebookF } from '@react-icons/all-files/fa6/FaFacebookF';
 import { FaInstagram } from '@react-icons/all-files/fa6/FaInstagram';
 import { FaPinterest } from '@react-icons/all-files/fa6/FaPinterest';
+import Link from 'next/link';
 
 import { useAppSelector } from '@/lib/store';
 
