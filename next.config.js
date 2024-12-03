@@ -23,6 +23,7 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ['react-icons/*'],
+    missingSuspenseWithCSRBailout: false,
   },
 };
 
