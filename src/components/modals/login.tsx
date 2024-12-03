@@ -2,14 +2,14 @@
 // components/Modal.tsx
 
 import FacebookLogin from '@greatsumini/react-facebook-login';
+import { FaFacebookF } from '@react-icons/all-files/fa6/FaFacebookF';
+import { FcGoogle } from '@react-icons/all-files/fc/FcGoogle';
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import { Loader } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { FaFacebookF } from '@react-icons/all-files/fa6/FaFacebookF';
-import { FcGoogle } from '@react-icons/all-files/fc/FcGoogle';
 import { toast } from 'react-toastify';
 
 import { setDataUser, setOpenModal, setToken } from '@/lib/slices/user';

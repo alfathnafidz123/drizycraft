@@ -2,18 +2,18 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
 import { AiFillCloseCircle } from '@react-icons/all-files/ai/AiFillCloseCircle';
 import { FaChevronDown } from '@react-icons/all-files/fa6/FaChevronDown';
 import { GiHamburgerMenu } from '@react-icons/all-files/gi/GiHamburgerMenu';
 import { IoCloseCircle } from '@react-icons/all-files/io5/IoCloseCircle';
 import { IoPerson } from '@react-icons/all-files/io5/IoPerson';
-import { MdArrowOutward } from '@react-icons/all-files/md/MdArrowOutward';
 import { MdArrowForwardIos } from '@react-icons/all-files/md/MdArrowForwardIos';
+import { MdArrowOutward } from '@react-icons/all-files/md/MdArrowOutward';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { fetchCart } from '@/lib/slices/cart';
@@ -23,7 +23,9 @@ import { useAppDispatch, useAppSelector } from '@/lib/store';
 import useOutsideClick from '@/lib/useOutsideClick';
 
 import Button from '@/components/buttons/Button';
-import ModalLogin from '@/components/modals/login';
+const ModalLogin = dynamic(() => import('@/components/modals/login'));
+import dynamic from 'next/dynamic';
+
 import NextImage from '@/components/NextImage';
 
 import {

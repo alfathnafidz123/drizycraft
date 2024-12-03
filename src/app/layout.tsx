@@ -2,9 +2,7 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Metadata } from 'next';
 // import Navbar from '@/layout/navbar';
-import dynamic from 'next/dynamic';
-import * as React from 'react';
-import { Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import { ToastContainer } from 'react-toastify';
 
 import '@/styles/globals.css';
@@ -13,11 +11,11 @@ import '@/styles/colors.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Loading from '@/app/loading';
-import StoreProvider from '@/app/StoreProvider';
+const StoreProvider = lazy(() => import('@/app/StoreProvider'));
 import { siteConfig } from '@/constant/config';
 import AsyncCSSSlick from '@/layout/asyncCssSlick';
 import AsyncCSSThemeSlick from '@/layout/asyncCssThemeSlick';
-import Footer from '@/layout/footer';
+const Footer = lazy(() => import('@/layout/footer'));
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -60,10 +58,7 @@ export const metadata: Metadata = {
   ],
 };
 
-const Navbar = dynamic(() => import('../layout/navbar'), {
-  ssr: false,
-  loading: () => <>Loading...</>,
-});
+const Navbar = lazy(() => import('../layout/navbar'));
 
 export default function RootLayout({
   children,
@@ -199,15 +194,21 @@ export default function RootLayout({
 
       <body>
         <SpeedInsights />
-        <StoreProvider>
-          {/* <ComingSoonModal /> */}
-          <Navbar />
-          <Suspense fallback={<Loading />}>
-            {children}
-          </Suspense>
-          <ToastContainer />
-          <Footer />
-        </StoreProvider>
+        <Suspense fallback={<Loading />}>
+          <StoreProvider>
+            {/* <ComingSoonModal /> */}
+            <Suspense fallback={null}>
+              <Navbar />
+            </Suspense>
+            <Suspense fallback={<Loading />}>
+              {children}
+            </Suspense>
+            <ToastContainer />
+            <Suspense fallback={null}>
+              <Footer />
+            </Suspense>
+          </StoreProvider>
+        </Suspense>
       </body>
       <GoogleAnalytics gaId='G-S80R5B2E8S' />
     </html>
