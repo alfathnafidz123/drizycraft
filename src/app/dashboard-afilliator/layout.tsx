@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
-import * as React from 'react';
 
 import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
 
-import AffiliatorNavigation from '@/components/affiliator/navigation';
+const AffiliatorNavigation = lazy(() => import('@/components/affiliator/navigation'));
+import { lazy, Suspense } from 'react';
+
 import SectionContainer from '@/components/container/sectionContainer';
 
 import { siteConfig } from '@/constant/config';
@@ -58,7 +59,9 @@ export default function RootLayout({
 
   return (
     <SectionContainer className="max-md:p-2 lg:py-16">
-      <AffiliatorNavigation />
+      <Suspense fallback={null}>
+        <AffiliatorNavigation />
+      </Suspense>
       {children}
     </SectionContainer>
   );

@@ -2,8 +2,6 @@
 import axios from 'axios';
 import { Loader } from 'lucide-react';
 import Image from 'next/image';
-import * as React from 'react';
-import Lottie from 'react-lottie';
 import { toast } from 'react-toastify';
 
 import '@/styles/globals.css';
@@ -13,12 +11,13 @@ import '@/styles/colors.css';
 import { fetchProfile } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
-import ProfileMenu from '@/components/sidebar/sidebar';
+const ProfileMenu = lazy(() => import('@/components/sidebar/sidebar'));
+
+import { lazy, ReactNode, useCallback, useEffect, useState } from 'react';
+
+import ProfileLottie from '@/components/lottie/profile';
 
 import { defaultAvatar } from '~/images';
-import dynamic from 'next/dynamic';
-import ProfileLottie from '@/components/lottie/profile';
-const LoginLottie = dynamic(() => import('../../components/lottie/login'), { ssr: false });
 
 // !STARTERCONF Change these default meta
 // !STARTERCONF Look at @/constant/config to change them
@@ -63,14 +62,14 @@ const LoginLottie = dynamic(() => import('../../components/lottie/login'), { ssr
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   const { dataUser, token } = useAppSelector(state => state.user);
-  const [avatar, setAvatar] = React.useState<FileList | null>(null);
-  const [loading, setLoading] = React.useState(false);
+  const [avatar, setAvatar] = useState<FileList | null>(null);
+  const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
 
-  const handleChangeAvatar = React.useCallback(async () => {
+  const handleChangeAvatar = useCallback(async () => {
     if (avatar && avatar[0] && token) {
       try {
         setLoading(true);
@@ -105,7 +104,7 @@ export default function RootLayout({
     }
   }, [avatar, token]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     handleChangeAvatar();
   }, [avatar, handleChangeAvatar])
 
