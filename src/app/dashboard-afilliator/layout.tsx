@@ -4,9 +4,7 @@ import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
 
-const AffiliatorNavigation = dynamic(() => import('@/components/affiliator/navigation'), { ssr: false });
-import dynamic from 'next/dynamic';
-
+import AffiliatorNavigation from '@/components/affiliator/navigation';
 import SectionContainer from '@/components/container/sectionContainer';
 
 import { siteConfig } from '@/constant/config';
