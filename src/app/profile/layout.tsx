@@ -1,10 +1,11 @@
+import dynamic from 'next/dynamic';
 import { ReactNode } from 'react';
 
 import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
+const ProfileLottie = dynamic(() => import('@/components/lottie/profile'), { ssr: false });
 
-import ProfileLottie from '@/components/lottie/profile';
 import ChangeAvatar from '@/components/sidebar/change-avatar';
 import ProfileMenu from '@/components/sidebar/sidebar';
 
