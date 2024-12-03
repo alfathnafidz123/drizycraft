@@ -62,12 +62,11 @@ export default function Contact() {
 
             <div className='flex flex-grow flex-col pt-[3%]'>
               <label className='pl-4 text-[#1A214C]'>Your message</label>
-              <input
-                type='input'
+              <textarea
                 className='border-grey-100 m-[3%] rounded-xl border-[1px]'
                 placeholder=''
                 required
-              ></input>
+              ></textarea>
             </div>
 
             <div className='mt-8 flex w-full'>

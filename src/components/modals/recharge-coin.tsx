@@ -4,7 +4,7 @@
 
 import axios, { AxiosError } from 'axios';
 import React, { useState } from 'react';
-import { FaSpinner } from 'react-icons/fa';
+import { FaSpinner } from '@react-icons/all-files/fa/FaSpinner';
 import { toast } from 'react-toastify';
 
 import { useAppSelector } from '@/lib/store';

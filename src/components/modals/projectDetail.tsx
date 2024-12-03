@@ -4,14 +4,13 @@
 
 import Link from 'next/link';
 import React from 'react';
-import { FaArrowUpRightFromSquare } from 'react-icons/fa6';
-import { IoCloseCircleOutline } from 'react-icons/io5';
-import { CustomArrowProps } from 'react-slick';
+import { FaArrowUpRightFromSquare } from '@react-icons/all-files/fa6/FaArrowUpRightFromSquare';
+import { IoCloseCircleOutline } from '@react-icons/all-files/io5/IoCloseCircleOutline';
 
 import { CrafterI } from '@/interfaces/crafter.interfaces';
 
 import {
-  avatarExample,
+  defaultAvatar,
   projectLike,
   projectPinterest,
   projectStars,
@@ -33,35 +32,7 @@ const ModalProjectDetail: React.FC<ModalProps> = ({
   const closeModal = () => {
     onClose && onClose();
   };
-  const CustomPrevArrow: React.FC<CustomArrowProps> = ({ onClick }) => (
-    <div
-      className='slick-arrow slick-prev'
-      style={{ left: '10px', zIndex: 1 }}
-      onClick={onClick}
-    >
-      &lt;
-    </div>
-  );
 
-  const CustomNextArrow: React.FC<CustomArrowProps> = ({ onClick }) => (
-    <div
-      className='slick-arrow slick-next'
-      style={{ right: '10px', zIndex: 1 }}
-      onClick={onClick}
-    >
-      &gt;
-    </div>
-  );
-  const settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    prevArrow: <CustomPrevArrow />,
-    nextArrow: <CustomNextArrow />,
-  };
   return (
     <div>
       {/* Modal overlay */}
@@ -102,7 +73,7 @@ const ModalProjectDetail: React.FC<ModalProps> = ({
                   <div className='flex items-center text-[14px] text-[#1A204C]'>
                     <img
                       loading='lazy'
-                      src={avatarExample.src}
+                      src={data?.user.avatar ?? defaultAvatar.src}
                       className=' mr-3 w-[39px]'
                     />
                     <div className='mr-1'>By</div>

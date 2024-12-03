@@ -4,7 +4,7 @@
 
 import * as React from 'react';
 import { useState } from 'react';
-import { BsFillCreditCard2BackFill } from 'react-icons/bs';
+import { BsFillCreditCard2BackFill } from '@react-icons/all-files/bs/BsFillCreditCard2BackFill';
 import Select from 'react-select';
 
 interface OptionType {

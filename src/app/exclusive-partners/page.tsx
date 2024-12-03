@@ -1,13 +1,13 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { CiYoutube } from 'react-icons/ci';
-import { FaBehance } from 'react-icons/fa';
-import { FaFacebookF } from 'react-icons/fa';
-import { FaPinterest } from 'react-icons/fa';
-import { FaInstagram } from 'react-icons/fa';
-import { FaChevronDown } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
+import { CiYoutube } from '@react-icons/all-files/ci/CiYoutube';
+import { FaBehance } from '@react-icons/all-files/fa/FaBehance';
+import { FaFacebookF } from '@react-icons/all-files/fa/FaFacebookF';
+import { FaPinterest } from '@react-icons/all-files/fa/FaPinterest';
+import { FaInstagram } from '@react-icons/all-files/fa/FaInstagram';
+import { FaChevronDown } from '@react-icons/all-files/fa/FaChevronDown';
+import { FaXTwitter } from '@react-icons/all-files/fa6/FaXTwitter';
 import { toast } from 'react-toastify';
 
 import ModalProduct from '@/components/modals/product';

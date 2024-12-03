@@ -16,7 +16,9 @@ import { useAppDispatch, useAppSelector } from '@/lib/store';
 import ProfileMenu from '@/components/sidebar/sidebar';
 
 import { defaultAvatar } from '~/images';
-import animationData from '~/lottie/002_EDIT_MY_ACCOUNT-600px.json';
+import dynamic from 'next/dynamic';
+import ProfileLottie from '@/components/lottie/profile';
+const LoginLottie = dynamic(() => import('../../components/lottie/login'), { ssr: false });
 
 // !STARTERCONF Change these default meta
 // !STARTERCONF Look at @/constant/config to change them
@@ -120,16 +122,7 @@ export default function RootLayout({
             height={300}
           /> */}
           <div className='max-w-[300px]'>
-            <Lottie
-              options={{
-                loop: true,
-                autoplay: true,
-                animationData: animationData, // the animation data
-                rendererSettings: {
-                  preserveAspectRatio: 'xMidYMid slice',
-                },
-              }}
-            />
+            <ProfileLottie />
           </div>
         </div>
         <div className='flex basis-2/12 flex-col gap-8 min-w-[192px]'>

@@ -9,8 +9,8 @@ import { Loader } from 'lucide-react';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
 import React, { memo, useEffect, useMemo, useState } from 'react';
-import { FaAngleRight } from 'react-icons/fa6';
-import { MdClose } from 'react-icons/md';
+import { FaAngleRight } from '@react-icons/all-files/fa6/FaAngleRight';
+import { MdClose } from '@react-icons/all-files/md/MdClose';
 import { toast } from 'react-toastify';
 
 import { fetchCart } from '@/lib/slices/cart';
@@ -216,13 +216,13 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
       {isOpen && (
         <div
           onClick={closeModal}
-          className='fixed left-0 top-0 z-20 h-full w-full bg-black bg-opacity-50'
+          className='!fixed left-0 top-0 z-20 h-full w-full bg-black bg-opacity-50'
         ></div>
       )}
 
       {/* Modal content */}
       {isOpen && (
-        <div className='fixed top-0 z-50 transform overflow-hidden rounded-xl bg-white shadow-lg max-md:flex max-md:h-screen max-md:w-full max-md:items-center max-md:justify-center max-md:overflow-y-auto lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2'>
+        <div className='!fixed max-md:left-0 top-0 z-50 transform overflow-hidden rounded-xl bg-white shadow-lg max-md:flex max-md:h-screen max-md:w-full max-md:items-center max-md:justify-center max-md:overflow-y-auto lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2'>
           <div className='flex w-full flex-col gap-4 pt-5 max-md:mx-2 lg:h-[450px] lg:w-[889px] lg:flex-row lg:gap-8 lg:pl-5'>
             <div
               className='flex cursor-pointer flex-row justify-end lg:hidden'

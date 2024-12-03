@@ -3,8 +3,8 @@
 
 import axios from 'axios';
 import React, { useState } from 'react';
-import { FaPlusSquare } from 'react-icons/fa';
-import { IoCloseCircleOutline } from 'react-icons/io5';
+import { FaPlusSquare } from '@react-icons/all-files/fa/FaPlusSquare';
+import { IoCloseCircleOutline } from '@react-icons/all-files/io5/IoCloseCircleOutline';
 import { SingleValue } from 'react-select';
 import Select from 'react-select/async';
 import { toast } from 'react-toastify';

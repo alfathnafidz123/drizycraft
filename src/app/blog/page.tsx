@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight, Loader2Icon } from 'lucide-react';
 import localFont from 'next/font/local';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
-import { FaAngleRight } from 'react-icons/fa6';
+import { FaAngleRight } from '@react-icons/all-files/fa6/FaAngleRight';
 import Slider, { CustomArrowProps } from 'react-slick';
 import { toast } from 'react-toastify';
 

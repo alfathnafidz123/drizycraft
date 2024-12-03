@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { FaAngleRight } from "react-icons/fa";
+import { FaAngleRight } from "@react-icons/all-files/fa/FaAngleRight";
 
 import SectionContainer from "@/components/container/sectionContainer";
 import ModalProduct from "@/components/modals/product";
@@ -27,6 +27,7 @@ const VectorSection = ({ product }: { product: productI[] }) => {
               Vector
             </div>
             <Link
+              prefetch={false}
               href='/catalog-vector'
               className='hidden cursor-pointer flex-row gap-3 text-right text-base font-bold leading-none text-[#4065D1] lg:flex'
             >
@@ -43,7 +44,7 @@ const VectorSection = ({ product }: { product: productI[] }) => {
               }
             />
           </div>
-          <Link href='/catalog-vector' className='flex justify-center gap-4 lg:hidden'>
+          <Link prefetch={false} href='/catalog-vector' className='flex justify-center gap-4 lg:hidden'>
             <span>see more</span>
             <Image
               src={arrowRight.src}

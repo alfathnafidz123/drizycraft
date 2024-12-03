@@ -2,11 +2,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Image from 'next/image';
 import * as React from 'react';
-import { CiYoutube } from 'react-icons/ci';
-import { FaBehance, FaUsers } from 'react-icons/fa';
-import { FaFacebookF } from 'react-icons/fa';
-import { FaPinterest } from 'react-icons/fa';
-import { FaInstagram } from 'react-icons/fa';
+import { CiYoutube } from '@react-icons/all-files/ci/CiYoutube';
+import { FaBehance } from '@react-icons/all-files/fa/FaBehance';
+import { FaUsers } from '@react-icons/all-files/fa/FaUsers';
+import { FaFacebookF } from '@react-icons/all-files/fa/FaFacebookF';
+import { FaPinterest } from '@react-icons/all-files/fa/FaPinterest';
+import { FaInstagram } from '@react-icons/all-files/fa/FaInstagram';
 const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
 
 import localFont from 'next/font/local';

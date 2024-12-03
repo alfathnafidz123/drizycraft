@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React from 'react';
-import { FaStar } from 'react-icons/fa';
+import { FaStar } from '@react-icons/all-files/fa/FaStar';
 
 import { ReviewI } from '@/interfaces/product.interface';
 

@@ -12,7 +12,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { FaFacebookF } from 'react-icons/fa';
+import { FaFacebookF } from '@react-icons/all-files/fa/FaFacebookF';
 import { toast } from 'react-toastify';
 
 import { setDataUser, setOpenModal, setToken } from '@/lib/slices/user';

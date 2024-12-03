@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import React from 'react';
-import { IoCloseCircleOutline } from 'react-icons/io5';
+import { IoCloseCircleOutline } from '@react-icons/all-files/io5/IoCloseCircleOutline';
 
 interface ModalProps {
   isOpen: boolean;

@@ -10,12 +10,15 @@ import { toast } from "react-toastify";
 import { setOpenModal } from "@/lib/slices/user";
 import { useAppDispatch, useAppSelector } from "@/lib/store";
 
+import ModalProduct from "@/components/modals/product";
+import NextImage from "@/components/NextImage";
+
 import { itemPayment } from "@/app/api/billing/itemPayment";
 import { productI } from "@/interfaces/product.interface";
 
 import { cartProduct, sale } from "~/images";
 
-const SaleProductCard = ({ data, handleShowDetail }: { data: productI; handleShowDetail: (product: productI) => void; }) => {
+const SaleProductCard = ({ data }: { data: productI; }) => {
   const router = useRouter();
   const dataUserState = useAppSelector(state => state.user);
   const activeSubcriptionState = useAppSelector(state => state.subs);
@@ -30,6 +33,11 @@ const SaleProductCard = ({ data, handleShowDetail }: { data: productI; handleSho
   }, [activeSubcriptionState]);
   const [isDiscount, setIsDiscount] = useState(false);
   const dispatch = useAppDispatch();
+  const [showProductDetail, setShowProductDetail] = useState<{
+    show: boolean;
+    product?: productI;
+  }>({ show: false });
+
   const CustomNextArrow: React.FC<CustomArrowProps> = ({ onClick }) => (
     <div
       className='slick-arrow slick-next'
@@ -66,7 +74,7 @@ const SaleProductCard = ({ data, handleShowDetail }: { data: productI; handleSho
   }, [data]);
 
   const handleCart = async () => {
-    handleShowDetail(data);
+    setShowProductDetail({ show: true, product: data })
   };
 
   const generatePrice = (): string => {
@@ -122,42 +130,49 @@ const SaleProductCard = ({ data, handleShowDetail }: { data: productI; handleSho
   };
 
   return (
-    <div className='relative mt-8 h-full w-full rounded-2xl border-4 border-[#61A9FA] bg-white p-2 lg:mt-0 lg:w-3/12'>
-      <Slider {...settings}>
-        {data.imageUrl.map((url, i) =>
-          <div className='slide' key={i.toString()}>
-            <div className='!important flex h-full items-center justify-center'>
-              <img src={url} alt='slider' />
+    <>
+      <div className='relative mt-8 h-full w-full rounded-2xl border-4 border-[#61A9FA] bg-white p-2 lg:mt-0 lg:w-3/12'>
+        <Slider {...settings}>
+          {data.imageUrl.map((url, i) =>
+            <div className='slide' key={i.toString()}>
+              <div className='!important flex h-full items-center justify-center'>
+                <NextImage width={260} height={180} src={url} quality={60} alt={data.name} priority={i === 0} />
+              </div>
             </div>
-          </div>
-        )}
-      </Slider>
-      <span className='relative z-[2] flex h-[54px] w-[257px] shrink-0 items-start justify-start self-stretch overflow-hidden text-left text-[16px] font-semibold leading-[17.6px] text-[#1a204c]'>
-        {data.name}
-      </span>
-      <div className='mt-2 flex gap-2'>
-        <button
-          id='buy'
-          aria-label='Buy product'
-          className='flex h-[37px] flex-grow items-center justify-center rounded-[8px] bg-[#2a3b80]'
-          onClick={handleCTA}
-        >
-          <span className='font-katide-bold z-[5] text-[20px] leading-[16px] text-white'>
-            {generatePrice()}
-          </span>
-        </button>
-        <button
-          id='add-to-cart'
-          className='flex h-[37px] items-center justify-center gap-[8px] rounded-[8px] border-2 border-gray-400 bg-white pb-[12px] pl-[24px] pr-[24px] pt-[12px]'
-          onClick={handleCart}
-        >
-          <img src={cartProduct.src} alt='cart'></img>
-        </button>
+          )}
+        </Slider>
+        <span className='relative z-[2] flex h-[54px] w-[257px] shrink-0 items-start justify-start self-stretch overflow-hidden text-left text-[16px] font-semibold leading-[17.6px] text-[#1a204c]'>
+          {data.name}
+        </span>
+        <div className='mt-2 flex gap-2'>
+          <button
+            id='buy'
+            aria-label='Buy product'
+            className='flex h-[37px] flex-grow items-center justify-center rounded-[8px] bg-[#2a3b80]'
+            onClick={handleCTA}
+          >
+            <span className='font-katide-bold z-[5] text-[20px] leading-[16px] text-white'>
+              {generatePrice()}
+            </span>
+          </button>
+          <button
+            id='add-to-cart'
+            className='flex h-[37px] items-center justify-center gap-[8px] rounded-[8px] border-2 border-gray-400 bg-white pb-[12px] pl-[24px] pr-[24px] pt-[12px]'
+            onClick={handleCart}
+          >
+            <img src={cartProduct.src} alt='cart'></img>
+          </button>
+        </div>
+        <div className='absolute left-1 top-[-50px]'>
+          <img src={sale.src} alt='sale' />
+        </div>
       </div>
-      <div className='absolute left-1 top-[-50px]'>
-        <img src={sale.src} alt='sale' />
-      </div>
-    </div>
+      <ModalProduct
+        isOpen={showProductDetail.show}
+        product={showProductDetail.product}
+        onClose={() => setShowProductDetail({ show: false })}
+      />
+    </>
   )
 }
 

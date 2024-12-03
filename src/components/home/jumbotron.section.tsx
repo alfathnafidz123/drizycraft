@@ -1,32 +1,16 @@
-'use client'
-
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { FiUpload } from "react-icons/fi";
+import { FiUpload } from "@react-icons/all-files/fi/FiUpload";
 
 import SectionContainer from "@/components/container/sectionContainer";
-import ModalProduct from "@/components/modals/product";
+import SearchSection from "@/components/home/search.section";
+import NextImage from "@/components/NextImage";
 import SaleProductCard from "@/components/SaleProductCard";
-import TrendingTag from "@/components/tag/TrendingTag";
 
-import { HomepageDataI, productI } from "@/interfaces/product.interface";
+import { HomepageDataI } from "@/interfaces/product.interface";
 
-import { bonnie, gridCrafter, leslie, michelle, pam, search, starBadge } from "~/images";
+import { bonnie, gridCrafter, leslie, michelle, pam, starBadge } from "~/images";
 
 const JumbotronSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
-  const [searchValue, setSearchValue] = useState('');
-  const [showProductDetail, setShowProductDetail] = useState<{
-    show: boolean;
-    product?: productI;
-  }>({ show: false });
-  const router = useRouter();
-
-  const handleSearch = (e: any) => {
-    e.preventDefault();
-    router.push(`/category/search/${searchValue}?category=all`)
-  }
-
   return (
     <>
       <SectionContainer
@@ -37,44 +21,20 @@ const JumbotronSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
           <p>Combating Loneliness</p>
           <p>with Creative Projects</p>
         </div>
-        <form onSubmit={handleSearch} className='group mb-4 hidden h-[60px] w-[480px] items-center gap-4 rounded-full border border-solid border-blue-500 border-opacity-25 bg-[#F1F2FB] p-4 pl-6 text-left text-sm font-normal leading-4 text-[#6F6F6F] focus-within:bg-white lg:flex'>
-          <input
-            placeholder='Search for unique craft designs, categories, occasions...'
-            className='!focus:border-none !focus:outline-none flex-grow truncate border-none bg-transparent text-sm tracking-wide !outline-none placeholder:tracking-wide placeholder:text-[#6F6F6F] focus:ring-0'
-            onChange={(e) => setSearchValue(e.target.value)}
-            value={searchValue}
-          ></input>
-          <button type="submit" className='flex rounded-full bg-[#008ECC]'>
-            <img
-              src={search.src}
-              className='w-[32px] flex-grow transition-opacity duration-300 group-hover:w-0 group-hover:opacity-0'
-              alt='search'
-            />
-            <div className='w-0 overflow-hidden transition-all duration-300 group-hover:w-[80px]'>
-              <p className='px-4 py-2 text-center text-white'>Search</p>
-            </div>
-          </button>
-        </form>
-        <div className='flex flex-col items-center gap-2.5 lg:flex-row'>
-          <p className='font-katide-bold text-[10px] text-[#008ECC]'>
-            Trending:
-          </p>
-          <div className='flex flex-wrap items-center justify-center gap-2'>
-            <TrendingTag name='Shadow Box Svg' onClick={() => setSearchValue("Shadow Box Svg")} />
-            <TrendingTag name='Laser cut' onClick={() => setSearchValue("Laser cut")} />
-            <TrendingTag name='Sublimation' onClick={() => setSearchValue("Sublimation")} />
-            <TrendingTag name='Free Svg' onClick={() => setSearchValue("Free Svg")} />
-            <TrendingTag name='Papercut' onClick={() => setSearchValue("Papercut")} />
-          </div>
-        </div>
+        <SearchSection />
         <div className='h-76 mt-20 w-screen px-4 lg:w-full'>
           <div className='flex w-full flex-col gap-4 lg:h-[300px] lg:flex-row'>
             <div className='group relative z-[10] h-[224px] w-full rounded-2xl border-[20px] border-[#61A9FA] transition-all duration-300 hover:border-[#2A3B80] lg:h-full lg:w-5/12'>
               <div className='absolute h-full w-full bg-[#61A9FA] transition-all duration-300 group-hover:bg-[#2A3B80]' />
-              <img
+              <NextImage
+                width={300}
+                height={200}
                 src={gridCrafter.src}
                 className='absolute h-full w-full rounded-xl bg-cover object-cover'
-                alt='Crafter'
+                classNames={{ image: 'absolute h-full w-full rounded-xl bg-cover object-cover' }}
+                alt='Crafter Projects'
+                priority={true}
+                loading="eager"
               />
               <div className='absolute flex h-full w-full flex-col justify-between rounded-2xl  bg-opacity-15 p-4 text-left hover:bg-[#2A3B80]/50 hover:bg-opacity-35'>
                 <p className='font-medium text-white opacity-0 transition-all duration-300 group-hover:opacity-100'>
@@ -87,9 +47,10 @@ const JumbotronSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
                 <div className='relative w-full overflow-hidden'>
                   <Link
                     href='/project'
+                    prefetch={false}
                     className='absolute bottom-0 flex h-full w-full translate-y-full cursor-pointer items-center justify-between rounded-full bg-[#1A214C] pl-4 transition-all duration-300 ease-in-out group-hover:-translate-y-0'
                   >
-                    <p className='text-2xl text-white'>Upload Your Project</p>
+                    <p className='text-lg lg:text-2xl text-white'>Upload Your Project</p>
                     <div className='flex h-full w-16 items-center justify-center rounded-full bg-[#2A3B80]'>
                       <FiUpload className='h-8 w-8 stroke-[3px] text-white' />
                     </div>
@@ -99,24 +60,44 @@ const JumbotronSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
                       Projects from crafters
                     </p>
                     <div className='flex'>
-                      <img
+                      <NextImage
+                        width={56}
+                        height={56}
                         src={leslie.src}
                         className='lg:-ml-6 -ml-4 rounded-full border-[3px] border-white h-10 w-10 lg:h-14 lg:w-14'
+                        classNames={{ image: 'rounded-full' }}
+                        priority={false}
+                        loading="lazy"
                         alt='avatar'
                       />
-                      <img
+                      <NextImage
+                        width={56}
+                        height={56}
                         src={michelle.src}
                         className='lg:-ml-6 -ml-4 rounded-full border-[3px] border-white h-10 w-10 lg:h-14 lg:w-14'
+                        classNames={{ image: 'rounded-full' }}
+                        priority={false}
+                        loading="lazy"
                         alt='avatar'
                       />
-                      <img
+                      <NextImage
+                        width={56}
+                        height={56}
                         src={bonnie.src}
                         className='lg:-ml-6 -ml-4 rounded-full border-[3px] border-white h-10 w-10 lg:h-14 lg:w-14'
+                        classNames={{ image: 'rounded-full' }}
+                        priority={false}
+                        loading="lazy"
                         alt='avatar'
                       />
-                      <img
+                      <NextImage
+                        width={56}
+                        height={56}
                         src={pam.src}
                         className='lg:-ml-6 -ml-4 rounded-full border-[3px] border-white h-10 w-10 lg:h-14 lg:w-14'
+                        classNames={{ image: 'rounded-full' }}
+                        priority={false}
+                        loading="lazy"
                         alt='avatar'
                       />
                     </div>
@@ -241,22 +222,12 @@ const JumbotronSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
                 </div>
               </div>
             </div>
-            {homeProduct?.bestSellerData[0] &&
-              <SaleProductCard
-                handleShowDetail={(data) =>
-                  setShowProductDetail({ show: true, product: data })
-                }
-                data={homeProduct.bestSellerData[0]}
-              />
+            {homeProduct?.bestSellerData[1] &&
+              <SaleProductCard data={homeProduct.bestSellerData[1]} />
             }
           </div>
         </div>
       </SectionContainer>
-      <ModalProduct
-        isOpen={showProductDetail.show}
-        product={showProductDetail.product}
-        onClose={() => setShowProductDetail({ show: false })}
-      />
     </>
   )
 }

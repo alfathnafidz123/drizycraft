@@ -1,17 +1,33 @@
+'use client';
+
+import logger from '@/lib/logger';
+import { useEffect, useState } from 'react';
 import Lottie from 'react-lottie';
 
-import animationData from '~/lottie/006_CUSTOMER SUPPORT-600px.json';
-
 const CustomerSupportLottie = () => {
-  const defaultOptions = {
+  const [animationData, setAnimationData] = useState<any>();
+
+  useEffect(() => {
+    fetch("https://media.drizycraft.com/006_CUSTOMER%20SUPPORT-600px.json")
+      .then((data) => data.json())
+      .then((json) => {
+        setAnimationData(json);
+      })
+      .catch((err) => {
+        logger('err');
+      });
+  }, []);
+
+  if (!animationData) return null;
+
+  return <Lottie options={{
     loop: true,
     autoplay: true,
     animationData: animationData,
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid slice',
     },
-  };
-  return <Lottie options={defaultOptions} />;
+  }} />;
 };
 
 export default CustomerSupportLottie;

@@ -2,16 +2,18 @@
 import { Loader } from 'lucide-react';
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
-import { CiYoutube } from 'react-icons/ci';
-import { FaBehance, FaUsers } from 'react-icons/fa';
-import { FaFacebookF } from 'react-icons/fa';
-import { FaPinterest } from 'react-icons/fa';
-import { FaInstagram } from 'react-icons/fa';
-import { FaChevronDown } from 'react-icons/fa';
-import { IoChevronDown } from 'react-icons/io5';
+import { CiYoutube } from '@react-icons/all-files/ci/CiYoutube';
+import { FaBehance } from '@react-icons/all-files/fa/FaBehance';
+import { FaUsers } from '@react-icons/all-files/fa/FaUsers';
+import { FaFacebookF } from '@react-icons/all-files/fa/FaFacebookF';
+import { FaPinterest } from '@react-icons/all-files/fa/FaPinterest';
+import { FaInstagram } from '@react-icons/all-files/fa/FaInstagram';
+import { FaChevronDown } from '@react-icons/all-files/fa/FaChevronDown';
+import { IoChevronDown } from '@react-icons/all-files/io5/IoChevronDown';
 import { toast } from 'react-toastify';
 
 import ModalProduct from '@/components/modals/product';
+import NextImage from '@/components/NextImage';
 import ProductCard from '@/components/ProductCard';
 
 import { getAllProduct, SortType } from '@/app/api/product/getProduct';
@@ -19,7 +21,7 @@ import { getSeason } from '@/app/api/product/getSeason';
 import { getSubCategories } from '@/app/api/product/getSubCategories';
 import { CategoryI, productI } from '@/interfaces/product.interface';
 
-import { catalogcrafter } from '~/images';
+import { catalogcrafter, emptyState } from '~/images';
 
 export default function CatalogCrafter() {
   const shortByOptions = [
@@ -92,6 +94,7 @@ export default function CatalogCrafter() {
           ? selectedCategoryOption
           : '';
     try {
+      setLoading(true);
       const response = await getAllProduct({
         page: currentPage,
         limit: 15,
@@ -103,6 +106,8 @@ export default function CatalogCrafter() {
       setHasMore(response.meta.hasNextPage);
     } catch (error) {
       toast('Error when trying to get all products');
+    } finally {
+      setLoading(false);
     }
   }, [currentPage, selectedCategoryOption, selectedSeasonsOption, selectedShortByOption]);
 
@@ -306,6 +311,12 @@ export default function CatalogCrafter() {
           </div>
 
           <div className='w-full'>
+            {productData.length === 0 && !loading ?
+              <div className="flex items-center justify-center">
+                <NextImage src={emptyState.src} width={500} height={500} alt="Product is empty" />
+              </div>
+              :
+              null}
             <div className='w-full flex flex-wrap items-center justify-center lg:items-start lg:justify-start gap-y-2'>
               {productData.map((product, index) => (
                 <ProductCard

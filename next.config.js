@@ -1,10 +1,14 @@
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
     dirs: ['src'],
   },
   output: 'standalone',
-  reactStrictMode: false,
+  reactStrictMode: true,
   swcMinify: true,
 
   // Uncoment to add domain whitelist
@@ -17,6 +21,9 @@ const nextConfig = {
       'drizy-media.quadrakaryasantosa.com',
     ],
   },
+  experimental: {
+    optimizePackageImports: ['react-icons/*'],
+  },
 };
 
-module.exports = nextConfig;
+module.exports = withBundleAnalyzer(nextConfig);

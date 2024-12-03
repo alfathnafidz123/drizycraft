@@ -80,13 +80,13 @@ export default function RootLayout({
           type='font/woff2'
           crossOrigin='anonymous'
         />
-        <link
+        {/* <link
           rel='preload'
           href='/fonts/Katide-ExtraBold.woff2'
           as='font'
           type='font/woff2'
           crossOrigin='anonymous'
-        />
+        /> */}
         <link
           rel='preload'
           href='/fonts/Katide-Bold.woff2'
@@ -94,7 +94,7 @@ export default function RootLayout({
           type='font/woff2'
           crossOrigin='anonymous'
         />
-        <link
+        {/* <link
           rel='preload'
           href='/fonts/Katide-SemiBold.woff2'
           as='font'
@@ -107,7 +107,7 @@ export default function RootLayout({
           as='font'
           type='font/woff2'
           crossOrigin='anonymous'
-        />
+        /> */}
         <link
           rel='preload'
           href='/fonts/Katide-Regular.woff2'
@@ -115,7 +115,7 @@ export default function RootLayout({
           type='font/woff2'
           crossOrigin='anonymous'
         />
-        <link
+        {/* <link
           rel='preload'
           href='/fonts/Katide-Light.woff2'
           as='font'
@@ -128,10 +128,10 @@ export default function RootLayout({
           as='font'
           type='font/woff2'
           crossOrigin='anonymous'
-        />
+        /> */}
 
         {/* preload Inter font */}
-        <link
+        {/* <link
           rel='preload'
           href='/fonts/Inter-ExtraLight.ttf'
           as='font'
@@ -186,6 +186,10 @@ export default function RootLayout({
           as='font'
           type='font/otf'
           crossOrigin='anonymous'
+        /> */}
+        <meta
+          name="google-site-verification"
+          content="ArmWovD8E6CQwNmlc2ghI_MFDPCBncuZKT7qjpTZfTM"
         />
 
         <AsyncCSSSlick />

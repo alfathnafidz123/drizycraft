@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { FaAngleRight } from 'react-icons/fa';
+import { FaAngleRight } from '@react-icons/all-files/fa/FaAngleRight';
 import Slider from 'react-slick';
 
 import ProductCard from '@/components/ProductCard';

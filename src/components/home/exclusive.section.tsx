@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { FaAngleRight } from "react-icons/fa";
+import { FaAngleRight } from "@react-icons/all-files/fa/FaAngleRight";
 
 import SectionContainer from "@/components/container/sectionContainer";
 import ModalProduct from "@/components/modals/product";

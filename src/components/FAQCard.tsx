@@ -1,5 +1,5 @@
 import React from 'react';
-import { BsQuestionCircle } from 'react-icons/bs';
+import { BsQuestionCircle } from '@react-icons/all-files/bs/BsQuestionCircle';
 
 interface FAQCardProps {
   title: string;

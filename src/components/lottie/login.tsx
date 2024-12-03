@@ -1,17 +1,31 @@
+import logger from '@/lib/logger';
+import { useState, useEffect } from 'react';
 import Lottie from 'react-lottie';
 
-import animationData from '~/lottie/001_LOGIN-600px.json';
-
 const LoginLottie = () => {
-  const defaultOptions = {
+  const [animationData, setAnimationData] = useState<any>();
+
+  useEffect(() => {
+    fetch("https://media.drizycraft.com/001_LOGIN-600px.json")
+      .then((data) => data.json())
+      .then((json) => {
+        setAnimationData(json);
+      })
+      .catch((err) => {
+        logger('err');
+      });
+  }, []);
+
+  if (!animationData) return null;
+
+  return <Lottie options={{
     loop: true,
     autoplay: true,
     animationData: animationData,
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid slice',
     },
-  };
-  return <Lottie options={defaultOptions} />;
+  }} />;
 };
 
 export default LoginLottie;

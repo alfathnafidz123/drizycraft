@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 
+import NextImage from '@/components/NextImage';
+
 interface ProductCategoriesProps {
   name: string;
   image: string;
@@ -25,7 +27,7 @@ const ProductCategories: React.FC<ProductCategoriesProps> = ({
         {name}
       </div>
       <div className='absolute top-0 z-0'>
-        <img src={image} alt={name} />
+        <NextImage width={300} height={100} src={image} alt={name.split(' ')[0]} />
       </div>
     </Link>
   );

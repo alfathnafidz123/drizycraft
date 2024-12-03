@@ -1,5 +1,5 @@
 import { useGoogleLogin } from "@react-oauth/google";
-import { FcGoogle } from "react-icons/fc";
+import { FcGoogle } from "@react-icons/all-files/fc/FcGoogle";
 import { toast } from "react-toastify";
 
 const GoogleLoginButton = ({ onSuccess }: { onSuccess: (data: any) => void }) => {

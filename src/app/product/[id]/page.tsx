@@ -11,9 +11,10 @@ import Link from 'next/link';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { FaStar } from 'react-icons/fa';
-import { FaPencilAlt } from 'react-icons/fa';
-import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
+import { FaStar } from '@react-icons/all-files/fa/FaStar';
+import { FaPencilAlt } from '@react-icons/all-files/fa/FaPencilAlt';
+import { IoChevronBack } from '@react-icons/all-files/io5/IoChevronBack';
+import { IoChevronForward } from '@react-icons/all-files/io5/IoChevronForward';
 import { toast } from 'react-toastify';
 
 import { fetchCoin, fetchProfile, setOpenModal } from '@/lib/slices/user';

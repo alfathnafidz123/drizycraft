@@ -2,16 +2,19 @@
 import { Loader } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
-import { FaChevronDown } from 'react-icons/fa';
-import { IoChevronDown } from 'react-icons/io5';
+import { FaChevronDown } from '@react-icons/all-files/fa/FaChevronDown';
+import { IoChevronDown } from '@react-icons/all-files/io5/IoChevronDown';
 import { toast } from 'react-toastify';
 
 import ModalProduct from '@/components/modals/product';
+import NextImage from '@/components/NextImage';
 import ProductCard from '@/components/ProductCard';
 
 import { getAllProduct, SortType } from '@/app/api/product/getProduct';
 import { getSeason } from '@/app/api/product/getSeason';
 import { CategoryI, productI } from '@/interfaces/product.interface';
+
+import { emptyState } from '~/images';
 
 export default function CatalogCrafter() {
   const params = useParams();
@@ -200,6 +203,12 @@ export default function CatalogCrafter() {
         </div>
 
         <div className='w-full'>
+          {productData.length === 0 && !loading ?
+            <div className="flex items-center justify-center">
+              <NextImage src={emptyState.src} width={500} height={500} alt="Product is empty" />
+            </div>
+            :
+            null}
           <div className='w-full flex flex-wrap items-center justify-center lg:items-start lg:justify-start gap-y-2'>
             {productData.map((product, index) => (
               <ProductCard

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import * as React from 'react';
-import { RiAlarmWarningFill } from 'react-icons/ri';
+import { RiAlarmWarningFill } from '@react-icons/all-files/ri/RiAlarmWarningFill';
 
 export const metadata: Metadata = {
   title: 'Not Found',

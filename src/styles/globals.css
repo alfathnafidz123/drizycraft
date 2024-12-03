@@ -438,3 +438,10 @@
     margin: 0;
   }
 }
+
+.project-banner {
+  background-image: url('/images/grid-crafter.webp');
+  background-size: cover;
+  background-position: center;
+  fetchpriority: high;
+}

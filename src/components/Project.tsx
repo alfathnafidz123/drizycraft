@@ -3,8 +3,11 @@
 'use client';
 import Link from 'next/link';
 import { useState } from 'react';
-import { FaFacebook, FaInstagram, FaPinterest, FaWhatsapp } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
+import { FaFacebook } from '@react-icons/all-files/fa/FaFacebook';
+import { FaInstagram } from '@react-icons/all-files/fa/FaInstagram';
+import { FaPinterest } from '@react-icons/all-files/fa/FaPinterest';
+import { FaWhatsapp } from '@react-icons/all-files/fa/FaWhatsapp';
+import { FaXTwitter } from '@react-icons/all-files/fa6/FaXTwitter';
 
 import { CrafterI } from '@/interfaces/crafter.interfaces';
 

@@ -30,16 +30,16 @@ import cat7 from './categories/7.png';
 import cat8 from './categories/8.png';
 import cat9 from './categories/9.png';
 import cat10 from './categories/10.png';
-import categories1 from './categories-1.png';
-import categories2 from './categories-2.png';
-import categories3 from './categories-3.png';
-import categories4 from './categories-4.png';
-import categories5 from './categories-5.png';
-import categories6 from './categories-6.png';
-import categories7 from './categories-7.png';
-import categories8 from './categories-8.png';
-import categories9 from './categories-9.png';
-import categories10 from './categories-10.png';
+import categories1 from './categories-1.webp';
+import categories2 from './categories-2.webp';
+import categories3 from './categories-3.webp';
+import categories4 from './categories-4.webp';
+import categories5 from './categories-5.webp';
+import categories6 from './categories-6.webp';
+import categories7 from './categories-7.webp';
+import categories8 from './categories-8.webp';
+import categories9 from './categories-9.webp';
+import categories10 from './categories-10.webp';
 import check from './check.svg';
 import checkblue from './checkblue.svg';
 import coffeeFloating from './coffeeFloating.png';
@@ -79,7 +79,7 @@ import fontDesign from './font-design.png';
 import freeSVGBanner from './free-svg-banner.png';
 import freepik from './freepik.svg';
 import goDaddy from './goDaddy.svg';
-import gridCrafter from './grid-crafter.png';
+import gridCrafter from './grid-crafter.webp';
 import gridSlide from './grid-slide.png';
 import GuaranteeBadge from './guarantee-badge-group.svg';
 import helpcenter1 from './helpcenter1.svg';
@@ -93,6 +93,8 @@ import jiffy from './jiffy.svg';
 import license1 from './license1.svg';
 import license2 from './license2.svg';
 import loginImage from './login-image.png';
+import betaLogo from './new/beta-logo.svg';
+import emptyState from './new/empty-state.svg';
 import newBadge from './new-badge.svg';
 import newMember from './newMember.svg';
 import membership2 from './nocommitment.svg';
@@ -127,12 +129,12 @@ import starBadge from './star-badge.png';
 import subscription from './subscription.svg';
 import subscriptionInactive from './subscriptionInactive.svg';
 import success from './success.svg';
-import andy from './testimonies/andy.svg';
-import bonnie from './testimonies/bonnie.svg';
-import leslie from './testimonies/leslie.svg';
-import michelle from './testimonies/michelle.svg';
-import nad from './testimonies/nad.svg';
-import pam from './testimonies/pam.svg';
+import andy from './testimonies/andy.webp';
+import bonnie from './testimonies/bonnie.webp';
+import leslie from './testimonies/leslie.webp';
+import michelle from './testimonies/michelle.webp';
+import nad from './testimonies/nad.webp';
+import pam from './testimonies/pam.webp';
 import testimony from './testimony.png';
 import member1 from './usr_rev_1.png';
 import member2 from './usr_rev_2.png';
@@ -161,6 +163,7 @@ export {
   bannerCoin,
   behance,
   bestValue,
+  betaLogo,
   blogArticle1,
   blogStories1,
   bonnie,
@@ -218,6 +221,7 @@ export {
   drizzyCoin,
   elegco,
   emptyCoin,
+  emptyState,
   endlessCrafting,
   expandingCrafting,
   facebook,

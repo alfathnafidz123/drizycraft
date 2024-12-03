@@ -5,7 +5,7 @@
 import axios from 'axios';
 import Image from 'next/image';
 import * as React from 'react';
-import { FaSpinner } from 'react-icons/fa';
+import { FaSpinner } from '@react-icons/all-files/fa/FaSpinner';
 import { toast } from 'react-toastify';
 
 import { useAppSelector } from '@/lib/store';
@@ -40,6 +40,20 @@ export default function HistoryProject() {
     }
   }
 
+  const deleteProject = async (id: string) => {
+    try {
+      await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/crafter/my/${id}`,
+        {
+          headers: { "Authorization": `Bearer ${token}` },
+        }
+      );
+      setParams({ page: 1, limit: 10 });
+      getHistory();
+    } catch (error) {
+      toast.error('Delete failed');
+    }
+  }
+
   React.useEffect(() => {
     if (token) {
       getHistory();
@@ -56,6 +70,7 @@ export default function HistoryProject() {
               <th>View Project</th>
               <th>Status</th>
               <th>Drizy Coin</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody className='text-[#1A214C]'>
@@ -85,6 +100,11 @@ export default function HistoryProject() {
                   </td>
                   <td>
                     <p>{item.coin}</p>
+                  </td>
+                  <td>
+                    <button onClick={() => deleteProject(item.id)} className='rounded-full bg-[#008ECC] px-10 py-2 font-semibold text-[#e4f6fb]'>
+                      Delete
+                    </button>
                   </td>
                 </tr>
               )

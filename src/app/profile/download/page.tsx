@@ -6,7 +6,7 @@ import axios, { AxiosError } from 'axios';
 import { Loader } from 'lucide-react';
 import * as React from 'react';
 import { useEffect } from 'react';
-import { FaInfinity } from 'react-icons/fa6';
+import { FaInfinity } from '@react-icons/all-files/fa6/FaInfinity';
 import { toast } from 'react-toastify';
 
 import { useAppSelector } from '@/lib/store';

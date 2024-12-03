@@ -1,20 +1,19 @@
-import localFont from 'next/font/local';
 import Image from 'next/image';
 import Link from 'next/link';
-import * as React from 'react';
-import { toast } from 'react-toastify';
 
-import AffiliateBanner from '@/components/AffiliateBanner';
-import SectionContainer from '@/components/container/sectionContainer';
-import BestSellerSection from '@/components/home/best-seller.section';
-import BundlesSection from '@/components/home/bundle.section';
-import CrafterSection from '@/components/home/crafter.section';
-import ExculsiveSection from '@/components/home/exclusive.section';
 import JumbotronSection from '@/components/home/jumbotron.section';
-import VectorSection from '@/components/home/vector.section';
-import ProductCategories from '@/components/ProductCategories';
-import SeasonCategories from '@/components/SeasonCategories';
-import Testimonies from '@/components/testimonies';
+
+const AffiliateBanner = dynamic(() => import('@/components/AffiliateBanner'));
+const SectionContainer = dynamic(() => import('@/components/container/sectionContainer'));
+const BestSellerSection = dynamic(() => import('@/components/home/best-seller.section'));
+const BundlesSection = dynamic(() => import('@/components/home/bundle.section'));
+const CrafterSection = dynamic(() => import('@/components/home/crafter.section'));
+const ExculsiveSection = dynamic(() => import('@/components/home/exclusive.section'));
+const SubscribeFreebiesSection = dynamic(() => import('@/components/home/subscribe.section'));
+const VectorSection = dynamic(() => import('@/components/home/vector.section'));
+const ProductCategories = dynamic(() => import('@/components/ProductCategories'));
+const Testimonies = dynamic(() => import('@/components/testimonies'));
+const SeasonCategories = dynamic(() => import('@/components/SeasonCategories'));
 
 import {
   CategoryI,
@@ -34,12 +33,14 @@ import {
   cat10,
   coffeeFloating,
 } from '~/images';
-import SubscribeFreebiesSection from '@/components/home/subscribe.section';
+import dynamic from 'next/dynamic';
+
+export const revalidate = 600
+export const dynamicParams = false
 
 async function getHomePageData() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/product/homepage`,
-    { cache: 'no-store' }
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/product/homepage`
   );
   const resJSON = await res.json();
   const homePageData: HomepageDataI = resJSON.data;

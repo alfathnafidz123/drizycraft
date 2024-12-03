@@ -22,7 +22,9 @@ export interface Affiliate {
   id: string;
   refferalCode: string;
   totalEarnings: number;
+  commissionRate: number;
   userId: string;
+  eligible: boolean;
   createdAt: string;
   updatedAt?: Date;
 }

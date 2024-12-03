@@ -272,8 +272,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <NextImage
             src={data.imageUrl[0]}
             alt={data.name}
-            height={200}
-            width={200}
+            height={180}
+            width={260}
+            quality={60}
             className='h-[172px] w-full rounded-[6px] object-cover lg:w-[257px]'
             classNames={{ image: 'h-[172px] w-full rounded-[6px] object-cover lg:w-[257px]' }}
             useSkeleton={true}

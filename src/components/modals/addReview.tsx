@@ -3,8 +3,8 @@
 
 import { useParams } from 'next/navigation';
 import React, { useState } from 'react';
-import { FaStar } from 'react-icons/fa';
-import { IoCloseCircleOutline } from 'react-icons/io5';
+import { FaStar } from '@react-icons/all-files/fa/FaStar';
+import { IoCloseCircleOutline } from '@react-icons/all-files/io5/IoCloseCircleOutline';
 
 import { setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';

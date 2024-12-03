@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FaSistrix } from 'react-icons/fa6';
+import { FaSistrix } from '@react-icons/all-files/fa6/FaSistrix';
 
 import { helpcenter1, helpcenter2 } from '~/images';
 

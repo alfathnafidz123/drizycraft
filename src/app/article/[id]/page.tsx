@@ -1,18 +1,16 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
-import { CiYoutube } from 'react-icons/ci';
-import { FaUsers } from 'react-icons/fa';
-import {
-  FaBehance,
-  FaFacebookF,
-  FaInstagram,
-  FaLinkedinIn,
-  FaPinterest,
-  FaWhatsapp,
-  FaXTwitter,
-} from 'react-icons/fa6';
-import { MdKeyboardDoubleArrowRight } from 'react-icons/md';
+import { CiYoutube } from '@react-icons/all-files/ci/CiYoutube';
+import { FaUsers } from '@react-icons/all-files/fa/FaUsers';
+import { FaBehance } from '@react-icons/all-files/fa6/FaBehance';
+import { FaFacebookF } from '@react-icons/all-files/fa6/FaFacebookF';
+import { FaInstagram } from '@react-icons/all-files/fa6/FaInstagram';
+import { FaLinkedinIn } from '@react-icons/all-files/fa6/FaLinkedinIn';
+import { FaPinterest } from '@react-icons/all-files/fa6/FaPinterest';
+import { FaWhatsapp } from '@react-icons/all-files/fa6/FaWhatsapp';
+import { FaXTwitter } from '@react-icons/all-files/fa6/FaXTwitter';
+import { MdKeyboardDoubleArrowRight } from '@react-icons/all-files/md/MdKeyboardDoubleArrowRight';
 
 import AffiliateBanner from '@/components/AffiliateBanner';
 import NextImage from '@/components/NextImage';

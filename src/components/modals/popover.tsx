@@ -1,13 +1,11 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from 'react';
-import {
-  FaFacebook,
-  FaInstagram,
-  FaPinterest,
-  FaWhatsapp,
-  FaXTwitter,
-} from 'react-icons/fa6';
+import { FaFacebook } from '@react-icons/all-files/fa6/FaFacebook';
+import { FaInstagram } from '@react-icons/all-files/fa6/FaInstagram';
+import { FaPinterest } from '@react-icons/all-files/fa6/FaPinterest';
+import { FaWhatsapp } from '@react-icons/all-files/fa6/FaWhatsapp';
+import { FaXTwitter } from '@react-icons/all-files/fa6/FaXTwitter';
 
 import { projectShare1 } from '~/images';
 

@@ -1,14 +1,18 @@
+'use client';
+
 import Link from 'next/link';
-import { FaUsers } from 'react-icons/fa';
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaPinterest,
-} from 'react-icons/fa6';
+import { FaUsers } from '@react-icons/all-files/fa/FaUsers';
+import { FaFacebookF } from '@react-icons/all-files/fa6/FaFacebookF';
+import { FaInstagram } from '@react-icons/all-files/fa6/FaInstagram';
+import { FaPinterest } from '@react-icons/all-files/fa6/FaPinterest';
+
+import { useAppSelector } from '@/lib/store';
 
 import { GuaranteeBadge } from '~/images';
 
 const Footer = () => {
+  const { dataUser } = useAppSelector((state) => state.user);
+
   return (
     <footer className='flex flex-col items-center bg-[#1A214C] pb-7 pt-12 text-white'>
       <div className='mt-8 w-full max-md:px-8 lg:mt-16 max-w-[1164px]'>
@@ -19,6 +23,9 @@ const Footer = () => {
               <Link href='/blog'>Blogs</Link>
               <Link href="/catalog-crafter">Newest</Link>
               <Link href="/catalog-crafter">Popular</Link>
+              {dataUser?.affiliate &&
+                <Link href="/dashboard-afilliator">Afilliator Dashboard</Link>
+              }
             </div>
           </nav>
           <nav>
@@ -62,19 +69,19 @@ const Footer = () => {
                 Follow us
               </div>
               <div className='mt-5 flex justify-evenly lg:justify-between gap-5 whitespace-nowrap text-xl'>
-                <Link href="https://www.facebook.com/DrizyStudio" target='__blank'>
+                <Link aria-label='Drizy Studio Facebool' href="https://www.facebook.com/DrizyStudio" target='__blank'>
                   <FaFacebookF />
                 </Link>
 
-                <Link href="https://www.facebook.com/groups/drizyfreebies" target='__blank'>
+                <Link aria-label='Drizy Studio Community' href="https://www.facebook.com/groups/drizyfreebies" target='__blank'>
                   <FaUsers />
                 </Link>
 
-                <Link href="https://id.pinterest.com/Drizy_Studio/" target='__blank'>
+                <Link aria-label='Drizy Studio Pinterest' href="https://id.pinterest.com/Drizy_Studio/" target='__blank'>
                   <FaPinterest />
                 </Link>
 
-                <Link href="https://www.instagram.com/drizy_craft/ " target='__blank'>
+                <Link aria-label='Drizy Studio Instagram' href="https://www.instagram.com/drizy_craft/ " target='__blank'>
                   <FaInstagram />
                 </Link>
 

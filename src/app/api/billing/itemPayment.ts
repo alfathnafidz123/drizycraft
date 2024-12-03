@@ -7,6 +7,7 @@ interface ItemPaymentI {
   licenseType?: number[];
   affiliateId?: string[];
   token?: string;
+  coupon?: string;
 }
 
 export async function itemPayment(data: ItemPaymentI) {

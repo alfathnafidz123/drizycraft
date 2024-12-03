@@ -8,8 +8,8 @@ import { Loader } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { FaFacebookF } from 'react-icons/fa6';
-import { FcGoogle } from 'react-icons/fc';
+import { FaFacebookF } from '@react-icons/all-files/fa6/FaFacebookF';
+import { FcGoogle } from '@react-icons/all-files/fc/FcGoogle';
 import { toast } from 'react-toastify';
 
 import { setDataUser, setOpenModal, setToken } from '@/lib/slices/user';
@@ -26,7 +26,7 @@ const ModalLogin: React.FC = () => {
   const dispatch = useAppDispatch();
   const [support, setSupport] = useState(true);
   const [coppied, setCoppied] = useState(false);
-  const isOpen = useAppSelector((state) => state.user?.openModal);
+  const { openModal } = useAppSelector((state) => state.user);
   const closeModal = () => {
     dispatch(setOpenModal(false));
   };
@@ -102,7 +102,7 @@ const ModalLogin: React.FC = () => {
   return (
     <div>
       {/* Modal overlay */}
-      {isOpen && (
+      {openModal && (
         <div
           onClick={closeModal}
           className='fixed left-0 top-0 z-[90] h-full w-full bg-black bg-opacity-50'
@@ -110,7 +110,7 @@ const ModalLogin: React.FC = () => {
       )}
 
       {/* Modal content */}
-      {isOpen && (
+      {openModal && (
         <div className='fixed left-1/2 top-1/2 z-[90] max-h-screen w-full -translate-x-1/2 -translate-y-1/2 transform overflow-y-auto rounded-3xl bg-[#E5F6FB] p-8 shadow-lg lg:h-fit lg:w-fit lg:overflow-hidden'>
           <div className='flex flex-col gap-4 lg:flex-row lg:gap-16'>
             <div className='flex flex-col justify-between gap-8'>

@@ -7,12 +7,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
-import { AiFillCloseCircle } from 'react-icons/ai';
-import { FaChevronDown } from 'react-icons/fa6';
-import { GiHamburgerMenu } from 'react-icons/gi';
-import { IoCloseCircle, IoPerson } from 'react-icons/io5';
-import { MdArrowOutward } from 'react-icons/md';
-import { MdArrowForwardIos } from 'react-icons/md';
+import { AiFillCloseCircle } from '@react-icons/all-files/ai/AiFillCloseCircle';
+import { FaChevronDown } from '@react-icons/all-files/fa6/FaChevronDown';
+import { GiHamburgerMenu } from '@react-icons/all-files/gi/GiHamburgerMenu';
+import { IoCloseCircle } from '@react-icons/all-files/io5/IoCloseCircle';
+import { IoPerson } from '@react-icons/all-files/io5/IoPerson';
+import { MdArrowOutward } from '@react-icons/all-files/md/MdArrowOutward';
+import { MdArrowForwardIos } from '@react-icons/all-files/md/MdArrowForwardIos';
 import { toast } from 'react-toastify';
 
 import { fetchCart } from '@/lib/slices/cart';
@@ -23,12 +24,13 @@ import useOutsideClick from '@/lib/useOutsideClick';
 
 import Button from '@/components/buttons/Button';
 import ModalLogin from '@/components/modals/login';
+import NextImage from '@/components/NextImage';
 
 import {
+  betaLogo,
   cart,
   drizzyCoin,
   emptyCoin,
-  logodrizy,
   newBadge,
   newMember,
   search,
@@ -147,7 +149,7 @@ const Navbar: React.FC = () => {
         <ModalLogin />
         <div className='container mx-auto flex w-[1164px] items-center justify-between'>
           <Link href='/'>
-            <img src={logodrizy.src} alt='Logo' className='object-contain' />
+            <NextImage width={200} height={200} src={betaLogo.src} alt='Logo' className='object-contain' />
           </Link>
 
           <div className='flex flex-row'>
@@ -541,6 +543,7 @@ const Navbar: React.FC = () => {
                 </button>
                 <Link
                   href='/cart'
+                  prefetch={false}
                   className='relative rounded-full bg-[#e4f6fb] px-2 py-2 text-[#008ECC] transition-all hover:bg-[#C0E9F4]'
                 >
                   <img src={cart.src} alt='cart' />
@@ -622,6 +625,7 @@ const Navbar: React.FC = () => {
               <div className='flex flex-row justify-between gap-4 pt-[10px]'>
                 <Link
                   href='/project'
+                  prefetch={false}
                   className='font-katide-semibold flex h-[40px] items-center gap-2 rounded-full bg-[#008ECC] px-6 py-3 text-[14px] text-white hover:bg-[#4065D1]'
                 >
                   Project
@@ -665,15 +669,18 @@ const Navbar: React.FC = () => {
             </div>
 
             <Link href='/'>
-              <img
-                src={logodrizy.src}
+              <NextImage
+                src={betaLogo.src}
                 alt='Logo'
+                height={100}
+                width={100}
                 className='h-8 object-contain'
               />
             </Link>
             <div className='flex gap-4'>
               <Link
                 href='/cart'
+                prefetch={false}
                 className='relative h-8 w-8 rounded-full bg-[#e4f6fb] px-2 py-2 text-[#008ECC] transition-all hover:bg-[#C0E9F4]'
               >
                 <img src={cart.src} alt='cart' />
