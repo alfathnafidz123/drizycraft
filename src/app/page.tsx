@@ -15,6 +15,8 @@ const ProductCategories = dynamic(() => import('@/components/ProductCategories')
 const Testimonies = dynamic(() => import('@/components/testimonies'));
 const SeasonCategories = dynamic(() => import('@/components/SeasonCategories'));
 
+import dynamic from 'next/dynamic';
+
 import {
   CategoryI,
   HomepageDataI,
@@ -33,7 +35,6 @@ import {
   cat10,
   coffeeFloating,
 } from '~/images';
-import dynamic from 'next/dynamic';
 
 export const revalidate = 600
 export const dynamicParams = false
