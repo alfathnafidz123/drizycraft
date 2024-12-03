@@ -1,12 +1,11 @@
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 
 import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
 
-const AffiliatorNavigation = lazy(() => import('@/components/affiliator/navigation'));
-import { lazy, Suspense } from 'react';
-
+import AffiliatorNavigation from '@/components/affiliator/navigation';
 import SectionContainer from '@/components/container/sectionContainer';
 
 import { siteConfig } from '@/constant/config';
