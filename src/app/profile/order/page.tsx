@@ -5,7 +5,7 @@
 import axios, { AxiosError } from 'axios';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { useAppSelector } from '@/lib/store';
@@ -18,9 +18,9 @@ import {
 
 export default function Register() {
   const { token } = useAppSelector((state) => state.user);
-  const [transactions, setTransactions] = React.useState<TransactionI[]>([]);
-  const [meta, setMeta] = React.useState<Meta>();
-  const [params, setParams] = React.useState({ page: 1, limit: 10 });
+  const [transactions, setTransactions] = useState<TransactionI[]>([]);
+  const [meta, setMeta] = useState<Meta>();
+  const [params, setParams] = useState({ page: 1, limit: 10 });
   const router = useRouter();
 
   const getTransactions = async () => {
@@ -58,7 +58,7 @@ export default function Register() {
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     getTransactions();
   }, [params.page]);
 

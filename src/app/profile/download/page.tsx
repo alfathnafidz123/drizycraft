@@ -2,11 +2,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
+import { FaInfinity } from '@react-icons/all-files/fa6/FaInfinity';
 import axios, { AxiosError } from 'axios';
 import { Loader } from 'lucide-react';
-import * as React from 'react';
-import { useEffect } from 'react';
-import { FaInfinity } from '@react-icons/all-files/fa6/FaInfinity';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { useAppSelector } from '@/lib/store';
@@ -15,10 +14,10 @@ import { Meta, TransactionI, TransactionResI } from '@/interfaces/transaction.in
 
 export default function Register() {
   const { token } = useAppSelector((state) => state.user);
-  const [ordersData, setOrdersData] = React.useState<TransactionI[]>([]);
-  const [meta, setMeta] = React.useState<Meta>();
-  const [loading, setLoading] = React.useState<{ loading: boolean; id?: number }>({ loading: false });
-  const [params, setParams] = React.useState({
+  const [ordersData, setOrdersData] = useState<TransactionI[]>([]);
+  const [meta, setMeta] = useState<Meta>();
+  const [loading, setLoading] = useState<{ loading: boolean; id?: number }>({ loading: false });
+  const [params, setParams] = useState({
     page: 1,
     limit: 10,
   })

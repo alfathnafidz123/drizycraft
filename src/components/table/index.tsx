@@ -113,7 +113,9 @@ export function Table<T>({
                 className="p-4 text-center whitespace-nowrap text-sm text-[#201B1C]"
               >
                 <div className="flex flex-col items-center">
-                  <Lottie />
+                  <div className="w-1/3">
+                    <Lottie />
+                  </div>
                   <span className="text-base text-[#7C7C7C] ">
                     No Data Found
                   </span>
