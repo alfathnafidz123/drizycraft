@@ -14,6 +14,9 @@ export const metadata: Metadata = {
     default: siteConfig.title,
     template: `%s | Bundles`,
   },
+  alternates: {
+    canonical: `https://drizycraft.com/catalog-bundles`,
+  },
   description: siteConfig.description,
   robots: { index: true, follow: true },
   // !STARTERCONF this is the default favicon, you can generate your own from https://realfavicongenerator.net/
@@ -25,7 +28,7 @@ export const metadata: Metadata = {
   },
   manifest: `/favicon/site.webmanifest`,
   openGraph: {
-    url: siteConfig.url,
+    url: `https://drizycraft.com/catalog-bundles`,
     title: siteConfig.title,
     description: siteConfig.description,
     siteName: siteConfig.title,

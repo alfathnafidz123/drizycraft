@@ -27,6 +27,7 @@ const ModalLogin = dynamic(() => import('@/components/modals/login'));
 import dynamic from 'next/dynamic';
 
 import NextImage from '@/components/NextImage';
+import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
 
 import {
   betaLogo,
@@ -60,6 +61,10 @@ const Navbar: React.FC = () => {
   const [coin, setCoin] = useState(dataUser?.coin);
   const [showTopup, setShowTopup] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const { trackEvent } = PixelEventsHooks();
+  const [isSeasonalOpen, setIsSeasonalOpen] = useState(false);
+  const [isCraftSVGOpen, setIsCraftSVGOpen] = useState(false);
+  const [isVectorOpen, setIsVectorOpen] = useState(false);
   const [showMenu, setShowMenu] = useState<MenuState>({
     crafter: false,
     vector: false,
@@ -140,9 +145,10 @@ const Navbar: React.FC = () => {
     });
   };
 
-  const handleSearch = (e: any) => {
+  const handleSearch = async (e: any) => {
     e.preventDefault();
-    router.push(`/category/search/${inputValue}?category=${selectedCategory}`)
+    await trackEvent(EventsEnum.Search, { text: inputValue, category: selectedCategory });
+    router.push(`/category/search/${inputValue}?category=${selectedCategory}`);
   }
 
   return (
@@ -170,7 +176,7 @@ const Navbar: React.FC = () => {
               </select>
 
               <div ref={crafterRef} className='relative pt-[6px]'>
-                <label className=' font-katide-semibold flex h-[40px] w-[85%] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] text-[14px] hover:bg-[#CCE7EF]'>
+                <label className=' font-katide-semibold flex h-[40px] w-[85%] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] text-[14px] hover:bg-[#CCE7EF] cursor-pointer'>
                   <button
                     id='crafter'
                     className='crafter'
@@ -198,7 +204,7 @@ const Navbar: React.FC = () => {
                             craft: false,
                           }))
                         }
-                        className='group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                        className='cursor-pointer group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                       >
                         <p>Featured</p>
                         <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -214,7 +220,7 @@ const Navbar: React.FC = () => {
                             craft: false,
                           }))
                         }
-                        className='group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                        className='cursor-pointer group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                       >
                         <p>Premium SVG</p>
                         <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -227,7 +233,7 @@ const Navbar: React.FC = () => {
                             craft: false,
                           }))
                         }
-                        className='group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                        className='cursor-pointer group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                       >
                         <p>Exclusive Partners</p>
                         <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -241,7 +247,7 @@ const Navbar: React.FC = () => {
                           }))
                         }
                         // onMouseLeave={() => toggleSubMenu('seasonal')}
-                        className='flex justify-between bg-[#E4F6FB] p-6 pl-8 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                        className='cursor-pointer flex justify-between bg-[#E4F6FB] p-6 pl-8 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                       >
                         <label>Seasonal</label>
                         <MdArrowForwardIos />
@@ -255,7 +261,7 @@ const Navbar: React.FC = () => {
                           }))
                         }
                         // onMouseLeave={() => toggleSubMenu('craft')}
-                        className='group flex justify-between bg-[#E4F6FB] p-6 pl-8 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                        className='cursor-pointer group flex justify-between bg-[#E4F6FB] p-6 pl-8 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                       >
                         <label>
                           Craft Design SVGs
@@ -271,7 +277,7 @@ const Navbar: React.FC = () => {
                             onClick={() => {
                               router.push('/category/Summer SVG');
                             }}
-                            className='group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            className='cursor-pointer group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
                             <p>Summer SVG</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -280,7 +286,7 @@ const Navbar: React.FC = () => {
                             onClick={() => {
                               router.push('/category/Fall SVG');
                             }}
-                            className='group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            className='cursor-pointer group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
                             <p>Fall SVG</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -289,7 +295,7 @@ const Navbar: React.FC = () => {
                             onClick={() => {
                               router.push('/category/Halloween SVG');
                             }}
-                            className='group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            className='cursor-pointer group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
                             <p>Halloween SVG</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -298,7 +304,7 @@ const Navbar: React.FC = () => {
                             onClick={() => {
                               router.push('/category/Thanksgiving SVG');
                             }}
-                            className='group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            className='cursor-pointer group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
                             <p>Thanksgiving SVG</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -307,7 +313,7 @@ const Navbar: React.FC = () => {
                             onClick={() => {
                               router.push('/category/Winter SVG');
                             }}
-                            className='group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            className='cursor-pointer group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
                             <p>Winter SVG</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -319,7 +325,7 @@ const Navbar: React.FC = () => {
                             onClick={() => {
                               router.push('/category/Christmas SVG');
                             }}
-                            className='group flex justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            className='cursor-pointer group flex justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
                             <p>Christmas SVG</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -328,7 +334,7 @@ const Navbar: React.FC = () => {
                             onClick={() => {
                               router.push('/category/Easter SVG');
                             }}
-                            className='group flex justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            className='cursor-pointer group flex justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
                             <p>Easter SVG</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -337,7 +343,7 @@ const Navbar: React.FC = () => {
                             onClick={() => {
                               router.push('/category/Spring SVG');
                             }}
-                            className='group flex justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            className='cursor-pointer group flex justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
                             <p>Spring SVG</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -354,7 +360,7 @@ const Navbar: React.FC = () => {
                             onClick={() => {
                               router.push('/category/Free SVGs');
                             }}
-                            className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
                             <p>Free SVGs</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -363,7 +369,7 @@ const Navbar: React.FC = () => {
                             onClick={() => {
                               router.push('/category/3D Shadow Box SVGs');
                             }}
-                            className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
                             <p>Shadow Box SVG</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -372,7 +378,7 @@ const Navbar: React.FC = () => {
                             onClick={() => {
                               router.push('/category/Cricut SVG');
                             }}
-                            className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
                             <p>Cricut SVG</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -381,7 +387,7 @@ const Navbar: React.FC = () => {
                             onClick={() => {
                               router.push('/category/SVG Cut files');
                             }}
-                            className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
                             <p>SVG cut files</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -390,7 +396,7 @@ const Navbar: React.FC = () => {
                             onClick={() => {
                               router.push('/category/T-Shirt Designs');
                             }}
-                            className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
                             <p>Tshirt Designs</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -403,7 +409,7 @@ const Navbar: React.FC = () => {
                           className='h-full w-[1px] bg-[#E5E7EB]'
                         ></div>
                         <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
-                          <div className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                          <div className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
                             <p>Printable Craft</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                           </div>
@@ -411,7 +417,7 @@ const Navbar: React.FC = () => {
                             onClick={() => {
                               router.push('/category/Paper Cut Templates');
                             }}
-                            className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
                             <p>Papercut Templates</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -420,7 +426,7 @@ const Navbar: React.FC = () => {
                             onClick={() => {
                               router.push('/category/Monogram Designs');
                             }}
-                            className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
                             <p>Monogram Designs</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -429,7 +435,7 @@ const Navbar: React.FC = () => {
                             onClick={() => {
                               router.push('/category/Card Making');
                             }}
-                            className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
                             <p>Card Making</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -438,7 +444,7 @@ const Navbar: React.FC = () => {
                             onClick={() => {
                               router.push('/category/Stickers SVG');
                             }}
-                            className='group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                           >
                             <p>Sticker SVG</p>
                             <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -811,33 +817,240 @@ const Navbar: React.FC = () => {
                     </div>
                     <div
                       onClick={() => {
-                        router.push('/category/Seasonal');
-                        setSidebarOpen(false);
+                        setIsSeasonalOpen(prev => !prev);
                       }}
-                      className='ml-4 border-t-2 p-4'
+                      className='ml-4 border-t-2 pl-4 flex justify-between items-center'
                     >
                       <p className='font-katide-semibold'>Seasonal</p>
+                      <div className='flex items-center justify-center border-l px-6 py-4'>
+                        <FaChevronDown
+                          className={`${isSeasonalOpen ? 'rotate-0' : '-rotate-90'
+                            } transition-all`}
+                        />
+                      </div>
                     </div>
+                    {isSeasonalOpen &&
+                      <div className='ml-4'>
+                        <div
+                          onClick={() => {
+                            router.push('/category/Fall SVG');
+                            setSidebarOpen(false);
+                          }}
+                          className='ml-4 border-t-2 p-4'
+                        >
+                          <p className='font-katide-semibold'>Fall SVG</p>
+                        </div>
+                        <div
+                          onClick={() => {
+                            router.push('/category/Halloween SVG');
+                            setSidebarOpen(false);
+                          }}
+                          className='ml-4 border-t-2 p-4'
+                        >
+                          <p className='font-katide-semibold'>Halloween SVG</p>
+                        </div>
+                        <div
+                          onClick={() => {
+                            router.push('/category/Thanksgiving SVG');
+                            setSidebarOpen(false);
+                          }}
+                          className='ml-4 border-t-2 p-4'
+                        >
+                          <p className='font-katide-semibold'>Thanksgiving SVG</p>
+                        </div>
+                        <div
+                          onClick={() => {
+                            router.push('/category/Winter SVG');
+                            setSidebarOpen(false);
+                          }}
+                          className='ml-4 border-t-2 p-4'
+                        >
+                          <p className='font-katide-semibold'>Winter SVG</p>
+                        </div>
+                        <div
+                          onClick={() => {
+                            router.push('/category/Christmas SVG');
+                            setSidebarOpen(false);
+                          }}
+                          className='ml-4 border-t-2 p-4'
+                        >
+                          <p className='font-katide-semibold'>Christmas SVG</p>
+                        </div>
+                        <div
+                          onClick={() => {
+                            router.push('/category/Easter SVG');
+                            setSidebarOpen(false);
+                          }}
+                          className='ml-4 border-t-2 p-4'
+                        >
+                          <p className='font-katide-semibold'>Easter SVG</p>
+                        </div>
+                        <div
+                          onClick={() => {
+                            router.push('/category/Spring SVG');
+                            setSidebarOpen(false);
+                          }}
+                          className='ml-4 border-t-2 p-4'
+                        >
+                          <p className='font-katide-semibold'>Spring SVG</p>
+                        </div>
+                      </div>
+                    }
                     <div
                       onClick={() => {
-                        router.push('/category/Craft Design SVG');
-                        setSidebarOpen(false);
+                        setIsCraftSVGOpen(prev => !prev)
                       }}
-                      className='ml-4 border-t-2 p-4'
+                      className='ml-4 border-t-2 pl-4 flex justify-between items-center'
                     >
                       <p className='font-katide-semibold'>Craft Design SVG</p>
+                      <div className='flex items-center justify-center border-l px-6 py-4'>
+                        <FaChevronDown
+                          className={`${isCraftSVGOpen ? 'rotate-0' : '-rotate-90'
+                            } transition-all`}
+                        />
+                      </div>
                     </div>
+                    {isCraftSVGOpen &&
+                      <div className='ml-4'>
+                        <div
+                          onClick={() => {
+                            router.push('/category/Free SVGs');
+                            setSidebarOpen(false);
+                          }}
+                          className='ml-4 border-t-2 p-4'
+                        >
+                          <p className='font-katide-semibold'>Free SVGs</p>
+                        </div>
+                        <div
+                          onClick={() => {
+                            router.push('/category/3D Shadow Box SVGs');
+                            setSidebarOpen(false);
+                          }}
+                          className='ml-4 border-t-2 p-4'
+                        >
+                          <p className='font-katide-semibold'>Shadow Box SVG</p>
+                        </div>
+                        <div
+                          onClick={() => {
+                            router.push('/category/Cricut SVG');
+                            setSidebarOpen(false);
+                          }}
+                          className='ml-4 border-t-2 p-4'
+                        >
+                          <p className='font-katide-semibold'>Cricut SVG</p>
+                        </div>
+                        <div
+                          onClick={() => {
+                            router.push('/category/SVG Cut files');
+                            setSidebarOpen(false);
+                          }}
+                          className='ml-4 border-t-2 p-4'
+                        >
+                          <p className='font-katide-semibold'>SVG cut files</p>
+                        </div>
+                        <div
+                          onClick={() => {
+                            router.push('/category/T-Shirt Designs');
+                            setSidebarOpen(false);
+                          }}
+                          className='ml-4 border-t-2 p-4'
+                        >
+                          <p className='font-katide-semibold'>Tshirt Designs</p>
+                        </div>
+                        <div
+                          onClick={() => {
+                            router.push('/category/Printable Crafts');
+                            setSidebarOpen(false);
+                          }}
+                          className='ml-4 border-t-2 p-4'
+                        >
+                          <p className='font-katide-semibold'>Printable Craft</p>
+                        </div>
+                        <div
+                          onClick={() => {
+                            router.push('/category/Paper Cut Templates');
+                            setSidebarOpen(false);
+                          }}
+                          className='ml-4 border-t-2 p-4'
+                        >
+                          <p className='font-katide-semibold'>Papercut Templates</p>
+                        </div>
+                        <div
+                          onClick={() => {
+                            router.push('/category/Monogram Designs');
+                            setSidebarOpen(false);
+                          }}
+                          className='ml-4 border-t-2 p-4'
+                        >
+                          <p className='font-katide-semibold'>Monogram Designs</p>
+                        </div>
+                        <div
+                          onClick={() => {
+                            router.push('/category/Card Making');
+                            setSidebarOpen(false);
+                          }}
+                          className='ml-4 border-t-2 p-4'
+                        >
+                          <p className='font-katide-semibold'>Card Making</p>
+                        </div>
+                        <div
+                          onClick={() => {
+                            router.push('/category/Stickers SVG');
+                            setSidebarOpen(false);
+                          }}
+                          className='ml-4 border-t-2 p-4'
+                        >
+                          <p className='font-katide-semibold'>Sticker SVG</p>
+                        </div>
+                      </div>
+                    }
                   </>
                 )}
                 <div
                   onClick={() => {
-                    router.push('/category/Vector');
-                    setSidebarOpen(false);
+                    setIsVectorOpen(prev => !prev);
                   }}
-                  className='border-t-2 p-4'
+                  className='flex w-full justify-between border-t-2 '
                 >
-                  <p className='font-katide-semibold'>Vector</p>
+                  <p className='p-4 font-katide-semibold'>Vector</p>
+                  <div className='flex items-center justify-center border-l px-6 py-4'>
+                    <FaChevronDown
+                      className={`${isVectorOpen ? 'rotate-0' : '-rotate-90'
+                        } transition-all`}
+                    />
+                  </div>
                 </div>
+                {isVectorOpen && (
+                  <>
+                    <div
+                      onClick={() => {
+                        router.push('/catalog-vector?filter=Illustration');
+                        setSidebarOpen(false);
+                      }}
+                      className='ml-4 border-t-2 p-4'
+                    >
+                      <p className='font-katide-semibold'>Illustration</p>
+                    </div>
+                    <div
+                      onClick={() => {
+                        router.push('/catalog-vector?filter=Icon');
+                        setSidebarOpen(false);
+                      }}
+                      className='ml-4 border-t-2 p-4'
+                    >
+                      <p className='font-katide-semibold'>Icon</p>
+                    </div>
+                    <div
+                      onClick={() => {
+                        router.push('/catalog-vector?filter=catalog-vector?filter=Print Template');
+                        setSidebarOpen(false);
+                      }}
+                      className='ml-4 border-t-2 p-4'
+                    >
+                      <p className='font-katide-semibold'>Print Template</p>
+                    </div>
+                  </>
+                )}
                 <div
                   onClick={() => {
                     router.push('/category/Bundle');

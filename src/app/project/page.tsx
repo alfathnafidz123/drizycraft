@@ -74,80 +74,84 @@ export default function Register() {
         isOpen={isUploadSuccessShow}
         onClose={() => setIsUploadSuccessShow(false)}
       />
-      <section className='flex flex-col justify-between lg:flex-row max-w-[1164px] mx-auto py-10'>
-        <div className='flex-col'>
-          <p className='font-katide-bold text-[24px]'>
-            Collect coins and earn more Drizy designs
-          </p>
-          <p className='font-katide-regular mt-6 text-[16px]'>
-            Become a member of Drizy and earn coins by simply sharing <br />
-            photos of your projects.
-          </p>
-          <div className='mt-6 flex flex-row'>
-            <img src={projectSign.src} />
-            <Link href="/register" className='self-center pl-5'>
-              <b>Sign up: </b>
-              <span className='cursor-pointer text-[#4065D1]'>
-                Create an account
-              </span>
-            </Link>
-          </div>
-          <div className='mt-6 flex flex-row'>
-            <img src={projectSubscribe.src} />
-            <p className='self-center pl-5'>
-              <b>Subscribe:</b> Select one of our membership plans. <br />
-              Don't worry, we offer a <b>free trial</b> for you.{" "}
-              <Link type='span' href="/membership" className='cursor-pointer text-[#4065D1]'>
-                Just click here!
+      {!activeSubcription &&
+        <section className='flex flex-col justify-between max-md:gap-14 lg:flex-row max-w-[1164px] mx-auto py-10 px-2 lg:px-0'>
+          <div className='flex-col'>
+            <p className='font-katide-bold text-[24px] leading-normal'>
+              Collect coins and earn more Drizy designs
+            </p>
+            <p className='font-katide-regular mt-6 text-[16px]'>
+              Become a member of Drizy and earn coins by simply sharing <br />
+              photos of your projects.
+            </p>
+            <div className='mt-6 flex flex-row'>
+              <img src={projectSign.src} />
+              <Link href="/register" className='self-center pl-5'>
+                <b>Sign up: </b>
+                <span className='cursor-pointer text-[#4065D1]'>
+                  Create an account
+                </span>
               </Link>
-            </p>
-          </div>
-          <div className='mt-6 flex flex-row'>
-            <img src={projectShare.src} />
-            <p className='self-center pl-5'>
-              <b>Share:</b> Upload pictures of your projects to earn
-              <b> Drizy Coins.</b>
-            </p>
-          </div>
-        </div>
-        <img src={projectImage.src} className='' />
-      </section>
-      <section className='flex flex-wrap justify-center gap-5 bg-[#EBECF5] p-2 xl:p-20'>
-        {activeSubcription &&
-          <div
-            onClick={() => setIsPopUpShow(true)}
-            className='h-[456px] w-[369px] cursor-pointer rounded-xl bg-white bg-opacity-30 px-8 py-8 text-center text-indigo-950 text-opacity-20 shadow-lg hover:bg-white'
-          >
-            <div className='flex flex-col rounded-xl border-2 border-dashed border-black border-opacity-10 py-12'>
-              <img
-                loading='lazy'
-                src={projectUpload.src}
-                className='mt-24 self-center'
-                alt='upload project'
-              />
-              <div className='mb-16 mt-4'>
-                Upload your project results
-                <br />
-                and get Drizy Coins!
-              </div>
+            </div>
+            <div className='mt-6 flex flex-row'>
+              <img src={projectSubscribe.src} />
+              <p className='self-center pl-5'>
+                <b>Subscribe:</b> Select one of our membership plans. <br />
+                Don't worry, we offer a <b>free trial</b> for you.{" "}
+                <Link type='span' href="/membership" className='cursor-pointer text-[#4065D1]'>
+                  Just click here!
+                </Link>
+              </p>
+            </div>
+            <div className='mt-6 flex flex-row'>
+              <img src={projectShare.src} />
+              <p className='self-center pl-5'>
+                <b>Share:</b> Upload pictures of your projects to earn
+                <b> Drizy Coins.</b>
+              </p>
             </div>
           </div>
-        }
+          <img src={projectImage.src} className='' />
+        </section>
+      }
+      <div className='bg-[#EBECF5] w-full'>
+        <section className='flex flex-wrap justify-center gap-5 p-2 xl:py-20 max-w-[1164px] mx-auto'>
+          {activeSubcription &&
+            <div
+              onClick={() => setIsPopUpShow(true)}
+              className='h-[456px] w-[369px] cursor-pointer rounded-xl bg-white bg-opacity-30 px-8 py-8 text-center text-indigo-950 text-opacity-20 shadow-lg hover:bg-white'
+            >
+              <div className='flex flex-col rounded-xl border-2 border-dashed border-black border-opacity-10 py-12'>
+                <img
+                  loading='lazy'
+                  src={projectUpload.src}
+                  className='mt-24 self-center'
+                  alt='upload project'
+                />
+                <div className='mb-16 mt-4'>
+                  Upload your project results
+                  <br />
+                  and get Drizy Coins!
+                </div>
+              </div>
+            </div>
+          }
 
-        {crafterData && crafterData?.data.map((data, index) => {
-          return (
-            <Project
-              key={index}
-              item={data}
-              onLike={likeCrafterPost}
-              onClick={() => {
-                setSelectedIndex(index);
-                setIsProjectDetailShow(true);
-              }}
-            />
-          );
-        })}
-      </section>
+          {crafterData && crafterData?.data.map((data, index) => {
+            return (
+              <Project
+                key={index}
+                item={data}
+                onLike={likeCrafterPost}
+                onClick={() => {
+                  setSelectedIndex(index);
+                  setIsProjectDetailShow(true);
+                }}
+              />
+            );
+          })}
+        </section>
+      </div>
     </main>
   );
 }

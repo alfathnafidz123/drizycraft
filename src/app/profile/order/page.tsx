@@ -2,7 +2,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
+import { IoChevronDown } from '@react-icons/all-files/io5/IoChevronDown';
 import axios, { AxiosError } from 'axios';
+import { Loader } from 'lucide-react';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -21,10 +23,12 @@ export default function Register() {
   const [transactions, setTransactions] = useState<TransactionI[]>([]);
   const [meta, setMeta] = useState<Meta>();
   const [params, setParams] = useState({ page: 1, limit: 10 });
+  const [loading, setLoading] = useState<{ loading: boolean; id?: number }>({ loading: false });
   const router = useRouter();
 
   const getTransactions = async () => {
     if (token) {
+      setLoading({ loading: true })
       try {
         const res = await axios.get(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-transaction`,
@@ -39,6 +43,8 @@ export default function Register() {
         toast.error(
           (errorData.message as string) ?? 'Error when get transactions!'
         );
+      } finally {
+        setLoading({ loading: false });
       }
     }
   };
@@ -93,14 +99,17 @@ export default function Register() {
           </tbody>
         </table>
         {meta?.hasNextPage && (
-          <button
-            onClick={() =>
-              setParams((prev) => ({ ...prev, page: prev.page + 1 }))
-            }
-            className='mt-8 flex w-full cursor-pointer justify-center text-blue-600 underline'
-          >
-            Load more...
-          </button>
+          <div className='mt-8 flex w-full justify-center'>
+            <div onClick={() => { setParams(prev => ({ ...prev, page: prev.page + 1 })) }} className='flex items-center justify-center cursor-pointer text-center mt-10'>
+              {loading.loading
+                ? <Loader className='animate-spin' />
+                :
+                <div className='flex flex-row gap-1 items-center justify-center transition-all hover:text-white bg-white hover:bg-[#61A9FA] rounded-full px-3 py-1 border-black border'>
+                  <p>Load More</p>
+                  <IoChevronDown />
+                </div>}
+            </div>
+          </div>
         )}
       </div>
     </>

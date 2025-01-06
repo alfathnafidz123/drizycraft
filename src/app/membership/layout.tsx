@@ -10,10 +10,7 @@ import { siteConfig } from '@/constant/config';
 // !STARTERCONF Change these default meta
 // !STARTERCONF Look at @/constant/config to change them
 export const metadata: Metadata = {
-  title: {
-    default: siteConfig.title,
-    template: `%s | Membership`,
-  },
+  title: `${siteConfig.title} | Drizy Craft`,
   description: siteConfig.description,
   robots: { index: true, follow: true },
   // !STARTERCONF this is the default favicon, you can generate your own from https://realfavicongenerator.net/

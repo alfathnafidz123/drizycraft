@@ -131,7 +131,7 @@ const SaleProductCard = ({ data }: { data: productI; }) => {
 
   return (
     <>
-      <div className='relative mt-8 h-full w-full rounded-2xl border-4 border-[#61A9FA] bg-white p-2 lg:mt-0 lg:w-3/12'>
+      <div className='relative flex flex-col mt-8 h-full w-full rounded-2xl border-4 border-[#61A9FA] bg-white p-2 lg:mt-0 lg:w-3/12'>
         <Slider {...settings}>
           {data.imageUrl.map((url, i) =>
             <div className='slide' key={i.toString()}>
@@ -141,9 +141,9 @@ const SaleProductCard = ({ data }: { data: productI; }) => {
             </div>
           )}
         </Slider>
-        <span className='relative z-[2] flex h-[54px] w-[257px] shrink-0 items-start justify-start self-stretch overflow-hidden text-left text-[16px] font-semibold leading-[17.6px] text-[#1a204c]'>
+        <h3 className='z-[2] w-full flex-grow overflow-hidden text-left text-base font-semibold leading-[17.6px] text-[#1a204c] self-start'>
           {data.name}
-        </span>
+        </h3>
         <div className='mt-2 flex gap-2'>
           <button
             id='buy'

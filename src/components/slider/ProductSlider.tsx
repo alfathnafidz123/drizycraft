@@ -34,7 +34,7 @@ const ProductSlider: React.FC<SwipeToSlideProps> = ({
     className: 'center',
     infinite: false,
     centerPadding: '60px',
-    slidesToShow: 5,
+    slidesToShow: 4,
     swipeToSlide: true,
     nextArrow: <></>,
     prevArrow: <></>,
@@ -79,8 +79,8 @@ const ProductSlider: React.FC<SwipeToSlideProps> = ({
             </div>
           );
         })}
-        <div className='hidden lg:block w-[294px]'>
-          <div className='ml-4 hidden items-center justify-center lg:flex lg:h-[335px]'>
+        <div className='block'>
+          <div className='ml-4 flex items-center justify-left h-[335px]'>
             <button
               id='see-more'
               aria-label='Go to catalog'

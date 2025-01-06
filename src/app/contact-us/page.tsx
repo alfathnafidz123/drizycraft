@@ -1,10 +1,16 @@
 'use client'
 
-import { toast } from 'react-toastify';
+
+import { Loader } from 'lucide-react';
+
+import useSupportMessage from '@/lib/hooks/useSupportMessage';
+
+import ValidationError from '@/components/validation/error';
 
 import { ContactUs } from '~/images';
 
 export default function Contact() {
+  const { handleCreate, isLoading, register, errors } = useSupportMessage();
   return (
     <main className='bg-[#F4F4F4]'>
       <p className=' font-katide-bold mb-[2%] pt-[5%] text-center text-[36px] tracking-wider text-[#1A214C]'>
@@ -29,15 +35,16 @@ export default function Contact() {
         </div>
 
         <div className='flex w-full max-w-[569px] flex-col gap-4 rounded-xl bg-white p-4 xl:p-8 text-[14px] shadow-lg'>
-          <div className='m-[8%]'>
+          <form onSubmit={handleCreate} className='m-[8%]'>
             <div className='flex flex-grow flex-col'>
               <label className='pl-4 text-[#1A214C]'>Your name</label>
               <input
                 type='text'
                 className='border-grey-100 m-[3%] rounded-full border-[1px]'
                 placeholder=''
-                required
+                {...register('name')}
               ></input>
+              <ValidationError error={errors.name} />
             </div>
 
             <div className='flex flex-grow flex-col pt-[3%]'>
@@ -46,8 +53,9 @@ export default function Contact() {
                 type='email'
                 className='border-grey-100 m-[3%] rounded-full border-[1px]'
                 placeholder=''
-                required
+                {...register('email')}
               ></input>
+              <ValidationError error={errors.email} />
             </div>
 
             <div className='flex flex-grow flex-col pt-[3%]'>
@@ -56,8 +64,9 @@ export default function Contact() {
                 type='text'
                 className='border-grey-100 m-[3%] rounded-full border-[1px]'
                 placeholder=''
-                required
+                {...register('subject')}
               ></input>
+              <ValidationError error={errors.subject} />
             </div>
 
             <div className='flex flex-grow flex-col pt-[3%]'>
@@ -65,21 +74,19 @@ export default function Contact() {
               <textarea
                 className='border-grey-100 m-[3%] rounded-xl border-[1px]'
                 placeholder=''
-                required
+                {...register('message')}
               ></textarea>
+              <ValidationError error={errors.message} />
             </div>
 
             <div className='mt-8 flex w-full'>
               <button
-                onClick={() => {
-                  toast.info('Message sent!');
-                }}
                 className='m-[3%] rounded-full bg-[#4065D1] hover:bg-[#2A3B80] px-[30%] py-[1%] font-semibold text-[#e4f6fb]'
               >
-                Submit
+                {isLoading ? <Loader className='animate-spin' /> : 'Submit'}
               </button>
             </div>
-          </div>
+          </form>
         </div>
       </section>
     </main>

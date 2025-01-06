@@ -1,16 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
+import { CiYoutube } from '@react-icons/all-files/ci/CiYoutube';
+import { FaBehance } from '@react-icons/all-files/fa/FaBehance';
+import { FaChevronDown } from '@react-icons/all-files/fa/FaChevronDown';
+import { FaFacebookF } from '@react-icons/all-files/fa/FaFacebookF';
+import { FaInstagram } from '@react-icons/all-files/fa/FaInstagram';
+import { FaPinterest } from '@react-icons/all-files/fa/FaPinterest';
+import { FaUsers } from '@react-icons/all-files/fa/FaUsers';
+import { IoChevronDown } from '@react-icons/all-files/io5/IoChevronDown';
 import { Loader } from 'lucide-react';
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
-import { CiYoutube } from '@react-icons/all-files/ci/CiYoutube';
-import { FaBehance } from '@react-icons/all-files/fa/FaBehance';
-import { FaUsers } from '@react-icons/all-files/fa/FaUsers';
-import { FaFacebookF } from '@react-icons/all-files/fa/FaFacebookF';
-import { FaPinterest } from '@react-icons/all-files/fa/FaPinterest';
-import { FaInstagram } from '@react-icons/all-files/fa/FaInstagram';
-import { FaChevronDown } from '@react-icons/all-files/fa/FaChevronDown';
-import { IoChevronDown } from '@react-icons/all-files/io5/IoChevronDown';
 import { toast } from 'react-toastify';
 
 import ModalProduct from '@/components/modals/product';
@@ -185,7 +185,7 @@ export default function CatalogCrafter() {
 
       <section className='w-full bg-[#EBECF5]'>
         <div className='flex flex-col py-[4%] max-md:px-2 lg:mx-auto lg:w-[1164px] lg:flex-row gap-4'>
-          <div className="lg:max-w-[252px]">
+          <div>
             <p className='font-katide-bold text-[20px]'>Filters</p>
             <div className='mt-6 rounded-lg bg-white shadow-lg'>
               <div className='rounded-tl-lg rounded-tr-lg border-b-2'>
@@ -228,7 +228,7 @@ export default function CatalogCrafter() {
               )}
             </div>
 
-            <div className='mt-6 rounded-lg bg-white shadow-lg max-h-[400px] overflow-auto relative'>
+            <div className='mt-6 rounded-lg bg-white shadow-lg max-h-[400px] lg:max-w-[260px] overflow-x-hidden overflow-y-scroll remove-scrollbar relative'>
               <div className='rounded-tl-lg rounded-tr-lg border-b-2 sticky top-0 bg-white'>
                 <div
                   className='category-dropdown m-1 flex w-full cursor-pointer justify-between p-2 lg:w-[252px]'
@@ -334,7 +334,7 @@ export default function CatalogCrafter() {
                 {loading
                   ? <Loader className='animate-spin' />
                   :
-                  <div className='flex flex-row gap-2 items-center justify-center'>
+                  <div className='flex flex-row gap-1 items-center justify-center transition-all hover:text-white bg-white hover:bg-[#61A9FA] rounded-full px-3 py-1 border-black border'>
                     <p>Load More</p>
                     <IoChevronDown />
                   </div>}

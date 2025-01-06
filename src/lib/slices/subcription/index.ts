@@ -43,13 +43,15 @@ const subcriptionSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchSubs.fulfilled, (state, action) => {
       if (action.payload) {
-        const isActive = moment(new Date()).isBefore(
-          new Date(action.payload.data.end_date)
+        const isActive = moment().isSameOrBefore(
+          moment(action.payload.data.end_date),
+          'day'
         );
         state.subcription = action.payload.data;
         state.activeSubcription = isActive;
       } else {
         state.subcription = undefined;
+        state.activeSubcription = false;
       }
     });
   },

@@ -5,6 +5,8 @@ import {
   useDispatch,
   useSelector,
 } from 'react-redux';
+import { persistReducer, persistStore } from 'redux-persist';
+import storage from 'redux-persist/es/storage';
 
 // import {
 //   FLUSH,
@@ -27,15 +29,15 @@ const rootReducer = combineReducers({
   subs: subcriptionSlice,
 });
 
-// const persistConfig = {
-//   key: 'root',
-//   storage,
-// };
+const persistConfig = {
+  key: 'root',
+  storage,
+};
 
-// const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: persistedReducer,
 });
 
 const makeConfiguredStore = () =>
@@ -44,22 +46,22 @@ const makeConfiguredStore = () =>
     middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
   });
 
-export const makeStore = () => makeConfiguredStore();
-// export const makeStore = () => {
-//   const isServer = typeof window === 'undefined';
-//   if (isServer) {
-//     return makeConfiguredStore();
-//   } else {
-//     const persistedReducer = persistReducer(persistConfig, rootReducer);
-//     const store: any = configureStore({
-//       reducer: persistedReducer,
-//     });
-//     store.__persistor = persistStore(store);
-//     return store;
-//   }
-// };
+// export const makeStore = () => makeConfiguredStore();
+export const makeStore = () => {
+  const isServer = typeof window === 'undefined';
+  if (isServer) {
+    return makeConfiguredStore();
+  } else {
+    const persistedReducer = persistReducer(persistConfig, rootReducer);
+    const store: any = configureStore({
+      reducer: persistedReducer,
+    });
+    store.__persistor = persistStore(store);
+    return store;
+  }
+};
 
-// export const persistor = persistStore(store);
+export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

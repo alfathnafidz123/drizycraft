@@ -1,17 +1,18 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import Link from 'next/link';
-import { useState } from 'react';
 import { FaFacebook } from '@react-icons/all-files/fa/FaFacebook';
 import { FaInstagram } from '@react-icons/all-files/fa/FaInstagram';
 import { FaPinterest } from '@react-icons/all-files/fa/FaPinterest';
 import { FaWhatsapp } from '@react-icons/all-files/fa/FaWhatsapp';
 import { FaXTwitter } from '@react-icons/all-files/fa6/FaXTwitter';
+import Link from 'next/link';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { CrafterI } from '@/interfaces/crafter.interfaces';
 
-import { avatarExample, projectLike, projectShare1, projectStars } from '~/images';
+import { defaultAvatar, projectLike, projectShare1, projectStars } from '~/images';
 interface ModalProps {
   onClick: () => void;
   onLike: (id: string) => void;
@@ -26,22 +27,40 @@ const Project: React.FC<ModalProps> = ({ onClick, item, onLike }) => {
   const onItemClick = () => {
     onClick && onClick();
   };
+
+  const handleInstagram = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: item.user.displayName,
+          text: item.description,
+          url: item.imageUrl,
+        })
+      } catch (error) {
+        toast.error(`Failed to share`)
+      }
+    } else {
+      toast.error('Your Browser not supported for share')
+      // window.open(`https://www.instagram.com`, '_blank')
+    }
+
+  }
   return (
     <div className='flex h-[456px] w-[369px] cursor-pointer flex-col rounded-xl bg-white px-8 py-4 shadow-lg'>
       <div className='flex items-center text-[14px] text-[#1A204C]'>
         <img
           loading='lazy'
-          src={avatarExample.src}
-          className=' mr-3 w-[39px]'
+          src={item.user.avatar ?? defaultAvatar.src}
+          className='w-10 rounded-full mr-3'
         />
-        <div className='mr-1'>By</div>
+        <div className=''>By</div>
         <div className='font-katide-bold'>{item?.user?.displayName}</div>
       </div>
-      <div className='w-306 h-206 relative mt-4'>
+      <div className='relative mt-4'>
         <img
           loading='lazy'
           src={item.imageUrl as unknown as string}
-          className=' h-auto w-full rounded-lg'
+          className='max-h-[205px] w-full object-cover rounded-lg'
           alt='gambar'
         />
         <div onClick={onItemClick} className='font-katide-bold absolute inset-0 flex items-center justify-center rounded-lg bg-black/50 text-white opacity-0 hover:opacity-100 z-10'>
@@ -49,22 +68,22 @@ const Project: React.FC<ModalProps> = ({ onClick, item, onLike }) => {
         </div>
         {isPopoverOpen &&
           <div
-            className="absolute top-0 right-0 z-20"
+            className="absolute top-0 right-0 z-20 h-full"
           >
-            <div className='h-[200px] w-[45px] rounded-lg bg-black/60 p-3 pt-5 text-white flex flex-col justify-between items-center'>
-              <Link href={`https://api.whatsapp.com/send?text=${process.env.NEXT_PUBLIC_URL}/project`} target='_blank'>
-                <FaInstagram className='aspect-square h-[22px] w-[22px]' />
-              </Link>
-              <Link className='mt-4' href={`https://api.whatsapp.com/send?text=${process.env.NEXT_PUBLIC_URL}/project`} target='_blank'>
+            <div className='h-full w-[45px] rounded-lg bg-black/60 p-3 pt-5 text-white flex flex-col justify-between items-center'>
+              <div className='group cursor-pointer' onClick={handleInstagram}>
+                <FaInstagram className='group-hover:text-[#FFBB3C] aspect-square h-[22px] w-[22px]' />
+              </div>
+              <Link className='mt-4 hover:text-[#FFBB3C]' href={`https://api.whatsapp.com/send?text=${process.env.NEXT_PUBLIC_URL}/project`} target='_blank'>
                 <FaWhatsapp className='aspect-square h-[22px] w-[22px]' />
               </Link>
-              <Link className='mt-4' href={`https://twitter.com/intent/tweet?text=${item.description}&url=${process.env.NEXT_PUBLIC_URL}/project?id=${item.id}&hashtags=DrizyCraft`} target='_blank'>
+              <Link className='mt-4 hover:text-[#FFBB3C]' href={`https://twitter.com/intent/tweet?text=${item.description}&url=${process.env.NEXT_PUBLIC_URL}/project?id=${item.id}&hashtags=DrizyCraft`} target='_blank'>
                 <FaXTwitter className='aspect-square h-[22px] w-[22px]' />
               </Link>
-              <Link className='mt-4' href={`https://www.facebook.com/sharer/sharer.php?u=${process.env.NEXT_PUBLIC_URL}/project?id=${item.id}&quote=${item.description}`} target='_blank'>
+              <Link className='mt-4 hover:text-[#FFBB3C]' href={`https://www.facebook.com/sharer/sharer.php?u=${process.env.NEXT_PUBLIC_URL}/project?id=${item.id}&quote=${item.description}`} target='_blank'>
                 <FaFacebook className='aspect-square h-[22px] w-[22px]' />
               </Link>
-              <Link className='mt-4' href={`https://pinterest.com/pin/create/button/?description=${item.description}&url=${process.env.NEXT_PUBLIC_URL}/project?id=${item.id}&media=${item.imageUrl}`} target='_blank'>
+              <Link className='mt-4 hover:text-[#FFBB3C]' href={`https://pinterest.com/pin/create/button/?description=${item.description}&url=${process.env.NEXT_PUBLIC_URL}/project?id=${item.id}&media=${item.imageUrl}`} target='_blank'>
                 <FaPinterest className='aspect-square h-[22px] w-[22px]' />
               </Link>
             </div>
@@ -94,12 +113,9 @@ const Project: React.FC<ModalProps> = ({ onClick, item, onLike }) => {
                 className='mx-auto h-[20px] transition-all duration-300 hover:scale-110'
               />
 
-              {/* <a className='inline-block align-top text-[10px] text-white'>
-                {item.likeCount > 0 && item.likeCount}
-              </a> */}
             </div>
-            <div className=' font-katide-bold text-xs text-indigo-950'>
-              Like
+            <div className='font-katide-bold text-xs text-indigo-950'>
+              {item.likeCount > 0 ? `${item.likeCount} Likes` : 'Like'}
             </div>
           </div>
           <div>
@@ -113,13 +129,11 @@ const Project: React.FC<ModalProps> = ({ onClick, item, onLike }) => {
                 className='mx-auto h-[20px] transition-all duration-300 hover:scale-110'
               />
             </div>
-            <div className=' font-katide-bold text-xs text-indigo-950'>Share</div>
+            <div className='font-katide-bold text-xs text-indigo-950'>Share</div>
           </div>
         </div>
       </div>
-      <div className='font-katide-regular mt-5 line-clamp-3 text-indigo-950'>
-        {item?.description}
-      </div>
+      <div className='font-katide-regular mt-5 line-clamp-2 text-indigo-950' dangerouslySetInnerHTML={{ __html: item?.description.replaceAll("\n", "<br />") }} />
     </div>
   );
 };
