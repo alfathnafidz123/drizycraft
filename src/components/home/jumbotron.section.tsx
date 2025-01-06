@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { FiUpload } from "@react-icons/all-files/fi/FiUpload";
+import Link from "next/link";
 
 import SectionContainer from "@/components/container/sectionContainer";
 import SearchSection from "@/components/home/search.section";
@@ -222,8 +222,8 @@ const JumbotronSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
                 </div>
               </div>
             </div>
-            {homeProduct?.bestSellerData[1] &&
-              <SaleProductCard data={homeProduct.bestSellerData[1]} />
+            {homeProduct?.pinnedData &&
+              <SaleProductCard data={homeProduct.pinnedData} />
             }
           </div>
         </div>

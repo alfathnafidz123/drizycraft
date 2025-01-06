@@ -287,8 +287,8 @@
   -webkit-filter: blur(15px); */
   border-radius: 100px; /*1*/
   border: 2px solid transparent; /*2*/
-  background: linear-gradient(45deg,rgba(203, 203, 203, 0.5) 0%, white 100%) border-box; /*3*/
-  -webkit-mask: /*4*/
+  background: linear-gradient(45deg,rgba(203, 203, 203, 0.9) 0%, white 100%) border-box; /*3*/
+  -webkit-mask:
      linear-gradient(#fff 0 0) padding-box, 
      linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor; /*5'*/
@@ -444,4 +444,14 @@
   background-size: cover;
   background-position: center;
   fetchpriority: high;
+}
+
+.remove-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.remove-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }

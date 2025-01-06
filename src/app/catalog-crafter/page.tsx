@@ -1,15 +1,15 @@
 'use client';
+import { CiYoutube } from '@react-icons/all-files/ci/CiYoutube';
+import { FaBehance } from '@react-icons/all-files/fa/FaBehance';
+import { FaChevronDown } from '@react-icons/all-files/fa/FaChevronDown';
+import { FaFacebookF } from '@react-icons/all-files/fa/FaFacebookF';
+import { FaInstagram } from '@react-icons/all-files/fa/FaInstagram';
+import { FaPinterest } from '@react-icons/all-files/fa/FaPinterest';
+import { FaUsers } from '@react-icons/all-files/fa/FaUsers';
+import { IoChevronDown } from '@react-icons/all-files/io5/IoChevronDown';
 import { Loader } from 'lucide-react';
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
-import { CiYoutube } from '@react-icons/all-files/ci/CiYoutube';
-import { FaBehance } from '@react-icons/all-files/fa/FaBehance';
-import { FaFacebookF } from '@react-icons/all-files/fa/FaFacebookF';
-import { FaPinterest } from '@react-icons/all-files/fa/FaPinterest';
-import { FaInstagram } from '@react-icons/all-files/fa/FaInstagram';
-import { FaChevronDown } from '@react-icons/all-files/fa/FaChevronDown';
-import { FaXTwitter } from '@react-icons/all-files/fa6/FaXTwitter';
-import { IoChevronDown } from '@react-icons/all-files/io5/IoChevronDown';
 import { toast } from 'react-toastify';
 
 import ModalProduct from '@/components/modals/product';
@@ -28,7 +28,7 @@ export default function CatalogCrafter() {
   const [selectedShortByOption, setSelectedShortByOption] = useState(SortType.Latest);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [selectedCategoryOption, setSelectedCategoryOption] = useState('');
-  const [isSeasonsDropdownOpen, setIsSeasonsDropdownOpen] = useState(false);
+  const [isSeasonsDropdownOpen, setIsSeasonsDropdownOpen] = useState(true);
   const [selectedSeasonsOption, setSelectedSeasonsOption] = useState('');
   const [productData, setProductData] = useState<productI[] | []>([]);
   const [seasonsOptions, setSeasonalData] = useState<CategoryI[] | []>([]);
@@ -166,8 +166,8 @@ export default function CatalogCrafter() {
             <Link href="https://www.facebook.com/DrizyStudio" target="_blank">
               <FaFacebookF className='h-[22px] w-[22px]' />
             </Link>
-            <Link href="" target="_blank">
-              <FaXTwitter className='h-[22px] w-[22px]' />
+            <Link href="https://www.facebook.com/groups/drizyfreebies" target='__blank'>
+              <FaUsers className='h-[22px] w-[22px]' />
             </Link>
             <Link href="https://id.pinterest.com/Drizy_Studio/" target="_blank">
               <FaPinterest className='h-[22px] w-[22px]' />
@@ -227,7 +227,7 @@ export default function CatalogCrafter() {
               )}
             </div>
 
-            <div className='mt-6 rounded-lg bg-white shadow-lg max-h-[400px] overflow-auto relative'>
+            <div className='mt-6 rounded-lg bg-white shadow-lg max-h-[400px] lg:max-w-[260px] overflow-x-hidden overflow-y-scroll remove-scrollbar relative'>
               <div className='rounded-tl-lg rounded-tr-lg border-b-2 sticky top-0 bg-white'>
                 <div
                   className='category-dropdown m-1 flex w-full cursor-pointer justify-between p-2 lg:w-[252px]'
@@ -333,7 +333,7 @@ export default function CatalogCrafter() {
                 {loading
                   ? <Loader className='animate-spin' />
                   :
-                  <div className='flex flex-row gap-2 items-center justify-center'>
+                  <div className='flex flex-row gap-1 items-center justify-center transition-all hover:text-white bg-white hover:bg-[#61A9FA] rounded-full px-3 py-1 border-black border'>
                     <p>Load More</p>
                     <IoChevronDown />
                   </div>}

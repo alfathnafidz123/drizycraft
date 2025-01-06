@@ -13,6 +13,13 @@ import bannerArticle from './bannerArticle.svg';
 import bestValue from './best_val.png';
 import blogArticle1 from './blogArticle1.svg';
 import blogStories1 from './blogStories1.svg';
+import breezyBanner from './breezy/banner.webp';
+import breezyCloseBanner from './breezy/banner-close.svg';
+import breezyLogoBanner from './breezy/banner-logo.webp';
+import breezyCloseMember from './breezy/membership-close.svg';
+import breezyCloseNonMember from './breezy/non-membership-close.svg';
+import breezyCoverPopup from './breezy/popup-cover.png';
+import breezyLogoPopup from './breezy/popup-logo.webp';
 import cancel from './cancel.svg';
 import membership4 from './cancelanytime.svg';
 import canva from './canva.svg';
@@ -42,6 +49,7 @@ import categories9 from './categories-9.webp';
 import categories10 from './categories-10.webp';
 import check from './check.svg';
 import checkblue from './checkblue.svg';
+import christmasBanner from './christmas.webp';
 import coffeeFloating from './coffeeFloating.png';
 import comingSoonBg from './coming-soon/background.png';
 import behance from './coming-soon/behance.svg';
@@ -86,7 +94,7 @@ import helpcenter1 from './helpcenter1.svg';
 import helpcenter2 from './helpcenter2.svg';
 import helpFloating from './helpFloating.png';
 import historyInactive from './history.png';
-import history from './historyactive.png';
+import history from './historyactive.svg';
 import hoverPinterest from './hoverpint.svg';
 import hoverWA from './hoverwa.svg';
 import jiffy from './jiffy.svg';
@@ -121,6 +129,7 @@ import sale from './sale.png';
 import saleSvg from './sale.svg';
 import saleProduct from './sale-product.png';
 import samsung from './samsung.svg';
+import samsunggray from './samsung-gray.svg';
 import samsungHome from './samsung-home.svg';
 import search from './search.png';
 import searchBlue from './search-blue.png';
@@ -167,11 +176,19 @@ export {
   blogArticle1,
   blogStories1,
   bonnie,
+  breezyBanner,
+  breezyCloseBanner,
+  breezyCloseMember,
+  breezyCloseNonMember,
+  breezyCoverPopup,
+  breezyLogoBanner,
+  breezyLogoPopup,
   cancel,
   canva,
   cart,
   cartIllustration,
   cartProduct,
+  samsunggray,
   cat1,
   cat2,
   cat3,
@@ -195,6 +212,7 @@ export {
   categories10,
   check,
   checkblue,
+  christmasBanner,
   coffeeFloating,
   coffeeHolder,
   comingSoonBg,

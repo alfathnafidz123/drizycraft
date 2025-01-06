@@ -1,3 +1,5 @@
+'use client'
+
 import React, { ForwardedRef, forwardRef } from "react";
 import { FieldError } from "react-hook-form/dist/types";
 

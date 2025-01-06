@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '@/lib/store';
 import { success } from '~/images';
 import { fetchCoin } from '@/lib/slices/user';
 import { fetchSubs } from '@/lib/slices/subcription';
+import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
 
 export default function SubSuccess() {
   const params = useSearchParams();
@@ -19,6 +20,7 @@ export default function SubSuccess() {
   const sessionId = params.get("sessionId");
   const { token } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const { trackEvent } = PixelEventsHooks();
 
   const handleSubSuccess = async () => {
     try {
@@ -34,6 +36,9 @@ export default function SubSuccess() {
           },
         }
       );
+      await trackEvent(EventsEnum.Subscribe, {
+        sessionId,
+      });
       dispatch(fetchSubs(token!));
       dispatch(fetchCoin(token!));
       router.replace("/");

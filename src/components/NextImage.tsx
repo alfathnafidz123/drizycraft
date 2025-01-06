@@ -45,7 +45,7 @@ export default function NextImage({
       <Image
         className={cn(
           classNames?.image,
-          status === 'loading' && cn('animate-pulse bg-gray-50', classNames?.blur)
+          status === 'loading' && cn('animate-pulse bg-blue-200', classNames?.blur)
         )}
         src={src}
         width={width}

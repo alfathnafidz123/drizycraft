@@ -4,13 +4,13 @@
 /* eslint-disable @next/next/no-img-element */
 // components/Modal.tsx
 'use client';
+import { FaAngleRight } from '@react-icons/all-files/fa6/FaAngleRight';
+import { MdClose } from '@react-icons/all-files/md/MdClose';
 import axios, { AxiosError } from 'axios';
 import { Loader } from 'lucide-react';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
 import React, { memo, useEffect, useMemo, useState } from 'react';
-import { FaAngleRight } from '@react-icons/all-files/fa6/FaAngleRight';
-import { MdClose } from '@react-icons/all-files/md/MdClose';
 import { toast } from 'react-toastify';
 
 import { fetchCart } from '@/lib/slices/cart';
@@ -18,9 +18,12 @@ import { fetchSubs } from '@/lib/slices/subcription';
 import { fetchProfile, setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
+import NextImage from '@/components/NextImage';
+
 import { OrderI, productI } from '@/interfaces/product.interface';
 
 import { hoverPinterest, hoverWA, projectStars } from '~/images';
+import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
 
 interface ModalProps {
   isOpen: boolean;
@@ -49,6 +52,7 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
   const [type, setType] = useState(0);
   const [isDiscount, setIsDiscount] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { trackEvent } = PixelEventsHooks();
 
   const closeModal = () => {
     onClose && onClose();
@@ -101,6 +105,7 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
       const found = orders.find(item => item.productId === product?.id);
       if (found) {
         await handleDownloadClick(found.id);
+        await trackEvent(EventsEnum.Download, { productId: product?.id, productName: product?.name });
       }
     } catch (error) {
       const err = error as AxiosError;
@@ -162,6 +167,7 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
       );
       dispatch(fetchProfile(token!));
       dispatch(fetchSubs(token!));
+      await trackEvent(EventsEnum.Purchase, { productId: product?.id, productName: product?.name, productPrice: product?.coinPrice[type], paymentType: 'coin' });
       await getTransactionData();
       toast.success(`Successfully buy ${product?.name}!`);
     } catch (error: any) {
@@ -190,6 +196,7 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
       await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/cart`, payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      await trackEvent(EventsEnum.AddToCart, { productId: product?.id, productName: product?.name });
       closeModal();
       dispatch(fetchCart(token!));
     } catch (error: any) {
@@ -231,13 +238,21 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
               <MdClose className='h-8 w-8' />
             </div>
             <div className='flex flex-col justify-center'>
-              <img
-                alt={product?.name}
-                loading='lazy'
-                src={product?.imageUrl[0]}
-                className='h-[310px] w-[450px] object-cover'
-              />
-              <div className='mt-3 flex flex-row max-md:justify-end lg:mt-8 lg:pb-6'>
+              {product?.imageUrl[0] &&
+                <NextImage
+                  alt={product?.name ?? ''}
+                  loading='lazy'
+                  src={product?.imageUrl[0]}
+                  width={310}
+                  height={450}
+                  className='h-[310px] w-[450px] object-cover'
+                  classNames={{
+                    image: 'h-[310px] w-[450px] object-contain'
+                  }}
+                  useSkeleton
+                />
+              }
+              <div className='mt-3 flex flex-row max-md:justify-end lg:mt-8 lg:pb-6 max-md:px-2'>
                 <img
                   alt={`share-pinterest-${product?.name}`}
                   loading='lazy'
@@ -251,14 +266,14 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
                 />
               </div>
             </div>
-            <div className='flex w-full flex-col lg:w-[40%]'>
+            <div className='flex w-full flex-col lg:w-[40%] max-md:px-2'>
               <div className='flex flex-col'>
-                <p className='font-katide-bold text-[24px] leading-[36px] text-[#1A204C]'>
+                <p className='font-katide-bold text-[24px] leading-[36px] text-[#1A204C] text-start'>
                   {product?.name}
                 </p>
               </div>
               <div className='mt-4 flex max-md:justify-between lg:mt-[12%] lg:gap-[24%]'>
-                <div className='flex flex-col'>
+                <div className='flex flex-col text-start'>
                   <p className=' font-katide-semibold text-[14px] text-[#A1A1A1]'>
                     Price
                   </p>
@@ -278,7 +293,7 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
                     </p>
                   </div>
                 </div>
-                <div className='flex flex-col'>
+                <div className='flex flex-col text-start'>
                   <p className='font-katide-semibold text-[14px] text-[#A1A1A1]'>
                     Reviews
                   </p>

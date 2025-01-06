@@ -2,10 +2,10 @@
 /* eslint-disable @next/next/no-img-element */
 // components/Modal.tsx
 
-import Link from 'next/link';
-import React from 'react';
 import { FaArrowUpRightFromSquare } from '@react-icons/all-files/fa6/FaArrowUpRightFromSquare';
 import { IoCloseCircleOutline } from '@react-icons/all-files/io5/IoCloseCircleOutline';
+import Link from 'next/link';
+import React from 'react';
 
 import { CrafterI } from '@/interfaces/crafter.interfaces';
 
@@ -65,7 +65,7 @@ const ModalProjectDetail: React.FC<ModalProps> = ({
                     <img
                       src={data?.imageUrl}
                       alt='slider'
-                      className='w-full px-2'
+                      className='w-full px-2 max-h-full object-cover object-center'
                     />
                   </div>
                 </div>
@@ -120,7 +120,7 @@ const ModalProjectDetail: React.FC<ModalProps> = ({
               </div>
               <div className='flex flex-col gap-2 lg:gap-4'>
                 <div className='flex'>
-                  {Array.from({ length: data!.price }, (_, index) => (
+                  {Array.from({ length: 5 }, (_, index) => (
                     <img
                       loading='lazy'
                       key={index}
@@ -129,9 +129,7 @@ const ModalProjectDetail: React.FC<ModalProps> = ({
                     />
                   ))}
                 </div>
-                <p className='font-katide-regular text-[14px]'>
-                  {data?.description}
-                </p>
+                <p className='font-katide-regular text-[14px]' dangerouslySetInnerHTML={{ __html: data?.description.replaceAll("\n", "<br />") ?? '' }} />
                 <div className='font-katide-semibold mt-5 text-[14px] lg:mt-10'>
                   {data?.product.map(item =>
                     <Link key={item.id} href={`/product/${item.meta[0].title}`} className='flex w-full items-center gap-5 border-t max-md:justify-between'>
@@ -140,7 +138,7 @@ const ModalProjectDetail: React.FC<ModalProps> = ({
                     </Link>
                   )}
                   {data?.breezy.map(item =>
-                    <Link key={item.id} href={`https://breezy.drizycraft.com/${item.id}`} target='__blank' className='flex w-full items-center gap-5 border-t max-md:justify-between'>
+                    <Link key={item.id} href={`https://breezy.drizycraft.com?search=${item.title}`} target='__blank' className='flex w-full items-center gap-5 border-t max-md:justify-between'>
                       <p className='mt-3 hover:underline'>Download {item.name}</p>
                       <FaArrowUpRightFromSquare className='mt-2 text-[#61A9FA]' />
                     </Link>

@@ -1,8 +1,8 @@
 'use client';
-import { Loader } from 'lucide-react';
-import { useCallback, useEffect, useState } from 'react';
 import { FaChevronDown } from '@react-icons/all-files/fa/FaChevronDown';
 import { IoChevronDown } from '@react-icons/all-files/io5/IoChevronDown';
+import { Loader } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import ModalProduct from '@/components/modals/product';
@@ -213,7 +213,7 @@ export default function CatalogCrafter() {
                 {loading
                   ? <Loader className='animate-spin' />
                   :
-                  <div className='flex flex-row gap-2 items-center justify-center'>
+                  <div className='flex flex-row gap-1 items-center justify-center transition-all hover:text-white bg-white hover:bg-[#61A9FA] rounded-full px-3 py-1 border-black border'>
                     <p>Load More</p>
                     <IoChevronDown />
                   </div>}

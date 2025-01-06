@@ -3,6 +3,7 @@
 'use client';
 
 import { FaInfinity } from '@react-icons/all-files/fa6/FaInfinity';
+import { IoChevronDown } from '@react-icons/all-files/io5/IoChevronDown';
 import axios, { AxiosError } from 'axios';
 import { Loader } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -56,26 +57,47 @@ export default function Register() {
       if (!res.ok) {
         throw new Error(`Failed to download file: ${res.statusText}`);
       }
-      const blob = await res.blob();
+      const contentType = res.headers.get('content-type');
+      if (contentType?.includes('application/json')) {
+        const response = await res.json();
+        const url = response.productUrl;
+        const link = document.createElement('a');
+        link.href = url;
 
-      const url = window.URL.createObjectURL(blob);
-
-      const link = document.createElement('a');
-      link.href = url;
-
-      let fileName = `${item.product.name}.zip`;
-      const contentDisposition = res.headers.get('content-disposition');
-      if (contentDisposition) {
-        const matches = contentDisposition.match(/filename="(.+)"/);
-        if (matches && matches.length === 2) {
-          fileName = matches[1];
+        let fileName = `${item.product.name}.zip`;
+        const contentDisposition = res.headers.get('content-disposition');
+        if (contentDisposition) {
+          const matches = contentDisposition.match(/filename="(.+)"/);
+          if (matches && matches.length === 2) {
+            fileName = matches[1];
+          }
         }
+        link.setAttribute('download', fileName);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setTimeout(() => window.URL.revokeObjectURL(url), 100);
+      } else {
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = url;
+
+        let fileName = `${item.product.name}.zip`;
+        const contentDisposition = res.headers.get('content-disposition');
+        if (contentDisposition) {
+          const matches = contentDisposition.match(/filename="(.+)"/);
+          if (matches && matches.length === 2) {
+            fileName = matches[1];
+          }
+        }
+        link.setAttribute('download', fileName);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setTimeout(() => window.URL.revokeObjectURL(url), 100);
       }
-      link.setAttribute('download', fileName);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      setTimeout(() => window.URL.revokeObjectURL(url), 100);
     } catch (error) {
       const err = error as AxiosError;
       toast.error(err.message);
@@ -129,14 +151,17 @@ export default function Register() {
           </tbody>
         </table>
         {meta?.hasNextPage && (
-          <button
-            onClick={() =>
-              setParams((prev) => ({ ...prev, page: prev.page + 1 }))
-            }
-            className='mt-8 flex w-full cursor-pointer justify-center text-blue-600 underline'
-          >
-            Load more...
-          </button>
+          <div className='mt-8 flex w-full justify-center'>
+            <div onClick={() => { setParams(prev => ({ ...prev, page: prev.page + 1 })) }} className='flex items-center justify-center cursor-pointer text-center mt-10'>
+              {loading.loading
+                ? <Loader className='animate-spin' />
+                :
+                <div className='flex flex-row gap-1 items-center justify-center transition-all hover:text-white bg-white hover:bg-[#61A9FA] rounded-full px-3 py-1 border-black border'>
+                  <p>Load More</p>
+                  <IoChevronDown />
+                </div>}
+            </div>
+          </div>
         )}
         <div className='mt-8 flex w-full justify-center'></div>
       </div>

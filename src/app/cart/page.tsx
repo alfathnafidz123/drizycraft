@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import { itemPayment } from '@/app/api/billing/itemPayment';
 import { CheckCouponResI } from '@/interfaces/coupon.interface';
+import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
 const CartLottie = dynamic(
   () => import('../../components/lottie/cart'),
   { ssr: false }
@@ -27,6 +28,7 @@ export default function Register() {
   const [couponCode, setCouponCode] = React.useState('');
   const [coupon, setCoupon] = React.useState<CheckCouponResI>();
   const [total, setTotal] = React.useState(cart.reduce((prev, current) => prev + current.product.price[current.licenseType], 0));
+  const { trackEvent } = PixelEventsHooks();
 
   React.useEffect(() => {
     if (token) {
@@ -82,6 +84,10 @@ export default function Register() {
         licenseType: licenses,
         affiliateId: affiliates,
         token: token,
+        coupon: coupon?.status === "active" ? couponCode : undefined,
+      });
+      await trackEvent(EventsEnum.InitCheckout, {
+        products: cart.map(item => ({ productName: item.product.name, license: item.licenseType })),
         coupon: coupon?.status === "active" ? couponCode : undefined,
       });
       window.location.replace(data.data);

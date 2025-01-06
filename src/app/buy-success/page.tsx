@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { useAppSelector } from '@/lib/store';
 
 import { success } from '~/images';
+import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
 
 export default function SubSuccess() {
   const params = useSearchParams();
@@ -17,6 +18,7 @@ export default function SubSuccess() {
   const sessionId = params.get("sessionId");
   const checkoutId = params.get("checkoutId");
   const { token } = useAppSelector((state) => state.user);
+  const { trackEvent } = PixelEventsHooks();
 
   const handleBuySuccess = async () => {
     try {
@@ -34,6 +36,10 @@ export default function SubSuccess() {
           },
         }
       );
+      await trackEvent(EventsEnum.Purchase, {
+        checkoutId: checkoutId,
+        sessionId: sessionId,
+      });
       router.replace('/profile/download');
     } catch (error: any) {
       toast('Payment failed, please reach out to the administrator');

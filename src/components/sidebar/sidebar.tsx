@@ -63,8 +63,8 @@ export default function ProfileMenu() {
           <div
             className={
               path == item.link
-                ? 'flex cursor-pointer items-center py-2 px-4 gap-4 text-[#4065D1] bg-[#CBEAF2] border-r-2 border-[#4065D1]'
-                : 'flex cursor-pointer items-center py-2 px-4 gap-4 text-[#a2a5b5]'
+                ? 'flex cursor-pointer items-center py-2 pl-4 gap-4 text-[#4065D1] bg-[#CBEAF2] border-r-2 border-[#4065D1]'
+                : 'flex cursor-pointer items-center py-2 pl-4 gap-4 text-[#a2a5b5]'
             }
           >
             <Image

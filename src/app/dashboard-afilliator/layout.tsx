@@ -1,14 +1,12 @@
-
-import { lazy, Suspense } from 'react';
+import { Suspense } from 'react';
 
 import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
 
+import AffiliatorNavigation from '@/components/affiliator/navigation';
+
 import Loading from '@/app/loading';
-
-const AffiliatorNavigation = lazy(() => import('@/components/affiliator/navigation'));
-
 
 export default function RootLayout({
   children,
@@ -18,12 +16,12 @@ export default function RootLayout({
 
   return (
     <main>
-      <section className='flex flex-col xl:flex-row gap-4 p-2 xl:py-20 mx-auto w-full max-w-[1164px]'>
-        <Suspense fallback={<Loading />}>
+      <Suspense fallback={<Loading />}>
+        <section className='flex flex-col gap-4 p-2 xl:py-20 mx-auto w-full max-w-[1164px]'>
           <AffiliatorNavigation />
           {children}
-        </Suspense>
-      </section>
+        </section>
+      </Suspense>
     </main>
   );
 }

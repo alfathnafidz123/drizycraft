@@ -2,10 +2,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
+import { FaSpinner } from '@react-icons/all-files/fa/FaSpinner';
+import { IoChevronDown } from '@react-icons/all-files/io5/IoChevronDown';
 import axios from 'axios';
+import { Loader } from 'lucide-react';
 import Image from 'next/image';
 import * as React from 'react';
-import { FaSpinner } from '@react-icons/all-files/fa/FaSpinner';
 import { toast } from 'react-toastify';
 
 import { useAppSelector } from '@/lib/store';
@@ -115,16 +117,19 @@ export default function HistoryProject() {
                 </td>
               </tr>
             }
-            <tr>
-              <td rowSpan={5} colSpan={5} className='flex w-full items-center justify-center'>
-                <button onClick={() => {
-                  setParams(prev => ({ ...prev, page: prev.page + 1 }))
-                }}>Load More...</button>
-              </td>
-            </tr>
           </tbody>
         </table>
-        <div className='mt-8 flex w-full justify-center'></div>
+        <div className='mt-8 flex w-full justify-center'>
+          <div onClick={() => { setParams(prev => ({ ...prev, page: prev.page + 1 })) }} className='flex items-center justify-center cursor-pointer text-center mt-10'>
+            {loading
+              ? <Loader className='animate-spin' />
+              :
+              <div className='flex flex-row gap-1 items-center justify-center transition-all hover:text-white bg-white hover:bg-[#61A9FA] rounded-full px-3 py-1 border-black border'>
+                <p>Load More</p>
+                <IoChevronDown />
+              </div>}
+          </div>
+        </div>
       </div>
     </>
   );

@@ -3,6 +3,7 @@
 'use client';
 
 import axios, { AxiosError } from 'axios';
+import { Loader } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -22,6 +23,7 @@ export default function Register() {
   const { token } = useAppSelector((state) => state.user);
   const [subsData, setSubsData] = useState<SubscriptionI>();
   const [showRecharge, setShowRecharge] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const getSubscriptionData = async () => {
     try {
@@ -39,6 +41,18 @@ export default function Register() {
       toast.error((err.response?.data as any).message ?? "Unknown error");
     }
   };
+
+  const cancelSubscription = async () => {
+    try {
+      setLoading(true);
+      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/cancel-active-sub`);
+    } catch (error) {
+      const err = error as AxiosError;
+      toast.error((err.response?.data as any).message ?? "Unknown error");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
     getSubscriptionData();
@@ -131,9 +145,13 @@ export default function Register() {
           </table>
         </div>
         <div className='mt-8 flex lg:flex-row flex-col-reverse w-full justify-between items-center gap-3'>
-          <button className='rounded-full bg-[#008ECC] px-14 py-3 font-semibold text-[#e4f6fb] whitespace-nowrap'>
-            Cancel subscription
-          </button>
+          {subsData &&
+            <button className='rounded-full bg-[#008ECC] px-14 py-3 font-semibold text-[#e4f6fb] whitespace-nowrap'>
+              {loading ? <Loader /> :
+                "Cancel subscription"
+              }
+            </button>
+          }
           {subsData && subsData?.coin !== -1 &&
             <div className='w-full flex justify-center lg:justify-end'>
               <button className="button-coin" onClick={() => { setShowRecharge(true) }}>
@@ -158,7 +176,7 @@ export default function Register() {
                     ></path>
                   </svg>
                 </svg>
-                <div className="txt-upload">Recharge Coin</div>
+                <div className="txt-upload bg-[#FFBB3C] hover:bg-[#ED9B37] rounded-2xl">Recharge Coin</div>
               </button>
             </div>
           }

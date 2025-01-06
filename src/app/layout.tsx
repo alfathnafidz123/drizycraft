@@ -1,7 +1,9 @@
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Metadata } from 'next';
+// const Campaign = dynamic(() => import('@/components/campaign-wrapper'), { ssr: false, loading: () => <LoadingComponent /> });
 // import Navbar from '@/layout/navbar';
+// import dynamic from 'next/dynamic';
 import { lazy, Suspense } from 'react';
 import { ToastContainer } from 'react-toastify';
 
@@ -10,13 +12,18 @@ import '@/styles/globals.css';
 import '@/styles/colors.css';
 import 'react-toastify/dist/ReactToastify.css';
 
+// import LoadingComponent from '@/components/Loading';
+import FacebookPixelEvents from '@/components/pixel-events';
+
 import Loading from '@/app/loading';
-const StoreProvider = lazy(() => import('@/app/StoreProvider'));
+import StoreProvider from '@/app/StoreProvider';
+// const StoreProvider = lazy(() => import('@/app/StoreProvider'));
 import { siteConfig } from '@/constant/config';
 import AsyncCSSSlick from '@/layout/asyncCssSlick';
 import AsyncCSSThemeSlick from '@/layout/asyncCssThemeSlick';
+
 const Footer = lazy(() => import('@/layout/footer'));
-const Navbar = lazy(() => import('../layout/navbar'));
+const Navbar = lazy(() => import('@/layout/navbar'));
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -193,20 +200,21 @@ export default function RootLayout({
 
       <body>
         <SpeedInsights />
-        <Suspense fallback={<Loading />}>
-          <StoreProvider>
-            {/* <ComingSoonModal /> */}
-            <Suspense fallback={null}>
-              <Navbar />
-            </Suspense>
-            <Suspense fallback={<Loading />}>
-              {children}
-            </Suspense>
-            <ToastContainer />
-            <Suspense fallback={null}>
-              <Footer />
-            </Suspense>
-          </StoreProvider>
+        <StoreProvider>
+          {/* <Campaign /> */}
+          <Suspense fallback={null}>
+            <Navbar />
+          </Suspense>
+          <Suspense fallback={<Loading />}>
+            {children}
+          </Suspense>
+          <ToastContainer />
+          <Suspense fallback={null}>
+            <Footer />
+          </Suspense>
+        </StoreProvider>
+        <Suspense fallback={null}>
+          <FacebookPixelEvents />
         </Suspense>
       </body>
       <GoogleAnalytics gaId='G-S80R5B2E8S' />

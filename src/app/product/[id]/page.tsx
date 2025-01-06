@@ -3,26 +3,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
+import { FaPencilAlt } from '@react-icons/all-files/fa/FaPencilAlt';
+import { FaStar } from '@react-icons/all-files/fa/FaStar';
+import { IoChevronBack } from '@react-icons/all-files/io5/IoChevronBack';
+import { IoChevronForward } from '@react-icons/all-files/io5/IoChevronForward';
 import axios, { AxiosError } from 'axios';
 import { Copy, Loader } from 'lucide-react';
 import moment from 'moment';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { FaStar } from '@react-icons/all-files/fa/FaStar';
-import { FaPencilAlt } from '@react-icons/all-files/fa/FaPencilAlt';
-import { IoChevronBack } from '@react-icons/all-files/io5/IoChevronBack';
-import { IoChevronForward } from '@react-icons/all-files/io5/IoChevronForward';
 import { toast } from 'react-toastify';
 
 import { fetchCoin, fetchProfile, setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import AffiliateBanner from '@/components/AffiliateBanner';
+import LoadingComponent from '@/components/Loading';
 import ModalAddReview from '@/components/modals/addReview';
 import ModalProduct from '@/components/modals/product';
+import NextImage from '@/components/NextImage';
+import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
 import ProductCard from '@/components/ProductCard';
 import ReviewBox from '@/components/ReviewBox';
 
@@ -37,6 +39,16 @@ import {
   productI,
   ReviewI,
 } from '@/interfaces/product.interface';
+
+export interface StarSummary {
+  average: number
+  one: number
+  two: number
+  three: number
+  four: number
+  five: number
+}
+
 
 export default function Register() {
   const router = useRouter();
@@ -65,6 +77,8 @@ export default function Register() {
     show: boolean;
     product?: productI;
   }>({ show: false });
+  const [star, setStar] = useState<StarSummary>();
+  const { trackEvent } = PixelEventsHooks();
 
   const getProduct = async () => {
     try {
@@ -159,6 +173,7 @@ export default function Register() {
       );
       dispatch(fetchProfile(token!));
       dispatch(fetchCoin(token!));
+      await trackEvent(EventsEnum.Purchase, { productId: productData?.productId, productName: productData?.realTitle, productPrice: productData?.product.coinPrice[type], paymentType: 'coin' });
       await getTransactionData();
       toast.success(`Successfully buy ${productData?.product?.name}!`);
     } catch (error: any) {
@@ -203,6 +218,7 @@ export default function Register() {
       const found = orders.find(item => item.productId === productData?.productId);
       if (found) {
         await downloadFile(found.id);
+        await trackEvent(EventsEnum.Download, { productId: productData?.productId, productName: productData?.realTitle });
       }
     } catch (error) {
       const err = error as AxiosError;
@@ -264,6 +280,7 @@ export default function Register() {
       await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/cart`, payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      await trackEvent(EventsEnum.AddToCart, { productId: productData?.productId, productName: productData?.realTitle });
       router.push('/cart');
     } catch (error: any) {
       toast(
@@ -271,6 +288,26 @@ export default function Register() {
       );
     }
   };
+
+  const getSummaryReview = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/product/review-summary/${productData?.productId}`,
+        {
+          headers: { Authorization: `bearer ${token}` },
+        }
+      );
+      setStar(res.data);
+    } catch (error) {
+      const err = error as AxiosError;
+      const errorData: any = err.response?.data;
+      toast.error(
+        (errorData.message as string) ?? 'Cannot generate affiliate link'
+      );
+    } finally {
+      setLoadingAffiliate(false);
+    }
+  }
 
   const handleGetAffiliateLink = async () => {
     try {
@@ -318,6 +355,7 @@ export default function Register() {
         )
       );
     }
+    if (productData?.id) getSummaryReview();
   }, [productData]);
 
   const generatePrice = (): string => {
@@ -354,31 +392,39 @@ export default function Register() {
                 <div className='max-w-full max-md:overflow-scroll lg:order-first order-last'>
                   <div className='flex flex-row gap-4 w-full lg:flex-col'>
                     {productData?.product.imageUrl?.map((url, index) => (
-                      <Image
+                      <NextImage
                         key={index}
                         src={url}
                         alt='Product'
                         width={50}
                         height={50}
-                        className={`h-[50px] w-[50px] rounded-md object-cover ${index === selectedImage ? 'opacity-100' : 'opacity-50'
+                        className={`h-[50px] w-[50px] rounded-md object-contain ${index === selectedImage ? 'opacity-100' : 'opacity-50'
                           }`}
+                        classNames={{
+                          image: `h-[50px] w-[50px] rounded-md object-contain ${index === selectedImage ? 'opacity-100' : 'opacity-50'}`
+                        }}
                         onClick={() => {
                           setSelectedImage(index);
                         }}
-                        priority={true}
-                        loading='eager'
+                        quality={60}
+                        useSkeleton
                       />
                     ))}
                   </div>
                 </div>
                 {productData && (
                   <div className='w-full relative order-first lg:col-span-4'>
-                    <Image
+                    <NextImage
                       src={productData?.product.imageUrl[selectedImage]}
                       alt='Product'
                       width={724}
                       height={300}
+                      quality={70}
                       className='order-first w-full rounded-xl object-cover lg:order-last'
+                      classNames={{
+                        image: 'w-full rounded-xl object-cover'
+                      }}
+                      useSkeleton
                       priority={true}
                       loading='eager'
                     />
@@ -646,92 +692,119 @@ export default function Register() {
                 ))}
               </div>
             </div>
-            <div className='mt-16 w-full rounded-3xl bg-white p-8 shadow-xl lg:basis-1/3'>
-              <p className='text-lg font-semibold text-[#1A214C]'>
-                Customer Review
-              </p>
-              <div className='mt-2 flex gap-4'>
-                <p className='text-2xl font-semibold text-[#1A214C]'>5.0</p>
-                <div className='flex items-center text-[#ED9B37]'>
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-                </div>
-              </div>
-              <div className='mt-2 flex gap-4'>
-                <p className='text-lg font-semibold text-[#1A214C]'>5.0</p>
-                <div className='flex w-full items-center gap-4 text-[#ED9B37]'>
-                  <FaStar />
-                  <div className='h-4 w-3/4 rounded-full bg-[#ED9B37]'></div>
-                  <p className='text-lg font-semibold text-[#AAAAAA]'>134</p>
-                </div>
-              </div>
-              <div className='mt-2 flex gap-4'>
-                <p className='text-lg font-semibold text-[#1A214C]'>4.0</p>
-                <div className='flex w-full items-center gap-4 text-[#ED9B37]'>
-                  <FaStar />
-                  <div className='h-4 w-3/4 rounded-full bg-[#AAAAAA]'></div>
-                  <p className='text-lg font-semibold text-[#AAAAAA]'>0</p>
-                </div>
-              </div>
-              <div className='mt-2 flex gap-4'>
-                <p className='text-lg font-semibold text-[#1A214C]'>3.0</p>
-                <div className='flex w-full items-center gap-4 text-[#ED9B37]'>
-                  <FaStar />
-                  <div className='h-4 w-3/4 rounded-full bg-[#AAAAAA]'></div>
-                  <p className='text-lg font-semibold text-[#AAAAAA]'>0</p>
-                </div>
-              </div>
-              <div className='mt-2 flex gap-4'>
-                <p className='text-lg font-semibold text-[#1A214C]'>2.0</p>
-                <div className='flex w-full items-center gap-4 text-[#ED9B37]'>
-                  <FaStar />
-                  <div className='h-4 w-3/4 rounded-full bg-[#AAAAAA]'></div>
-                  <p className='text-lg font-semibold text-[#AAAAAA]'>0</p>
-                </div>
-              </div>
-              <div className='mt-2 flex gap-4'>
-                <p className='text-lg font-semibold text-[#1A214C]'>1.0</p>
-                <div className='flex w-full items-center gap-4 text-[#ED9B37]'>
-                  <FaStar />
-                  <div className='h-4 w-3/4 rounded-full bg-[#AAAAAA]'></div>
-                  <p className='text-lg font-semibold text-[#AAAAAA]'>0</p>
-                </div>
-              </div>
-              <div className='my-12 w-full border-t-2 border-[#1A214C]/15' />
-              <div className='relative w-full'>
-                <button
-                  onClick={() => {
-                    setIsShowModal(true);
-                  }}
-                  className='mb-12 flex w-[176px] items-center rounded-full border border-[#CCCCCC] bg-[#EBECF5] p-1 pr-4'
-                >
-                  <div className='shrink rounded-full bg-[#FFBB3C] p-2'>
-                    <FaPencilAlt />
+            {star &&
+              <div className='mt-16 w-full rounded-3xl bg-white p-8 shadow-xl lg:basis-1/3'>
+                <p className='text-lg font-semibold text-[#1A214C]'>
+                  Customer Review
+                </p>
+                <div className='mt-2 flex gap-4'>
+                  <p className='text-2xl font-semibold text-[#1A214C]'>{star?.average ?? 0}</p>
+                  <div className='flex items-center text-[#ED9B37]'>
+                    <FaStar />
+                    <FaStar />
+                    <FaStar />
+                    <FaStar />
+                    <FaStar />
                   </div>
-                  <p className='grow text-center text-[14px] font-black'>
-                    Write a review
-                  </p>
-                </button>
-                <div className='h-[300px] overflow-y-scroll'>
-                  {reviewData?.map((item, index) => {
-                    return <ReviewBox key={index} data={item} />;
-                  })}
                 </div>
-                <div className='absolute bottom-0 h-[100px] w-full bg-gradient-to-t from-white'></div>
-                <div
-                  onClick={() => {
-                    setLimit(limit + 5);
-                    getReview();
-                  }}
-                  className='absolute bottom-0 left-0 cursor-pointer rounded-full border-2 border-[#1A214C] bg-white px-6 text-[11px] text-[#1A214C]'
-                >
-                  Load more
+                <div className='mt-2 flex gap-4'>
+                  <p className='text-lg font-semibold text-[#1A214C]'>5.0</p>
+                  <div className='flex w-full items-center gap-4 text-[#ED9B37]'>
+                    <FaStar />
+                    <div className='h-4 w-3/4 rounded-full bg-[#AAAAAA] relative'>
+                      <div
+                        className="absolute top-0 left-0 h-4 bg-[#ED9B37] rounded-full"
+                        style={{ width: `${(star?.five / (star?.five + star?.four + star?.three + star?.two + star?.one)) * 100}%` }}
+                      />
+                    </div>
+                    <p className='text-lg font-semibold text-[#AAAAAA]'>{star?.five ?? 0}</p>
+                  </div>
+                </div>
+                <div className='mt-2 flex gap-4'>
+                  <p className='text-lg font-semibold text-[#1A214C]'>4.0</p>
+                  <div className='flex w-full items-center gap-4 text-[#ED9B37]'>
+                    <FaStar />
+                    <div className='h-4 w-3/4 rounded-full bg-[#AAAAAA] relative'>
+                      <div
+                        className="absolute top-0 left-0 h-4 bg-[#ED9B37] rounded-full"
+                        style={{ width: `${(star?.four / (star?.five + star?.four + star?.three + star?.two + star?.one)) * 100}%` }}
+                      />
+                    </div>
+                    <p className='text-lg font-semibold text-[#AAAAAA]'>{star?.four ?? 0}</p>
+                  </div>
+                </div>
+                <div className='mt-2 flex gap-4'>
+                  <p className='text-lg font-semibold text-[#1A214C]'>3.0</p>
+                  <div className='flex w-full items-center gap-4 text-[#ED9B37]'>
+                    <FaStar />
+                    <div className='h-4 w-3/4 rounded-full bg-[#AAAAAA] relative'>
+                      <div
+                        className="absolute top-0 left-0 h-4 bg-[#ED9B37] rounded-full"
+                        style={{ width: `${(star?.three / (star?.five + star?.four + star?.three + star?.two + star?.one)) * 100}%` }}
+                      />
+                    </div>
+                    <p className='text-lg font-semibold text-[#AAAAAA]'>{star?.three ?? 0}</p>
+                  </div>
+                </div>
+                <div className='mt-2 flex gap-4'>
+                  <p className='text-lg font-semibold text-[#1A214C]'>2.0</p>
+                  <div className='flex w-full items-center gap-4 text-[#ED9B37]'>
+                    <FaStar />
+                    <div className='h-4 w-3/4 rounded-full bg-[#AAAAAA] relative'>
+                      <div
+                        className="absolute top-0 left-0 h-4 bg-[#ED9B37] rounded-full"
+                        style={{ width: `${(star?.two / (star?.five + star?.four + star?.three + star?.two + star?.one)) * 100}%` }}
+                      />
+                    </div>
+                    <p className='text-lg font-semibold text-[#AAAAAA]'>{star?.two ?? 0}</p>
+                  </div>
+                </div>
+                <div className='mt-2 flex gap-4'>
+                  <p className='text-lg font-semibold text-[#1A214C]'>1.0</p>
+                  <div className='flex w-full items-center gap-4 text-[#ED9B37]'>
+                    <FaStar />
+                    <div className='h-4 w-3/4 rounded-full bg-[#AAAAAA] relative'>
+                      <div
+                        className="absolute top-0 left-0 h-4 bg-[#ED9B37] rounded-full"
+                        style={{ width: `${(star?.one / (star?.five + star?.four + star?.three + star?.two + star?.one)) * 100}%` }}
+                      />
+                    </div>
+                    <p className='text-lg font-semibold text-[#AAAAAA]'>{star?.one ?? 0}</p>
+                  </div>
+                </div>
+                <div className='my-12 w-full border-t-2 border-[#1A214C]/15' />
+                <div className='relative w-full'>
+                  <button
+                    onClick={() => {
+                      setIsShowModal(true);
+                    }}
+                    className='mb-12 flex w-[176px] items-center rounded-full border border-[#CCCCCC] bg-[#EBECF5] p-1 pr-4'
+                  >
+                    <div className='shrink rounded-full bg-[#FFBB3C] p-2'>
+                      <FaPencilAlt />
+                    </div>
+                    <p className='grow text-center text-[14px] font-black'>
+                      Write a review
+                    </p>
+                  </button>
+                  <div className='h-[300px] overflow-y-scroll'>
+                    {reviewData?.map((item, index) => {
+                      return <ReviewBox key={index} data={item} />;
+                    })}
+                  </div>
+                  <div className='absolute bottom-0 h-[100px] w-full bg-gradient-to-t from-white'></div>
+                  <div
+                    onClick={() => {
+                      setLimit(limit + 5);
+                      getReview();
+                    }}
+                    className='absolute bottom-0 left-0 cursor-pointer rounded-full border-2 border-[#1A214C] bg-white px-6 text-[11px] text-[#1A214C]'
+                  >
+                    Load more
+                  </div>
                 </div>
               </div>
-            </div>
+            }
           </div>
         </section>
         <section className='mx-6 flex max-w-[1164px] flex-col items-center gap-8 py-16 lg:mx-auto'>
@@ -762,5 +835,5 @@ export default function Register() {
         onClose={() => setShowProductDetail({ show: false })}
       />
     </>
-  ) : null;
+  ) : <LoadingComponent />;
 }
