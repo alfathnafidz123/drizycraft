@@ -69,7 +69,7 @@ const Testimonies = () => {
                   <div className='flex w-full items-center justify-start gap-4 bg-[#EBECF5] p-3 lg:p-6'>
                     <img
                       src={andy.src}
-                      className='rounded-full border-[3px] border-white'
+                      className='rounded-full border-[3px] h-12 w-12 border-white'
                       alt='avatar'
                     />
                     <div className='flex flex-col'>
@@ -93,7 +93,7 @@ const Testimonies = () => {
                   <div className='flex w-full items-center justify-start gap-4 bg-[#EBECF5] p-3 lg:p-6'>
                     <img
                       src={leslie.src}
-                      className='rounded-full border-[3px] border-white'
+                      className='rounded-full border-[3px] h-12 w-12 border-white'
                       alt='avatar'
                     />
                     <div className='flex flex-col'>
@@ -118,7 +118,7 @@ const Testimonies = () => {
                   <div className='flex w-full items-center justify-start gap-4 bg-[#EBECF5] p-3 lg:p-6'>
                     <img
                       src={nad.src}
-                      className='rounded-full border-[3px] border-white'
+                      className='rounded-full border-[3px] h-12 w-12 border-white'
                       alt='avatar'
                     />
                     <div className='flex flex-col'>
@@ -144,7 +144,7 @@ const Testimonies = () => {
                   <div className='flex w-full items-center justify-start gap-4 bg-[#EBECF5] p-3 lg:p-6'>
                     <img
                       src={pam.src}
-                      className='rounded-full border-[3px] border-white'
+                      className='rounded-full border-[3px] h-12 w-12 border-white'
                       alt='avatar'
                     />
                     <div className='flex flex-col'>
@@ -167,7 +167,7 @@ const Testimonies = () => {
                   <div className='flex w-full items-center justify-start gap-4 bg-[#EBECF5] p-3 lg:p-6'>
                     <img
                       src={bonnie.src}
-                      className='rounded-full border-[3px] border-white'
+                      className='rounded-full border-[3px] h-12 w-12 border-white'
                       alt='avatar'
                     />
                     <div className='flex flex-col'>
@@ -190,7 +190,7 @@ const Testimonies = () => {
                   <div className='flex w-full items-center justify-start gap-4 bg-[#EBECF5] p-3 lg:p-6'>
                     <img
                       src={michelle.src}
-                      className='rounded-full border-[3px] border-white'
+                      className='rounded-full border-[3px] h-12 w-12 border-white'
                       alt='avatar'
                     />
                     <div className='flex flex-col'>

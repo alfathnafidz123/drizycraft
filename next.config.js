@@ -8,7 +8,7 @@ const nextConfig = {
     dirs: ['src'],
   },
   // output: 'standalone',
-  reactStrictMode: true,
+  reactStrictMode: false,
   swcMinify: true,
 
   // Uncoment to add domain whitelist

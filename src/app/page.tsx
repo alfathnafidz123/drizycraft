@@ -9,6 +9,7 @@ const BestSellerSection = dynamic(() => import('@/components/home/best-seller.se
 const BundlesSection = dynamic(() => import('@/components/home/bundle.section'));
 const CrafterSection = dynamic(() => import('@/components/home/crafter.section'));
 const ExculsiveSection = dynamic(() => import('@/components/home/exclusive.section'));
+const BreezyBanner = dynamic(() => import('@/components/home/breezy.section'));
 const SubscribeFreebiesSection = dynamic(() => import('@/components/home/subscribe.section'));
 const VectorSection = dynamic(() => import('@/components/home/vector.section'));
 const ProductCategories = dynamic(() => import('@/components/ProductCategories'));
@@ -74,6 +75,7 @@ export default async function HomePage() {
   //   useState<HomepageDataI>(defaultHomepageData);
   const homeProduct = await getHomePageData();
   const seasonalData = await getSeasonData();
+  // console.log(homeProduct.crafterData.filter(item => !item.meta?.[0].image));
 
   // const getSeasonalHome = async () => {
   //   try {
@@ -113,6 +115,7 @@ export default async function HomePage() {
 
   return (
     <main>
+      <BreezyBanner />
       <JumbotronSection homeProduct={homeProduct} />
 
       <SectionContainer

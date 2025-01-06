@@ -6,13 +6,16 @@ import { useState } from "react";
 import TrendingTag from "@/components/tag/TrendingTag";
 
 import { search } from "~/images";
+import PixelEventsHooks, { EventsEnum } from "@/components/pixel-custom-events";
 
 const SearchSection = () => {
   const [searchValue, setSearchValue] = useState('');
   const router = useRouter();
+  const { trackEvent } = PixelEventsHooks();
 
-  const handleSearch = (e: any) => {
+  const handleSearch = async (e: any) => {
     e.preventDefault();
+    await trackEvent(EventsEnum.Search, { text: searchValue, category: 'all' });
     router.push(`/category/search/${searchValue}?category=all`)
   }
 

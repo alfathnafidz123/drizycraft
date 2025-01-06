@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { toast } from 'react-toastify';
 
-import { useAppSelector } from '@/lib/store';
+import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import SectionContainer from '@/components/container/sectionContainer';
 // const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
@@ -13,7 +13,10 @@ import dynamic from 'next/dynamic';
 import localFont from 'next/font/local';
 import { useEffect, useRef, useState } from 'react';
 
+import { setOpenModal } from '@/lib/slices/user';
+
 import AffiliateBanner from '@/components/AffiliateBanner';
+import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
 
 import { subscriptionPayment } from '@/app/api/billing/subscriptionPayment';
 
@@ -39,6 +42,8 @@ const CustomerSupportLottie = dynamic(
 
 export default function Membership() {
   const { token } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+  const { trackEvent } = PixelEventsHooks();
   const subscriptionPlans = [
     {
       duration: '1 Day',
@@ -127,13 +132,21 @@ export default function Membership() {
     };
   }, [showChat]);
 
-  const handleSubscribe = async (priceId: string, token: string) => {
+  const handleSubscribe = async (priceId: string, token: string, membership: string) => {
     try {
-      const data = await subscriptionPayment({
-        priceId: priceId as string,
-        token: token,
-      });
-      window.location.replace(data.data);
+      if (token) {
+        const data = await subscriptionPayment({
+          priceId: priceId as string,
+          token: token,
+        });
+        await trackEvent(EventsEnum.InitCheckoutMembership, {
+          priceId: priceId as string,
+          membership,
+        });
+        window.location.replace(data.data);
+      } else {
+        dispatch(setOpenModal(true));
+      }
     } catch (error: any) {
       toast(
         'Create Checkout Page failed, please reach out to the administrator'
@@ -157,7 +170,7 @@ export default function Membership() {
         <img
           src={cov.src}
           alt='Cov Product'
-          className='!h-[489px] !w-[489px]'
+          className='lg:!h-[489px] lg:!w-[489px] w-full object-cover'
         />
       </SectionContainer>
 
@@ -305,7 +318,7 @@ export default function Membership() {
                       <button
                         className='font-katide-bold my-4 rounded-xl bg-[#EE4C73] py-6 text-[20px] tracking-[0.12em] group-hover:bg-[#FFBB3C] text-white shadow-lg transition-all group-hover:text-[#1A214C] hover:!bg-[#ED9B37]'
                         onClick={() => {
-                          handleSubscribe(plan.priceId!, token as string);
+                          handleSubscribe(plan.priceId!, token as string, plan.duration);
                         }}
                       >
                         {plan.buttonText}
@@ -314,7 +327,7 @@ export default function Membership() {
                       <button
                         className='font-katide-bold my-4 rounded-xl bg-[#4065D1] py-6 text-[20px] tracking-[0.12em] text-white shadow-lg transition-all hover:!bg-[#2A3B80]'
                         onClick={() => {
-                          handleSubscribe(plan.priceId!, token as string);
+                          handleSubscribe(plan.priceId!, token as string, plan.duration);
                         }}
                       >
                         {plan.buttonText}

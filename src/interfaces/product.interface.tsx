@@ -50,6 +50,7 @@ export interface HomepageDataI {
   vectorData: productI[];
   bestSellerData: productI[];
   exclusiveData: productI[];
+  pinnedData: productI;
 }
 
 export interface CrafterI {

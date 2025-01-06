@@ -23,7 +23,7 @@ import {
   fontDesign,
   freepik,
   goDaddy,
-  samsung,
+  samsunggray,
   vectorDesign,
 } from '~/images';
 
@@ -31,7 +31,7 @@ export default function Register() {
   return (
     <main>
       <section className='bg-[#1A214C] py-28'>
-        <div className='mx-auto flex w-full max-w-[1164px] items-center justify-between gap-4 lg:gap-24 flex-row '>
+        <div className='mx-auto flex w-full max-w-[1164px] items-center justify-between gap-1 lg:gap-24 flex-row max-md:px-2'>
           <div className='flex h-full items-center gap-6 text-[#AAAAAA] flex-col'>
             <div className='h-32 w-[2px] flex-grow bg-[#AAAAAA]' />
             <Link href="https://www.behance.net/drizycraft" target='_blank'>
@@ -55,7 +55,7 @@ export default function Register() {
             <div className='h-32 w-[2px] flex-grow bg-[#AAAAAA]' />
           </div>
           <div className='flex-col lg:flex-row flex gap-4 lg:gap-24'>
-            <div className='flex max-w-[435px] flex-col gap-8 max-md:px-4'>
+            <div className='flex max-w-full lg:max-w-[435px] flex-col gap-8'>
               <div>
                 <p className='font-katide-bold text-2xl text-white lg:text-[32px]'>
                   We`re Pleased
@@ -64,7 +64,7 @@ export default function Register() {
                   To Meet You!
                 </p>
               </div>
-              <p className='font-katide-regular text-xs text-white lg:text-sm'>
+              <p className='font-katide-regular text-xs text-white lg:text-base'>
                 We believe that our passions in graphic design can help more
                 people like you in whatever project you’re working. With good
                 intention in minds, happy hearts, passions, and professionalism,
@@ -79,13 +79,13 @@ export default function Register() {
                 </Link>
               </div>
             </div>
-            <div className='w-[366px]'>
+            <div className='lg:w-[366px] w-full'>
               <img
                 src={aboutHeader.src}
                 width={300}
                 height={300}
                 alt='header'
-                className='!w-[366px] grow object-contain'
+                className='lg:!w-[366px] w-full grow object-contain'
               />
             </div>
           </div>
@@ -114,7 +114,7 @@ export default function Register() {
                 className='mx-auto lg:mx-16'
               />
               <div className='ml-5 flex flex-col lg:ml-0'>
-                <p className='mb-8 max-md:px-4 text-[14pt]'>
+                <p className='mb-8 max-md:px-4 font-katide-regular text-xs text-white lg:text-base'>
                   Faqih, founder of Drizy started Drizy Studio by developing
                   display fonts in 2016. He created various font categories and
                   had them selling on several marketplaces. Getting the fonts
@@ -122,8 +122,8 @@ export default function Register() {
                   graphic projects is a good starting point for Drizy.
                 </p>
                 <p className='mb-8'>Featured on:</p>
-                <Image src={samsung} width={312} height={48} alt='Samsung' />
-                <Link href="https://drizyfont.com/" target='_blank' className='mt-12 flex w-2/3 justify-center rounded-full border-none bg-[#1A214C] px-8 py-4 font-semibold'>
+                <Image src={samsunggray} width={312} height={48} alt='Samsung' />
+                <Link href="https://drizyfont.com/" target='_blank' className='mt-12 flex w-fit lg:w-2/3 justify-center rounded-full border-none bg-[#1A214C] px-8 py-4 font-semibold'>
                   <p className='text-lg'>Explore our fonts here</p>
                 </Link>
               </div>
@@ -139,7 +139,7 @@ export default function Register() {
                 </p>
                 <p className='mb-16 text-[20pt]'>2019</p>
                 <div className='flex flex-col text-[14pt]'>
-                  <p className='mb-8 text-sm'>
+                  <p className='mb-8 font-katide-regular text-xs text-white lg:text-base'>
                     A year after, he was inpired to build a team to help him
                     explore the creation into illustration, graphic, character
                     illustration, UI/UX layout template and print-ready graphic
@@ -161,7 +161,7 @@ export default function Register() {
                       className='h-[42px] w-[202px]'
                     />
                   </div>
-                  <Link href="/catalog-vector" className='mt-12 flex w-2/3 justify-center rounded-full border-none bg-[#1A214C] px-8 py-4 font-semibold'>
+                  <Link href="/catalog-vector" className='mt-12 flex w-fit lg:w-2/3 justify-center rounded-full border-none bg-[#1A214C] px-8 py-4 font-semibold'>
                     <p className='font-katide-bold text-base'>
                       Explore our vectors here
                     </p>
@@ -197,7 +197,7 @@ export default function Register() {
               className='lg:-ml-16 lg:mr-16'
             />
             <div className='flex flex-col text-[14pt]'>
-              <p className='mb-8 max-md:px-4'>
+              <p className='mb-8 max-md:px-4 font-katide-regular text-xs lg:text-base'>
                 n 2020, Drizy Studio selected by Designbundles.net to be an
                 exclusive designer that provides some graphic assets,
                 spesifically Crafty Design. Crafty design has its own common
@@ -206,12 +206,12 @@ export default function Register() {
                 challenge for Drizy, to made a neat, flawless and print-ready of
                 thousand products for each month
               </p>
-              <p className='mb-8 max-md:px-4'>
+              <p className='mb-8 max-md:px-4 font-katide-regular text-xs lg:text-base'>
                 A solid team and all new experiences Drizy have, make Drizy
                 grows every day and ready to provides Drizy’s own premium
                 personal shop.
               </p>
-              <p className='mb-8 max-md:px-4'>Collaborated With: </p>
+              <p className='mb-8 max-md:px-4 font-katide-regular text-xs lg:text-base'>Collaborated With: </p>
               <Image
                 src={designBundles}
                 width={312}
@@ -229,7 +229,7 @@ export default function Register() {
       </section>
       <section className='flex w-full flex-col items-center justify-center gap-12 bg-[#1A214C] px-4 py-40 text-white lg:gap-24 lg:px-40'>
         <p className='text-[32px] font-semibold'>Drizy Team</p>
-        <p className='w-full text-center text-sm text-[#AAAAAA] lg:w-1/2'>
+        <p className='w-full text-center text-[#AAAAAA] lg:w-1/2 font-katide-regular text-xs lg:text-base'>
           We started with only a couple then grow into 42 high-skilled creatives
           (and counting!) as a solid team, including Art Directors, Graphic
           Designers, Font Designers, Copywriters, Design Managers, Mockup

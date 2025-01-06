@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 // components/Modal.tsx
 
-import axios from 'axios';
-import React, { useState } from 'react';
 import { FaPlusSquare } from '@react-icons/all-files/fa/FaPlusSquare';
 import { IoCloseCircleOutline } from '@react-icons/all-files/io5/IoCloseCircleOutline';
+import axios from 'axios';
+import React, { useState } from 'react';
 import { SingleValue } from 'react-select';
 import Select from 'react-select/async';
 import { toast } from 'react-toastify';
@@ -40,22 +40,35 @@ const ModalUploadProject: React.FC<ModalProps> = ({
 
   const getProducts = async (search: string) => {
     try {
-      // if (search.includes('#')) {
-
-      // } else {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/product`, {
-        params: {
-          page: 1,
-          limit: 10,
-          search,
-          sortType: SortType.Latest
-        }
-      });
-      return res.data.data.map((item: any) => ({
-        value: item.id,
-        label: item.name,
-      }));
-      // }
+      if (search.includes('#')) {
+        const searchDecoded = search.replace("#", '');
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/dump/free`, {
+          params: {
+            page: 1,
+            limit: 10,
+            search: searchDecoded,
+            isFavorite: "All",
+            sortType: "Latest",
+          }
+        });
+        return res.data.data.map((item: any) => ({
+          value: `#${item.id}`,
+          label: item.title,
+        }));
+      } else {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/product`, {
+          params: {
+            page: 1,
+            limit: 10,
+            search,
+            sortType: SortType.Latest
+          }
+        });
+        return res.data.data.map((item: any) => ({
+          value: item.id,
+          label: item.name,
+        }));
+      }
     } catch (error) {
       return [];
     }

@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import { Metadata, ResolvingMetadata } from 'next';
 import * as React from 'react';
 
 import '@/styles/globals.css';
@@ -10,7 +10,10 @@ import { ResArticleMetadata } from '@/interfaces/article.interfaces';
 type Props = {
   params: { id: string };
 };
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
   const id = params.id;
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/product/meta/${id}`,
@@ -18,9 +21,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   );
   const resMetadata: ResArticleMetadata = await res.json();
 
+  const previousMetadata = await parent;
+
+  const previousImages = previousMetadata.openGraph?.images || [];
+  const previousTwitterImages = previousMetadata.twitter?.images || [];
+
+  // Fungsi untuk menghasilkan URL gambar yang dioptimalkan
+  const getOptimizedImageUrl = (url: string, width: number) =>
+    `https://drizycraft.com/_next/image?url=${encodeURIComponent(url)}&w=${width}&q=75`;
+
+  // URL gambar yang dioptimalkan untuk OpenGraph dan Twitter
+  const ogImageUrl = getOptimizedImageUrl(resMetadata.data.image, 1200);
+  const twitterImageUrl = getOptimizedImageUrl(resMetadata.data.image, 1200);
+
+
   return {
-    metadataBase: new URL(siteConfig.url),
-    title: resMetadata.data.realTitle,
+    title: `${resMetadata.data.realTitle} | ${previousMetadata.title?.absolute || 'Drizy'}`,
     description: resMetadata.data.description,
     alternates: {
       canonical: `https://drizycraft.com/product/${id}`,
@@ -33,17 +49,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     manifest: `/favicon/site.webmanifest`,
     openGraph: {
-      url: siteConfig.url,
+      ...previousMetadata.openGraph,
+      url: `https://drizycraft.com/product/${id}`,
       title: resMetadata.data.realTitle,
       description: resMetadata.data.description,
       siteName: siteConfig.title,
       images: [
         {
-          url: resMetadata.data.image,
+          url: ogImageUrl,
+          secureUrl: ogImageUrl,
           width: 1200,
           height: 630,
-          alt: resMetadata.data.title,
+          alt: resMetadata.data.realTitle,
+          type: 'image/jpeg',
         },
+        ...previousImages,
       ],
       type: 'website',
       locale: 'en_US',
@@ -54,11 +74,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: resMetadata.data.description,
       images: [
         {
-          url: resMetadata.data.image,
+          url: twitterImageUrl,
           width: 1200,
           height: 630,
           alt: resMetadata.data.title,
         },
+        ...previousTwitterImages,
       ],
     },
     authors: [

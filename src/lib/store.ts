@@ -5,18 +5,20 @@ import {
   useDispatch,
   useSelector,
 } from 'react-redux';
-import {
-  FLUSH,
-  PAUSE,
-  PERSIST,
-  persistReducer,
-  persistStore,
-  PURGE,
-  REGISTER,
-  REHYDRATE,
-} from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import { persistReducer, persistStore } from 'redux-persist';
+import storage from 'redux-persist/es/storage';
 
+// import {
+//   FLUSH,
+//   PAUSE,
+//   PERSIST,
+//   persistReducer,
+//   persistStore,
+//   PURGE,
+//   REGISTER,
+//   REHYDRATE,
+// } from 'redux-persist';
+// import storage from 'redux-persist/lib/storage';
 import cartSlice from './slices/cart';
 import subcriptionSlice from './slices/subcription';
 import userSlice from './slices/user';
@@ -41,23 +43,10 @@ export const store = configureStore({
 const makeConfiguredStore = () =>
   configureStore({
     reducer: rootReducer,
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware({
-        serializableCheck: {
-          ignoredPaths: ['pwa.event'],
-          ignoredActions: [
-            'pwa/addDeferredPrompt',
-            FLUSH,
-            REHYDRATE,
-            PAUSE,
-            PERSIST,
-            PURGE,
-            REGISTER,
-          ],
-        },
-      }),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
   });
 
+// export const makeStore = () => makeConfiguredStore();
 export const makeStore = () => {
   const isServer = typeof window === 'undefined';
   if (isServer) {

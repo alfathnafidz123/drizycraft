@@ -14,6 +14,7 @@ import { fetchCoin, fetchProfile, setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import NextImage from '@/components/NextImage';
+import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
 
 import { itemPayment } from '@/app/api/billing/itemPayment';
 import { OrderI, productI } from '@/interfaces/product.interface';
@@ -56,6 +57,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const [isDiscount, setIsDiscount] = useState(false);
   const [downloadLoading, setDownloadLoading] = useState(false);
   const dispatch = useAppDispatch();
+  const { trackEvent } = PixelEventsHooks();
 
   useEffect(() => {
     if (data && data.discountPeriod) {
@@ -159,6 +161,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       const found = orders.find(item => item.productId === data?.id);
       if (found) {
         await handleDownloadClick(found.id);
+        await trackEvent(EventsEnum.Download, { productId: data.id, productName: data.name });
       }
     } catch (error) {
       const err = error as AxiosError;
@@ -210,7 +213,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const handleCTA = async () => {
     if (
-      (activeSubcription && data.coinPrice[0] === 0) ||
+      (activeSubcription.activeSubcription && data.coinPrice[0] === 0) ||
       (isDiscount && data.discount[0] === 0) ||
       data.price[0] === 0
     ) {
@@ -240,7 +243,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const generateCTA = (): string => {
     let wording = 'BUY NOW';
-    if (activeSubcription && data.coinPrice[0] === 0) {
+    if (activeSubcription.activeSubcription && data.coinPrice[0] === 0) {
       wording = 'DOWNLOAD NOW';
     } else {
       if ((isDiscount && data.discount[0] === 0) || data.price[0] === 0) {
@@ -270,6 +273,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         {generateSale()}
         <div className={cardClassNames()}>
           <NextImage
+            onClick={() => router.push(`/product/${data?.meta?.[0].title}`)}
             src={data.imageUrl[0]}
             alt={data.name}
             height={180}
@@ -279,9 +283,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
             classNames={{ image: 'h-[172px] w-full rounded-[6px] object-cover lg:w-[257px]' }}
             useSkeleton={true}
           />
-          <span className='relative z-[2] flex h-[54px] w-[257px] shrink-0 items-start justify-start self-stretch overflow-hidden text-left text-[16px] font-semibold leading-[17.6px] text-[#1a204c]'>
+          <Link href={`/product/${data?.meta?.[0].title}`} className='relative z-[2] flex h-[54px] w-[257px] shrink-0 items-start justify-start self-stretch overflow-hidden text-left text-[16px] font-semibold leading-[17.6px] text-[#1a204c]'>
             {data.name}
-          </span>
+          </Link>
           <div className='flex w-full justify-between gap-2'>
             <button
               id={`show-detail-${data.id}`}

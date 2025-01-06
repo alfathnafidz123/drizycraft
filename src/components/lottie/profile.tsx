@@ -1,6 +1,9 @@
-import logger from '@/lib/logger';
-import { useState, useEffect } from 'react';
+'use client'
+
+import { useEffect, useState } from 'react';
 import Lottie from 'react-lottie';
+
+import logger from '@/lib/logger';
 
 const ProfileLottie = () => {
   const [animationData, setAnimationData] = useState<any>();
