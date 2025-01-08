@@ -146,7 +146,7 @@ export default function Register() {
         </div>
         <div className='mt-8 flex lg:flex-row flex-col-reverse w-full justify-between items-center gap-3'>
           {subsData &&
-            <button className='rounded-full bg-[#008ECC] px-14 py-3 font-semibold text-[#e4f6fb] whitespace-nowrap'>
+            <button onClick={cancelSubscription} className='rounded-full bg-[#008ECC] px-14 py-3 font-semibold text-[#e4f6fb] whitespace-nowrap'>
               {loading ? <Loader /> :
                 "Cancel subscription"
               }
