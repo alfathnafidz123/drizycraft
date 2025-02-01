@@ -10,6 +10,8 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
+import NextImage from '@/components/NextImage';
+
 import { CrafterI } from '@/interfaces/crafter.interfaces';
 
 import { defaultAvatar, projectLike, projectShare1, projectStars } from '~/images';
@@ -45,6 +47,7 @@ const Project: React.FC<ModalProps> = ({ onClick, item, onLike }) => {
     }
 
   }
+
   return (
     <div className='flex h-[456px] w-[369px] cursor-pointer flex-col rounded-xl bg-white px-8 py-4 shadow-lg'>
       <div className='flex items-center text-[14px] text-[#1A204C]'>
@@ -57,10 +60,11 @@ const Project: React.FC<ModalProps> = ({ onClick, item, onLike }) => {
         <div className='font-katide-bold'>{item?.user?.displayName}</div>
       </div>
       <div className='relative mt-4'>
-        <img
-          loading='lazy'
+        <NextImage
+          width={305}
+          height={205}
           src={item.imageUrl as unknown as string}
-          className='max-h-[205px] w-full object-cover rounded-lg'
+          classNames={{ image: 'max-h-[205px] w-full object-cover rounded-lg' }}
           alt='gambar'
         />
         <div onClick={onItemClick} className='font-katide-bold absolute inset-0 flex items-center justify-center rounded-lg bg-black/50 text-white opacity-0 hover:opacity-100 z-10'>
