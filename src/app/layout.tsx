@@ -1,5 +1,5 @@
 import { GoogleAnalytics } from '@next/third-parties/google';
-import { SpeedInsights } from "@vercel/speed-insights/next"
+// import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Metadata } from 'next';
 // const Campaign = dynamic(() => import('@/components/campaign-wrapper'), { ssr: false, loading: () => <LoadingComponent /> });
 // import Navbar from '@/layout/navbar';
@@ -199,7 +199,6 @@ export default function RootLayout({
       </head>
 
       <body>
-        <SpeedInsights />
         <StoreProvider>
           {/* <Campaign /> */}
           <Suspense fallback={null}>

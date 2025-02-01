@@ -7,6 +7,8 @@ import { IoCloseCircleOutline } from '@react-icons/all-files/io5/IoCloseCircleOu
 import Link from 'next/link';
 import React from 'react';
 
+import NextImage from '@/components/NextImage';
+
 import { CrafterI } from '@/interfaces/crafter.interfaces';
 
 import {
@@ -46,7 +48,7 @@ const ModalProjectDetail: React.FC<ModalProps> = ({
       {/* Modal content */}
       {isOpen && (
         <div className='fixed left-0 top-0 z-30 transform overflow-hidden rounded-3xl bg-white shadow-lg max-md:w-full lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2'>
-          <div className='flex h-screen w-full flex-col max-md:overflow-y-scroll lg:h-[500px] lg:w-[888px]'>
+          <div className='flex h-screen w-full flex-col overflow-y-scroll lg:h-[500px] lg:w-[888px]'>
             <div className='flex flex-row-reverse items-center justify-between bg-[#E5F6FB] px-4 py-2'>
               <IoCloseCircleOutline
                 onClick={closeModal}
@@ -59,15 +61,20 @@ const ModalProjectDetail: React.FC<ModalProps> = ({
               <div />
             </div>
             <div className='flex flex-col gap-4 p-4 lg:flex-row lg:gap-8 lg:p-8'>
-              <div className='flex flex-col items-center justify-center gap-4 lg:w-1/2'>
-                <div className='max-h-screen w-full items-center justify-center rounded-xl lg:h-[310px] lg:w-[432px]'>
-                  <div className='!important flex h-full w-full items-center justify-center'>
-                    <img
-                      src={data?.imageUrl}
+              <div className='flex flex-col items-start justify-start gap-4 lg:w-1/2'>
+                <div className='max-h-screen w-full items-center justify-center rounded-xl lg:w-[432px]'>
+                  {data?.imageUrl &&
+                    <NextImage
+                      width={500}
+                      height={300}
+                      src={data.imageUrl}
                       alt='slider'
-                      className='w-full px-2 max-h-full object-cover object-center'
+                      useSkeleton={true}
+                      className='max-h-full w-full'
+                      // className='w-full px-2 max-h-full object-cover object-center'
+                      classNames={{ image: 'w-full max-h-full px-2 object-cover object-center' }}
                     />
-                  </div>
+                  }
                 </div>
                 <div className='flex w-full justify-between'>
                   <div className='flex items-center text-[14px] text-[#1A204C]'>

@@ -45,7 +45,11 @@ export default function Register() {
   const cancelSubscription = async () => {
     try {
       setLoading(true);
-      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/cancel-active-sub`);
+      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/cancel-active-sub`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
     } catch (error) {
       const err = error as AxiosError;
       toast.error((err.response?.data as any).message ?? "Unknown error");

@@ -2,6 +2,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
+import { IoChevronDown } from '@react-icons/all-files/io5/IoChevronDown';
+import { Loader } from 'lucide-react';
 import Link from 'next/link';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
@@ -16,7 +18,7 @@ import Project from '@/components/Project';
 
 import { getAllCrafter } from '@/app/api/product/getCrafter';
 import { likeCrafter } from '@/app/api/product/likeCrafter';
-import { GetCarfterResI } from '@/interfaces/crafter.interfaces';
+import { CrafterI } from '@/interfaces/crafter.interfaces';
 
 import {
   projectImage,
@@ -28,19 +30,26 @@ import {
 
 export default function Register() {
   const { token } = useAppSelector((state) => state.user);
-  const [crafterData, setCrafterData] = useState<GetCarfterResI>();
+  const [crafterData, setCrafterData] = useState<CrafterI[]>([]);
   const [isPopUpShow, setIsPopUpShow] = useState(false);
   const [isUploadSuccessShow, setIsUploadSuccessShow] = useState(false);
   const [isProjectDetailShow, setIsProjectDetailShow] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const { activeSubcription } = useAppSelector(state => state.subs);
+  const [params, setParams] = useState({ page: 1, limit: 11 });
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(false);
 
   const getCrafter = async () => {
     try {
-      const response = await getAllCrafter({ page: 1, limit: 10 });
-      setCrafterData(response);
+      setLoading(true);
+      const response = await getAllCrafter(params);
+      setCrafterData(prev => ([...prev, ...response.data]));
+      setHasMore(response.meta.hasNextPage);
     } catch (error) {
       toast('Error when trying to get crafter');
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -53,7 +62,7 @@ export default function Register() {
 
   useEffect(() => {
     getCrafter();
-  }, []);
+  }, [params.page]);
 
   return (
     <main>
@@ -66,7 +75,7 @@ export default function Register() {
         <ModalProjectDetail
           isOpen={isProjectDetailShow}
           onClose={() => setIsProjectDetailShow(false)}
-          data={crafterData.data[selectedIndex]}
+          data={crafterData[selectedIndex]}
           onLike={likeCrafterPost}
         />
       )}
@@ -115,7 +124,7 @@ export default function Register() {
         </section>
       }
       <div className='bg-[#EBECF5] w-full'>
-        <section className='flex flex-wrap justify-center gap-5 p-2 xl:py-20 max-w-[1164px] mx-auto'>
+        <section className='flex flex-wrap justify-center gap-5 p-2 xl:pt-20 max-w-[1164px] mx-auto'>
           {activeSubcription &&
             <div
               onClick={() => setIsPopUpShow(true)}
@@ -137,7 +146,7 @@ export default function Register() {
             </div>
           }
 
-          {crafterData && crafterData?.data.map((data, index) => {
+          {crafterData.map((data, index) => {
             return (
               <Project
                 key={index}
@@ -151,6 +160,17 @@ export default function Register() {
             );
           })}
         </section>
+        {hasMore &&
+          <div onClick={() => { !loading ? setParams(prev => ({ ...prev, page: prev.page + 1 })) : null }} className='flex items-center justify-center cursor-pointer text-center py-10'>
+            {loading
+              ? <Loader className='animate-spin' />
+              :
+              <div className='flex flex-row gap-1 items-center justify-center transition-all hover:text-white bg-white hover:bg-[#61A9FA] rounded-full px-3 py-1 border-black border'>
+                <p>Load More</p>
+                <IoChevronDown />
+              </div>}
+          </div>
+        }
       </div>
     </main>
   );
