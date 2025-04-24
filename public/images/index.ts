@@ -62,7 +62,22 @@ import pinterest from './coming-soon/pinterest.svg';
 import ContactUs from './contact-us.svg';
 import Copy from './copy.svg';
 import cov from './cov-product.png.png';
+import rightMembership from './image_membership_right.png';
+import leftMembership from './image_membership_left.png';
+import backgroundMembership1 from './FrostyBackground_1.png';
+import backgroundMembership2 from './FrostyBackground_2.png';
 import crafter1 from './crafter.svg';
+import crafter2 from './crafters2.png';
+import crafter3 from './crafters3.png';
+import crafter4 from './crafters4.png';
+import frameFeature from './frameFeature.png';
+import frameFeature2 from './frameFeature2.png';
+import frameFeature3 from './frameFeature3.png';
+import frameFeature4 from './frameFeature4.png';
+import feature1 from './feature1.png';
+import feature2 from './feature2.png';
+import feature3 from './feature3.png';
+import feature4 from './feature4.png';
 import crafterProduct from './crafters-product.svg';
 import crafterItem1 from './crafters1.svg';
 import creativeFabrica from './creativeFabrica.svg';
@@ -222,7 +237,22 @@ export {
   ContactUs,
   Copy,
   cov,
+  leftMembership,
+  rightMembership,
+  backgroundMembership1,
+  backgroundMembership2,
   crafter1,
+  crafter2,
+  crafter3,
+  crafter4,
+  frameFeature,
+  frameFeature2,
+  frameFeature3,
+  frameFeature4,
+  feature1,
+  feature2,
+  feature3,
+  feature4,
   crafterItem1,
   crafterProduct,
   creativeFabrica,

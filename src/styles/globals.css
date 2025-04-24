@@ -455,3 +455,22 @@
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+
+
+
+/* Membership Product Slide  */
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.3333%);
+  }
+}
+
+.marquee-wrapper {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 10s linear infinite;
+}
