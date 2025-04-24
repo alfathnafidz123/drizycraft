@@ -67,9 +67,12 @@ import leftMembership from './image_membership_left.png';
 import backgroundMembership1 from './FrostyBackground_1.png';
 import backgroundMembership2 from './FrostyBackground_2.png';
 import crafter1 from './crafter.svg';
-import crafter2 from './crafters2.png';
-import crafter3 from './crafters3.png';
-import crafter4 from './crafters4.png';
+import membershipProduct1 from './membershipProduct1.webp';
+import membershipProduct2 from './membershipProduct2.webp';
+import membershipProduct3 from './membershipProduct3.webp';
+import membershipProduct4 from './membershipProduct4.webp';
+import membershipProduct5 from './membershipProduct5.webp';
+import membershipProduct6 from './membershipProduct6.webp';
 import frameFeature from './frameFeature.png';
 import frameFeature2 from './frameFeature2.png';
 import frameFeature3 from './frameFeature3.png';
@@ -242,9 +245,12 @@ export {
   backgroundMembership1,
   backgroundMembership2,
   crafter1,
-  crafter2,
-  crafter3,
-  crafter4,
+  membershipProduct1,
+  membershipProduct2,
+  membershipProduct3,
+  membershipProduct4,
+  membershipProduct5,
+  membershipProduct6,
   frameFeature,
   frameFeature2,
   frameFeature3,

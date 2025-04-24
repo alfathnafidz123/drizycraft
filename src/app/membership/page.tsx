@@ -23,7 +23,6 @@ import { subscriptionPayment } from '@/app/api/billing/subscriptionPayment';
 import {
   bestValue,
   checkblue,
-  cov,
   crossMember,
   drizzyCoin,
   member1,
@@ -38,9 +37,12 @@ import {
   leftMembership,
   backgroundMembership1,
   backgroundMembership2,
-  crafter2,
-  crafter3, 
-  crafter4,
+  membershipProduct1,
+  membershipProduct2,
+  membershipProduct3,
+  membershipProduct4,
+  membershipProduct5,
+  membershipProduct6,
   
 } from '~/images';
 const CustomerSupportLottie = dynamic(
@@ -166,9 +168,12 @@ export default function Membership() {
 
   // Product Carousel Images 
   const productsMembership = [
-    { id: 1, image: crafter2 },
-    { id: 2, image: crafter3},
-    { id: 3, image: crafter4,},
+    { id: 1, image: membershipProduct1 },
+    { id: 2, image: membershipProduct2},
+    { id: 3, image: membershipProduct3,},
+    { id: 4, image: membershipProduct4,},
+    { id: 5, image: membershipProduct5,},
+    { id: 6, image: membershipProduct6,},
   ];
 
 
@@ -240,21 +245,24 @@ export default function Membership() {
             <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-white to-transparent z-10" />
           </div>
 
-          {/* Gambar Kiri & Kanan di atas background */}
-          <div className="absolute top-0 left-0 z-20 hidden lg:block -translate-x-1/4">
-            <Image
-              src={leftMembership}
-              alt="Left Membership"
-              className="h-[492px] w-[639px] object-contain pointer-events-none"
-            />
-          </div>
-          <div className="absolute top-0 right-0 z-20 hidden lg:block translate-x-1/4">
-            <Image
-              src={rightMembership}
-              alt="Right Membership"
-              className="h-[492px] w-[639px] object-contain pointer-events-none"
-            />
-          </div>
+          {/* Gambar Kiri */}
+            <div className="absolute top-0 left-0 z-20">
+              <Image
+                src={leftMembership}
+                alt="Left Membership"
+                className="h-[120px] sm:h-[160px] md:h-[200px] lg:h-[450px] w-auto object-contain pointer-events-none"
+              />
+            </div>
+
+            {/* Gambar Kanan */}
+            <div className="absolute top-0 right-0 z-20">
+              <Image
+                src={rightMembership}
+                alt="Right Membership"
+                className="h-[120px] sm:h-[160px] md:h-[200px] lg:h-[450px] w-auto object-contain pointer-events-none"
+              />
+            </div>
+
 
           {/* Konten Teks */}
           <div className="z-0 max-w-4xl text-center px-6">
@@ -262,7 +270,7 @@ export default function Membership() {
               Sign up and get <span className="text-[#EE4C73]">unlimited</span><br />
               access to our <span className="text-[#4065D1]">SVG</span>
             </h1>
-            <p className="mt-6 font-katide-regular text-[16px] md:text-[18px] leading-8 text-[#1A214C]">
+            <p className="mt-6 font-katide-regular text-[16px] md:text-[16px] leading-8 text-[#1A214C]">
               Pay once at a fixed price and save thousands of dollars. <br />
               No more purchasing one-by-one. Now you can create unlimited works. <br />
               Download any SVG you want anytime, anywhere.
@@ -271,140 +279,160 @@ export default function Membership() {
         </section>
 
 
-        {/* Card Membership */}
-        <div className='relative flex flex-col items-center justify-center rounded-lg border border-[#1A214C] px-4 py-24 lg:p-12 mt-4 mx-4 lg:mx-28 lg:my-8 overflow-visible'>
-          <div className='absolute -top-10 left-1/2 transform -translate-x-1/2'>
-            <Image src={vip.src} alt='Cov Product' width={235} height={78} className="z-10" />
-          </div>
 
-          <div className='flex flex-wrap justify-center gap-6 w-full max-w-screen-xl'>
-              {subscriptionPlans.map((plan, index) => (
-                <div
-                  key={index}
-                  className='flex flex-col rounded-2xl shadow-lg relative group border-2 border-white hover:border-[#EE4C73] transition-all min-w-[260px] max-w-[320px] h-full'
-                >
-                  {plan.duration === "ANNUAL ACCESS" && (
-                    <div className='bg-[#EE4C73] w-full h-36 absolute top-0 left-0 rounded-t-2xl z-0' />
-                  )}
-                  {plan.duration === "0" && (
-                    <div className='bg-[#61A9FA] w-full h-36 absolute top-0 left-0 rounded-t-2xl z-0' />
-                  )}
-                  {plan.duration === "ANNUAL ACCESS" && (
-                    <img src={bestValue.src} alt='best value' className='absolute -top-10 -right-10 z-20' />
-                  )}
-
-                  <div className='flex flex-col justify-between rounded-2xl p-4 lg:p-6 z-10 w-full h-full flex-grow'>
-                    {/* Header Card */}
-                    <div className='flex flex-col items-center gap-4 rounded-2xl border border-[#DDDDDD] bg-[#F8F8FA] pt-4 relative min-h-[274px]'>
-                      <p className='w-4/5 rounded-xl bg-[#1A214C] py-2 text-center text-white whitespace-nowrap'>
-                        {plan.duration}
-                      </p>
-
-                      {plan.price === 'Free Trial' ? (
-                        <div className='h-[128px] flex items-center uppercase'>
-                          <p className='font-katide-heavy py-[26px] text-[32px]'>
-                            {plan.price}
-                          </p>
-                        </div>
-                      ) : (
-                        <div className='rounded-[20px] bg-[#EBECF5] p-3.5'>
-                          <div className='flex flex-row items-center gap-1'>
-                            <div className='font-katide-heavy text-[48px] text-[#1A214C]'>
-                              {plan.price.split('.')[0]}
-                            </div>
-                            <div className='flex flex-col'>
-                              <p className='font-katide-semibold text-base text-[#1A214C]'>
-                                .{plan.price.split('.')[1].split('/')[0]}
-                              </p>
-                              <p className='font-katide-regular text-base text-[#1A214C]'>
-                                /{plan.price.split('.')[1].split('/')[1]}
-                              </p>
-                            </div>
-                          </div>
-                          {plan.extra && (
-                            <div className='text-[#1A214C] text-xl font-katide-bold'>{plan.extra}</div>
-                          )}
-                          <div className='text-center font-katide-semibold text-gray-400 line-through'>
-                            {plan.discount}
-                          </div>
-                        </div>
-                      )}
-
-                      <div className="absolute bottom-0 left-0 flex w-full items-center gap-6 rounded-2xl bg-[#C2E5FF] p-2 h-14">
-                        <Image
-                          src={drizzyCoin.src}
-                          alt="coin"
-                          width={40}
-                          height={40}
-                          className="h-7"
-                        />
-                        {plan.coin}
-                      </div>
-                    </div>
-
-                    {/* Description */}
-                    <div className='flex items-center justify-center text-[#1A214C] text-[10px] leading-tight text-center my-4 min-h-[80px]' dangerouslySetInnerHTML={{ __html: plan.text }} />
-
-                    {/* Button */}
-                    <div className='flex flex-col justify-end'>
-                      {plan.duration !== "0" ? (
-                        <button
-                          className='mt-auto font-katide-bold my-4 rounded-xl bg-[#EE4C73] py-4 text-[16px] tracking-[0.12em] group-hover:bg-[#FFBB3C] text-white shadow-lg transition-all group-hover:text-[#1A214C] hover:!bg-[#ED9B37]'
-                          onClick={() => {
-                            handleSubscribe(plan.priceId!, token as string, plan.duration);
-                          }}
-                        >
-                          {plan.buttonText}
-                        </button>
-                      ) : (
-                        <button
-                          className='mt-auto font-katide-bold my-8 rounded-xl bg-[#4065D1] py-4 text-[16px] tracking-[0.12em] text-white shadow-lg transition-all hover:!bg-[#2A3B80]'
-                          onClick={() => {
-                            handleSubscribe(plan.priceId!, token as string, plan.duration);
-                          }}
-                        >
-                          {plan.buttonText}
-                        </button>
-                      )}
-                    </div>
-
-                    {/* Fitur */}
-                    <div className='flex flex-col gap-3.5 mt-2'>
-                      <p className='font-katide-bold text-xs text-[#1A214C]'>This includes:</p>
-                      {plan.features.map((feature, idx) => (
-                        <div key={idx} className='flex items-start gap-3'>
-                          <Image src={checkblue.src} alt='check' width={15} height={15} />
-                          <div>
-                            <p className='text-xs font-katide-bold text-[#1A214C]'>{feature.title}</p>
-                            <p className='text-xs font-katide-light text-[#1A214C]'>{feature.desc}</p>
-                          </div>
-                        </div>
-                      ))}
-                      {plan.exclude.map((feature, idx) => (
-                        <div key={idx} className='flex gap-3'>
-                          <Image src={crossMember.src} alt='cross' width={15} height={15} />
-                          <div>
-                            <p className='text-xs font-katide-bold text-[#AAAAAA]'>{feature.title}</p>
-                            <p className='text-xs font-katide-light text-[#AAAAAA]'>{feature.desc}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Promo khusus */}
-                    {plan.duration === "0" && (
-                      <p className='bg-[#F8F8FA] w-full mt-6 rounded-2xl text-[#1A214C] text-xs text-center p-4 leading-[24px]'>
-                        Take your business to the next level with the <span className='font-bold'>Reseller Pro Plan</span>. Join now and boost your online store’s offerings and profitability. Consult now!
-                      </p>
-                    )}
+        {/* Card Membership  */}
+        <section className='flex flex-col items-center justify-center text-[#1A214C] pt-10'>
+            <div className='flex w-full flex-col text-[#1A214C] lg:max-w-[1264px]'>
+              <div className='relative flex flex-col flex-wrap items-center justify-center rounded-lg border border-[#1A214C] p-2 lg:p-12 mb-12'>
+                {/* Badge Image at Top */}
+                <div className='absolute -top-3 left-0 flex w-full justify-center'>
+                  <div className='absolute -top-10 left-1/2 transform -translate-x-1/2'>
+                    <Image src={vip.src} alt='Cov Product' width={235} height={78} className="z-10" />
                   </div>
                 </div>
-              ))}
+
+                {/* Subscription Plan Cards */}
+                <div className='flex w-full flex-col justify-center lg:flex-row gap-4 lg:gap-16 max-lg:px-8'>
+                  {subscriptionPlans.map((plan, index) => (
+                    <div
+                      key={index}
+                      className='rounded-2xl bg-white shadow-lg max-md:min-h-[950px] lg:!min-h-[1020px] lg:w-1/4 relative group border-2 border-white hover:border-[#EE4C73] transition-all'
+                    >
+                      {/* Header Style Color */}
+                      {plan.duration === "ANNUAL ACCESS" && (
+                        <div className='bg-[#EE4C73] w-full h-36 absolute top-0 left-0 rounded-t-2xl' />
+                      )}
+                      {plan.duration === "0" && (
+                        <div className='bg-[#61A9FA] w-full h-36 absolute top-0 left-0 rounded-t-2xl' />
+                      )}
+
+                      {/* Best Value Badge */}
+                      {plan.duration === "ANNUAL ACCESS" && (
+                        <img src={bestValue.src} alt='best value' className='absolute -top-10 -right-10 z-20' />
+                      )}
+
+                      <div className={`flex flex-col rounded-2xl p-2 lg:p-6 z-10 w-full ${plan.duration === "ANNUAL ACCESS" ? "absolute bg-transparent" : ""}`}>
+                        <div className='flex flex-col items-center gap-4 rounded-2xl border border-[#DDDDDD] bg-[#F8F8FA] pt-4 h-[274px] relative'>
+                          <p className='w-4/5 rounded-xl bg-[#1A214C] py-2 text-center text-white whitespace-nowrap'>
+                            {plan.duration}
+                          </p>
+
+                          {plan.price === 'Free Trial' ? (
+                            <div className='h-[128px] flex items-center uppercase'>
+                              <p className='font-katide-heavy py-[26px] text-[32px]'>
+                                {plan.price}
+                              </p>
+                            </div>
+                          ) : (
+                            <div className='rounded-[20px] bg-[#EBECF5] p-3.5'>
+                              <div className='flex flex-row items-center gap-1'>
+                                <div className='font-katide-heavy text-[48px] text-[#1A214C]'>
+                                  {plan.price.split('.')[0]}
+                                </div>
+                                <div className='flex flex-col'>
+                                  <p className='font-katide-semibold text-base text-[#1A214C]'>
+                                    .{plan.price.split('.')[1].split('/')[0]}
+                                  </p>
+                                  <p className='font-katide-regular text-base text-[#1A214C]'>
+                                    /{plan.price.split('.')[1].split('/')[1]}
+                                  </p>
+                                </div>
+                              </div>
+                              {plan.extra && (
+                                <div className='text-[#1A214C] text-xl font-katide-bold'>{plan.extra}</div>
+                              )}
+                              <div className='text-center font-katide-semibold text-gray-400 line-through'>{plan.discount}</div>
+                            </div>
+                          )}
+
+                          {/* Coin Info */}
+                          <div className='absolute bottom-0 left-0 flex w-full items-center gap-6 rounded-2xl bg-[#C2E5FF] p-2 h-14'>
+                            <Image
+                              src={drizzyCoin.src}
+                              alt='coin'
+                              width={40}
+                              height={40}
+                              className='h-7'
+                            />
+                            {plan.coin}
+                          </div>
+                        </div>
+
+                        {/* Plan Description */}
+                        <div
+                          className='h-32 flex items-center justify-center text-[#1A214C] text-[10px] leading-tight text-center mt-2'
+                          dangerouslySetInnerHTML={{ __html: plan.text }}
+                        />
+
+                        {/* Subscribe Button */}
+                        {plan.duration !== "0" ? (
+                          <button
+                            className='font-katide-bold my-4 rounded-xl bg-[#EE4C73] py-6 text-[20px] tracking-[0.12em] group-hover:bg-[#FFBB3C] text-white shadow-lg transition-all group-hover:text-[#1A214C] hover:!bg-[#ED9B37]'
+                            onClick={() => handleSubscribe(plan.priceId!, token as string, plan.duration)}
+                          >
+                            {plan.buttonText}
+                          </button>
+                        ) : (
+                          <button
+                            className='font-katide-bold my-4 rounded-xl bg-[#4065D1] py-6 text-[20px] tracking-[0.12em] text-white shadow-lg transition-all hover:!bg-[#2A3B80]'
+                            onClick={() => handleSubscribe(plan.priceId!, token as string, plan.duration)}
+                          >
+                            {plan.buttonText}
+                          </button>
+                        )}
+
+                        {/* Features Included */}
+                        <div className='flex flex-col gap-3.5'>
+                          <p className='font-katide-bold text-xs text-[#1A214C]'>
+                            This includes:
+                          </p>
+
+                          {plan.features.map((feature, idx) => (
+                            <div key={idx} className='flex items-center gap-3'>
+                              <Image
+                                src={checkblue.src}
+                                alt='check'
+                                width={15}
+                                height={15}
+                              />
+                              <div>
+                                <p className='text-xs font-katide-bold text-[#1A214C]'>{feature.title}</p>
+                                <p className='text-xs font-katide-light text-[#1A214C]'>{feature.desc}</p>
+                              </div>
+                            </div>
+                          ))}
+
+                          {/* Excluded Features */}
+                          {plan.exclude.map((feature, idx) => (
+                            <div key={idx} className='flex gap-3'>
+                              <Image
+                                src={crossMember.src}
+                                alt='cross'
+                                width={15}
+                                height={15}
+                              />
+                              <div>
+                                <p className='text-xs font-katide-bold text-[#AAAAAA]'>{feature.title}</p>
+                                <p className='text-xs font-katide-light text-[#AAAAAA]'>{feature.desc}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Free Plan Note */}
+                      {plan.duration === "0" && (
+                        <p className='bg-[#F8F8FA] w-full absolute bottom-0 left-0 rounded-2xl text-[#1A214C] text-xs text-center p-8 leading-[24px]'>
+                          Take your business to the next level with the <span className='font-bold'>Reseller Pro Plan</span>. Join now and boost your online store’s offerings and profitability. Consult now!
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
+          </section>
 
-
-          
-        </div>
 
         {/* Product slide  */}
         <section className="bg-[#C2E5FF] py-8 px-4 overflow-hidden">
@@ -435,13 +463,42 @@ export default function Membership() {
         </section>
 
 
-        {/* Features  */}
+        {/* Features Membership */}
         <section className="bg-[#C2E5FF] py-8 px-4 overflow-hidden">
           <div className="container mx-auto bg-[#EBECF5] p-6 md:p-12 rounded-[24px] shadow-md">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-              {/* Kiri */}
-              <div className="flex flex-col justify-center items-center text-center">
+              {/* Kanan - Video Carousel (order first on mobile) */}
+              <div className="order-1 md:order-2 flex flex-col items-center justify-center w-full">
+                <video
+                  key={carouselVideos[currentIndex]}
+                  src={carouselVideos[currentIndex]}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="rounded-lg w-full max-w-[400px] h-auto transition-opacity duration-500 bg-transparent"
+                />
+                <div className="mt-4 flex gap-2">
+                  {carouselVideos.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentIndex(idx)}
+                      aria-label={`Slide ${idx + 1}`}
+                      className={`w-4 h-4 rounded-full border-2 transition-all duration-300 ${
+                        idx === currentIndex
+                          ? 'bg-[#4065D1] border-[#4065D1]'
+                          : 'bg-white border-gray-700'
+                      }`}
+                    >
+                      <span className="sr-only">Go to slide {idx + 1}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Kiri - Teks dan fitur (order after video on mobile) */}
+              <div className="order-2 md:order-1 flex flex-col justify-center items-center text-center">
                 <h2 className="text-[24px] md:text-[28px] font-bold text-[#1A214C] mb-4">
                   Elevate Your Craft with Premium Tools and Resources with Drizy Membership
                 </h2>
@@ -454,7 +511,7 @@ export default function Membership() {
                     Feature Details
                   </div>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 items-center w-full">
-                  {features.map((feature, i) => (
+                    {features.map((feature, i) => (
                       <img
                         key={i}
                         src={i === currentIndex ? feature.srcActive : feature.src}
@@ -468,6 +525,7 @@ export default function Membership() {
                     ))}
                   </div>
                 </div>
+
                 <div className="mt-4 flex flex-col items-center px-2">
                   <h3 className="text-[24px] md:text-[32px] font-semibold mb-2 text-[#4065D1]">
                     Drizy Breezy
@@ -488,40 +546,10 @@ export default function Membership() {
                   </a>
                 </div>
               </div>
-
-              {/* Kanan - Video Carousel */}
-              <div className="hidden md:flex flex-col items-center justify-center w-full">
-                <video
-                  key={carouselVideos[currentIndex]}
-                  src={carouselVideos[currentIndex]}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="rounded-lg w-full max-w-[400px] h-auto transition-opacity duration-500"
-                />
-
-                <div className="mt-4 flex gap-2">
-                  {carouselVideos.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setCurrentIndex(idx)}
-                      aria-label={`Slide ${idx + 1}`}
-                      className={`w-4 h-4 rounded-full border-2 transition-all duration-300 ${
-                        idx === currentIndex
-                          ? 'bg-[#4065D1] border-[#4065D1]'
-                          : 'bg-white border-gray-700'
-                      }`}
-                    >
-                      <span className="sr-only">Go to slide {idx + 1}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
             </div>
           </div>
         </section>
+
 
 
         {/* Condition */}
