@@ -20,6 +20,7 @@ export interface productI {
   fileType: string;
   fileSize: number;
   createdAt: string;
+  publishAt:string;
   updatedAt?: Date;
   deletedAt?: Date;
   authorId: string;

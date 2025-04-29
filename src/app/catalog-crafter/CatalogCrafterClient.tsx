@@ -10,7 +10,7 @@ import { FaUsers } from '@react-icons/all-files/fa/FaUsers';
 import { IoChevronDown } from '@react-icons/all-files/io5/IoChevronDown';
 import { Loader } from 'lucide-react';
 import Link from 'next/link';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { getMoreProducts } from '@/lib/getCrafterData';
@@ -75,8 +75,9 @@ export default function CatalogCrafterClient({ initialData }: CatalogCrafterClie
     setSelectedShortByOption(option);
     setCurrentPage(1);
     setProductData([]);
-    getMoreProduct();
+    getMoreProduct(1, option); 
   };
+
 
   const handleCategorySelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const option = event.target.value;
@@ -103,7 +104,7 @@ export default function CatalogCrafterClient({ initialData }: CatalogCrafterClie
     return str.replace(/([A-Z])/g, ' $1').trim();
   }
 
-  const getMoreProduct = useCallback(async () => {
+  const getMoreProduct = useCallback(async (page = currentPage, sortOption = selectedShortByOption) => {
     const extraCat =
       selectedSeasonsOption !== ''
         ? selectedSeasonsOption
@@ -113,12 +114,12 @@ export default function CatalogCrafterClient({ initialData }: CatalogCrafterClie
     try {
       setLoading(true);
       const response = await getMoreProducts(
-        currentPage,
-        selectedShortByOption,
+        page,
+        sortOption,
         'Crafters',
         extraCat
       );
-      setProductData(prev => [...prev, ...response.productData]);
+      setProductData(prev => page === 1 ? response.productData : [...prev, ...response.productData]);
       setHasMore(response.hasMore);
     } catch (error) {
       toast('Error when trying to get more products');
@@ -127,6 +128,11 @@ export default function CatalogCrafterClient({ initialData }: CatalogCrafterClie
     }
   }, [currentPage, selectedCategoryOption, selectedSeasonsOption, selectedShortByOption]);
 
+  useEffect(() => {
+    getMoreProduct(1, SortType.Latest);
+  }, []);
+  
+  
   return (
     <main>
       <section className='flex flex-col-reverse lg:mx-auto lg:mb-[6%] lg:mt-[4%] lg:w-[1164px] lg:flex-row'>

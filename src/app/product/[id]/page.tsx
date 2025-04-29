@@ -473,7 +473,7 @@ export default function Register() {
                 <div>
                   <p className='text-xs text-[#777777] lg:text-sm'>
                     {productData
-                      ? moment(productData.product.createdAt).format(
+                      ? moment(productData.product.publishAt).format(
                         'MMMM DD, YYYY'
                       )
                       : '-'}
