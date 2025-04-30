@@ -43,8 +43,8 @@ import ProfileMenu from '@/components/sidebar/sidebar';
 //   },
 //   authors: [
 //     {
-//       name: 'Dionisius Aditya',
-//       url: 'https://github.com/dionisius77',
+//       name: 'Drizycraft',
+//       url: 'https://github.com/itdrizy',
 //     },
 //   ],
 // };
