@@ -56,12 +56,12 @@ export default function Membership() {
   const { trackEvent } = PixelEventsHooks();
   const subscriptionPlans = [
     {
-      duration: '1 Day',
+      duration: '14 Day',
       buttonText: 'START FREE !',
       price: 'Free Trial',
       discount: undefined,
       extra: undefined,
-      text: "Get started on Drizy VIP+ risk free with a free trial. Download 5 premium products for free. Billed $4.99/month after trial ends. Cancel anytime.",
+      text: "<br/> Get started with Drizy VIP+ Annual Access with a 14 DAYS of free trial. Download premium products for 14 DAYS. <br/> <br/> You’ll be billed $35.88/year on the 15th day. You can cancel anytime before the trial ends.",
       coin: <p className='text-sm'>
         <span className='font-katide-semibold'>5 Drizy Coins</span> for a day
       </p>,
@@ -107,7 +107,7 @@ export default function Membership() {
       price: '$2.99/mo',
       discount: '$199.88',
       extra: '($35.88/year)',
-      text: "Crafting your Way! Unlock a year of premium features at the lowest price. Save more. <br/><br/>Billed $35.88/year after First Month Promo Ends. Cancel anytime.",
+      text: "<br/> Crafting your Way! Unlock a year of premium features at the lowest price. Save more. <br/><br/>Billed $35.88/year after First Month Promo Ends. Cancel anytime. <br/><br/>",
       coin: <p className='text-sm'>
         <span className='font-katide-semibold'>Unlimited Drizy Coins</span> for
         Diverse Crafting Options
@@ -200,6 +200,43 @@ export default function Membership() {
     { src: '/images/feature3.png', alt: 'Feature 3', srcActive: '/images/feature3_active.png' },
     { src: '/images/feature4.png', alt: 'Feature 4', srcActive: '/images/feature4_active.png' },
   ];
+
+  const featureDescriptions = [
+    {
+      title: "Drizy Breezy",
+      description:
+        "Drizy Breezy simplifies crafting with its intuitive drag-and-drop tool. Customize SVG designs, rearrange elements, and create stunning projects effortlessly. Whether you're a beginner or a pro, this feature makes designing quick, easy, and fun.",
+      link: "https://breezy.drizycraft.com/",
+      showButton: true,
+      buttonText: "Click here",
+    },
+    {
+      title: "Projects from Crafters",
+      description:
+        "Explore an inspiring collection of crafting projects created by crafters worldwide. Each project includes tips, ideas, and guidance to help you create something amazing or spark your next big idea.",
+      link: "https://www.drizycraft.com/project",
+      showButton: true,
+      buttonText: "Browse Projects",
+    },
+    {
+      title: "Largest Craft Community",
+      description:
+        "Be part of the largest crafting community where creativity thrives. Share your projects, gain valuable feedback, and connect with fellow crafters to collaborate and grow together.",
+      link: "https://www.facebook.com/groups/drizyfreebies",
+      showButton: true,
+      buttonText: "Join Community",
+    },
+    {
+      title: "Exclusive Partners",
+      description:
+        "Unlock access to exclusive content from leading brands and designers. Enjoy premium SVG designs, special tools, and unique deals to elevate your crafting experience.",
+      link: "",
+      showButton: false,
+      buttonText: "",
+    },
+  ];
+  
+  
   
 
   // Membuat peta video berdasarkan indeks fitur
@@ -225,7 +262,6 @@ export default function Membership() {
   
         {/* Main Membership Content  */}
         <section className="relative flex flex-col items-center justify-end gap-8 px-4 pt-32 pb-20 lg:px-0 overflow-hidden">
-          {/* Background utama */}
           <div className="absolute inset-0 z-0">
             <Image
               src={backgroundMembership1}
@@ -235,7 +271,6 @@ export default function Membership() {
             />
           </div>
 
-          {/* Background efek tambahan + transisi halus */}
           <div className="absolute inset-0 z-0">
             <Image
               src={backgroundMembership2}
@@ -245,45 +280,42 @@ export default function Membership() {
             <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-white to-transparent z-10" />
           </div>
 
-          {/* Gambar Kiri */}
             <div className="absolute top-0 left-0 z-20">
               <Image
                 src={leftMembership}
                 alt="Left Membership"
-                className="h-[120px] sm:h-[160px] md:h-[200px] lg:h-[450px] w-auto object-contain pointer-events-none"
+                className="h-[160px] sm:h-[180px] md:h-[200px] lg:h-[450px] w-auto object-contain pointer-events-none"
               />
             </div>
 
-            {/* Gambar Kanan */}
             <div className="absolute top-0 right-0 z-20">
               <Image
                 src={rightMembership}
                 alt="Right Membership"
-                className="h-[120px] sm:h-[160px] md:h-[200px] lg:h-[450px] w-auto object-contain pointer-events-none"
+                className="h-[160px] sm:h-[180px] md:h-[200px] lg:h-[450px] w-auto object-contain pointer-events-none"
               />
             </div>
+          <div className="z-0 max-w-4xl text-center pt-10 sm:pt-24 md:pt-32 lg:pt-0">
+              <h1 className="font-katide-heavy text-[32px] md:text-[44px] lg:text-[56px] leading-tight text-[#4065D1]">
+                Sign up and get <br className="block lg:hidden" />
+                <span className="text-[#EE4C73]">unlimited</span> access<br className="block lg:hidden" />
+                to our <span className="text-[#4065D1]">SVG</span>.
+              </h1>
+
+              <p className="mt-6 font-katide-regular text-[12px] sm:text-[16px] leading-relaxed text-[#1A214C] text-center">
+                Pay once at a fixed price and save thousands of dollars. <br className="hidden lg:block" />
+                No more purchasing one-by-one.  Now you can create unlimited works.<br className="hidden lg:block" />
+                Download any SVG you want anytime, anywhere.
+              </p>
 
 
-          {/* Konten Teks */}
-          <div className="z-0 max-w-4xl text-center px-6">
-            <h1 className="font-katide-heavy text-[32px] md:text-[44px] lg:text-[56px] leading-tight text-[#4065D1]">
-              Sign up and get <span className="text-[#EE4C73]">unlimited</span><br />
-              access to our <span className="text-[#4065D1]">SVG</span>
-            </h1>
-            <p className="mt-6 font-katide-regular text-[16px] md:text-[16px] leading-8 text-[#1A214C]">
-              Pay once at a fixed price and save thousands of dollars. <br />
-              No more purchasing one-by-one. Now you can create unlimited works. <br />
-              Download any SVG you want anytime, anywhere.
-            </p>
           </div>
         </section>
 
-
-
         {/* Card Membership  */}
         <section className='flex flex-col items-center justify-center text-[#1A214C] pt-10'>
-            <div className='flex w-full flex-col text-[#1A214C] lg:max-w-[1264px]'>
-              <div className='relative flex flex-col flex-wrap items-center justify-center rounded-lg border border-[#1A214C] p-2 lg:p-12 mb-12'>
+            <div className='flex w-full flex-col items-center text-[#1A214C] lg:max-w-[1264px]'>
+              <div className='relative flex flex-col flex-wrap items-center justify-center rounded-lg lg:border border-[#1A214C] p-2 lg:p-12 mb-12 sm:border-0'>
                 {/* Badge Image at Top */}
                 <div className='absolute -top-3 left-0 flex w-full justify-center'>
                   <div className='absolute -top-10 left-1/2 transform -translate-x-1/2'>
@@ -292,12 +324,12 @@ export default function Membership() {
                 </div>
 
                 {/* Subscription Plan Cards */}
-                <div className='flex w-full flex-col justify-center lg:flex-row gap-4 lg:gap-16 max-lg:px-8'>
+                <div className='flex w-full flex-col justify-center lg:flex-row gap-4 lg:gap-16 max-lg:px-8 mt-8 lg:mt-0'>
                   {subscriptionPlans.map((plan, index) => (
                     <div
                       key={index}
-                      className='rounded-2xl bg-white shadow-lg max-md:min-h-[950px] lg:!min-h-[1020px] lg:w-1/4 relative group border-2 border-white hover:border-[#EE4C73] transition-all'
-                    >
+                      className='rounded-2xl bg-white shadow-lg max-md:min-h-[400px] max-md:w-[280px] lg:!min-h-[1020px] lg:w-1/4 relative group border-2 border-white hover:border-[#EE4C73] transition-all max-sm:p-2 max-sm:shadow-lg'
+                      >
                       {/* Header Style Color */}
                       {plan.duration === "ANNUAL ACCESS" && (
                         <div className='bg-[#EE4C73] w-full h-36 absolute top-0 left-0 rounded-t-2xl' />
@@ -311,7 +343,8 @@ export default function Membership() {
                         <img src={bestValue.src} alt='best value' className='absolute -top-10 -right-10 z-20' />
                       )}
 
-                      <div className={`flex flex-col rounded-2xl p-2 lg:p-6 z-10 w-full ${plan.duration === "ANNUAL ACCESS" ? "absolute bg-transparent" : ""}`}>
+                      {/* <div className={`flex flex-col rounded-2xl p-2 lg:p-6 z-10 w-full ${plan.duration === "ANNUAL ACCESS" ? "absolute bg-transparent" : ""}`}> */}
+                      <div className={'flex flex-col rounded-2xl p-2 lg:p-6 z-10 w-full'}>
                         <div className='flex flex-col items-center gap-4 rounded-2xl border border-[#DDDDDD] bg-[#F8F8FA] pt-4 h-[274px] relative'>
                           <p className='w-4/5 rounded-xl bg-[#1A214C] py-2 text-center text-white whitespace-nowrap'>
                             {plan.duration}
@@ -346,7 +379,7 @@ export default function Membership() {
                           )}
 
                           {/* Coin Info */}
-                          <div className='absolute bottom-0 left-0 flex w-full items-center gap-6 rounded-2xl bg-[#C2E5FF] p-2 h-14'>
+                          <div className='absolute bottom-0 left-1/2 -translate-x-1/2 flex w-[95%] items-center gap-3 rounded-2xl bg-[#C2E5FF] p-2 h-14'>
                             <Image
                               src={drizzyCoin.src}
                               alt='coin'
@@ -360,21 +393,22 @@ export default function Membership() {
 
                         {/* Plan Description */}
                         <div
-                          className='h-32 flex items-center justify-center text-[#1A214C] text-[10px] leading-tight text-center mt-2'
+                          className='hidden lg:flex items-center justify-center text-[#1A214C] text-[10px] leading-tight text-center mt-2 px-4'
                           dangerouslySetInnerHTML={{ __html: plan.text }}
                         />
-
                         {/* Subscribe Button */}
                         {plan.duration !== "0" ? (
                           <button
-                            className='font-katide-bold my-4 rounded-xl bg-[#EE4C73] py-6 text-[20px] tracking-[0.12em] group-hover:bg-[#FFBB3C] text-white shadow-lg transition-all group-hover:text-[#1A214C] hover:!bg-[#ED9B37]'
+                            className='font-katide-bold my-4 mx-auto w-11/12 rounded-xl bg-[#EE4C73] py-6 text-[20px] tracking-[0.12em] group-hover:bg-[#FFBB3C] text-white shadow-lg transition-all group-hover:text-[#1A214C] hover:!bg-[#ED9B37]'
                             onClick={() => handleSubscribe(plan.priceId!, token as string, plan.duration)}
                           >
                             {plan.buttonText}
                           </button>
                         ) : (
                           <button
-                            className='font-katide-bold my-4 rounded-xl bg-[#4065D1] py-6 text-[20px] tracking-[0.12em] text-white shadow-lg transition-all hover:!bg-[#2A3B80]'
+                            // className='font-katide-bold my-4 rounded-xl bg-[#4065D1] py-6 text-[20px] tracking-[0.12em] text-white shadow-lg transition-all hover:!bg-[#2A3B80]'
+                            className='font-katide-bold my-4 mx-auto w-11/12 rounded-xl bg-[#EE4C73] py-6 text-[20px] tracking-[0.12em] group-hover:bg-[#FFBB3C] text-white shadow-lg transition-all group-hover:text-[#1A214C] hover:!bg-[#ED9B37]'
+
                             onClick={() => handleSubscribe(plan.priceId!, token as string, plan.duration)}
                           >
                             {plan.buttonText}
@@ -382,7 +416,7 @@ export default function Membership() {
                         )}
 
                         {/* Features Included */}
-                        <div className='flex flex-col gap-3.5'>
+                        <div className='hidden lg:flex flex-col gap-3.5'>
                           <p className='font-katide-bold text-xs text-[#1A214C]'>
                             This includes:
                           </p>
@@ -431,8 +465,52 @@ export default function Membership() {
                 </div>
               </div>
             </div>
-          </section>
+        </section>
 
+        {/* Membership included  */}
+        <section className="block sm:hidden w-full px-4 py-12 flex flex-col items-center text-[#1A214C]">
+          <h2 className="text-2xl font-bold text-[#4065D1] text-center mb-10">
+            ALL PLANS INCLUDE:
+          </h2>
+
+          <div className="w-full flex flex-col gap-8 p-4">
+            {[
+              {
+                title: "Fresh Designs, Every Day",
+                desc: "Get daily SVG updates and unlock endless creativity — there’s always something new waiting for you!"
+              },
+              {
+                title: "Breezy Mode: Effortless Creativity",
+                desc: "Design with ease using our smooth drag-and-drop feature — making magic has never been simpler!"
+              },
+              {
+                title: "Universal Machine Compatibility",
+                desc: "Designed to work flawlessly with cutting machines, laser engravers, and sublimation printers — ready for whatever you create!"
+              },
+              {
+                title: "Inspiring Crafter Projects",
+                desc: "See real creations made by our community — get inspired and spark your next masterpiece!"
+              },
+            ].map((item, i) => (
+              <div key={i} className="transition-all duration-300">
+                <h3 className="text-lg font-bold text-[#2A3B80] mb-1">{item.title}</h3>
+                <p className="text-sm text-[#1A214C]">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-14 text-center max-w-2xl space-y-4 px-2">
+            <h3 className="text-xl font-bold text-[#4065D1]">
+              Ready to Create Without Limits?
+            </h3>
+            <p className="text-sm text-[#1A214C]">
+              Subscribe now and unlock daily inspiration, effortless tools, and endless possibilities. Your next masterpiece is just a click away — let’s craft something amazing together.
+            </p>
+            <button className="bg-[#4065D1] text-white font-semibold text-sm px-6 py-3 rounded-xl hover:bg-[#2A3B80] transition-all duration-300">
+              Try it Free
+            </button>
+          </div>
+        </section>
 
         {/* Product slide  */}
         <section className="bg-[#C2E5FF] py-8 px-4 overflow-hidden">
@@ -462,14 +540,92 @@ export default function Membership() {
           </div>
         </section>
 
+        {/* Features  */}
+        <section className="bg-[#C2E5FF] pt-8 md:pb-8 overflow-hidden">
+        <div className="max-w-[1280px] mx-auto bg-[#EBECF5] p-4 md:p-12 rounded-none md:rounded-[24px] shadow-md">
+            <div className="flex flex-col md:grid md:grid-cols-2 gap-8">
 
-        {/* Features Membership */}
-        <section className="bg-[#C2E5FF] py-8 px-4 overflow-hidden">
-          <div className="container mx-auto bg-[#EBECF5] p-6 md:p-12 rounded-[24px] shadow-md">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Left Side - Title, Icons, Deskripsi */}
+              <div className="flex flex-col justify-center items-center text-center order-1 md:order-1">
+                <h2 className="text-[24px] md:text-[28px] font-bold text-[#1A214C] mb-4 mt-2">
+                  Elevate Your Craft with Premium Tools <br /> and Resources with Drizy Membership
+                </h2>
+                <p className="text-[#ED9B37] mb-8 text-[16px]">
+                  Included with monthly and annually plans
+                </p>
 
-              {/* Kanan - Video Carousel (order first on mobile) */}
-              <div className="order-1 md:order-2 flex flex-col items-center justify-center w-full">
+                {/* Feature Icons */}
+                <div className="relative w-full max-w-md border-2 border-[#ED9B37] rounded-[10px] md:rounded-[24px] p-3 md:p-4 mb-6 mx-auto">
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-[#ED9B37] px-4 py-1 rounded-full border border-white text-white font-bold text-sm shadow">
+                    Feature Details
+                  </div>
+                  <div className="grid grid-cols-4 gap-3 items-center">
+                    {features.map((feature, i) => (
+                      <img
+                        key={i}
+                        src={i === currentIndex ? feature.srcActive : feature.src}
+                        alt={feature.alt}
+                        onClick={() => {
+                          const newIndex = videoMap[i as keyof typeof videoMap];
+                          setCurrentIndex(newIndex);
+                        }}
+                        className="cursor-pointer rounded-lg w-full aspect-square object-cover transition-transform duration-300 hover:scale-110"
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Carousel for MOBILE only */}
+                <div className="flex flex-col items-center justify-center w-full mb-6 md:hidden">
+                  <video
+                    key={carouselVideos[currentIndex]}
+                    src={carouselVideos[currentIndex]}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="rounded-lg w-full max-w-[400px] h-auto transition-opacity duration-500 bg-transparent"
+                  />
+                  <div className="mt-4 flex gap-2">
+                    {carouselVideos.map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setCurrentIndex(idx)}
+                        aria-label={`Slide ${idx + 1}`}
+                        className={`w-4 h-4 rounded-full border-2 transition-all duration-300 ${
+                          idx === currentIndex
+                            ? 'bg-[#4065D1] border-[#4065D1]'
+                            : 'bg-white border-gray-700'
+                        }`}
+                      >
+                        <span className="sr-only">Go to slide {idx + 1}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+               {/* Deskripsi */}
+                <div className="mt-4 flex flex-col items-center px-2">
+                  <h3 className="text-[24px] md:text-[32px] font-semibold mb-2 text-[#4065D1]">
+                    {featureDescriptions[currentIndex].title}
+                  </h3>
+                  <p className="text-[#595959] text-[16px] text-center">
+                    {featureDescriptions[currentIndex].description}
+                  </p>
+                  {featureDescriptions[currentIndex].showButton && featureDescriptions[currentIndex].buttonText && (
+                    <a
+                      href={featureDescriptions[currentIndex].link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-[#4065D1] hover:bg-[#3651a7] text-white font-bold py-2 px-6 rounded-full text-[14px] mt-4"
+                    >
+                      {featureDescriptions[currentIndex].buttonText}
+                    </a>
+                  )}
+                </div>
+              </div>
+              {/* Right Side - Carousel for DESKTOP only */}
+              <div className="order-2 md:order-2 hidden md:flex flex-col items-center justify-center w-full">
                 <video
                   key={carouselVideos[currentIndex]}
                   src={carouselVideos[currentIndex]}
@@ -497,59 +653,9 @@ export default function Membership() {
                 </div>
               </div>
 
-              {/* Kiri - Teks dan fitur (order after video on mobile) */}
-              <div className="order-2 md:order-1 flex flex-col justify-center items-center text-center">
-                <h2 className="text-[24px] md:text-[28px] font-bold text-[#1A214C] mb-4">
-                  Elevate Your Craft with Premium Tools and Resources with Drizy Membership
-                </h2>
-                <p className="text-[#ED9B37] mb-6 text-[16px]">
-                  Included with monthly and annually plans
-                </p>
-
-                <div className="relative w-full max-w-md border-2 border-[#ED9B37] rounded-[24px] p-4 mb-6">
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-[#ED9B37] px-4 py-1 rounded-full border border-white text-white font-bold text-sm shadow">
-                    Feature Details
-                  </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 items-center w-full">
-                    {features.map((feature, i) => (
-                      <img
-                        key={i}
-                        src={i === currentIndex ? feature.srcActive : feature.src}
-                        alt={feature.alt}
-                        onClick={() => {
-                          const newIndex = videoMap[i as keyof typeof videoMap];
-                          setCurrentIndex(newIndex);
-                        }}
-                        className="cursor-pointer rounded-lg w-full aspect-square object-cover transition-transform duration-300 ease-in-out hover:scale-110"
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mt-4 flex flex-col items-center px-2">
-                  <h3 className="text-[24px] md:text-[32px] font-semibold mb-2 text-[#4065D1]">
-                    Drizy Breezy
-                  </h3>
-                  <p className="text-[#595959] text-[16px] text-center">
-                    Drizy Breezy simplifies crafting with its intuitive drag-and-drop tool.
-                    Customize SVG designs, rearrange elements, and create stunning projects
-                    effortlessly. Whether you're a beginner or a pro, this feature makes
-                    designing quick, easy, and fun.
-                  </p>
-                  <a
-                    href="https://breezy.drizycraft.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-[#4065D1] hover:bg-[#3651a7] text-white font-bold py-2 px-6 rounded-full text-[14px] mt-4"
-                  >
-                    Click here
-                  </a>
-                </div>
-              </div>
             </div>
           </div>
         </section>
-
 
 
         {/* Condition */}
@@ -627,8 +733,6 @@ export default function Membership() {
             </div>
           </div>
         </section>
-
-
 
         {/* Testimonials  */}
         <section className='flex flex-col items-center justify-center bg-[#4065D1] text-white'>
@@ -785,7 +889,6 @@ export default function Membership() {
             </div>
           </div>
         </SectionContainer>
-
 
         {/* Footer  */}
         <section>

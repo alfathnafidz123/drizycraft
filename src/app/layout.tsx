@@ -216,7 +216,8 @@ export default function RootLayout({
           <FacebookPixelEvents />
         </Suspense>
       </body>
-      <GoogleAnalytics gaId='G-S80R5B2E8S' />
+      {/* <GoogleAnalytics gaId='G-S80R5B2E8S' /> */}
+      <GoogleAnalytics gaId='G-5YWS2KPHSX' />
     </html>
   );
 }

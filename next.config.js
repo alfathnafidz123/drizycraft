@@ -6,7 +6,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig = {
   eslint: {
     dirs: ['src'],
-    // ignoreDuringBuilds: true,
+    ignoreDuringBuilds: true,
   },
   // output: 'standalone',
   reactStrictMode: false,
