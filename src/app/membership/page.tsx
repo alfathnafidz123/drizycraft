@@ -142,6 +142,7 @@ export default function Membership() {
     };
   }, [showChat]);
 
+  // Handle subscription 
   const handleSubscribe = async (priceId: string, token: string, membership: string) => {
     try {
       if (token) {
