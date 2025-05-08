@@ -148,6 +148,7 @@ export default function Membership() {
         const data = await subscriptionPayment({
           priceId: priceId as string,
           token: token,
+          membership:membership,
         });
         await trackEvent(EventsEnum.InitCheckoutMembership, {
           priceId: priceId as string,
