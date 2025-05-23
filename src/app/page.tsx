@@ -15,6 +15,7 @@ const VectorSection = dynamic(() => import('@/components/home/vector.section'));
 const ProductCategories = dynamic(() => import('@/components/ProductCategories'));
 const Testimonies = dynamic(() => import('@/components/testimonies'));
 const SeasonCategories = dynamic(() => import('@/components/SeasonCategories'));
+const CookieConsentBanner = dynamic(() => import('@/components/home/cookie.banner'));
 
 import dynamic from 'next/dynamic';
 
@@ -75,6 +76,7 @@ export default async function HomePage() {
   //   useState<HomepageDataI>(defaultHomepageData);
   const homeProduct = await getHomePageData();
   const seasonalData = await getSeasonData();
+  
   // console.log(homeProduct.crafterData.filter(item => !item.meta?.[0].image));
 
   // const getSeasonalHome = async () => {
@@ -177,7 +179,11 @@ export default async function HomePage() {
 
       <SubscribeFreebiesSection />
       <AffiliateBanner />
-      <div className='fixed bottom-4 z-20 hidden w-full items-end justify-center lg:flex'>
+
+
+      <CookieConsentBanner />
+
+      {/* <div className='fixed bottom-4 z-20 hidden w-full items-end justify-center lg:flex'>
         <Link href="https://buymeacoffee.com/drizystudio" target="_blank" className='flex justify-end'>
           <Image src={coffeeFloating.src} alt='Help' width={75} height={75} />
         </Link>
@@ -190,7 +196,7 @@ export default async function HomePage() {
             DRIZY VIP<span className='font-base'>+</span>
           </Link>
         </div>
-      </div>
+      </div> */}
     </main>
   );
 }

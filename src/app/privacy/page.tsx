@@ -1,169 +1,538 @@
-export default function Privacy() {
+import { FiGlobe } from '@react-icons/all-files/fi/FiGlobe';
+import { MdEmail } from '@react-icons/all-files/md/MdEmail';
+
+export default function PrivacyPolicy() {
   return (
-    <main>
-      <section className=' font-katide-bold mb-[5%] mt-[5%] text-center text-[36px] tracking-[10px] tracking-wider text-[#1A214C]'>
-        PRIVACY POLICY
+    <main className="bg-[#F4F6FC] font-sans">
+      
+      {/* Header */}
+      <div className="bg-white w-full py-6 px-4 shadow-sm mb-10 mt-6">
+        <h1 className="text-center text-4xl font-katide-bold">
+          PRIVACY POLICY
+        </h1>
+        <p className="text-center text-sm text-[#777777] mt-2">
+          Last updated: May 14, 2025
+        </p>
+      </div>
+
+      {/* Intro Section */}
+      <section className="max-w-6xl mx-auto space-y-6 px-4 md:px-20 py-10 text-sm sm:text-base md:text-[16px] leading-relaxed font-inter-regular">
+        <p>
+          This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your
+          information when You use the Service and tells You about Your privacy rights and how the law protects You.
+        </p>
+        <p>
+          We use Your Personal data to provide and improve the Service. By using the Service, You agree to the collection
+          and use of information in accordance with this Privacy Policy. This Privacy Policy has been created with the
+          help of the Privacy Policy Generator.
+        </p>
       </section>
 
-      <section className='flex flex-col bg-[#EBECF5] pb-[20%] pl-[16%] pr-[16%] text-[#1A214C]'>
-        <p className='font-katide-bold mt-[8%] text-[24px]'>
-          Privacy Policy Consent
+
+      {/* Interpretation Section */}
+      <section className="max-w-6xl mx-auto px-4 md:px-20 pb-16 text-[16px]">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-inter-regular mb-6 md:mb-10">
+          Interpretation and Definitions
+        </h2>
+
+        <h3 className="text-xl font-bold mb-6">Interpretation</h3>
+        <p className="mb-8 text-sm sm:text-base md:text-[16px] leading-relaxed">
+          The words of which the initial letter is capitalized have meanings defined under the following conditions.
+          The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.
         </p>
-        <p className='mt-[24px] text-[16px]'>
-          We reserve the right to change this Privacy Policy on the Website at
-          any time without notice. Use of any information or contribution that
-          you provide to us, or which is collected by us on or through our
-          Website or its Content is governed by this Privacy Policy. By using
-          our Website or its Content, you consent to this Privacy Policy.
+        <h3 className="text-xl font-bold mb-4">Definitions</h3>
+        <p className="mb-6">For the purposes of this Privacy Policy:</p>
+
+        <div className="space-y-2 divide-y divide-[#1A214C]/30 border-t border-b border-[#1A214C]/30 pb-2">
+        {[
+          {
+            term: 'Account',
+            definition:
+              'means a unique account created for You to access our Service or parts of our Service.',
+          },
+          {
+            term: 'Affiliate',
+            definition:
+              'means an entity that controls, is controlled by or is under common control with a party, where "control" means ownership of 50% or more of the shares, equity interest or other securities entitled to vote for election of directors or other managing authority.',
+          },
+          {
+            term: 'Company',
+            definition:
+              '(referred to as either "the Company", "We", "Us" or "Our" in this Agreement) refers to CV Drizy Studio Kreatif, Jl. Tanjung Sari Raya No.38, Antapani Wetan, Kec. Antapani, Kota Bandung, Jawa Barat 40291.',
+          },
+          {
+            term: 'Cookies',
+            definition:
+              'are small files that are placed on Your computer, mobile device or any other device by a website, containing the details of Your browsing history on that website among its many uses.',
+          },
+          {
+            term: 'Country',
+            definition: 'refers to: Indonesia',
+          },
+          {
+            term: 'Device',
+            definition:
+              'means any device that can access the Service such as a computer, a cellphone or a digital tablet.',
+          },
+          {
+            term: 'Personal Data',
+            definition:
+              'is any information that relates to an identified or identifiable individual.',
+          },
+          {
+            term: 'Service',
+            definition:
+              'refers to the Website.',
+          },
+          {
+            term: 'Service Provider',
+            definition:
+              'means any natural or legal person who processes the data on behalf of the Company. It refers to third-party companies or individuals employed by the Company to facilitate the Service, to provide the Service on behalf of the Company, to perform services related to the Service or to assist the Company in analyzing how the Service is used.',
+          },
+          {
+            term: 'Third-party Social Media Service',
+            definition:
+              'refers to any website or any social network website through which a User can log in or create an account to use the Service.',
+          },
+          {
+            term: 'Usage Data',
+            definition:
+              'refers to data collected automatically, either generated by the use of the Service or from the Service infrastructure itself (for example, the duration of a page visit).',
+          },
+          {
+            term: 'Website',
+            definition:
+              'refers to Drizy Craft, accessible from https://drizycraft.com/.',
+          },
+          {
+            term: 'You',
+            definition:
+              'means the individual accessing or using the Service, or the company, or other legal entity on behalf of which such individual is accessing or using the Service, as applicable.',
+          },
+        ].map((item, index) => (
+        <div key={index} className="pt-2">
+            <p className="text-sm sm:text-base md:text-[16px] font-inter-regular leading-relaxed">
+              <span className="font-semibold">{item.term} </span>
+              <span className="font-inter-regular">{item.definition}</span>
+            </p>
+          </div>
+
+        ))}
+      </div>
+      </section>
+
+      {/* Collecting and Using Your Personal Data */}
+      <section className="max-w-6xl mx-auto px-4 md:px-20 pb-16 text-[16px] leading-relaxed font-inter">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-inter-regular mb-6 md:mb-10">
+          Collecting and Using Your Personal Data
+        </h2>
+
+          <h3 className="text-lg sm:text-xl md:text-2xl font-inter-regular mb-6 md:mb-10">
+            Types of Data Collected
+          </h3>
+
+        <div className="space-y-6">
+          {/* Personal Data */}
+          <div className="text-sm sm:text-base md:text-[16px] leading-relaxed font-inter-regular space-y-4">
+          <h4 className="text-base sm:text-lg font-semibold">Personal Data</h4>
+
+          <p>
+            While using Our Service, We may ask You to provide Us with certain personally identifiable
+            information that can be used to contact or identify You. Personally identifiable information may include, but is not limited to:
+          </p>
+
+          <ul className="list-disc list-inside space-y-1">
+            <li>Email address</li>
+            <li>First name and last name</li>
+            <li>Phone number</li>
+            <li>Address, State, Province, ZIP/Postal code, City</li>
+            <li>Usage Data</li>
+          </ul>
+        </div>
+          <div className="text-sm sm:text-base md:text-[16px] leading-relaxed font-inter-regular space-y-6 mt-12">
+              <h4 className="text-base sm:text-lg font-semibold">Usage Data</h4>
+
+              <p>
+                Usage Data is collected automatically when using the Service.
+              </p>
+
+              <p>
+                Usage Data may include information such as Your Device’s Internet Protocol address (e.g. IP address),
+                browser type, browser version, the pages of our Service that You visit, the time and date of Your visit,
+                the time spent on those pages, unique device identifiers and other diagnostic data.
+              </p>
+
+              <p>
+                When You access the Service by or through a mobile device, We may collect certain information automatically, including,
+                but not limited to, the type of mobile device You use, Your mobile device unique ID, the IP address of Your mobile device,
+                Your mobile operating system, the type of mobile Internet browser You use, unique device identifiers and other diagnostic
+                data.
+              </p>
+
+              <p>
+                We may also collect information that Your browser sends whenever You visit our Service or when You access the Service by
+                or through a mobile device.
+              </p>
+            </div>
+          {/* Social Media */}
+          <div className="text-sm sm:text-base md:text-[16px] leading-relaxed font-inter-regular space-y-4">
+            <h4 className="text-base sm:text-lg font-semibold">
+              Information from Third-Party Social Media Services
+            </h4>
+
+            <p>
+              The Company allows You to create an account and log in to use the Service through the following Third-Party Social Media
+              Services:
+            </p>
+
+            <ul className="list-disc list-inside space-y-1">
+              <li>Google</li>
+              <li>Facebook</li>
+              <li>Instagram</li>
+              <li>Twitter</li>
+              <li>LinkedIn</li>
+            </ul>
+
+            <p>
+              If You decide to register through or otherwise grant us access to a Third-Party Social Media Service, We may collect
+              Personal Data that is already associated with Your Third-Party Social Media Service’s account, such as Your name, Your
+              email address, Your activities or Your contact list associated with that account.
+            </p>
+
+            <p>
+              You may also have the option of sharing additional information with the Company through Your Third-Party Social Media
+              Service’s account. If You choose to provide such information and Personal Data, during registration or otherwise, You are
+              giving the Company permission to use, share, and store it in a manner consistent with this Privacy Policy.
+            </p>
+          </div>
+
+        {/* Cookies and Tracking */}
+        <div className="text-sm sm:text-base md:text-[16px] leading-relaxed font-inter-regular space-y-6">
+          <h3 className="text-lg sm:text-xl font-inter-semibold">
+            Tracking Technologies and Cookies
+          </h3>
+
+          <p>
+            We use Cookies and similar tracking technologies to track the activity on Our Service and store certain information. Tracking
+            technologies used are beacons, tags, and scripts to collect and track information and to improve and analyze Our Service. The
+            technologies We use may include:
+          </p>
+
+          <ul className="list-disc pl-6 space-y-4">
+            <li>
+              <span className="font-semibold">Cookies or Browser Cookies.</span> A cookie is a small file placed on Your Device. You can instruct Your browser to refuse all Cookies
+              or to indicate when a Cookie is being sent. However, if You do not accept Cookies, You may not be able to use some parts of our
+              Service. Unless You have adjusted Your browser setting so that it will refuse Cookies, our Service may use Cookies.
+            </li>
+            <li>
+              <span className="font-semibold">Web Beacons.</span> Certain sections of our Service and our emails may contain small electronic files known as web beacons (also referred
+              to as clear gifs, pixel tags, and single-pixel gifs) that permit the Company, for example, to count users who have visited those
+              pages or opened an email. They are also used for other related website statistics (for example, recording the popularity of a
+              certain section and verifying system and server integrity).
+            </li>
+          </ul>
+
+          <p className="my-6">
+            Cookies can be <strong>“Persistent”</strong> or <strong>“Session”</strong> Cookies. Persistent Cookies remain on Your device when You go offline,
+            while Session Cookies are deleted as soon as You close Your web browser. <br />
+            We use both Session and Persistent Cookies for the purposes set out below:
+          </p>
+
+          <ul className="list-disc pl-4 sm:pl-6 space-y-8">
+            <li>
+              <p className="font-semibold text-base sm:text-lg mb-2">Necessary / Essential Cookies</p>
+              <div className="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-x-4 gap-y-2">
+                <span className="font-semibold">Type:</span>
+                <span>Session Cookies</span>
+
+                <span className="font-semibold">Administered by:</span>
+                <span>Us</span>
+
+                <span className="font-semibold">Purpose:</span>
+                <span>
+                  These Cookies are essential to provide You with services available through the Website and to enable You to use
+                  some of its features. They help to authenticate users and prevent fraudulent use of user accounts. Without these
+                  Cookies, the services that You have asked for cannot be provided, and We only use these Cookies to provide You
+                  with those services.
+                </span>
+              </div>
+            </li>
+
+            <li>
+              <p className="font-semibold text-base sm:text-lg mb-2">Cookies Policy / Notice Acceptance Cookies</p>
+              <div className="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-x-4 gap-y-2">
+                <span className="font-semibold">Type:</span>
+                <span>Persistent Cookies</span>
+
+                <span className="font-semibold">Administered by:</span>
+                <span>Us</span>
+
+                <span className="font-semibold">Purpose:</span>
+                <span>
+                  These Cookies identify if users have accepted the use of cookies on the Website.
+                </span>
+              </div>
+            </li>
+
+            <li>
+              <p className="font-semibold text-base sm:text-lg mb-2">Functionality Cookies</p>
+              <div className="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-x-4 gap-y-2">
+                <span className="font-semibold">Type:</span>
+                <span>Persistent Cookies</span>
+
+                <span className="font-semibold">Administered by:</span>
+                <span>Us</span>
+
+                <span className="font-semibold">Purpose:</span>
+                <span>
+                  These Cookies allow us to remember choices You make when You use the Website, such as remembering your login
+                  details or language preference. The purpose of these Cookies is to provide You with a more personal experience
+                  and to avoid You having to re-enter your preferences every time You use the Website.
+                </span>
+              </div>
+            </li>
+          </ul>
+
+          <p className="mt-6">
+            For more information about the cookies we use and your choices regarding cookies, please visit our Cookies Policy or the Cookies
+            section of our Privacy Policy.
+          </p>
+        </div>
+
+      </div>
+      </section>
+
+
+      {/* Personal Data*/}
+      <section className="max-w-6xl mx-auto px-4 md:px-20 pb-16 text-[16px]">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-inter-regular mb-6 md:mb-10">
+          Use of Your Personal Data
+        </h2>
+        <p className="mb-12">
+          The Company may use Personal Data for the following purposes:
         </p>
 
-        <p className='font-katide-bold mt-[8%] text-[24px]'>
-          Submission, Storage and Sharing of Personal Data
-        </p>
-        <p className='mt-[24px] text-[16px]'>
-          To use our Website or its Content, we may seek personal data including
-          your name, e-mail address, street address, city, state, or other
-          personally identifying information.
-          <br />
-          <br />
-          We use 3rd party payment gateway system that will only provide us your
-          payment method. Not your credential payment information Every customer
-          at our shop, automatically registred and have customer account. Our
-          customer also automatically registred in our newsletter system.
-          <br />
-          <br />
-          By providing such Confidential Information or Other Information to us,
-          you grant us permission to use and store such information. Your
-          Confidential Information is stored through by us internally or through
-          a data management system. Your Confidential Information will only be
-          accessed by those who help to obtain, manage or store that
-          Information, or who have a legitimate need to know such Confidential
-          Information.
+        <div className="space-y-2 divide-y divide-[#1A214C]/30 border-t border-b border-[#1A214C]/30 pb-2">
+          {[
+            {
+              term: 'To provide and maintain our Service',
+              definition: 'including to monitor the usage of our Service.',
+            },
+            {
+              term: 'To manage Your Account',
+              definition:
+                'to manage Your registration as a user of the Service. The Personal Data You provide can give You access to different functionalities of the Service that are available to You as a registered user.',
+            },
+            {
+              term: 'For the performance of a contract',
+              definition:
+                'the development, compliance and undertaking of the purchase contract for the products, items or services You have purchased or of any other contract with Us through the Service.',
+            },
+            {
+              term: 'To contact You',
+              definition:
+                'to contact You by email, telephone calls, SMS, or other equivalent forms of electronic communication, such as a mobile application’s push notifications regarding updates or informative communications related to the functionalities, products or contracted services, including the security updates, when necessary or reasonable for their implementation.',
+            },
+            {
+              term: 'To provide You with',
+              definition:
+                'news, special offers and general information about other goods, services and events which we offer that are similar to those that you have already purchased or enquired about unless You have opted not to receive such information.',
+            },
+            {
+              term: 'To manage Your requests',
+              definition: 'to attend and manage Your requests to Us.',
+            },
+            {
+              term: 'For business transfers',
+              definition:
+                'We may use Your information to evaluate or conduct a merger, divestiture, restructuring, reorganization, dissolution, or other sale or transfer of some or all of Our assets, whether as a going concern or as part of bankruptcy, liquidation, or similar proceeding, in which Personal Data held by Us about our Service users is among the assets transferred.',
+            },
+            {
+              term: 'For other purposes',
+              definition:
+                'We may use Your information for other purposes, such as data analysis, identifying usage trends, determining the effectiveness of our promotional campaigns and to evaluate and improve our Service, products, services, marketing and your experience.',
+            },
+          ].map((item, index) => (
+            <div key={index} className="pt-2">
+              <p className="text-sm sm:text-base md:text-[16px] font-inter-regular leading-relaxed">
+                <span className="font-semibold">{item.term} </span>
+                <span className="font-inter-regular">{item.definition}</span>
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <p className="mt-12 mb-12">
+          We may share Your personal information in the following situations:
         </p>
 
-        <p className='font-katide-bold mt-[8%] text-[24px]'>Confidentiality</p>
-        <p className='mt-[24px] text-[16px]'>
-          We aim to keep the Confidential Information that you share with us
-          confidential. Please note that we may disclose such Confidential
-          Information if required to do so by law or in the good-faith belief
-          that : Such action is necessary to protect and defend our rights or
-          property or those of our users. To act as immediately necessary in
-          order to protect the personal safety or rights of our users or the
-          public. To investigate or respond to any real or perceived violation
-          of this Privacy Policy or of our Disclaimer, Terms and Conditions, or
-          any other terms of use or agreement with us.
+        <div className="space-y-2 divide-y divide-[#1A214C]/30 border-t border-b border-[#1A214C]/30 pb-2">
+          {[
+            {
+              term: 'With Service Providers',
+              definition:
+                'We may share Your personal information with Service Providers to monitor and analyze the use of our Service, to contact You.',
+            },
+            {
+              term: 'For business transfers',
+              definition:
+                'We may share or transfer Your personal information in connection with, or during negotiations of, any merger, sale of Company assets, financing, or acquisition of all or a portion of Our business to another company.',
+            },
+            {
+              term: 'With Affiliates',
+              definition:
+                'We may share Your information with Our affiliates, in which case we will require those affiliates to honor this Privacy Policy. Affiliates include Our parent company and any other subsidiaries, joint venture partners or other companies that We control or that are under common control with Us.',
+            },
+            {
+              term: 'With business partners',
+              definition:
+                'We may share Your information with Our business partners to offer You certain products, services or promotions.',
+            },
+            {
+              term: 'With other users',
+              definition:
+                'When You share personal information or otherwise interact in the public areas with other users, such information may be viewed by all users and may be publicly distributed outside.',
+            },
+            {
+              term: 'With Your consent',
+              definition:
+                'We may disclose Your personal information for any other purpose with Your consent.',
+            },
+          ].map((item, index) => (
+            <div key={index} className="pt-2">
+              <p className="text-sm sm:text-base md:text-[16px] font-inter-regular leading-relaxed">
+              <span className="font-semibold">{item.term} </span>
+              <span className="font-inter-regular">{item.definition}</span>
+            </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+
+      <section className="max-w-6xl mx-auto px-4 md:px-20 pb-16 text-[16px] font-inter leading-relaxed">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-inter-regular mb-6 md:mb-10">
+          Retention of Your Personal Data
+        </h2>
+        <p className="mb-12 text-sm sm:text-base md:text-[16px] leading-relaxed">
+          The Company will retain Your Personal Data only for as long as necessary for the purposes set out in this Privacy Policy. We will retain and use Your Personal Data to the extent necessary to comply with legal obligations (for example, if required to retain data under applicable laws), resolve disputes, and enforce our legal agreements and policies.
+        </p>
+        <p className="mb-12 text-sm sm:text-base md:text-[16px] leading-relaxed">
+          The Company also retains Usage Data for internal analysis purposes. Usage Data is generally retained for a shorter period, except when it is used to improve service security or functionality, or where legally required for longer periods.
         </p>
 
-        <p className='font-katide-bold mt-[8%] text-[24px]'>Passwords</p>
-        <p className='mt-[24px] text-[16px]'>
-          To use certain features of the Website or its Content, you may need a
-          username and password. You are responsible for maintaining the
-          confidentiality of the username and password, and you are responsible
-          for all activities, whether by you or by others, that occur under your
-          username or password and within your account. <br />
-          <br />
-          You agree to notify us immediately of any unauthorized or improper use
-          of your username or password or any other breach of security. To help
-          protect against unauthorized or improper use, make sure that you log
-          out at the end of each session requiring your username and password.
-          <br />
-          <br />
-          It is your responsibility to protect your own username and password
-          from disclosure to others. We cannot and will not be liable for any
-          loss or damage arising from your failure to protect your username,
-          password or account information.
-          <br />
-          <br />
-          If you share your username or password with others, they may be able
-          to obtain access to your personal information at your own risk.
-          <br />
-          <br />
-          We will use our best efforts to keep your username and password(s)
-          private and will not otherwise share your password(s) without your
-          consent, except as necessary when the law requires it or in the good
-          faith belief that such action is necessary, particularly when
-          disclosure is necessary to identify, contact or bring legal action
-          against someone who may be causing injury to others or interfering
-          with our rights or property.
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-inter-regular mb-6 md:mb-10">
+          Transfer of Your Personal Data
+        </h2>
+        <p className="mb-12 text-sm sm:text-base md:text-[16px] leading-relaxed">
+          Your information, including Personal Data, is processed at the Company's operating offices and in any other places where the parties involved in the processing are located. It means that this information may be transferred to — and maintained on — computers located outside of Your state, province, country or other governmental jurisdiction where the data protection laws may differ than those from Your jurisdiction.
+        </p>
+        <p className="mb-12 text-sm sm:text-base md:text-[16px] leading-relaxed">
+          Your consent to this Privacy Policy followed by Your submission of such information represents Your agreement to that transfer. The Company will take all steps reasonably necessary to ensure that Your data is treated securely and in accordance with this Privacy Policy and no transfer of Your Personal Data will take place to an organization or a country unless there are adequate controls in place including the security of Your data and other personal information.
         </p>
 
-        <p className='font-katide-bold mt-[8%] text-[24px]'>Unsubscribe</p>
-        <p className='mt-[24px] text-[16px]'>
-          You may unsubscribe to our newsletters or updates at any time through
-          the unsubscribe link at the footer of all e-mail communications. We
-          manage e-mail lists through a list management system. Unsubscribing
-          from one list managed by us will not necessarily remove you from all
-          publication email lists. Contact Us if you have questions or are
-          experiencing problems relate to unsubscribing process.
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-inter-regular mb-6 md:mb-10">
+          Delete Your Personal Data
+        </h2>
+        <p className="mb-12 text-sm sm:text-base md:text-[16px] leading-relaxed">
+          You have the right to delete or request that We assist in deleting the Personal Data We have collected about you. Our Service may offer the ability to delete certain information directly from within the Service.
+        </p>
+        <p className="mb-12 text-sm sm:text-base md:text-[16px] leading-relaxed">
+          You may update, amend, or delete your information at any time by signing in to your account and accessing the settings. You may also contact Us to request access to, correct, or delete any personal information you have provided. However, some information may need to be retained where there is a legal obligation or lawful basis to do so.
         </p>
 
-        <p className='font-katide-bold mt-[8%] text-[24px]'>Anti-Spam Policy</p>
-        <p className='mt-[24px] text-[16px]'>
-          We have a no spam policy and provide you with the ability to opt-out
-          of our communications by selecting the unsubscribe link at the footer
-          of all e-mails.
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-inter-regular mb-6 md:mb-10">
+          Disclosure of Your Personal Data
+        </h2>
+
+        <div className="mb-12">
+          <p className="font-bold text-[20px] mb-6">Business Transactions</p>
+          <p className="text-sm sm:text-base md:text-[16px] leading-relaxed">
+            If the Company is involved in a merger, acquisition, or asset sale, your Personal Data may be transferred. We will provide notice before your Personal Data is transferred and becomes subject to a different Privacy Policy.
+          </p>
+        </div>
+
+        <div className="mb-12">
+          <p className="font-bold text-[20px] mb-6">Law Enforcement</p>
+          <p className="text-sm sm:text-base md:text-[16px] leading-relaxed">
+            Under certain circumstances, the Company may be required to disclose your Personal Data if mandated by law or in response to valid requests from public authorities (e.g., a court or government agency).
+          </p>
+        </div>
+
+        <div className="mb-12">
+          <p className="font-bold text-[20px] mb-4">Other Legal Requirements</p>
+          <p className="mb-4 text-sm sm:text-base md:text-[16px] leading-relaxed">
+            The Company may disclose Your Personal Data in good faith when such action is necessary to:
+          </p>
+          <ul className="list-disc pl-6 space-y-1 text-sm sm:text-base md:text-[16px]">
+            <li>Comply with a legal obligation</li>
+            <li>Protect and defend the rights or property of the Company</li>
+            <li>Prevent or investigate potential wrongdoing related to the Service</li>
+            <li>Protect the personal safety of users of the Service or the public</li>
+            <li>Protect against legal liability</li>
+          </ul>
+        </div>
+        <div className="mb-12">
+          <p className="font-bold text-[20px] mb-6">Security of Your Personal Data</p>
+          <p className="text-sm sm:text-base md:text-[16px] leading-relaxed">
+            The security of Your Personal Data is important to Us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While We strive to use commercially acceptable means to protect Your Personal Data, We cannot guarantee its absolute security.
+          </p>
+        </div>
+
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-inter-regular mb-6 md:mb-10">
+          Children's Privacy
+        </h2>
+        <p className="mb-6 text-sm sm:text-base md:text-[16px] leading-relaxed">
+          Our Service does not address anyone under the age of 13. We do not knowingly collect personally identifiable information from anyone under the age of 13. If You are a parent or guardian and You are aware that Your child has provided Us with Personal Data, please contact Us. If We become aware that We have collected Personal Data from anyone under the age of 13 without verification of parental consent, We take steps to remove that information from Our servers.
+        </p>
+          <p className="mb-12 text-sm sm:text-base md:text-[16px] leading-relaxed">
+          If We need to rely on consent as a legal basis for processing Your information and Your country requires consent from a parent, We may require Your parent's consent before We collect and use that information.
         </p>
 
-        <p className='font-katide-bold mt-[8%] text-[24px]'>Use of “Cookies”</p>
-        <p className='mt-[24px] text-[16px]'>
-          We may use the standard “cookies” feature of major web browsers. We do
-          not set any personally identifiable information in cookies, nor do we
-          employ any data-capture mechanisms on our Website other than cookies.
-          <br />
-          <br />
-          You may choose to disable cookies through your own web browser’s
-          settings. We have no access to or control over any information
-          collected by other individuals, companies or entities whose website or
-          materials may be linked to our Website or its Content.
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-inter-regular mb-6 md:mb-10">
+          Links to Other Websites
+        </h2>
+          <p className="mb-6 text-sm sm:text-base md:text-[16px] leading-relaxed">
+          Our Service may contain links to other websites that are not operated by Us. If You click on a third party link, You will be directed to that third party's site. We strongly advise You to review the Privacy Policy of every site You visit.
+        </p>
+          <p className="mb-12 text-sm sm:text-base md:text-[16px] leading-relaxed">
+          We have no control over and assume no responsibility for the content, privacy policies or practices of any third party sites or services.
         </p>
 
-        <p className='font-katide-bold mt-[8%] text-[24px]'>
-          Privacy Policies of Other Websites
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-inter-regular mb-6 md:mb-10">
+          Changes to this Privacy Policy
+        </h2>
+          <p className="mb-6 text-sm sm:text-base md:text-[16px] leading-relaxed">
+          We may update Our Privacy Policy from time to time. We will notify You of any changes by posting the new Privacy Policy on this page.
         </p>
-        <p className='mt-[24px] text-[16px]'>
-          We have no responsibility or liability for the content and activities
-          of any other individual, company or entity whose website or materials
-          may be linked to our Website or its Content, and thus we cannot be
-          held liable for the privacy of the information on their website or
-          that you voluntarily share with their website.
-          <br />
-          <br />
-          Please review their privacy policies for guidelines as to how they
-          respectively store, use and protect the privacy of your Confidential
-          Information and Other Information.
+          <p className="mb-6 text-sm sm:text-base md:text-[16px] leading-relaxed">
+          We will let You know via email and/or a prominent notice on Our Service, prior to the change becoming effective and update the "Last updated" date at the top of this Privacy Policy.
+        </p>
+          <p className="mb-14 text-sm sm:text-base md:text-[16px] leading-relaxed">
+          You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.
         </p>
 
-        <p className='font-katide-bold mt-[8%] text-[24px]'>
-          Assignment of Rights
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-inter-regular mb-6 md:mb-10">
+          Contact Us
+        </h2>
+        <p className="mb-2 flex items-center gap-2">
+          <MdEmail className="text-[#1A214C]" size={20} />
+          <span className="text-black not-italic text-sm sm:text-base md:text-[16px]">admin@drizystudio.com</span>
         </p>
-        <p className='mt-[24px] text-[16px]'>
-          In the event of an assignment, sale, joint venture, or other transfer
-          of some or all of our assets, you agree we can assign, sell, license
-          or transfer any information that you have provided to us.
-        </p>
-
-        <p className='font-katide-bold mt-[8%] text-[24px]'>
-          Notification of Changes
-        </p>
-        <p className='mt-[24px] text-[16px]'>
-          We may use your contact information to inform you of changes to the
-          Website or its Content, or, if requested, to send you additional
-          information about us.
-          <br />
-          <br />
-          We reserve the right, at our sole discretion, to change, modify or
-          otherwise alter our Website, its Content and this Privacy Policy at
-          any time. Such changes and/or modifications shall become effective
-          immediately upon posting our updated Privacy Policy.
-          <br />
-          <br />
-          Please review this Privacy Policy periodically. Continued use of any
-          of information obtained through or on the Website or its Content
-          following the posting of changes and/or modifications constitutes
-          acceptance of the revised Privacy Policy. Please contact us if you
-          have any questions about this Privacy Policy.
+        <p className="flex items-center gap-2">
+          <FiGlobe className="text-[#1A214C]" size={20} />
+          <a
+            href="https://www.drizycraft.com/contact-us"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-black not-italic text-sm sm:text-base md:text-[16px] hover:underline"
+          >
+            www.drizycraft.com/contact-us
+          </a>
         </p>
       </section>
+
+
     </main>
   );
 }

@@ -41,56 +41,64 @@
 @layer base {
   @font-face {
     font-family: 'Katide Thin';
-    src: url('/fonts/Katide-Thin.woff2') format('woff2');
+    /* src: url('/fonts/Katide-Thin.woff2') format('woff2'); */
+    src: url('/fonts/NunitoSans.ttf') format('truetype');
     font-weight: 100;
     font-style: normal;
   }
 
   @font-face {
     font-family: 'Katide Light';
-    src: url('/fonts/Katide-Light.woff2') format('woff2');
+    /* src: url('/fonts/Katide-Light.woff2') format('woff2'); */
+    src: url('/fonts/NunitoSans.ttf') format('truetype');
     font-weight: 300;
     font-style: normal;
   }
 
   @font-face {
     font-family: 'Katide Regular';
-    src: url('/fonts/Katide-Regular.woff2') format('woff2');
+    /* src: url('/fonts/Katide-Regular.woff2') format('woff2'); */
+    src: url('/fonts/NunitoSans.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
   }
 
   @font-face {
     font-family: 'Katide Medium';
-    src: url('/fonts/Katide-Medium.woff2') format('woff2');
+    /* src: url('/fonts/Katide-Medium.woff2') format('woff2'); */
+    src: url('/fonts/NunitoSans.ttf') format('truetype');
     font-weight: 500;
     font-style: normal;
   }
 
   @font-face {
     font-family: 'Katide SemiBold';
-    src: url('/fonts/Katide-SemiBold.woff2') format('woff2');
+    /* src: url('/fonts/Katide-SemiBold.woff2') format('woff2'); */
+    src: url('/fonts/NunitoSans.ttf') format('truetype');
     font-weight: 600;
     font-style: normal;
   }
 
   @font-face {
     font-family: 'Katide Bold';
-    src: url('/fonts/Katide-Bold.woff2') format('woff2');
+    /* src: url('/fonts/Katide-Bold.woff2') format('woff2'); */
+    src: url('/fonts/NunitoSans.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
   }
 
   @font-face {
     font-family: 'Katide ExtraBold';
-    src: url('/fonts/Katide-ExtraBold.woff2') format('woff2');
+    /* src: url('/fonts/Katide-ExtraBold.woff2') format('woff2'); */
+    src: url('/fonts/NunitoSans.ttf') format('truetype');
     font-weight: 800;
     font-style: normal;
   }
 
   @font-face {
     font-family: 'Katide Heavy';
-    src: url('/fonts/Katide-Heavy.woff2') format('woff2');
+    /* src: url('/fonts/Katide-Heavy.woff2') format('woff2'); */
+    src: url('/fonts/NunitoSans.ttf') format('truetype');
     font-weight: 900;
     font-style: normal;
   }
