@@ -21,10 +21,13 @@ import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
 import { subscriptionPayment } from '@/app/api/billing/subscriptionPayment';
 
 import {
+  backgroundMembership1,
+  backgroundMembership2,
   bestValue,
   checkblue,
   crossMember,
   drizzyCoin,
+  leftMembership,
   member1,
   member2,
   member3,
@@ -32,18 +35,14 @@ import {
   membership2,
   membership3,
   membership4,
-  vip,
-  rightMembership,
-  leftMembership,
-  backgroundMembership1,
-  backgroundMembership2,
   membershipProduct1,
   membershipProduct2,
   membershipProduct3,
   membershipProduct4,
   membershipProduct5,
   membershipProduct6,
-  
+  rightMembership,
+  vip,
 } from '~/images';
 const CustomerSupportLottie = dynamic(
   () => import('../../components/lottie/customer-support'),
@@ -61,6 +60,7 @@ export default function Membership() {
       price: 'Free Trial',
       discount: undefined,
       extra: undefined,
+      additional: undefined,
       text: "<br/> Get started with Drizy VIP+ Annual Access with a 14 DAYS of free trial. Download premium products for 14 DAYS. <br/> <br/> You’ll be billed $35.88/year on the 15th day. You can cancel anytime before the trial ends.",
       coin: <p className='text-sm'>
         <span className='font-katide-semibold'>5 Drizy Coins</span> for a day
@@ -84,6 +84,7 @@ export default function Membership() {
       price: '$3.99/mo',
       discount: '$9.99',
       extra: undefined,
+      additional: 'First Month Only',
       text: "Get unlimited access to all premium assets. Unleash boundless crafting joy, as effortless as drag-and-drop onto your beloved cutting, laser & sublimation machines. Commercial and POD license included. <br /><br />Billed $4.99/month after First Month Promo Ends. Cancel anytime.",
       coin: <p className='text-sm'>
         <span className='font-katide-semibold'>50 Drizy Coins</span> to all premium products
@@ -107,6 +108,7 @@ export default function Membership() {
       price: '$2.99/mo',
       discount: '$199.88',
       extra: '($35.88/year)',
+      additional: undefined,
       text: "<br/> Crafting your Way! Unlock a year of premium features at the lowest price. Save more. <br/><br/>Billed $35.88/year after First Month Promo Ends. Cancel anytime. <br/><br/>",
       coin: <p className='text-sm'>
         <span className='font-katide-semibold'>Unlimited Drizy Coins</span> for
@@ -142,6 +144,7 @@ export default function Membership() {
     };
   }, [showChat]);
 
+  // Handle subscription 
   const handleSubscribe = async (priceId: string, token: string, membership: string) => {
     try {
       if (token) {
@@ -316,21 +319,22 @@ export default function Membership() {
         {/* Card Membership  */}
         <section className='flex flex-col items-center justify-center text-[#1A214C] pt-10'>
             <div className='flex w-full flex-col items-center text-[#1A214C] lg:max-w-[1264px]'>
-              <div className='relative flex flex-col flex-wrap items-center justify-center rounded-lg lg:border border-[#1A214C] p-2 lg:p-12 mb-12 sm:border-0'>
+              <div className='relative flex flex-col flex-wrap items-center justify-center rounded-lg lg:border border-[#1A214C] p-2 lg:p-12 mb-12 sm:border-0' style={{ borderRadius: '24px' }}>
                 {/* Badge Image at Top */}
                 <div className='absolute -top-3 left-0 flex w-full justify-center'>
-                  <div className='absolute -top-10 left-1/2 transform -translate-x-1/2'>
+                  <div className='absolute -top-7 left-1/2 transform -translate-x-1/2'>
                     <Image src={vip.src} alt='Cov Product' width={235} height={78} className="z-10" />
                   </div>
                 </div>
 
                 {/* Subscription Plan Cards */}
-                <div className='flex w-full flex-col justify-center lg:flex-row gap-4 lg:gap-16 max-lg:px-8 mt-8 lg:mt-0'>
+                <div className='flex w-full flex-col justify-center lg:flex-row gap-10 lg:gap-9 max-lg:px-8 mt-8 lg:mt-8'>
                   {subscriptionPlans.map((plan, index) => (
                     <div
                       key={index}
-                      className='rounded-2xl bg-white shadow-lg max-md:min-h-[400px] max-md:w-[280px] lg:!min-h-[1020px] lg:w-1/4 relative group border-2 border-white hover:border-[#EE4C73] transition-all max-sm:p-2 max-sm:shadow-lg'
-                      >
+                      className="rounded-2xl bg-white shadow-2xl shadow-[#00000033] max-md:min-h-[400px] max-md:w-[280px] lg:!min-h-[1020px] lg:w-1/4 relative group border-2 border-white hover:border-[#EE4C73] transition-all max-sm:p-2 max-sm:shadow-2xl"
+                    >
+
                       {/* Header Style Color */}
                       {plan.duration === "ANNUAL ACCESS" && (
                         <div className='bg-[#EE4C73] w-full h-36 absolute top-0 left-0 rounded-t-2xl' />
@@ -345,9 +349,9 @@ export default function Membership() {
                       )}
 
                       {/* <div className={`flex flex-col rounded-2xl p-2 lg:p-6 z-10 w-full ${plan.duration === "ANNUAL ACCESS" ? "absolute bg-transparent" : ""}`}> */}
-                      <div className={'flex flex-col rounded-2xl p-2 lg:p-6 z-10 w-full'}>
+                      <div className="flex flex-col rounded-2xl p-2 lg:p-6 z-10 w-full">
                         <div className='flex flex-col items-center gap-4 rounded-2xl border border-[#DDDDDD] bg-[#F8F8FA] pt-4 h-[274px] relative'>
-                          <p className='w-4/5 rounded-xl bg-[#1A214C] py-2 text-center text-white whitespace-nowrap'>
+                          <p className='w-5/6 rounded-xl bg-[#1A214C] py-2 text-center text-white whitespace-nowrap'>
                             {plan.duration}
                           </p>
 
@@ -378,9 +382,18 @@ export default function Membership() {
                               <div className='text-center font-katide-semibold text-gray-400 line-through'>{plan.discount}</div>
                             </div>
                           )}
+                          
+                          {/* Additional Text */}
+                          {plan.price?.trim() === '$3.99/mo' && (
+                            <div className="relative h-6 overflow-visible">
+                              <div className="absolute left-1/2 -translate-x-1/2 -top-1 font-katide text-gray-400 text-[12px] opacity-70 whitespace-nowrap">
+                                First Month Only
+                              </div>
+                            </div>
+                          )}
 
                           {/* Coin Info */}
-                          <div className='absolute bottom-0 left-1/2 -translate-x-1/2 flex w-[95%] items-center gap-3 rounded-2xl bg-[#C2E5FF] p-2 h-14'>
+                          <div className='absolute bottom-0 left-1/2 -translate-x-1/2 flex w-[101%] items-center gap-3 rounded-2xl bg-[#C2E5FF] p-4 h-14'>
                             <Image
                               src={drizzyCoin.src}
                               alt='coin'
@@ -470,11 +483,11 @@ export default function Membership() {
 
         {/* Membership included  */}
         <section className="block sm:hidden w-full px-4 py-12 flex flex-col items-center text-[#1A214C]">
-          <h2 className="text-2xl font-bold text-[#4065D1] text-center mb-10">
+          <h2 className="text-2xl font-katide-extrabold text-[#4065D1] text-center mb-10">
             ALL PLANS INCLUDE:
           </h2>
 
-          <div className="w-full flex flex-col gap-8 p-4">
+          <div className="w-full flex flex-col gap-8 p-5">
             {[
               {
                 title: "Fresh Designs, Every Day",
@@ -493,18 +506,18 @@ export default function Membership() {
                 desc: "See real creations made by our community — get inspired and spark your next masterpiece!"
               },
             ].map((item, i) => (
-              <div key={i} className="transition-all duration-300">
-                <h3 className="text-lg font-bold text-[#2A3B80] mb-1">{item.title}</h3>
-                <p className="text-sm text-[#1A214C]">{item.desc}</p>
+              <div key={i} className="transition-all duration-300 p-5">
+                <h3 className="text-lg font-katide-heavy text-[#2A3B80] mb-1">{item.title}</h3>
+                <p className="text-sm text-[#666666] mt-5">{item.desc}</p>
               </div>
             ))}
           </div>
 
-          <div className="mt-14 text-center max-w-2xl space-y-4 px-2">
-            <h3 className="text-xl font-bold text-[#4065D1]">
+          <div className="mt-14 text-center max-w-2xl space-y-4 px-12">
+            <h3 className="text-xl font-katide-heavy text-[36px] text-[#4065D1]">
               Ready to Create Without Limits?
             </h3>
-            <p className="text-sm text-[#1A214C]">
+            <p className="text-sm text-[#666666]">
               Subscribe now and unlock daily inspiration, effortless tools, and endless possibilities. Your next masterpiece is just a click away — let’s craft something amazing together.
             </p>
             <button className="bg-[#4065D1] text-white font-semibold text-sm px-6 py-3 rounded-xl hover:bg-[#2A3B80] transition-all duration-300">
@@ -543,8 +556,8 @@ export default function Membership() {
 
         {/* Features  */}
         <section className="bg-[#C2E5FF] pt-8 md:pb-8 overflow-hidden">
-        <div className="max-w-[1280px] mx-auto bg-[#EBECF5] p-4 md:p-12 rounded-none md:rounded-[24px] shadow-md">
-            <div className="flex flex-col md:grid md:grid-cols-2 gap-8">
+          <div className="max-w-[1280px] min-h-[1003px] md:min-h-[610px] mx-auto bg-[#EBECF5] p-8 md:p-12 rounded-none md:rounded-[24px] shadow-md">
+            <div className="flex  md:grid md:grid-cols-2 gap-8">
 
               {/* Left Side - Title, Icons, Deskripsi */}
               <div className="flex flex-col justify-center items-center text-center order-1 md:order-1">
@@ -661,7 +674,7 @@ export default function Membership() {
 
         {/* Condition */}
         <section className='flex flex-col items-center justify-center bg-[#EBECF5] text-[#1A214C]'>
-          <div className='flex w-full flex-col bg-[#EBECF5] py-[10%] text-[#1A214C] lg:max-w-[1264px] px-4'>
+          <div className='flex w-full flex-col bg-[#EBECF5] py-[10%] text-[#1A214C] lg:max-w-[1264px] px-4 py-4 mt-5'>
             <div className='flex flex-col flex-wrap lg:flex-row'>
               <div className='mb-16 flex w-full gap-4 lg:w-1/2 px-6'>
                 <Image
@@ -674,7 +687,7 @@ export default function Membership() {
                   <p className='font-katide-bold text-2xl text-[#4065D1]'>
                     No conditions
                   </p>
-                  <p className='text-[#1A214C]'>
+                  <p className='text-[#666666]'>
                     You can enjoy our services freely, without any conditions
                     attached. Relax and indulge without any obligations.
                   </p>
@@ -691,7 +704,7 @@ export default function Membership() {
                   <p className='font-katide-bold text-2xl text-[#4065D1]'>
                     No commitments
                   </p>
-                  <p className='text-[#1A214C]'>
+                  <p className='text-[#666666]'>
                     You can explore and enjoy all that we offer without any
                     obligations or promises necessary on your part.
                   </p>
@@ -708,7 +721,7 @@ export default function Membership() {
                   <p className='font-katide-bold text-2xl text-[#4065D1]'>
                     No hidden fees
                   </p>
-                  <p className='text-[#1A214C]'>
+                  <p className='text-[#666666]'>
                     Rest assured, our pricing is transparent with absolutely no
                     hidden fees. Enjoy our services worry-free.
                   </p>
@@ -725,7 +738,7 @@ export default function Membership() {
                   <p className='font-katide-bold text-2xl text-[#4065D1]'>
                     Cancel anytime
                   </p>
-                  <p className='text-[#1A214C]'>
+                  <p className='text-[#666666]'>
                     You can cancel your subscription or service anytime, offering
                     you the flexibility and convenience you need.
                   </p>
@@ -737,10 +750,10 @@ export default function Membership() {
 
         {/* Testimonials  */}
         <section className='flex flex-col items-center justify-center bg-[#4065D1] text-white'>
-          <div className='flex flex-col bg-[#4065D1] py-[10%] text-white lg:max-w-[1264px]'>
-            <div className='relative flex flex-col flex-wrap items-center justify-center rounded-3xl border border-[#fff] p-6 lg:p-12'>
+          <div className="flex flex-col bg-[#4065D1] py-[20%] text-white lg:py-[10%] lg:max-w-[1264px]">
+            <div className='relative flex flex-col flex-wrap items-center justify-center rounded-lg lg:border border-[#ffffff] p-4 lg:p-12 mb-12 sm:border-0 sm:p-6' style={{ borderRadius: '24px' }}>
               <div className='absolute -top-3 left-0 flex w-full justify-center'>
-                <p className='font-katide-regular bg-[#4065D1] px-4 text-lg lg:text-[48px]'>
+                <p className='font-katide-regular bg-[#4065D1] px-4 text-[24px] lg:text-[48px]'>
                   What They Say About Us
                 </p>
               </div>
@@ -749,8 +762,8 @@ export default function Membership() {
                 world
               </p>
 
-              <div className='mt-[76px] grid w-full grid-cols-1 gap-4 rounded-lg bg-[#2A3B80] p-3 lg:grid-cols-3 lg:p-8'>
-                <div className='flex flex-col items-center justify-start gap-4 border-white/15 px-3 border-b-[3px] lg:border-b-0 lg:border-r-[3px] lg:px-12 max-md:py-10'>
+              <div className='mt-[36px] grid w-full grid-cols-1 gap-4 rounded-lg bg-[#2A3B80] p-3 lg:grid-cols-3 lg:p-8' style={{ borderRadius: '24px' }}>
+                <div className='flex flex-col items-center justify-start gap-4 border-white/15 px-3 border-b-[3px] lg:border-b-0 lg:border-r-[3px] lg:px-12 max-md:py-10' >
                   <Image src={member1.src} alt='Review' width={72} height={72} />
                   <p className='grow text-center'>
                     This is the first time I found a site that specially provides

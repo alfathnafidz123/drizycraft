@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import Cookies from 'js-cookie';
 import dynamic from 'next/dynamic';
+import { useEffect, useState } from 'react';
 
 const VIPBanner = dynamic(() => import('@/components/home/vip.banner'));
 
@@ -53,7 +53,7 @@ export default function CookieConsentModal() {
           role="dialog"
           aria-modal="true"
           aria-labelledby="cookie-consent-title"
-          className="fixed inset-x-4 bottom-4 md:inset-x-auto md:left-1/2 md:-translate-x-1/2 z-50 max-w-lg w-full bg-white/70 backdrop-blur-md rounded-xl shadow-xl p-6 font-inter-regular"
+          className="fixed inset-x-4 bottom-4 md:inset-x-auto md:left-1/2 md:-translate-x-1/2 z-50 max-w-lg md:w-full bg-white/70 backdrop-blur-md rounded-xl shadow-xl p-6 font-inter-regular"
         >
           <div className="relative">
             <button
