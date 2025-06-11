@@ -67,6 +67,19 @@ export interface CrafterI {
   user: UserI;
 }
 
+export interface Crafter2 {
+  id: string;
+  name: string;
+  description: string;
+  imageUrl: string;
+  createdAt: string;
+  updatedAt: string;
+  likeCount: number;
+  price: number;
+  // product: productI[];
+  user: UserI;
+}
+
 export interface ReviewI {
   id: string;
   comment: string;

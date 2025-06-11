@@ -13,6 +13,7 @@ import {
   canva,
   creativeFabrica,
   designBundles,
+  dgroupBanner,
   elegco,
   endlessCrafting,
   expandingCrafting,
@@ -47,7 +48,13 @@ const Testimonies = () => {
       className='flex flex-col items-center pb-6'
     >
       <div className='mt-3 w-full bg-[#E1E3F4] max-md:pb-10 max-md:px-5'>
-        <div className='font-katide-bold flex justify-center text-[24px] leading-6 text-indigo-950 mt-12'>
+        <div className='flex w-full items-center justify-center pt-12'>
+          <a href="https://www.facebook.com/groups/507583644200287/?ref=share_group_link" target="_blank" rel="noopener noreferrer">
+            <img className='b rounded-[20px]' alt='dgroup banner'
+              src={dgroupBanner.src} />
+          </a>
+        </div>
+        <div className='font-katide-bold flex justify-center text-[24px] leading-6 text-indigo-950 mt-24'>
           Let’s Crafting!
         </div>
         <div className='mt-24 flex flex-col-reverse gap-5 lg:flex-row lg:px-1 xl:p-0'>

@@ -37,7 +37,7 @@ const BreezyMemberModal = ({ isOpen, onClose }: ModalProps) => {
               <h1 className="text-[#1A214C] text-4xl font-katide-bold mt-6">Thank you for joining Drizy VIP+</h1>
               <p className="text-[#1A214C] text-sm mt-6 pr-5">You now have access to all our new features and premium products, including Drizy Breezy. Use your coins to snag premium products and enjoy the ease of <span className="font-katide-bold">Drizy Breezy!</span></p>
               <div className="flex flex-row justify-between items-center mt-20">
-                <Link href={`https://breezy.drizycraft.com?access=${token}`} target='_blank' className='flex rounded-lg border-2 border-white bg-[#FFBB3C] px-4 py-2 shadow-lg font-katide-bold text-sm'>
+                <Link href={`https://breezy.drizycraft.com?token=${token}`} target='_blank' className='flex rounded-lg border-2 border-white bg-[#FFBB3C] px-4 py-2 shadow-lg font-katide-bold text-sm'>
                   ACCESS HERE!
                 </Link>
                 <NextImage width={142} height={30} alt='Breezy Logo' src={breezyLogoBanner.src} />

@@ -1,7 +1,4 @@
-import Image from 'next/image';
-import Link from 'next/link';
 
-import JumbotronSection from '@/components/home/jumbotron.section';
 
 const AffiliateBanner = dynamic(() => import('@/components/AffiliateBanner'));
 const SectionContainer = dynamic(() => import('@/components/container/sectionContainer'));
@@ -19,13 +16,14 @@ const CookieConsentBanner = dynamic(() => import('@/components/home/cookie.banne
 
 import dynamic from 'next/dynamic';
 
+import ProjectSection from '@/components/home/project.section';
+
 import {
   CategoryI,
   HomepageDataI,
 } from '@/interfaces/product.interface';
 
 import {
-  cat1,
   cat2,
   cat3,
   cat4,
@@ -35,8 +33,9 @@ import {
   cat8,
   cat9,
   cat10,
-  coffeeFloating,
+  cat11,
 } from '~/images';
+import JumbotronSection from '@/components/home/jumbotron.section';
 
 export const revalidate = 600
 export const dynamicParams = false
@@ -103,7 +102,7 @@ export default async function HomePage() {
   // }, []);
 
   const categoryStatic = [
-    { name: 'Free SVGs', link: 'Free SVGs', image: cat1.src },
+    { name: 'Free SVGs', link: 'Free SVGs', image: cat11.src },
     { name: 'Shadow Box SVG', link: '3D Shadow Box SVGs', image: cat2.src },
     { name: 'Circut SVG', link: 'Cricut SVG', image: cat3.src },
     { name: 'SVG Cut File', link: 'SVG Cut Files', image: cat4.src },
@@ -119,7 +118,7 @@ export default async function HomePage() {
     <main>
       <BreezyBanner />
       <JumbotronSection homeProduct={homeProduct} />
-
+      {/* <ProjectSection homeProduct={homeProduct} /> */}
       <SectionContainer
         bgColor='white'
         className='flex items-center justify-center bg-white py-9 text-base font-bold leading-4 text-white max-md:px-5'
@@ -165,15 +164,15 @@ export default async function HomePage() {
 
       <BestSellerSection product={homeProduct.bestSellerData} />
 
-      <BundlesSection product={homeProduct.bundleData} />
+      {/* <BundlesSection product={homeProduct.bundleData} /> */}
 
       {homeProduct.exclusiveData.length > 0 &&
         <ExculsiveSection product={homeProduct.exclusiveData} />
       }
 
-      {homeProduct.vectorData.length > 0 &&
+      {/* {homeProduct.vectorData.length > 0 &&
         <VectorSection product={homeProduct.vectorData} />
-      }
+      } */}
 
       <Testimonies />
 

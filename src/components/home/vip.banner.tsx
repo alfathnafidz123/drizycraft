@@ -1,11 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
+
 import { coffeeFloating } from '~/images';
 
 export default function VIPBanner() {
   return (
     <div className='fixed bottom-4 z-20 hidden w-full items-end justify-center lg:flex'>
-      <Link href="https://buymeacoffee.com/drizystudio" target="_blank" className='flex justify-end'>
+      <Link href="https://buymeacoffee.com/drizycraft" target="_blank" className='flex justify-end'>
         <Image src={coffeeFloating.src} alt='Help' width={75} height={75} />
       </Link>
       <div className='flex items-center gap-16 rounded-lg border-2 border-[#FFDE9F] bg-[#EE4C73] px-8 py-4 font-semibold shadow-xl'>

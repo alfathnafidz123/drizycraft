@@ -204,13 +204,14 @@ export default function Membership() {
     { src: '/images/feature3.png', alt: 'Feature 3', srcActive: '/images/feature3_active.png' },
     { src: '/images/feature4.png', alt: 'Feature 4', srcActive: '/images/feature4_active.png' },
   ];
+  
 
   const featureDescriptions = [
     {
       title: "Drizy Breezy",
       description:
         "Drizy Breezy simplifies crafting with its intuitive drag-and-drop tool. Customize SVG designs, rearrange elements, and create stunning projects effortlessly. Whether you're a beginner or a pro, this feature makes designing quick, easy, and fun.",
-      link: "https://breezy.drizycraft.com/",
+      link: `https://breezy.drizycraft.com?token=${token}`,
       showButton: true,
       buttonText: "Click here",
     },

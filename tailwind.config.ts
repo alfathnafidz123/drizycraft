@@ -44,6 +44,14 @@ export default {
         seasons: '#E1E3F4',
       },
       keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-100%)' }, // Full slide
+        },
+        marqueeMobile: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-400%)' }, // Mobile slides faster
+        },
         flicker: {
           '0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100%': {
             opacity: '0.99',
@@ -67,6 +75,11 @@ export default {
       animation: {
         flicker: 'flicker 3s linear infinite',
         shimmer: 'shimmer 1.3s linear infinite',
+         marquee: 'marquee 40s linear infinite  ',
+        marqueeMobile: 'marqueeMobile 40s linear infinite',
+      },
+      variants: {
+        animation: ['responsive'],
       },
     },
   },

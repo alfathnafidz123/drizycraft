@@ -145,7 +145,7 @@ export default function CatalogCrafterClient({ initialData }: CatalogCrafterClie
 
           <p className='font-katide-bold mt-10 text-center text-[16px] text-[#1A214C] lg:text-start'>
             Find the perfect digital designs for your crafting projects at Drizy
-            Studio!
+            Craft!
           </p>
 
           <p className='font-katide-medium mt-4 text-center text-[16px] text-[#1A214C] lg:text-start'>

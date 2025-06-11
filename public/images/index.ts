@@ -11,6 +11,9 @@ import avatarExample from './avatar-example.png';
 import bannerCoin from './banner-coin.png';
 import bannerArticle from './bannerArticle.svg';
 import bestValue from './best_val.png';
+import bestSell2 from './best-selling-banner3.webp'
+import bestSell from './Best-Selling-for-Gift.webp';
+import BgMembershipNew from './bg_membership_new.jpg';
 import blogArticle1 from './blogArticle1.svg';
 import blogStories1 from './blogStories1.svg';
 import breezyBanner from './breezy/banner.webp';
@@ -37,6 +40,7 @@ import cat7 from './categories/7.png';
 import cat8 from './categories/8.png';
 import cat9 from './categories/9.png';
 import cat10 from './categories/10.png';
+import cat11 from './categories/11.png';
 import categories1 from './categories-1.webp';
 import categories2 from './categories-2.webp';
 import categories3 from './categories-3.webp';
@@ -62,25 +66,7 @@ import pinterest from './coming-soon/pinterest.svg';
 import ContactUs from './contact-us.svg';
 import Copy from './copy.svg';
 import cov from './cov-product.png.png';
-import rightMembership from './image_membership_right.png';
-import leftMembership from './image_membership_left.png';
-import backgroundMembership1 from './FrostyBackground_1.png';
-import backgroundMembership2 from './FrostyBackground_2.png';
 import crafter1 from './crafter.svg';
-import membershipProduct1 from './membershipProduct1.webp';
-import membershipProduct2 from './membershipProduct2.webp';
-import membershipProduct3 from './membershipProduct3.webp';
-import membershipProduct4 from './membershipProduct4.webp';
-import membershipProduct5 from './membershipProduct5.webp';
-import membershipProduct6 from './membershipProduct6.webp';
-import frameFeature from './frameFeature.png';
-import frameFeature2 from './frameFeature2.png';
-import frameFeature3 from './frameFeature3.png';
-import frameFeature4 from './frameFeature4.png';
-import feature1 from './feature1.png';
-import feature2 from './feature2.png';
-import feature3 from './feature3.png';
-import feature4 from './feature4.png';
 import crafterProduct from './crafters-product.svg';
 import crafterItem1 from './crafters1.svg';
 import creativeFabrica from './creativeFabrica.svg';
@@ -94,16 +80,27 @@ import downloadInactive from './downloadInactive.svg';
 import drizyteam1 from './drizy-team-1.png';
 import drizyteam2 from './drizy-team-2.png';
 import drizyteam3 from './drizy-team-3.png';
+import dgroupBanner from './drizygroup-banner.png';
 import logodrizy from './drizylogo.svg';
 import drizzyCoin from './drizzyCoin.svg';
 import elegco from './elegco.svg';
 import emptyCoin from './empty-coin.png';
 import endlessCrafting from './endlessCrafting.svg';
 import expandingCrafting from './expandingCrafting.svg';
+import feature1 from './feature1.png';
+import feature2 from './feature2.png';
+import feature3 from './feature3.png';
+import feature4 from './feature4.png';
 import coffeeHolder from './floating-coffee-holder.png';
 import fontDesign from './font-design.png';
+import frameFeature from './frameFeature.png';
+import frameFeature2 from './frameFeature2.png';
+import frameFeature3 from './frameFeature3.png';
+import frameFeature4 from './frameFeature4.png';
 import freeSVGBanner from './free-svg-banner.png';
 import freepik from './freepik.svg';
+import backgroundMembership1 from './FrostyBackground_1.png';
+import backgroundMembership2 from './FrostyBackground_2.png';
 import goDaddy from './goDaddy.svg';
 import gridCrafter from './grid-crafter.webp';
 import gridSlide from './grid-slide.png';
@@ -115,13 +112,50 @@ import historyInactive from './history.png';
 import history from './historyactive.svg';
 import hoverPinterest from './hoverpint.svg';
 import hoverWA from './hoverwa.svg';
+import leftMembership from './image_membership_left.png';
+import rightMembership from './image_membership_right.png';
+import rightMembershipNew from './image-membership-kanan-new.png';
+import leftMembershipNew from './image-membership-kiri-new.png';
+import jesus1 from './jesus/imggg1.jpg';
+import jesus2 from './jesus/imggg2.jpg';
+import jesus3 from './jesus/imggg3.jpg';
+import jesus4 from './jesus/imggg4.jpg';
+import jesus5 from './jesus/imggg5.jpg';
+import jesus6 from './jesus/imggg6.jpg';
+import jesus7 from './jesus/imggg7.jpg';
+import jesus8 from './jesus/imggg8.jpg';
+import jesus9 from './jesus/imggg9.jpg';
+import jesus10 from './jesus/imggg10.jpg';
+import jesus11 from './jesus/imggg11.jpg';
+import jesus12 from './jesus/imggg12.jpg';
+import jesus13 from './jesus/imggg13.jpg';
+import jesus14 from './jesus/imggg14.jpg';
+import jesus15 from './jesus/imggg15.jpg';
+import jesusVector from './jesus-vector.png';
 import jiffy from './jiffy.svg';
 import license1 from './license1.svg';
 import license2 from './license2.svg';
 import loginImage from './login-image.png';
+import membershipProduct1 from './membershipProduct1.webp';
+import membershipProduct2 from './membershipProduct2.webp';
+import membershipProduct3 from './membershipProduct3.webp';
+import membershipProduct4 from './membershipProduct4.webp';
+import membershipProduct5 from './membershipProduct5.webp';
+import membershipProduct6 from './membershipProduct6.webp';
 import betaLogo from './new/beta-logo.svg';
 import emptyState from './new/empty-state.svg';
 import newBadge from './new-badge.svg';
+import newBadgeBlue from './new-badge-blue.svg';
+import newMembershipProduct1 from './new-membership-product-1.png';
+import newMembershipProduct2 from './new-membership-product-2.png';
+import newMembershipProduct3 from './new-membership-product-3.png';
+import newMembershipProduct4 from './new-membership-product-4.png';
+import newMembershipProduct5 from './new-membership-product-5.png';
+import newMembershipProduct6 from './new-membership-product-6.png';
+import newMembershipProduct7 from './new-membership-product-7.png';
+import newMembershipProduct8 from './new-membership-product-8.png';
+import newMembershipProduct9 from './new-membership-product-9.png';
+import newMembershipProduct10 from './new-membership-product-10.png';
 import newMember from './newMember.svg';
 import membership2 from './nocommitment.svg';
 import membership1 from './nocondition.svg';
@@ -143,6 +177,11 @@ import projectSign from './projectSign.svg';
 import projectStars from './projectStars.svg';
 import projectSubscribe from './projectSubscribe.svg';
 import projectUpload from './projectUpload.svg';
+import quietImg1 from './quiet-image/1.webp';
+import quietImg2 from './quiet-image/2.webp';
+import quietImg3 from './quiet-image/3.jpg';
+import quietImg4 from './quiet-image/4.jpg'
+import quietImg5 from './quiet-image/5.jpg';
 import sale from './sale.png';
 import saleSvg from './sale.svg';
 import saleProduct from './sale-product.png';
@@ -186,11 +225,16 @@ export {
   articlePage,
   AssetSubscribe,
   avatarExample,
+  backgroundMembership1,
+  backgroundMembership2,
   bannerArticle,
   bannerCoin,
   behance,
+  bestSell,
+  bestSell2,
   bestValue,
   betaLogo,
+  BgMembershipNew,
   blogArticle1,
   blogStories1,
   bonnie,
@@ -206,7 +250,6 @@ export {
   cart,
   cartIllustration,
   cartProduct,
-  samsunggray,
   cat1,
   cat2,
   cat3,
@@ -217,6 +260,7 @@ export {
   cat8,
   cat9,
   cat10,
+  cat11,
   catalogcrafter,
   categories1,
   categories2,
@@ -240,25 +284,7 @@ export {
   ContactUs,
   Copy,
   cov,
-  leftMembership,
-  rightMembership,
-  backgroundMembership1,
-  backgroundMembership2,
   crafter1,
-  membershipProduct1,
-  membershipProduct2,
-  membershipProduct3,
-  membershipProduct4,
-  membershipProduct5,
-  membershipProduct6,
-  frameFeature,
-  frameFeature2,
-  frameFeature3,
-  frameFeature4,
-  feature1,
-  feature2,
-  feature3,
-  feature4,
   crafterItem1,
   crafterProduct,
   creativeFabrica,
@@ -267,6 +293,7 @@ export {
   defaultAvatar,
   defaultProfile,
   designBundles,
+  dgroupBanner,
   download,
   downloadInactive,
   drizyteam1,
@@ -279,7 +306,15 @@ export {
   endlessCrafting,
   expandingCrafting,
   facebook,
+  feature1,
+  feature2,
+  feature3,
+  feature4,
   fontDesign,
+  frameFeature,
+  frameFeature2,
+  frameFeature3,
+  frameFeature4,
   freepik,
   freeSVGBanner,
   goDaddy,
@@ -294,7 +329,25 @@ export {
   hoverPinterest,
   hoverWA,
   instagram,
+  jesus1,
+  jesus2,
+  jesus3,
+  jesus4,
+  jesus5,
+  jesus6,
+  jesus7,
+  jesus8,
+  jesus9,
+  jesus10,
+  jesus11,
+  jesus12,
+  jesus13,
+  jesus14,
+  jesus15,
+  jesusVector,
   jiffy,
+  leftMembership,
+  leftMembershipNew,
   leslie,
   license1,
   license2,
@@ -307,10 +360,27 @@ export {
   membership2,
   membership3,
   membership4,
+  membershipProduct1,
+  membershipProduct2,
+  membershipProduct3,
+  membershipProduct4,
+  membershipProduct5,
+  membershipProduct6,
   michelle,
   nad,
   newBadge,
+  newBadgeBlue,
   newMember,
+  newMembershipProduct1,
+  newMembershipProduct2,
+  newMembershipProduct3,
+  newMembershipProduct4,
+  newMembershipProduct5,
+  newMembershipProduct6,
+  newMembershipProduct7,
+  newMembershipProduct8,
+  newMembershipProduct9,
+  newMembershipProduct10,
   optimizedSVG,
   order,
   orderInactive,
@@ -330,10 +400,18 @@ export {
   projectStars,
   projectSubscribe,
   projectUpload,
+  quietImg1,
+  quietImg2,
+  quietImg3,
+  quietImg4,
+  quietImg5,
+  rightMembership,
+  rightMembershipNew,
   sale,
   saleProduct,
   saleSvg,
   samsung,
+  samsunggray,
   samsungHome,
   search,
   searchBlue,
@@ -347,5 +425,4 @@ export {
   vectorDesign,
   vip,
   waCrafter,
-  wordBank,
-};
+  wordBank};

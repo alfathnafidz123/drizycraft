@@ -22,7 +22,7 @@ const BestSellerSection = ({ product }: { product: productI[] }) => {
 
   return (
     <>
-      <SectionContainer bgColor='#E1E3F4' fullwidth>
+      <SectionContainer bgColor='#AAD3FF' fullwidth>
         <div className='flex flex-col pb-12 pt-2 font-bold'>
           <div className='mb-4 mt-12 flex max-w-[1164px] items-center justify-between'>
             <div className='font-katide-bold text-[24px] leading-10 text-indigo-950'>

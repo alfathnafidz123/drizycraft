@@ -28,6 +28,12 @@ import {
   projectUpload,
 } from '~/images';
 
+interface ModalProps {
+  onClick: () => void;
+  onLike: (id: string) => void;
+  item: CrafterI;
+}
+
 export default function Register() {
   const { token } = useAppSelector((state) => state.user);
   const [crafterData, setCrafterData] = useState<CrafterI[]>([]);

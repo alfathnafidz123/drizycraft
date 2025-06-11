@@ -11,10 +11,13 @@ export async function logout() {
         },
       }
     );
-
+    localStorage.removeItem('user_token');
+    console.log('Logout successful:', resp.data);
     return resp.data;
   } catch (error) {
     console.error('Logout Error:', error);
+    localStorage.removeItem('user_token');
+    console.log('Logout Gagale');
     return { success: false, message: 'Logout gagal' };
   }
 }

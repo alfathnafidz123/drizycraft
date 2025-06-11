@@ -35,6 +35,8 @@ const ModalProjectDetail: React.FC<ModalProps> = ({
     onClose && onClose();
   };
 
+  const token = localStorage.getItem("user_token");
+
   return (
     <div>
       {/* Modal overlay */}
@@ -145,7 +147,7 @@ const ModalProjectDetail: React.FC<ModalProps> = ({
                     </Link>
                   )}
                   {data?.breezy.map(item =>
-                    <Link key={item.id} href={`https://breezy.drizycraft.com?search=${item.title}`} target='__blank' className='flex w-full items-center gap-5 border-t max-md:justify-between'>
+                    <Link key={item.id} href={`https://breezy.drizycraft.com?token=${token}&search=${encodeURIComponent(item.title)}`} target='__blank' className='flex w-full items-center gap-5 border-t max-md:justify-between'>
                       <p className='mt-3 hover:underline'>Download {item.name}</p>
                       <FaArrowUpRightFromSquare className='mt-2 text-[#61A9FA]' />
                     </Link>

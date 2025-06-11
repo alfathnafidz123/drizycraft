@@ -60,9 +60,14 @@ export interface ArticleMetaDataI {
   productId?: string;
 }
 
+// ResArticleI
 export interface ResArticleI {
-  data: DataMetaWithArticle;
+  data: {
+    article: ArticleI;
+    related_posts?: ArticleI[];
+  };
 }
+
 
 export interface DataMetaWithArticle {
   id: string;
@@ -75,6 +80,7 @@ export interface DataMetaWithArticle {
 }
 
 export interface ArticleInner {
+  slice(arg0: number, arg1: number): unknown;
   id: string;
   title: string;
   banner: string;

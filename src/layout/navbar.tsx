@@ -24,6 +24,7 @@ import useOutsideClick from '@/lib/useOutsideClick';
 
 import Button from '@/components/buttons/Button';
 const ModalLogin = dynamic(() => import('@/components/modals/login'));
+import axios from 'axios';
 import dynamic from 'next/dynamic';
 
 import NextImage from '@/components/NextImage';
@@ -35,6 +36,7 @@ import {
   drizzyCoin,
   emptyCoin,
   newBadge,
+  newBadgeBlue,
   newMember,
   search,
 } from '~/images';
@@ -151,6 +153,24 @@ const Navbar: React.FC = () => {
     router.push(`/category/search/${inputValue}?category=${selectedCategory}`);
   }
 
+  useEffect(() => {
+    const token = localStorage.getItem('user_token');
+    if (!token) return;
+
+    axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/user/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((err) => {
+        console.log('Token invalid. Logging out...');
+        localStorage.removeItem('user_token');
+      });
+      console.log('token', token)
+  }, []);
+
+  const token = localStorage.getItem("user_token");
+
   return (
     <GoogleOAuthProvider clientId='660205853013-i0r4emab9r16stvggpb9gu24gmd0mgqr.apps.googleusercontent.com'>
       <nav className='sticky top-0 z-30 hidden h-[139px] items-center bg-white shadow-xl lg:flex'>
@@ -175,7 +195,7 @@ const Navbar: React.FC = () => {
                 </option>
               </select>
 
-              <div ref={crafterRef} className='relative pt-[6px]'>
+              {/* <div ref={crafterRef} className='relative pt-[6px]'>
                 <label className=' font-katide-semibold flex h-[40px] w-[85%] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] text-[14px] hover:bg-[#CCE7EF] cursor-pointer'>
                   <button
                     id='crafter'
@@ -456,7 +476,7 @@ const Navbar: React.FC = () => {
                     )}
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             <div className='mr-2 flex flex-col'>
@@ -483,59 +503,312 @@ const Navbar: React.FC = () => {
               </form>
 
               <div className='font-katide-semibold flex flex-row justify-between pt-2 text-[14px]'>
-                <div className='relative'>
-                  <label className=' flex h-[40px] w-[96px] items-center justify-center rounded-full bg-[#e4f6fb] hover:bg-[#CCE7EF]'>
+                <div ref={crafterRef} className='relative'>
+                  <label className=' font-katide-semibold flex h-[40px] w-[120px] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] text-[14px] hover:bg-[#CCE7EF] cursor-pointer'>
                     <button
                       id='crafter'
                       className='crafter'
                       onClick={() => {
-                        toggleMenu('vector');
+                        toggleMenu('crafter');
                       }}
                     ></button>
-                    Vector <FaChevronDown />
+                    Crafters
+                    <FaChevronDown className='' />
                   </label>
                   <div
-                    ref={vectorRef}
-                    className={`${showMenu.vector ? 'block' : 'hidden'
-                      } absolute top-16 z-10 w-[285px] overflow-hidden rounded-bl-3xl rounded-br-3xl bg-[#E4F6FB]`}
+                    className={`${showMenu.crafter ? 'block' : 'hidden'
+                      } absolute top-16 z-10 min-w-[285px] justify-between overflow-hidden rounded-bl-3xl rounded-br-3xl bg-[#E4F6FB] `}
                   >
-                    <div className='flex w-full min-w-[285px] flex-col'>
-                      <Link href='/catalog-vector?filter=Illustration' className='group flex justify-between py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
-                        <p>Illustration</p>
-                        <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                      </Link>
-                      <Link href='/catalog-vector?filter=Icon' className='group flex justify-between py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
-                        <p>Icon</p>
-                        <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                      </Link>
-                      <Link href='/catalog-vector?filter=Print Template' className='group flex justify-between py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
-                        <p>Print Template</p>
-                        <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                      </Link>
-                      {showMenu.vector && showSubMenu.craft && <div></div>}
+                    <div className='font-katide-semibold flex'>
+                      <div className='relative flex w-full min-w-[285px] flex-col'>
+                        <div
+                          onClick={() => {
+                            router.push('/category/Featured');
+                          }}
+                          onMouseEnter={() =>
+                            setShowSubMenu((prev) => ({
+                              ...prev,
+                              seasonal: false,
+                              craft: false,
+                            }))
+                          }
+                          className='cursor-pointer group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                        >
+                          <p>Featured</p>
+                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                        </div>
+                        <div
+                          onClick={() => {
+                            router.push('/category/Premium SVG');
+                          }}
+                          onMouseEnter={() =>
+                            setShowSubMenu((prev) => ({
+                              ...prev,
+                              seasonal: false,
+                              craft: false,
+                            }))
+                          }
+                          className='cursor-pointer group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                        >
+                          <p>Premium SVG</p>
+                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                        </div>
+                        <div
+                          onMouseEnter={() =>
+                            setShowSubMenu((prev) => ({
+                              ...prev,
+                              seasonal: false,
+                              craft: false,
+                            }))
+                          }
+                          className='cursor-pointer group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                        >
+                          <p>Exclusive Partners</p>
+                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                        </div>
+                        <div
+                          onMouseEnter={() =>
+                            setShowSubMenu((prev) => ({
+                              ...prev,
+                              seasonal: true,
+                              craft: false,
+                            }))
+                          }
+                          // onMouseLeave={() => toggleSubMenu('seasonal')}
+                          className='cursor-pointer flex justify-between bg-[#E4F6FB] p-6 pl-8 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                        >
+                          <label>Seasonal</label>
+                          <MdArrowForwardIos />
+                        </div>
+                        <div
+                          onMouseEnter={() =>
+                            setShowSubMenu((prev) => ({
+                              ...prev,
+                              craft: true,
+                              seasonal: false,
+                            }))
+                          }
+                          // onMouseLeave={() => toggleSubMenu('craft')}
+                          className='cursor-pointer group flex justify-between bg-[#E4F6FB] p-6 pl-8 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                        >
+                          <label>
+                            Craft Design SVGs
+                            <button id='svgs' className='crafter'></button>
+                          </label>
+                          <MdArrowForwardIos />
+                        </div>
+                      </div>
+                      {showMenu.crafter && showSubMenu.seasonal ? (
+                        <div className='flex'>
+                          <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
+                            <div
+                              onClick={() => {
+                                router.push('/category/Summer SVG');
+                              }}
+                              className='cursor-pointer group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            >
+                              <p>Summer SVG</p>
+                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                            </div>
+                            <div
+                              onClick={() => {
+                                router.push('/category/Fall SVG');
+                              }}
+                              className='cursor-pointer group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            >
+                              <p>Fall SVG</p>
+                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                            </div>
+                            <div
+                              onClick={() => {
+                                router.push('/category/Halloween SVG');
+                              }}
+                              className='cursor-pointer group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            >
+                              <p>Halloween SVG</p>
+                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                            </div>
+                            <div
+                              onClick={() => {
+                                router.push('/category/Thanksgiving SVG');
+                              }}
+                              className='cursor-pointer group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            >
+                              <p>Thanksgiving SVG</p>
+                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                            </div>
+                            <div
+                              onClick={() => {
+                                router.push('/category/Winter SVG');
+                              }}
+                              className='cursor-pointer group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            >
+                              <p>Winter SVG</p>
+                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                            </div>
+                          </div>
+                          <div className='h-full w-[1px] bg-[#E5E7EB]'></div>
+                          <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
+                            <div
+                              onClick={() => {
+                                router.push('/category/Christmas SVG');
+                              }}
+                              className='cursor-pointer group flex justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            >
+                              <p>Christmas SVG</p>
+                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                            </div>
+                            <div
+                              onClick={() => {
+                                router.push('/category/Easter SVG');
+                              }}
+                              className='cursor-pointer group flex justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            >
+                              <p>Easter SVG</p>
+                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                            </div>
+                            <div
+                              onClick={() => {
+                                router.push('/category/Spring SVG');
+                              }}
+                              className='cursor-pointer group flex justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            >
+                              <p>Spring SVG</p>
+                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <></>
+                      )}
+                      {showMenu.crafter && showSubMenu.craft ? (
+                        <div className='flex'>
+                          <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
+                            <div
+                              onClick={() => {
+                                router.push('/category/Free SVGs');
+                              }}
+                              className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            >
+                              <p>Free SVGs</p>
+                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                            </div>
+                            <div
+                              onClick={() => {
+                                router.push('/category/3D Shadow Box SVGs');
+                              }}
+                              className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            >
+                              <p>Shadow Box SVG</p>
+                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                            </div>
+                            <div
+                              onClick={() => {
+                                router.push('/category/Cricut SVG');
+                              }}
+                              className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            >
+                              <p>Cricut SVG</p>
+                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                            </div>
+                            <div
+                              onClick={() => {
+                                router.push('/category/SVG Cut files');
+                              }}
+                              className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            >
+                              <p>SVG cut files</p>
+                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                            </div>
+                            <div
+                              onClick={() => {
+                                router.push('/category/T-Shirt Designs');
+                              }}
+                              className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            >
+                              <p>Tshirt Designs</p>
+                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                            </div>
+                          </div>
+                          <div
+                            onClick={() => {
+                              router.push('/category/Printable Crafts');
+                            }}
+                            className='h-full w-[1px] bg-[#E5E7EB]'
+                          ></div>
+                          <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
+                            <div className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
+                              <p>Printable Craft</p>
+                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                            </div>
+                            <div
+                              onClick={() => {
+                                router.push('/category/Paper Cut Templates');
+                              }}
+                              className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            >
+                              <p>Papercut Templates</p>
+                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                            </div>
+                            <div
+                              onClick={() => {
+                                router.push('/category/Monogram Designs');
+                              }}
+                              className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            >
+                              <p>Monogram Designs</p>
+                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                            </div>
+                            <div
+                              onClick={() => {
+                                router.push('/category/Card Making');
+                              }}
+                              className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            >
+                              <p>Card Making</p>
+                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                            </div>
+                            <div
+                              onClick={() => {
+                                router.push('/category/Stickers SVG');
+                              }}
+                              className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            >
+                              <p>Sticker SVG</p>
+                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <></>
+                      )}
                     </div>
                   </div>
                 </div>
                 <Link
-                  href='/catalog-bundles'
+                  href='/blog'
                   id='bundles'
-                  className=' flex h-[40px] items-center gap-2 rounded-full bg-[#e4f6fb] px-6 py-3 hover:bg-[#CCE7EF]'
+                  className=' flex h-[40px] w-[105px] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] px-6 py-3 hover:bg-[#CCE7EF]'
                 >
-                  Bundles
+                  Blog
                 </Link>
                 <Link
                   href='/catalog-free-svg'
                   id='freeSvg'
-                  className='flex h-[40px] w-[116px] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] px-4 py-3 hover:bg-[#CCE7EF]'
+                  className='flex h-[40px] w-[105px] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] px-4 py-3 hover:bg-[#CCE7EF]'
                 >
                   Free SVGs
                 </Link>
+                {/* <a href="https://breezy.drizycraft.com" target="_blank" className="breezy-btn"> */}
                 <Link
-                  href='/blog'
-                  className='flex h-[40px] items-center gap-2 rounded-full bg-[#e4f6fb] px-6 py-3 hover:bg-[#CCE7EF]'
+                  href='/project'
+                  prefetch={false}
+                  className='font-katide-semibold flex w-[105px] h-[40px] items-center justify-center gap-2 rounded-full bg-[#008ECC] px-6 py-3 text-[14px] text-white hover:bg-[#4065D1]'
                 >
-                  Blog
+                  Project
                 </Link>
+                
+                
               </div>
             </div>
 
@@ -631,13 +904,17 @@ const Navbar: React.FC = () => {
               </div>
 
               <div className='flex flex-row justify-between gap-4 pt-[10px]'>
-                <Link
-                  href='/project'
-                  prefetch={false}
-                  className='font-katide-semibold flex h-[40px] items-center gap-2 rounded-full bg-[#008ECC] px-6 py-3 text-[14px] text-white hover:bg-[#4065D1]'
-                >
-                  Project
-                </Link>
+                <a href={`https://breezy.drizycraft.com?token=${token}`} target="_blank" className="breezy-btn">
+                  <strong className="breezy-strong">Breezy</strong>
+                  <div className="breezy-container-stars">
+                    <div className="breezy-stars"></div>
+                  </div>
+                  <div className="breezy-glow">
+                    <div className="breezy-circle"></div>
+                    <div className="breezy-circle"></div>
+                  </div>
+                </a>
+                
                 <Link
                   href='/membership'
                   className='font-katide-semibold flex h-[40px] w-[178px] items-center gap-2 rounded-full bg-[#EE4C73] px-8 py-4 text-[14px] text-white hover:bg-[#CE4768]'
@@ -1069,15 +1346,7 @@ const Navbar: React.FC = () => {
                 >
                   <p className='font-katide-semibold'>Free SVGs</p>
                 </div>
-                <div
-                  onClick={() => {
-                    router.push('/blog');
-                    setSidebarOpen(false);
-                  }}
-                  className='border-t-2 p-4'
-                >
-                  <p className='font-katide-semibold'>Blog</p>
-                </div>
+                
                 <div
                   onClick={() => {
                     router.push('/project');
@@ -1086,6 +1355,16 @@ const Navbar: React.FC = () => {
                   className='border-t-2 p-4'
                 >
                   <p className='font-katide-semibold'>Project</p>
+                </div>
+                <div
+                  onClick={() => {
+                    router.push(`https://breezy.drizycraft.com?token=${token}`);
+                    setSidebarOpen(false);
+                  }}
+                  className='border-t-2 p-4 flex flex-row gap-2 items-center'
+                >
+                  <img src={newBadgeBlue.src}/>
+                  <p className='font-katide-semibold text-blue-600'>Breezy</p>
                 </div>
                 <div
                   onClick={() => {
