@@ -47,17 +47,17 @@ const Testimonies = () => {
       parentClassName='max-md bg-white lg:bg-[#E1E3F4]'
       className='flex flex-col items-center pb-6'
     >
-      <div className='mt-3 w-full bg-[#E1E3F4] max-md:pb-10 max-md:px-5'>
+      <div className=' w-full bg-[#E1E3F4] max-md:pb-10 max-md:px-5'>
         <div className='flex w-full items-center justify-center pt-12'>
-          <a href="https://www.facebook.com/groups/507583644200287/?ref=share_group_link" target="_blank" rel="noopener noreferrer">
-            <img className='b rounded-[20px]' alt='dgroup banner'
+          <a href="https://www.facebook.com/groups/drizyfreebies" className='h-[200px] lg:h-auto' target="_blank" rel="noopener noreferrer">
+            <img className='b rounded-[20px] object-cover h-full' alt='dgroup banner'
               src={dgroupBanner.src} />
           </a>
         </div>
-        <div className='font-katide-bold flex justify-center text-[24px] leading-6 text-indigo-950 mt-24'>
+        <div className='font-katide-bold flex justify-center text-[24px] leading-6 text-indigo-950 mt-12 lg:mt-24'>
           Let’s Crafting!
         </div>
-        <div className='mt-24 flex flex-col-reverse gap-5 lg:flex-row lg:px-1 xl:p-0'>
+        <div className='mt-12 lg:mt-20 flex flex-col-reverse gap-5 lg:flex-row lg:px-1 xl:p-0'>
           <div className='flex w-full flex-col lg:w-5/12 xl:w-4/12'>
             <Slider {...settings}>
               <div className='slide pb-4 lg:pr-4'>

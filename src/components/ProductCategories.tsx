@@ -39,7 +39,7 @@ const ProductCategories: React.FC<ProductCategoriesProps> = ({
           />
         </div>
         
-        <span className='text-[#61657D] text-lg me-2'>{name}</span>
+        <span className='text-[#61657D] lg:text-lg text-sm me-2'>{name}</span>
       </div>
     </Link>
 

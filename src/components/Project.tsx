@@ -54,7 +54,7 @@ const Project: React.FC<ModalProps> = ({ onClick, item, onLike }) => {
         <img
           loading='lazy'
           src={item.user.avatar ?? defaultAvatar.src}
-          className='w-10 rounded-full mr-3'
+          className='w-10 h-10 rounded-full mr-3'
         />
         <div className=''>By</div>
         <div className='font-katide-bold'>{item?.user?.displayName}</div>

@@ -10,7 +10,6 @@ import { IoChevronForward } from '@react-icons/all-files/io5/IoChevronForward';
 import axios, { AxiosError } from 'axios';
 import { Copy, Loader } from 'lucide-react';
 import moment from 'moment';
-import Link from 'next/link';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
@@ -28,7 +27,7 @@ import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
 import ProductCard from '@/components/ProductCard';
 import ReviewBox from '@/components/ReviewBox';
 
-import { getAllProduct, SortType } from '@/app/api/product/getProduct';
+import { getRelevantProduct, SortType } from '@/app/api/product/getProduct';
 import { getProductById } from '@/app/api/product/getProductById';
 import { getProductOwnedById } from '@/app/api/product/getProductOwnedById';
 import { getReviews } from '@/app/api/product/getReview';
@@ -79,11 +78,51 @@ export default function Register() {
   }>({ show: false });
   const [star, setStar] = useState<StarSummary>();
   const { trackEvent } = PixelEventsHooks();
+  const [selectedSeasonsOption, setSelectedSeasonsOption] = useState('');
+  const [selectedShortByOption, setSelectedShortByOption] = useState<SortType>(
+      SortType.Latest
+    );
 
   const getProduct = async () => {
     try {
       const response = await getProductById({ title: params.id as string });
-      setProductData(response.data);
+      const product = response.data;
+
+      setProductData(product);
+      console.log('respon', response);
+
+      // Ambil data recentProducts dari localStorage
+      const stored = localStorage.getItem("recentProducts");
+      let recent: productI[] = stored ? JSON.parse(stored) : [];
+
+      // Hapus produk jika sudah ada berdasarkan id
+      recent = recent.filter(item => item.id !== product.id);
+
+      // Tambahkan produk ke urutan teratas
+      recent.unshift(product);
+
+      // Simpan hanya 10 produk terakhir
+      if (recent.length > 10) recent = recent.slice(0, 10);
+
+      // Simpan kembali ke localStorage
+      localStorage.setItem("recentProducts", JSON.stringify(recent));
+
+      // Map childSubCategory
+      const childSubCategory = product.product.chilSubCategories;
+
+      console.log("🟢 Handpicked Subcategories:", childSubCategory);
+
+      localStorage.setItem("childSubCategory", JSON.stringify(childSubCategory));
+
+      // const lastSubCategory = childSubCategory[childSubCategory.length - 1] || null;
+
+      // console.log("🟢 Last Handpicked Subcategory:", lastSubCategory);
+
+      // localStorage.setItem("lastSubCategory", JSON.stringify(lastSubCategory));
+
+      // ✅ Jalankan getProductSlider setelah lastSubCategory disimpan
+      await getProductSlider();
+
     } catch (error) {
       toast('Error when trying to get all products');
     }
@@ -120,14 +159,64 @@ export default function Register() {
   useEffect(() => {
     getSubscriptionData();
   }, []);
+
   const getProductSlider = async () => {
     try {
-      const response = await getAllProduct({
+      const allChildSubCategory = JSON.parse(localStorage.getItem("childSubCategory") || '[]') as string[];
+
+      // console.log('🔎 Fetching products with:', {
+      //   childSubCategory: allChildSubCategory,
+      //   sortType: selectedShortByOption,
+      // });
+
+      // 1️⃣ Fetch utama
+      const mainResponse = await getRelevantProduct({
         page: 1,
-        limit: 4,
-        sortType: SortType.Popularity,
+        limit: 5,
+        sortType: selectedShortByOption,
+        category: allChildSubCategory,
       });
-      setSliderProductData(response.data);
+
+      let products = mainResponse.data || [];
+
+      // console.log('📦 Main products fetched:', products);
+
+      // 2️⃣ Jika kurang dari 5, fetch lagi pakai 3 kategori terakhir
+      if (products.length < 5) {
+        const lastThreeCats = allChildSubCategory.slice(-2);
+
+        const fallbackResponse = await getRelevantProduct({
+          page: 1,
+          limit: 5,
+          sortType: selectedShortByOption,
+          category: lastThreeCats,
+        });
+
+        const fallbackProducts = fallbackResponse.data || [];
+
+        // Gabungkan & hilangkan duplikat berdasarkan ID
+        const combined = [...products, ...fallbackProducts].reduce((acc, current) => {
+          if (!acc.find((item: { id: any; }) => item.id === current.id)) {
+            acc.push(current);
+          }
+          return acc;
+        }, [] as typeof products);
+
+        products = combined.slice(0, 4); // Ambil maksimal 5 item
+      }
+
+      const response = await getProductById({ title: params.id as string });
+      const product = response.data;
+      // console.log('Product to filter:', product);
+
+      const filtered = products.filter((item: { id: any; }) => item.id !== product.product?.id);
+
+      setSliderProductData(filtered);
+      // console.log('✅ Final products:', products);
+
+      if (products.length === 0) {
+        console.warn('⚠️ No products returned!');
+      }
     } catch (error) {
       // toast('Error when trying to get all products');
     }
@@ -343,7 +432,7 @@ export default function Register() {
   useEffect(() => {
     getOwnerStatus();
     getProduct();
-    getProductSlider();
+    // getProductSlider();
     getReview();
   }, []);
 
@@ -371,6 +460,28 @@ export default function Register() {
     }
     return price;
   };
+
+  useEffect(() => {
+    const viewed = localStorage.getItem("recentProducts");
+    let recent: productI[] = viewed ? JSON.parse(viewed) : [];
+
+    // Cek jika produk sudah ada, hapus dulu biar tidak duplikat
+    recent = recent.filter((item) => item.id !== params.id);
+    
+
+    // Tambahkan produk ke awal
+    if (productData?.product) {
+      recent.unshift(productData.product);
+    }
+
+    // Maksimal 10 produk
+    if (recent.length > 10) recent = recent.slice(0, 10);
+
+    localStorage.setItem("recentProducts", JSON.stringify(recent));
+
+    
+  }, [params]);
+
 
   return productData ? (
     <>
@@ -811,21 +922,32 @@ export default function Register() {
           <p className='text-2xl font-semibold text-[#1A214C]'>
             Product Recommendation
           </p>
-          <div className='flex w-full flex-col justify-between gap-4 lg:flex-row'>
-            {productSliderData.map((item) => (
-              <ProductCard
-                key={item.id}
-                data={item}
-                isSlider={false}
-                handleShowDetail={(product) =>
-                  setShowProductDetail({ show: true, product })
-                }
-              />
-            ))}
+          <div className="w-full flex flex-col gap-4">
+            <div
+              className={`
+                grid
+                gap-2
+                grid-cols-2
+                sm:grid-cols-2
+                md:grid-cols-3
+                lg:grid-cols-4
+              `}
+            >
+              {productSliderData.map((item) => (
+                <ProductCard
+                  key={item.id}
+                  data={item}
+                  isSlider={false}
+                  handleShowDetail={(product) =>
+                    setShowProductDetail({ show: true, product })
+                  }
+                />
+              ))}
+            </div>
           </div>
-          <Link href="/category" className='w-full text-right text-xs font-semibold text-[#1A214C] lg:text-lg'>
+          {/* <Link href="/category" className='w-full text-center lg:text-right text-sm font-semibold text-[#1A214C] lg:text-lg'>
             See More &gt;
-          </Link>
+          </Link> */}
         </section>
         <AffiliateBanner />
       </main>

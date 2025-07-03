@@ -61,7 +61,8 @@ export default function Article({ params }: ArticleProps) {
     };
 
     fetchArticle();
-  });
+  }, []); // ✅ hanya dijalankan 1x saat komponen pertama kali dimount
+
 
   if (!article) {
     return <div>Loading...</div>;

@@ -66,35 +66,68 @@ const ProductSlider: React.FC<SwipeToSlideProps> = ({
       },
     ],
   };
+
+
+  const chunkArray = (arr: productI[], size: number): productI[][] => {
+    const chunked: productI[][] = [];
+    for (let i = 0; i < arr.length; i += size) {
+      chunked.push(arr.slice(i, i + size));
+    }
+    return chunked;
+  };
+
+
+
   return (
-    <div className='slider-container'>
-      <Slider {...settings}>
-        {items.map((item, index) => {
-          return (
-            <div key={index} className='pb-8'>
+    <div className="slider-container">
+      {/* Desktop View */}
+      <div className="hidden md:block">
+        <Slider {...settings}>
+          {items.map((item, index) => (
+            <div key={index} className="pb-8 me-2">
               <ProductCard
                 data={item}
                 handleShowDetail={(data) => handleShowDetail?.(data)}
               />
             </div>
-          );
-        })}
-        <div className='block'>
-          <div className='ml-4 flex items-center justify-left h-[335px]'>
-            <button
-              id='see-more'
-              aria-label='Go to catalog'
-              onClick={() => (more ? router.push(more) : null)}
-              className='font-katide-bold flex aspect-square h-[87px] flex-col items-center justify-center rounded-full border-2 border-[#4065D1] text-[12px] uppercase text-[#4065D1]'
-            >
-              <span>see more</span>
-              <div className='flex w-full justify-center'>
-                <FaAngleRight />
-              </div>
-            </button>
+          ))}
+          <div className="block">
+            <div className="ml-4 flex items-center justify-left h-[335px]">
+              <button
+                id="see-more"
+                aria-label="Go to catalog"
+                onClick={() => (more ? router.push(more) : null)}
+                className="font-katide-bold flex aspect-square h-[87px] flex-col items-center justify-center rounded-full border-2 border-[#4065D1] text-[12px] uppercase text-[#4065D1]"
+              >
+                <span>see more</span>
+                <div className="flex w-full justify-center">
+                  <FaAngleRight />
+                </div>
+              </button>
+            </div>
           </div>
-        </div>
-      </Slider>
+        </Slider>
+      </div>
+
+      {/* Mobile View */}
+      <div className="block md:hidden">
+        <Slider dots={true} arrows={false} className="custom-slider ">
+          {chunkArray(items, 4).map((group, pageIndex) => (
+            <div key={pageIndex} className='px-1'>
+              <div className="grid grid-cols-2 md:grid-cols-1 gap-2">
+                {group.map((item, i) => (
+                  <div key={i} className="">
+                    <ProductCard
+                      data={item}
+                      handleShowDetail={(data) => handleShowDetail?.(data)}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </Slider>
+      </div>
     </div>
   );
 };

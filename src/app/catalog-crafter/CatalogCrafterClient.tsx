@@ -10,6 +10,7 @@ import { FaUsers } from '@react-icons/all-files/fa/FaUsers';
 import { IoChevronDown } from '@react-icons/all-files/io5/IoChevronDown';
 import { Loader } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -44,6 +45,8 @@ export default function CatalogCrafterClient({ initialData }: CatalogCrafterClie
   const [seasonsOptions] = useState<CategoryI[]>(initialData.seasonsOptions);
   const [categoryData] = useState<CategoryI[]>(initialData.categoryData);
   const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(initialData.hasMore);
   const [showProductDetail, setShowProductDetail] = useState<{
@@ -104,40 +107,53 @@ export default function CatalogCrafterClient({ initialData }: CatalogCrafterClie
     return str.replace(/([A-Z])/g, ' $1').trim();
   }
 
-  const getMoreProduct = useCallback(async (page = currentPage, sortOption = selectedShortByOption) => {
-    const extraCat =
-      selectedSeasonsOption !== ''
-        ? selectedSeasonsOption
-        : selectedCategoryOption !== ''
+  const getMoreProduct = useCallback(
+    async (page = currentPage, sortOption = selectedShortByOption) => {
+      const extraCat =
+        selectedSeasonsOption !== ''
+          ? selectedSeasonsOption
+          : selectedCategoryOption !== ''
           ? selectedCategoryOption
           : '';
-    try {
-      setLoading(true);
-      const response = await getMoreProducts(
-        page,
-        sortOption,
-        'Crafters',
-        extraCat
-      );
-      setProductData(prev => page === 1 ? response.productData : [...prev, ...response.productData]);
-      setHasMore(response.hasMore);
-    } catch (error) {
-      toast('Error when trying to get more products');
-    } finally {
-      setLoading(false);
-    }
-  }, [currentPage, selectedCategoryOption, selectedSeasonsOption, selectedShortByOption]);
+      try {
+        setLoading(true);
+        const response = await getMoreProducts(
+          page,
+          sortOption,
+          'Crafters',
+          extraCat
+        );
+        setProductData(prev =>
+          page === 1 ? response.productData : [...prev, ...response.productData]
+        );
+        setHasMore(response.hasMore);
+      } catch (error) {
+        toast('Error when trying to get more products');
+      } finally {
+        setLoading(false);
+      }
+    },
+    [currentPage, selectedCategoryOption, selectedSeasonsOption, selectedShortByOption]
+  );
+
+
+  // useEffect(() => {
+  //   getMoreProduct(1, SortType.Latest);
+  // }, []);
 
   useEffect(() => {
-    getMoreProduct(1, SortType.Latest);
-  }, []);
-  
+    const sortTypeParam = searchParams.get('sortType') as SortType || SortType.Latest;
+    setSelectedShortByOption(sortTypeParam);
+    getMoreProduct(1, sortTypeParam);
+  }, [searchParams]);
+
   
   return (
     <main>
       <section className='flex flex-col-reverse lg:mx-auto lg:mb-[6%] lg:mt-[4%] lg:w-[1164px] lg:flex-row'>
-        <img src={catalogcrafter.src} alt='Catalog' />
-
+        <div className='flex items-center justify-center lg:justify-start lg:w-[200%] rounded-2xl mx-2 lg:mx-0'>
+          <img src={catalogcrafter.src} alt='Catalog' className='rounded-3xl' />
+        </div>
         <div className='mt-4 flex flex-col items-center p-2 lg:ml-8 lg:mt-2 lg:items-start lg:p-0'>
           <div className='font-katide-bold inline-flex h-16 w-48 items-center justify-center rounded-full bg-[#61A9FA] px-9 text-center text-[24px] text-white shadow-md'>
             Exclusive Partners
@@ -310,7 +326,7 @@ export default function CatalogCrafterClient({ initialData }: CatalogCrafterClie
               </div>
               :
               null}
-            <div className='w-full flex flex-wrap items-center justify-center lg:items-start lg:justify-start gap-y-2'>
+            <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-2">
               {productData.map((product, index) => (
                 <ProductCard
                   key={index}

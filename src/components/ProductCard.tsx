@@ -65,26 +65,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
     }
   }, [data]);
 
-  const containerClassNames = () => {
-    if (!isSlider) {
-      return 'group relative h-[335px] lg:w-[294px] w-full';
-    }
-    if (data.author) {
-      return 'group relative my-4 h-[395px] w-[294px]';
-    }
-    return 'group relative my-4 h-[335px] w-[294px]';
-  };
-
-  const cardClassNames = () => {
-    if (!isSlider) {
-      return 'absolute left-0 top-0 flex h-[335px] w-full lg:w-[281px] flex-col flex-nowrap items-start gap-[24px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-[12px] shadow-xl transition-none hover:border-[2px]';
-    }
-    if (data.author) {
-      return 'absolute left-0 top-0 flex h-[395px] w-[281px] flex-col flex-nowrap items-start gap-[24px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-[12px] shadow-xl transition-none hover:border-[2px]';
-    }
-    return 'absolute left-0 top-0 flex h-[335px] w-[281px] flex-col flex-nowrap items-start gap-[24px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-[12px] shadow-xl transition-none hover:border-[2px]';
-  };
-
   const handleCart = async () => {
     handleShowDetail?.(data);
     // try {
@@ -267,23 +247,50 @@ const ProductCard: React.FC<ProductCardProps> = ({
     }
   };
 
+  const containerClassNames = () => {
+    const base = 'group relative w-full max-w-[100%] mx-auto lg:w-[294px]';
+
+    if (data.author) {
+      return `${base}`;
+    }
+
+    if (isSlider) {
+      return `${base}`;
+    }
+
+    return base;
+  };
+
+
+
+  const cardClassNames = () => {
+    if (!isSlider) {
+      return ' flex h-auto w-full max-w-full mx-auto flex-col flex-nowrap items-start gap-[16px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-2 shadow-xl transition-none hover:border-[2px]';
+    }
+    if (data.author) {
+      return ' flex h-auto w-full max-w-full mx-auto flex-col flex-nowrap items-start gap-[16px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-2 shadow-xl transition-none hover:border-[2px]';
+    }
+    return ' flex h-auto w-full max-w-full mx-auto flex-col flex-nowrap items-start gap-[16px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-2 shadow-xl transition-none hover:border-[2px]';
+  };
+
+
   return (
     <>
       <div className={containerClassNames()}>
         {generateSale()}
         <div className={cardClassNames()}>
           <NextImage
-            onClick={() => router.push(`/product/${data?.meta?.[0].title}`)}
+            onClick={() => data?.meta?.[0]?.title && router.push(`/product/${data.meta[0].title}`)}
             src={data.imageUrl[0]}
             alt={data.name}
             height={180}
             width={260}
             quality={60}
-            className='h-[172px] w-full rounded-[6px] object-cover lg:w-[257px]'
-            classNames={{ image: 'h-[172px] w-full rounded-[6px] object-cover lg:w-[257px]' }}
+            className='h-auto w-full rounded-[6px] object-cover '
+            classNames={{ image: 'h-auto w-full rounded-[6px] object-cover' }}
             useSkeleton={true}
           />
-          <Link href={`/product/${data?.meta?.[0].title}`} className='relative z-[2] flex h-[54px] w-[257px] shrink-0 items-start justify-start self-stretch overflow-hidden text-left text-[16px] font-semibold leading-[17.6px] text-[#1a204c]'>
+          <Link href={data?.meta?.[0]?.title ? `/product/${data.meta[0].title}` : '#'} className='relative z-[2] flex h-[54px] shrink-0 items-start justify-start self-stretch overflow-hidden text-left lg:text-[16px] text-[14px] font-semibold leading-[17.6px] text-[#1a204c]'>
             {data.name}
           </Link>
           <div className='flex w-full justify-between gap-2'>
@@ -318,9 +325,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
               id={`add-${data.id}-cart`}
               type='button'
               onClick={handleCart}
-              className='flex h-[37px] items-center justify-center gap-[8px] rounded-[8px] border-2 border-gray-400 bg-white pb-[12px] pl-[24px] pr-[24px] pt-[12px]'
+              className='flex h-[37px] items-center justify-center gap-[8px] rounded-[8px] border-2 border-gray-400 bg-white p-[12px] sm:pl-[24px] sm:pr-[24px]'
             >
-              <img src={cartProduct.src} alt='cart'></img>
+              <img
+                src={cartProduct.src}
+                alt='cart'
+                className='h-4 w-4 sm:h-5 sm:w-5' // kecil di mobile, normal di layar besar
+              />
             </button>
           </div>
           {data.author?.name && (
@@ -340,14 +351,22 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </div>
           )}
 
-          <Link href={`https://id.pinterest.com/pin/create/button/?description=${data?.name}&url=${process.env.NEXT_PUBLIC_URL}/product/${data?.meta?.[0].title}&media=${data?.imageUrl[0]}`} target='_blank' className='absolute left-[7px] top-[5px] z-[7] cursor-pointer bg-no-repeat opacity-0 transition-all duration-500 group-hover:opacity-100'>
+          <Link href={
+              data?.meta?.[0]?.title
+                ? `https://id.pinterest.com/pin/create/button/?description=${data?.name}&url=${process.env.NEXT_PUBLIC_URL}/product/${data.meta[0].title}&media=${data?.imageUrl[0]}`
+                : '#'
+            } target='_blank' className='absolute left-[7px] top-[5px] z-[7] cursor-pointer bg-no-repeat opacity-0 transition-all duration-500 group-hover:opacity-100'>
             <img
               src={hoverPinterest.src}
               className='h-[40px] w-[40px]'
               alt={`share-pinterest-${data.name}`}
             />
           </Link>
-          <Link href={`https://api.whatsapp.com/send?text=${process.env.NEXT_PUBLIC_URL}/product/${data?.meta?.[0].title}`} target='_blank' className='absolute left-[55px] top-[5px] z-[7] cursor-pointer bg-no-repeat opacity-0 transition-all duration-500 group-hover:opacity-100'>
+          <Link href={
+            data?.meta?.[0]?.title
+            ? `https://api.whatsapp.com/send?text=${process.env.NEXT_PUBLIC_URL}/product/${data?.meta?.[0].title}`
+            : '#'
+            } target='_blank' className='absolute left-[55px] top-[5px] z-[7] cursor-pointer bg-no-repeat opacity-0 transition-all duration-500 group-hover:opacity-100'>
             <img
               src={hoverWA.src}
               className='h-[40px] w-[40px]'

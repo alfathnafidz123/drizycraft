@@ -5,10 +5,13 @@ import accountInactive from './accountInactive.svg';
 import address from './address.png';
 import affiliatebanner from './affiliatebanner.webp';
 import AO from './AO.svg';
+import arrowLefts from './arrow-left.png';
+import arrowRights from './arrow-right.png';
 import articlePage from './articlePage.svg';
 import AssetSubscribe from './AssetSubscribe.svg';
 import avatarExample from './avatar-example.png';
 import bannerCoin from './banner-coin.png';
+import bannerVector from './banner-vector.png'
 import bannerArticle from './bannerArticle.svg';
 import bestValue from './best_val.png';
 import bestSell2 from './best-selling-banner3.webp'
@@ -29,7 +32,7 @@ import canva from './canva.svg';
 import cart from './cart.svg';
 import cartIllustration from './cartIllustration.png';
 import cartProduct from './cartProduct.png';
-import catalogcrafter from './catalogcrafter.svg';
+import catalogcrafter from './catalogcrafter.webp';
 import cat1 from './categories/1.png';
 import cat2 from './categories/2.png';
 import cat3 from './categories/3.png';
@@ -66,12 +69,14 @@ import pinterest from './coming-soon/pinterest.svg';
 import ContactUs from './contact-us.svg';
 import Copy from './copy.svg';
 import cov from './cov-product.png.png';
+import craftToConnect from './craft-to-connect-img.png';
 import crafter1 from './crafter.svg';
 import crafterProduct from './crafters-product.svg';
 import crafterItem1 from './crafters1.svg';
 import creativeFabrica from './creativeFabrica.svg';
 import crossMember from './cross.svg';
 import cross from './crossgray.svg';
+import crownMember from './crownMember.png'
 import defaultAvatar from './default-avatar.png';
 import defaultProfile from './default-profile.svg';
 import designBundles from './designBundles.svg';
@@ -80,7 +85,7 @@ import downloadInactive from './downloadInactive.svg';
 import drizyteam1 from './drizy-team-1.png';
 import drizyteam2 from './drizy-team-2.png';
 import drizyteam3 from './drizy-team-3.png';
-import dgroupBanner from './drizygroup-banner.png';
+import dgroupBanner from './drizygroup-banner.webp';
 import logodrizy from './drizylogo.svg';
 import drizzyCoin from './drizzyCoin.svg';
 import elegco from './elegco.svg';
@@ -97,7 +102,7 @@ import frameFeature from './frameFeature.png';
 import frameFeature2 from './frameFeature2.png';
 import frameFeature3 from './frameFeature3.png';
 import frameFeature4 from './frameFeature4.png';
-import freeSVGBanner from './free-svg-banner.png';
+import freeSVGBanner from './free-svg-banner.webp';
 import freepik from './freepik.svg';
 import backgroundMembership1 from './FrostyBackground_1.png';
 import backgroundMembership2 from './FrostyBackground_2.png';
@@ -116,6 +121,8 @@ import leftMembership from './image_membership_left.png';
 import rightMembership from './image_membership_right.png';
 import rightMembershipNew from './image-membership-kanan-new.png';
 import leftMembershipNew from './image-membership-kiri-new.png';
+import jennieg from './jennieg.png';
+import jennieGproject from './jenniegproject.png';
 import jesus1 from './jesus/imggg1.jpg';
 import jesus2 from './jesus/imggg2.jpg';
 import jesus3 from './jesus/imggg3.jpg';
@@ -133,6 +140,8 @@ import jesus14 from './jesus/imggg14.jpg';
 import jesus15 from './jesus/imggg15.jpg';
 import jesusVector from './jesus-vector.png';
 import jiffy from './jiffy.svg';
+import kerryb from './kerryb.jpg';
+import kerryBproject from './kerrybproject1.png';
 import license1 from './license1.svg';
 import license2 from './license2.svg';
 import loginImage from './login-image.png';
@@ -167,6 +176,8 @@ import orderInactive from './ordersInactive.svg';
 import paymentMethod from './paymentMethod.png';
 import pintCrafter from './pintCrafter.svg';
 import project1 from './project-1.png';
+import projectLeftBg from './project-left-bg.webp'
+import projectImg1 from './project1.png'
 import projectGrid from './projectGrid.png';
 import projectImage from './projectImage.svg';
 import projectLike from './projectLike.svg';
@@ -190,11 +201,15 @@ import samsunggray from './samsung-gray.svg';
 import samsungHome from './samsung-home.svg';
 import search from './search.png';
 import searchBlue from './search-blue.png';
+import fallSeason from './season/fall-season.webp';
+import summerSeason from './season/summer-season.png';
 import seasonCategory from './season-category.png';
 import starBadge from './star-badge.png';
 import subscription from './subscription.svg';
 import subscriptionInactive from './subscriptionInactive.svg';
 import success from './success.svg';
+import syelmav from './syelma.png';
+import syelmaProject from './syelmaproject.png';
 import andy from './testimonies/andy.webp';
 import bonnie from './testimonies/bonnie.webp';
 import leslie from './testimonies/leslie.webp';
@@ -202,6 +217,10 @@ import michelle from './testimonies/michelle.webp';
 import nad from './testimonies/nad.webp';
 import pam from './testimonies/pam.webp';
 import testimony from './testimony.png';
+import trend1 from './trend-section/trending1.png';
+import trend2 from './trend-section/trending2.webp';
+import trend3 from './trend-section/trending3.webp';
+import trend4 from './trend-section/trending4.webp';
 import member1 from './usr_rev_1.png';
 import member2 from './usr_rev_2.png';
 import member3 from './usr_rev_3.png';
@@ -221,7 +240,9 @@ export {
   affiliatebanner,
   andy,
   AO,
+  arrowLefts,
   arrowRight,
+  arrowRights,
   articlePage,
   AssetSubscribe,
   avatarExample,
@@ -229,6 +250,7 @@ export {
   backgroundMembership2,
   bannerArticle,
   bannerCoin,
+  bannerVector,
   behance,
   bestSell,
   bestSell2,
@@ -287,9 +309,11 @@ export {
   crafter1,
   crafterItem1,
   crafterProduct,
+  craftToConnect,
   creativeFabrica,
   cross,
   crossMember,
+  crownMember,
   defaultAvatar,
   defaultProfile,
   designBundles,
@@ -306,6 +330,7 @@ export {
   endlessCrafting,
   expandingCrafting,
   facebook,
+  fallSeason,
   feature1,
   feature2,
   feature3,
@@ -329,6 +354,8 @@ export {
   hoverPinterest,
   hoverWA,
   instagram,
+  jennieg,
+  jennieGproject,
   jesus1,
   jesus2,
   jesus3,
@@ -346,6 +373,8 @@ export {
   jesus15,
   jesusVector,
   jiffy,
+  kerryb,
+  kerryBproject,
   leftMembership,
   leftMembershipNew,
   leslie,
@@ -392,6 +421,8 @@ export {
   project1,
   projectGrid,
   projectImage,
+  projectImg1,
+  projectLeftBg,
   projectLike,
   projectPinterest,
   projectShare,
@@ -420,7 +451,14 @@ export {
   subscription,
   subscriptionInactive,
   success,
+  summerSeason,
+  syelmaProject,
+  syelmav,
   testimony,
+  trend1,
+  trend2,
+  trend3,
+  trend4,
   vectorBanner,
   vectorDesign,
   vip,

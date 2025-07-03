@@ -33,11 +33,11 @@ import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
 import {
   betaLogo,
   cart,
+  crownMember,
   drizzyCoin,
   emptyCoin,
   newBadge,
   newBadgeBlue,
-  newMember,
   search,
 } from '~/images';
 
@@ -184,15 +184,15 @@ const Navbar: React.FC = () => {
             <div className='mr-2 flex flex-col '>
               <select onChange={(e) => { setSelectedCategory(e.target.value) }} value={selectedCategory} className='font-katide-bold mb-2 mr-2 max-w-[130px] border-none text-sm outline-none ring-0 focus:ring-0'>
                 <option value='all'>All Product</option>
-                <option value='Bundles'>Bundles</option>
+                {/* <option value='Bundles'>Bundles</option> */}
                 <option value='Crafters'>Crafters</option>
                 <option value='Freebies'>Freebies</option>
-                <option value='Membership'>Membership</option>
+                {/* <option value='Membership'>Membership</option>
                 <option value='Vector'>Vector</option>
                 <option value='Print Template'>Print Template</option>
                 <option value='Time Limited Freebies'>
                   Time Limited Freebies
-                </option>
+                </option> */}
               </select>
 
               {/* <div ref={crafterRef} className='relative pt-[6px]'>
@@ -737,8 +737,13 @@ const Navbar: React.FC = () => {
                             className='h-full w-[1px] bg-[#E5E7EB]'
                           ></div>
                           <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
-                            <div className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'>
-                              <p>Printable Craft</p>
+                            <div
+                              onClick={() => {
+                                router.push('/category/Printable Crafts');
+                              }}
+                              className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                            >
+                              <p>Sublimation</p>
                               <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                             </div>
                             <div
@@ -786,19 +791,20 @@ const Navbar: React.FC = () => {
                   </div>
                 </div>
                 <Link
+                  href='#'
+                  id='freeSvg'
+                  className='flex h-[40px] w-[115px] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] px-4 py-3 hover:bg-[#CCE7EF]'
+                >
+                  Drizy Atelier
+                </Link>
+                <Link
                   href='/blog'
                   id='bundles'
-                  className=' flex h-[40px] w-[105px] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] px-6 py-3 hover:bg-[#CCE7EF]'
+                  className=' flex h-[40px] w-[100px] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] px-6 py-3 hover:bg-[#CCE7EF]'
                 >
                   Blog
                 </Link>
-                <Link
-                  href='/catalog-free-svg'
-                  id='freeSvg'
-                  className='flex h-[40px] w-[105px] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] px-4 py-3 hover:bg-[#CCE7EF]'
-                >
-                  Free SVGs
-                </Link>
+                
                 {/* <a href="https://breezy.drizycraft.com" target="_blank" className="breezy-btn"> */}
                 <Link
                   href='/project'
@@ -917,9 +923,9 @@ const Navbar: React.FC = () => {
                 
                 <Link
                   href='/membership'
-                  className='font-katide-semibold flex h-[40px] w-[178px] items-center gap-2 rounded-full bg-[#EE4C73] px-8 py-4 text-[14px] text-white hover:bg-[#CE4768]'
+                  className='font-katide-semibold flex h-[40px] w-[178px] items-center gap-3 rounded-full bg-[#EE4C73] px-8 py-4 text-[14px] text-white hover:bg-[#CE4768]'
                 >
-                  <img src={newMember.src} alt='Membership' />
+                  <img src={crownMember.src} alt='Membership' />
                   <p className='mt-0.5'>Membership</p>
                 </Link>
               </div>
@@ -1023,15 +1029,15 @@ const Navbar: React.FC = () => {
           <div className='container mx-auto flex h-1/2 items-center justify-between gap-2 max-md:mx-0 lg:px-0'>
             <select onChange={(e) => { setSelectedCategory(e.target.value) }} value={selectedCategory} className='font-katide-bold max-w-[130px] border-none text-sm outline-none ring-0 focus:ring-0'>
               <option value='all'>All Product</option>
-              <option value='Bundles'>Bundles</option>
+              {/* <option value='Bundles'>Bundles</option> */}
               <option value='Crafters'>Crafters</option>
               <option value='Free SVGs'>Freebies</option>
-              <option value='Membership'>Membership</option>
+              {/* <option value='Membership'>Membership</option>
               <option value='Vector'>Vector</option>
               <option value='Printable Crafts'>Print Template</option>
               <option value='Time Limited Freebies'>
                 Time Limited Freebies
-              </option>
+              </option> */}
             </select>
             <form onSubmit={handleSearch} className='group flex h-[42px] grow items-center gap-4 rounded-full border border-solid border-blue-500 border-opacity-25 p-2 pl-4 text-left text-sm font-normal leading-4 tracking-tighter text-[#6F6F6F]'>
               <input
@@ -1241,7 +1247,7 @@ const Navbar: React.FC = () => {
                           }}
                           className='ml-4 border-t-2 p-4'
                         >
-                          <p className='font-katide-semibold'>Printable Craft</p>
+                          <p className='font-katide-semibold'>Sublimation</p>
                         </div>
                         <div
                           onClick={() => {
@@ -1283,7 +1289,7 @@ const Navbar: React.FC = () => {
                     }
                   </>
                 )}
-                <div
+                {/* <div
                   onClick={() => {
                     setIsVectorOpen(prev => !prev);
                   }}
@@ -1296,7 +1302,7 @@ const Navbar: React.FC = () => {
                         } transition-all`}
                     />
                   </div>
-                </div>
+                </div> */}
                 {isVectorOpen && (
                   <>
                     <div
@@ -1328,6 +1334,16 @@ const Navbar: React.FC = () => {
                     </div>
                   </>
                 )}
+                
+                <div
+                  onClick={() => {
+                    router.push('#');
+                    setSidebarOpen(false);
+                  }}
+                  className='border-t-2 p-4'
+                >
+                  <p className='font-katide-semibold'>Drizy Atelier</p>
+                </div>
                 <div
                   onClick={() => {
                     router.push('/category/Bundle');
@@ -1335,21 +1351,11 @@ const Navbar: React.FC = () => {
                   }}
                   className='border-t-2 p-4'
                 >
-                  <p className='font-katide-semibold'>Bundle</p>
+                  <p className='font-katide-semibold'>Blog</p>
                 </div>
                 <div
                   onClick={() => {
-                    router.push('/category/Free SVG');
-                    setSidebarOpen(false);
-                  }}
-                  className='border-t-2 p-4'
-                >
-                  <p className='font-katide-semibold'>Free SVGs</p>
-                </div>
-                
-                <div
-                  onClick={() => {
-                    router.push('/project');
+                    router.push('/blog');
                     setSidebarOpen(false);
                   }}
                   className='border-t-2 p-4'

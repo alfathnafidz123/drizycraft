@@ -196,7 +196,7 @@ export default function CatalogCrafter() {
               </div>
               :
               null}
-            <div className='w-full flex flex-wrap items-center justify-center lg:items-start lg:justify-start gap-y-2'>
+            <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-2">
               {productData.map((product, index) => (
                 <ProductCard
                   key={index}
@@ -208,6 +208,7 @@ export default function CatalogCrafter() {
                 />
               ))}
             </div>
+
             {hasMore &&
               <div onClick={() => { !loading ? setCurrentPage(prev => prev + 1) : null }} className='flex items-center justify-center cursor-pointer text-center mt-10'>
                 {loading

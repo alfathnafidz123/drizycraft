@@ -16,7 +16,12 @@ const CookieConsentBanner = dynamic(() => import('@/components/home/cookie.banne
 
 import dynamic from 'next/dynamic';
 
+import HandPickedSection from '@/components/home/handpicked.section';
+import JumbotronSection from '@/components/home/jumbotron.section';
 import ProjectSection from '@/components/home/project.section';
+import RecentSection from '@/components/home/recent.section';
+import SeasonSection from '@/components/home/season.section';
+import TrendingSection from '@/components/home/trending.section';
 
 import {
   CategoryI,
@@ -35,7 +40,6 @@ import {
   cat10,
   cat11,
 } from '~/images';
-import JumbotronSection from '@/components/home/jumbotron.section';
 
 export const revalidate = 600
 export const dynamicParams = false
@@ -50,7 +54,6 @@ async function getHomePageData() {
   if (!res.ok) {
     throw new Error('Failed to fetch data');
   }
-
   return homePageData;
 }
 
@@ -75,6 +78,8 @@ export default async function HomePage() {
   //   useState<HomepageDataI>(defaultHomepageData);
   const homeProduct = await getHomePageData();
   const seasonalData = await getSeasonData();
+  // const { data: productData } = await getProducts();
+
   
   // console.log(homeProduct.crafterData.filter(item => !item.meta?.[0].image));
 
@@ -104,7 +109,7 @@ export default async function HomePage() {
   const categoryStatic = [
     { name: 'Free SVGs', link: 'Free SVGs', image: cat11.src },
     { name: 'Shadow Box SVG', link: '3D Shadow Box SVGs', image: cat2.src },
-    { name: 'Circut SVG', link: 'Cricut SVG', image: cat3.src },
+    { name: 'Cricut SVG', link: 'Cricut SVG', image: cat3.src },
     { name: 'SVG Cut File', link: 'SVG Cut Files', image: cat4.src },
     { name: 'Monogram Designs', link: 'Monogram Designs', image: cat5.src },
     { name: 'Sticker SVG', link: 'Stickers SVG', image: cat6.src },
@@ -113,21 +118,23 @@ export default async function HomePage() {
     { name: 'T-Shirt Designs', link: 'T-Shirt Designs', image: cat9.src },
     { name: 'Papercut Template', link: 'Paper Cut Templates', image: cat10.src },
   ]
+  
 
   return (
     <main>
-      <BreezyBanner />
+      {/* <BreezyBanner /> */}
       <JumbotronSection homeProduct={homeProduct} />
       {/* <ProjectSection homeProduct={homeProduct} /> */}
-      <SectionContainer
-        bgColor='white'
-        className='flex items-center justify-center bg-white py-9 text-base font-bold leading-4 text-white max-md:px-5'
-      >
-        <div className='flex w-full flex-col max-md:max-w-full'>
-          <div className='font-katide-bold self-center whitespace-nowrap text-2xl text-indigo-950'>
+      <RecentSection product={[]}/>
+      <HandPickedSection product={[]}/>
+      <ProjectSection homeProduct={homeProduct}/>
+      <SeasonSection product={[]} />
+      <SectionContainer bgColor='white' className='flex items-center justify-center bg-white py-6 text-base font-bold leading-4 text-white max-md:px-5'>
+        <div className='flex w-full flex-col max-md:max-w-full  md:px-4 lg:px-0'>
+          <div className='font-katide-bold whitespace-nowrap text-2xl text-indigo-950'>
             Browse Product Categories
           </div>
-          <div className='mt-6 grid grid-cols-2 justify-between gap-3 md:grid-cols-3 lg:mt-12 lg:grid-cols-5'>
+          <div className='mt-6 grid grid-cols-2 justify-between gap-3 md:grid-cols-3 lg:mt-6 lg:grid-cols-5'>
             {categoryStatic.map((data, index) => (
               <ProductCategories
                 key={index.toString()}
@@ -140,11 +147,11 @@ export default async function HomePage() {
         </div>
       </SectionContainer>
 
-      <SectionContainer
+      {/* <SectionContainer
         bgColor='#E1E3F4'
         className='flex items-center justify-center py-9 text-base font-bold leading-4 text-white'
       >
-        <div className='flex w-full flex-col max-md:max-w-full'>
+        <div className='flex w-full flex-col max-md:max-w-full md:px-4 lg:px-0'>
           <div className='font-katide-bold mb-16 self-center whitespace-nowrap text-2xl text-indigo-950'>
             Browse Season Categories
           </div>
@@ -158,7 +165,8 @@ export default async function HomePage() {
             ))}
           </div>
         </div>
-      </SectionContainer>
+      </SectionContainer> */}
+      <TrendingSection homeProduct={homeProduct}/>
 
       <CrafterSection product={homeProduct.crafterData} />
 

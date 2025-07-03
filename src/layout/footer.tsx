@@ -5,6 +5,7 @@ import { FaFacebookF } from '@react-icons/all-files/fa6/FaFacebookF';
 import { FaInstagram } from '@react-icons/all-files/fa6/FaInstagram';
 import { FaPinterest } from '@react-icons/all-files/fa6/FaPinterest';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { useAppSelector } from '@/lib/store';
 
@@ -12,6 +13,8 @@ import { GuaranteeBadge } from '~/images';
 
 const Footer = () => {
   const { dataUser } = useAppSelector((state) => state.user);
+  const router = useRouter();
+
 
   return (
     <footer className='flex flex-col items-center bg-[#1A214C] pb-7 pt-12 text-white'>
@@ -21,8 +24,28 @@ const Footer = () => {
             <div className='font-katide-bold text-[18px]'>Find</div>
             <div className='font-katide-regular mt-2 flex flex-col gap-2 text-[14px] lg:mt-9 lg:gap-4'>
               <Link href='/blog'>Blogs</Link>
-              <Link href="/catalog-crafter">Newest</Link>
-              <Link href="/catalog-crafter">Popular</Link>
+              <Link
+                href={{
+                  pathname: "/catalog-crafter",
+                  query: {
+                    sortType: "Latest",
+                  },
+                }}
+              >
+                Newest
+              </Link>
+
+              <Link
+                href={{
+                  pathname: "/catalog-crafter",
+                  query: {
+                    sortType: "Popularity",
+                  },
+                }}
+              >
+                Popular
+              </Link>
+
               {dataUser?.affiliate &&
                 <Link href="/dashboard-afilliator">Afilliator Dashboard</Link>
               }
@@ -31,10 +54,33 @@ const Footer = () => {
           <nav>
             <div className='font-katide-bold text-[18px]'>Categories</div>
             <div className='font-katide-regular mt-2 flex flex-col gap-2 text-[14px] lg:mt-9 lg:gap-4'>
-              <Link href="/category/Shadow box">Shadow box</Link>
-              <Link href="/category/Paper Cut Template">Paper Cut Template</Link>
-              <Link href="/category/Sublimation">Sublimation</Link>
-              <Link href="/category/Vector">Vector</Link>
+              <Link
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault(); // cegah href
+                  router.push('/category/3D Shadow Box SVGs');
+                }}
+              >
+                Shadow box
+              </Link>
+              <Link
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault(); // cegah href
+                  router.push('/category/Paper Cut Templates');
+                }}
+              >
+                Paper Cut Template
+              </Link>
+              <Link
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault(); // cegah href
+                  router.push('/category/Printable Crafts');
+                }}
+              >
+                Sublimation
+              </Link>
             </div>
           </nav>
           <nav>
@@ -77,7 +123,7 @@ const Footer = () => {
                   <FaUsers />
                 </Link>
 
-                <Link aria-label='Drizy Studio Pinterest' href="https://id.pinterest.com/Drizy_Studio/" target='__blank'>
+                <Link aria-label='Drizy Studio Pinterest' href="https://www.pinterest.com/Drizy_Craft/" target='__blank'>
                   <FaPinterest />
                 </Link>
 

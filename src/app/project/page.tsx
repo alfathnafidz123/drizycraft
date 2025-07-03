@@ -69,6 +69,7 @@ export default function Register() {
   useEffect(() => {
     getCrafter();
   }, [params.page]);
+  
 
   return (
     <main>

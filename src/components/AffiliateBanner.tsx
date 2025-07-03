@@ -74,7 +74,7 @@ const AffiliateBanner = () => {
       }}
     >
       <div className='relative flex min-h-[321px] w-full flex-col items-center justify-center overflow-hidden px-16 py-12 max-md:max-w-full max-md:px-5'>
-        <div className='mb-6 mt-12 flex w-[341px] max-w-full flex-col items-center max-md:mt-10'>
+        <div className='mb-6 flex w-[341px] max-w-full flex-col items-center lg:mt-10'>
           <div
             className={`whitespace-nowrap text-2xl leading-9 ${myFont.className}`}
           >
