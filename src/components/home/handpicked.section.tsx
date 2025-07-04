@@ -32,10 +32,10 @@ const HandPickedSection = ({ product }: { product: productI[] }) => {
       // Ambil childSubCategory dari localStorage
       const allChildSubCategory = JSON.parse(localStorage.getItem("childSubCategory") || '[]') as string[];
 
-      console.log('🔎 Fetching products with:', {
-        childSubCategory: allChildSubCategory,
-        sortType: selectedShortByOption,
-      });
+      // console.log('🔎 Fetching products with:', {
+      //   childSubCategory: allChildSubCategory,
+      //   sortType: selectedShortByOption,
+      // });
 
       // Ambil produk terbaru yang sudah dilihat dari localStorage
       const storedRecent = localStorage.getItem("recentProducts");
@@ -43,7 +43,7 @@ const HandPickedSection = ({ product }: { product: productI[] }) => {
 
       // Ambil daftar product ID dari recentProducts
       const recentProductIds = recent.map((item: any) => item.product?.id).filter(Boolean);
-      console.log('🟢 Exclude product IDs:', recentProductIds);
+      // console.log('🟢 Exclude product IDs:', recentProductIds);
 
       // 1️⃣ Fetch utama
       const mainResponse = await getRelevantProduct({
@@ -55,7 +55,7 @@ const HandPickedSection = ({ product }: { product: productI[] }) => {
 
       let products = mainResponse.data || [];
 
-      console.log('📦 Main products fetched:', products);
+      // console.log('📦 Main products fetched:', products);
 
       // 2️⃣ Jika kurang dari 5, fetch lagi pakai 3 kategori terakhir
       if (products.length < 5) {
@@ -73,7 +73,7 @@ const HandPickedSection = ({ product }: { product: productI[] }) => {
             !recentProductIds.includes(item.id) &&
             !products.find((p: any) => p.product?.id === item.id)
         );
-        console.log('📦 Fallback products fetched:', fallbackProducts);
+        // console.log('📦 Fallback products fetched:', fallbackProducts);
         
 
         // Gabungkan & ambil maksimal 4 produk
@@ -85,13 +85,13 @@ const HandPickedSection = ({ product }: { product: productI[] }) => {
           !recentProductIds.includes(item.id) &&
           !products.find((p: any) => p.product?.id === item.id)
       );
-      console.log("🟡 Fallback products before merge:", fallbackProducts);
+      // console.log("🟡 Fallback products before merge:", fallbackProducts);
 
       products = fallbackProducts.slice(0, 5);
 
       setProductList(products);
       
-      console.log('✅ Final products:', products);
+      // console.log('✅ Final products:', products);
 
       if (products.length === 0) {
         console.warn('⚠️ No products returned!');

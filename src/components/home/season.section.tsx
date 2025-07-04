@@ -32,10 +32,10 @@ const SeasonSection = ({ product }: { product: productI[] }) => {
         const rawCategory = 'Fall SVG';
         const category = decodeURIComponent(rawCategory.replace(/^"|"$/g, ''));
         setCategoryName(category);
-        console.log('Fetching products with params:', {
-          extraCategory: selectedSeasonsOption,
-          sortType: selectedShortByOption,
-        });
+        // console.log('Fetching products with params:', {
+        //   extraCategory: selectedSeasonsOption,
+        //   sortType: selectedShortByOption,
+        // });
   
         const response = await getAllProduct({
           page: 1,
@@ -46,11 +46,11 @@ const SeasonSection = ({ product }: { product: productI[] }) => {
             selectedSeasonsOption !== '' ? selectedSeasonsOption : '',
         });
         setProductList(response.data);
-        console.log('Product response:', response);
+        // console.log('Product response:', response);
   
         // Cek jika data tidak kosong
         if (response?.data?.length > 0) {
-          console.log('Total products fetched:', response.data.length);
+          // console.log('Total products fetched:', response.data.length);
         } else {
           console.warn('No products returned!');
         }
