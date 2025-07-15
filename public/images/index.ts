@@ -14,6 +14,7 @@ import bannerCoin from './banner-coin.png';
 import bannerVector from './banner-vector.png'
 import bannerArticle from './bannerArticle.svg';
 import bestValue from './best_val.png';
+import bestSell4 from './best-selling-banner-4.webp'
 import bestSell2 from './best-selling-banner3.webp'
 import bestSell from './Best-Selling-for-Gift.webp';
 import BgMembershipNew from './bg_membership_new.jpg';
@@ -119,7 +120,9 @@ import hoverPinterest from './hoverpint.svg';
 import hoverWA from './hoverwa.svg';
 import leftMembership from './image_membership_left.png';
 import rightMembership from './image_membership_right.png';
+import rightMembership2 from './image-membership-kanan-2.webp'
 import rightMembershipNew from './image-membership-kanan-new.png';
+import leftMembership2 from './image-membership-kiri-2.webp'
 import leftMembershipNew from './image-membership-kiri-new.png';
 import jennieg from './jennieg.png';
 import jennieGproject from './jenniegproject.png';
@@ -254,6 +257,7 @@ export {
   behance,
   bestSell,
   bestSell2,
+  bestSell4,
   bestValue,
   betaLogo,
   BgMembershipNew,
@@ -376,6 +380,7 @@ export {
   kerryb,
   kerryBproject,
   leftMembership,
+  leftMembership2,
   leftMembershipNew,
   leslie,
   license1,
@@ -437,6 +442,7 @@ export {
   quietImg4,
   quietImg5,
   rightMembership,
+  rightMembership2,
   rightMembershipNew,
   sale,
   saleProduct,

@@ -19,7 +19,7 @@ import NextImage from '@/components/NextImage';
 
 import { ArticleI, ResArticleI } from '@/interfaces/article.interfaces';
 
-import { articlePage, AssetSubscribe, avatarExample, bannerArticle } from '~/images';
+import { AssetSubscribe, avatarExample, bannerArticle } from '~/images';
 
 async function getArticle(id: string) {
   const res = await fetch(
@@ -71,17 +71,17 @@ export default function Article({ params }: ArticleProps) {
   return (
       <main className='w-full max-w-full'>
         <section>
-          <NextImage
-            src={article.banner ?? bannerArticle.src}
-            alt={article.title}
-            width={1000}
-            height={1000}
-            className='w-full object-center'
-            classNames={{ image: 'object-center w-full' }}
-          />
-  
+          <div className="relative w-full aspect-[1920/415] overflow-hidden">
+            <NextImage
+              src={article.banner ?? bannerArticle.src}
+              alt={article.title}
+              layout="fill"
+              objectFit="cover"
+              objectPosition="center"
+            />
+          </div>
           <div className='flex h-16 flex-col items-center gap-2 bg-[#EBECF5] px-4 py-2 xl:flex-row xl:justify-between xl:py-6'>
-            <div className='flex text-xs text-[#B1B1B1] xl:text-base'>
+            <div className='flex text-[8px] text-[#B1B1B1] xl:text-base'>
               Drizy Studio
               <MdKeyboardDoubleArrowRight className='ml-1 mr-1 mt-1' />
               Post
@@ -89,13 +89,13 @@ export default function Article({ params }: ArticleProps) {
               <div className='line-clamp-1 text-ellipsis'>{article.title}</div>
             </div>
   
-            <div className='text-xs text-[#B1B1B1] xl:mr-44 xl:text-base'>
+            <div className='text-[8px] text-[#B1B1B1] xl:mr-44 xl:text-base'>
               Categories : / Post / {article.categories[0]}
             </div>
           </div>
         </section>
   
-        <section className='mt-24 flex flex-col gap-28 p-4 xl:flex-row xl:justify-between xl:p-12'>
+        <section className='mt-10 flex flex-col gap-28 p-4 xl:flex-row xl:justify-between xl:p-12'>
           <section className=''>
             <div>
               <h1 className='font-katide-bold text-3xl leading-9 xl:text-5xl xl:leading-[50px]'>
@@ -117,7 +117,7 @@ export default function Article({ params }: ArticleProps) {
   
             <div
               dangerouslySetInnerHTML={{ __html: article.description }}
-              className='without-tailwind !font-katide-regular mt-10 xl:mt-24'
+              className='responsive-content without-tailwind !font-katide-regular mt-10 xl:mt-24'
             />
   
             <div className='flex pt-[50px] text-[#AAAAAA]'>
@@ -216,7 +216,7 @@ export default function Article({ params }: ArticleProps) {
               />
             </div>
   
-            <div className='border-1 m-4 h-[305px] rounded-[12px] border-[#61A9FA] bg-white p-4 transition-all duration-300 ease-in-out hover:border'>
+            {/* <div className='border-1 m-4 h-[305px] rounded-[12px] border-[#61A9FA] bg-white p-4 transition-all duration-300 ease-in-out hover:border'>
               <img
                 src={articlePage.src}
                 alt='Article'
@@ -247,7 +247,7 @@ export default function Article({ params }: ArticleProps) {
               <p className='font-katide-semibold mt-6 text-[20px] text-[#1A214C]'>
                 Cool Travel Destination 3D Shadow Box Designs
               </p>
-            </div>
+            </div> */}
           </section>
         </section>
   

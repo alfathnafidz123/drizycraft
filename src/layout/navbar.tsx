@@ -1346,7 +1346,7 @@ const Navbar: React.FC = () => {
                 </div>
                 <div
                   onClick={() => {
-                    router.push('/category/Bundle');
+                    router.push('/blog');
                     setSidebarOpen(false);
                   }}
                   className='border-t-2 p-4'

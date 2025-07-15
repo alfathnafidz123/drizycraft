@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import { toast } from 'react-toastify';
 
 import { useAppDispatch, useAppSelector } from '@/lib/store';
@@ -23,11 +23,12 @@ import { subscriptionPayment } from '@/app/api/billing/subscriptionPayment';
 import {
   backgroundMembership1,
   backgroundMembership2,
+  bestSell4,
   bestValue,
   checkblue,
   crossMember,
   drizzyCoin,
-  leftMembership,
+  leftMembership2,
   member1,
   member2,
   member3,
@@ -35,13 +36,17 @@ import {
   membership2,
   membership3,
   membership4,
-  membershipProduct1,
   membershipProduct2,
-  membershipProduct3,
-  membershipProduct4,
-  membershipProduct5,
-  membershipProduct6,
-  rightMembership,
+  newMembershipProduct1,
+  newMembershipProduct2,
+  newMembershipProduct3,
+  newMembershipProduct4,
+  newMembershipProduct5,
+  newMembershipProduct6,
+  newMembershipProduct7,
+  newMembershipProduct8,
+  newMembershipProduct9,
+  rightMembership2,
   vip,
 } from '~/images';
 const CustomerSupportLottie = dynamic(
@@ -166,16 +171,18 @@ export default function Membership() {
     }
   };
 
-  
-
   // Product Carousel Images 
   const productsMembership = [
-    { id: 1, image: membershipProduct1 },
-    { id: 2, image: membershipProduct2},
-    { id: 3, image: membershipProduct3,},
-    { id: 4, image: membershipProduct4,},
-    { id: 5, image: membershipProduct5,},
-    { id: 6, image: membershipProduct6,},
+    { id : 1, image: newMembershipProduct1 },
+    { id : 2, image: newMembershipProduct2 },
+    { id : 3, image: newMembershipProduct3 },
+    { id : 4, image: newMembershipProduct4 },
+    { id : 5, image: newMembershipProduct5 },
+    { id : 6, image: newMembershipProduct6 },
+    { id : 7, image: newMembershipProduct7 },
+    { id : 8, image: newMembershipProduct8 },
+    { id : 9, image: newMembershipProduct9 },
+    { id : 10, image: membershipProduct2 },
   ];
 
 
@@ -202,7 +209,6 @@ export default function Membership() {
     { src: '/images/feature3.png', alt: 'Feature 3', srcActive: '/images/feature3_active.png' },
     { src: '/images/feature4.png', alt: 'Feature 4', srcActive: '/images/feature4_active.png' },
   ];
-  
 
   const featureDescriptions = [
     {
@@ -238,8 +244,25 @@ export default function Membership() {
       buttonText: "",
     },
   ];
-  
-  
+
+  const ProductImage = [
+    { id: 1, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F07%2F04%2F1-eda9.jpg&w=750&q=70' },
+    { id: 2, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2024%2F12%2F12%2FPreview-1-69-scaled-35fd.webp&w=750&q=70' },
+    { id: 3, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2022%2F11%2F1-1-scaled.jpg&w=750&q=70' },
+    { id: 4, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F03%2F07%2FSlide%201-10abe.jpg&w=750&q=70' },
+    { id: 5, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F03%2F07%2FSlide%201-c4aa.jpg&w=750&q=70' },
+    { id: 6, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2024%2F06%2FSummer-Time-3D-Shadow-Box-1-scaled.jpg&w=750&q=70' },
+    { id: 7, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2024%2F08%2FSummer-Gnomes-3D-Shadow-Box-1-scaled.jpg&w=750&q=70' },
+    { id: 8, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F04%2F21%2FCOVER-78d6.jpg&w=750&q=70' },
+    { id: 9, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F05%2F22%2FSlide%201-34fa.png&w=750&q=70' },
+    { id: 10, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F03%2F20%2Fphoto_2025-03-20_11-55-43-c418.jpg&w=750&q=70' },
+    { id: 11, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2023%2F06%2FFunny-Summer-Quotes-SVG-scaled.jpg&w=750&q=70' },
+    { id: 12, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2022%2F08%2FSummer-Things-in-Stranger-Things-Font-with-Tropical-Plant-scaled.jpg&w=750&q=70' },
+    { id: 13, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2022%2F06%2F1-48-scaled.jpg&w=750&q=70' },
+    { id: 14, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2Fwoocommerce_uploads%2F2022%2F08%2FChristmas-Ornament-SVG-Nativity-Scene-hwvyb3-scaled.jpg&w=750&q=70' },
+    { id: 15, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2Fwoocommerce_uploads%2F2022%2F08%2FNativity-Scene-SVG-Bundle-5-Cricut-Christmas-Idea-zylpbs-scaled.jpg&w=750&q=70' }
+  ]
+
   
 
   // Membuat peta video berdasarkan indeks fitur
@@ -260,11 +283,25 @@ export default function Membership() {
     return () => clearInterval(interval); 
   }, [carouselVideos.length]);
 
+  // Pastikan total gambar adalah kelipatan 3
+  const imagesNeeded = Math.ceil(ProductImage.length / 3) * 3;
+  const extendedImages = [...ProductImage];
+  while (extendedImages.length < imagesNeeded) {
+    extendedImages.push(...ProductImage.slice(0, imagesNeeded - extendedImages.length));
+  }
+
+  const columns: ({ id: number; image: string; } | { id: number; image: StaticImageData; })[][] = [];
+  for (let i = 0; i < extendedImages.length; i += 3) {
+    columns.push(extendedImages.slice(i, i + 3));
+  }
+
+  const basePattern = [0, 80, 0, 80, 0, 80, 0, 80];
+
   return (
     <main>
   
         {/* Main Membership Content  */}
-        <section className="relative flex flex-col items-center justify-end gap-8 px-4 pt-32 pb-20 lg:px-0 overflow-hidden">
+        <section className="relative flex flex-col items-center justify-end gap-8 px-4 pt-32 pb-20 lg:pt-20 lg:pb-56 lg:px-0 overflow-hidden">
           <div className="absolute inset-0 z-0">
             <Image
               src={backgroundMembership1}
@@ -283,40 +320,76 @@ export default function Membership() {
             <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-white to-transparent z-10" />
           </div>
 
-            <div className="absolute top-0 left-0 z-20">
-              <Image
-                src={leftMembership}
-                alt="Left Membership"
-                className="h-[160px] sm:h-[180px] md:h-[200px] lg:h-[450px] w-auto object-contain pointer-events-none"
-              />
-            </div>
-
-            <div className="absolute top-0 right-0 z-20">
-              <Image
-                src={rightMembership}
-                alt="Right Membership"
-                className="h-[160px] sm:h-[180px] md:h-[200px] lg:h-[450px] w-auto object-contain pointer-events-none"
-              />
-            </div>
-          <div className="z-0 max-w-4xl text-center pt-10 sm:pt-24 md:pt-32 lg:pt-0">
-              <h1 className="font-katide-heavy text-[32px] md:text-[44px] lg:text-[56px] leading-tight text-[#4065D1]">
-                Sign up and get <br className="block lg:hidden" />
-                <span className="text-[#EE4C73]">unlimited</span> access<br className="block lg:hidden" />
-                to our <span className="text-[#4065D1]">SVG</span>.
+          <div className="absolute top-0 left-[-15px] lg:top-[-25px] lg:left-[-65px]  lg:pr-[1050px] z-20">
+            <Image
+              src={leftMembership2}
+              alt="Left Membership"
+              className="h-[160px] sm:h-[180px] md:h-[280px] lg:h-[592px]  w-auto lg:min-w-[400px] object-contain pointer-events-none"
+            />
+          </div>
+          <div className="absolute top-0 right-[-10px] lg:top-[-35px] lg:right-[-45px] lg:pl-[1050px] z-20">
+            <Image
+              src={rightMembership2}
+              alt="Right Membership"
+              className="h-[160px] sm:h-[180px] md:h-[280px] lg:h-[592px] w-auto lg:min-w-[400px] object-contain pointer-events-none"
+            />
+          </div>
+          <div className="z-20 max-w-4xl text-center pt-10 sm:pt-24 md:pt-32 lg:pt-0">
+              <h1 className="font-katide-heavy text-[40px] md:text-[60px] lg:text-[84px] leading-tight text-[#4065D1]">
+                A Journey Through <br></br> Seasons of Hope
               </h1>
 
-              <p className="mt-6 font-katide-regular text-[12px] sm:text-[16px] leading-relaxed text-[#1A214C] text-center">
-                Pay once at a fixed price and save thousands of dollars. <br className="hidden lg:block" />
-                No more purchasing one-by-one.  Now you can create unlimited works.<br className="hidden lg:block" />
-                Download any SVG you want anytime, anywhere.
+              <p className="mt-6 font-katide-bold text-[18px] sm:text-[22px] leading-relaxed text-[#1A214C] text-center">
+                Every season tells a story. Discover peace, <br></br> purpose, and renewal in every moment.
               </p>
+          </div>
+        </section>
 
-
+        {/* Product slide  */}
+        <section className="bg-[#C2E5FF] overflow-hidden">
+          <div className='pb-20'>
+            <Image
+              src={bestSell4}
+              alt="Best Selling"
+              className="w-full h-auto mx-auto object-contain pointer-events-none"
+            />
+          </div>
+          <div className="relative w-full overflow-hidden pb-[50px] lg:pb-[100px] mb-[65px]">
+            <div className="flex animate-marqueeMobile md:animate-marquee gap-6 items-start">
+              {[...Array(3)].map((_, repeatIndex) => (
+                <div key={repeatIndex} className="flex gap-6">
+                  {columns.map((colItems, colIndex) => {
+                    const marginTop = basePattern[(colIndex + repeatIndex) % basePattern.length];
+                    return (
+                      <div
+                        key={colIndex}
+                        className="flex flex-col gap-6"
+                        style={{ marginTop: `${marginTop}px` }}
+                      >
+                        {colItems.map((product, index) => (
+                          <div
+                            key={`${repeatIndex}-${colIndex}-${index}`}
+                            className="relative rounded-2xl overflow-hidden shadow-md h-[174px] w-[260px] lg:w-[360px] lg:h-[240px]"
+                          >
+                            <Image
+                              src={product.image}
+                              alt={`Product ${product.id}`}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
         {/* Card Membership  */}
-        <section className='flex flex-col items-center justify-center text-[#1A214C] pt-10'>
+        <section className='bg-[#C2E5FF] flex flex-col items-center justify-center text-[#1A214C] pt-10'>
             <div className='flex w-full flex-col items-center text-[#1A214C] lg:max-w-[1264px]'>
               <div className='relative flex flex-col flex-wrap items-center justify-center rounded-lg lg:border border-[#1A214C] p-2 lg:p-12 mb-12 sm:border-0' style={{ borderRadius: '24px' }}>
                 {/* Badge Image at Top */}
@@ -681,7 +754,6 @@ export default function Membership() {
           </div>
         </section>
 
-
         {/* Condition */}
         <section className='flex flex-col items-center justify-center bg-[#EBECF5] text-[#1A214C]'>
           <div className='flex w-full flex-col bg-[#EBECF5] py-[10%] text-[#1A214C] lg:max-w-[1264px] px-4 py-4 mt-5'>
@@ -821,7 +893,6 @@ export default function Membership() {
             </div>
           </div>
         </section>
-
 
         {/* FAQ  */}
         <SectionContainer className='font-katide flex flex-col items-center justify-center py-20 leading-10'>

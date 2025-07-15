@@ -783,7 +783,7 @@ export default function Register() {
               <div className='box-border text-[16px] font-light text-[#707070]'>
                 <div
                   // style={{ whiteSpace: 'pre-line' }}
-                  className='without-tailwind !max-md:max-w-full box-border overflow-hidden'
+                  className='responsive-content without-tailwind !max-md:max-w-full box-border overflow-hidden'
                   dangerouslySetInnerHTML={{
                     __html: productData?.product.description,
                   }}
@@ -933,7 +933,7 @@ export default function Register() {
                 lg:grid-cols-4
               `}
             >
-              {productSliderData.map((item) => (
+              {productSliderData.slice(0, 4).map((item) => (
                 <ProductCard
                   key={item.id}
                   data={item}
