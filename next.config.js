@@ -21,6 +21,7 @@ const nextConfig = {
       'drizycraft.com',
       'media.drizycraft.com',
       'drizy-media.quadrakaryasantosa.com',
+      'lh3.googleusercontent.com',
     ],
   },
   experimental: {

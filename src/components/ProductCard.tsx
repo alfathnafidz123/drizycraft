@@ -10,13 +10,13 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { setSubscriptionModalOpen } from '@/lib/slices/subcription';
 import { fetchCoin, fetchProfile, setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import NextImage from '@/components/NextImage';
 import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
 
-import { itemPayment } from '@/app/api/billing/itemPayment';
 import { OrderI, productI } from '@/interfaces/product.interface';
 
 import {
@@ -106,13 +106,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
           toast.success(`Successfully buy ${data?.name}!`);
           await getTransactionData();
         } else {
-          const payment = await itemPayment({
-            productId: [data.id],
-            licenseType: [0],
-            affiliateId: [''],
-            token: token,
-          });
-          window.location.replace(payment.data);
+          // const payment = await itemPayment({
+          //   productId: [data.id],
+          //   licenseType: [0],
+          //   affiliateId: [''],
+          //   token: token,
+          // });
+          // window.location.replace(payment.data);
+          // dispatch(setSubscriptionModalOpen(true));
+          toast.error("You don't have enough coin to download this product, please top up your coin first!");
         }
       } else {
         dispatch(setOpenModal(true));
@@ -208,16 +210,18 @@ const ProductCard: React.FC<ProductCardProps> = ({
   };
 
   const generatePrice = (): string => {
-    let price = `$0`;
-    if (activeSubcription && dataUser?.coin && dataUser?.coin !== 0) {
-      price = `${data?.coinPrice[0] ?? 0} Coin`;
-    } else {
-      if (isDiscount) {
-        price = `$${data?.discount[0] ?? 0}`;
-      } else {
-        price = `$${data?.price[0] ?? 0}`;
-      }
-    }
+    let price = `0`;
+    // if (activeSubcription && dataUser?.coin && dataUser?.coin !== 0) {
+    //   price = `${data?.coinPrice[0] ?? 0} Coin`;
+    // } else {
+    //   if (isDiscount) {
+    //     price = `$${data?.discount[0] ?? 0}`;
+    //   } else {
+    //     price = `$${data?.price[0] ?? 0}`;
+    //   }
+    // }
+    price = `${data?.coinPrice[0] ?? 0} Coin`;
+
     return price;
   };
 
@@ -297,8 +301,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <button
               id={`show-detail-${data.id}`}
               type='button'
-              onClick={handleCTA}
-              className='pointer z-[3] flex h-[37px] flex-grow flex-nowrap items-center justify-center gap-[8px] rounded-[8px] bg-[#2a3b80] pb-[12px] pl-[24px] pr-[24px] pt-[12px] group-hover:bg-[#4065D1]'
+              onClick={handleDownload}
+              className='pointer flex h-[37px] flex-grow flex-nowrap items-center justify-center gap-[8px] rounded-[8px] bg-[#2a3b80] pb-[12px] pl-[24px] pr-[24px] pt-[12px] group-hover:bg-[#4065D1]'
             >
               {downloadLoading ?
                 <Loader className='animate-spin' />

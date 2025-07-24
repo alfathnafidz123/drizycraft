@@ -12,6 +12,7 @@ export async function loginSocial(loginPayload: LoginPayload) {
   try {
     const resp = await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/user/login-sso`,
+      // `http://localhost:3001/user/login-sso`,
       loginPayload
     );
     return resp.data;

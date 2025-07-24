@@ -1,5 +1,5 @@
 'use client';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import moment from 'moment';
 
@@ -28,10 +28,14 @@ export const fetchSubs = createAsyncThunk(
 interface ISubState {
   subcription?: SubcriptionI;
   activeSubcription: boolean;
+  showSubscriptionModal: boolean;
+  showReminderModal: boolean;
 }
 const initialState: ISubState = {
   subcription: undefined,
   activeSubcription: false,
+  showSubscriptionModal: false,
+  showReminderModal: false,
 };
 
 const subcriptionSlice = createSlice({
@@ -39,6 +43,9 @@ const subcriptionSlice = createSlice({
   initialState,
   reducers: {
     resetSubs: () => initialState,
+    setSubscriptionModalOpen: (state, action: PayloadAction<boolean>) => {
+      state.showSubscriptionModal = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchSubs.fulfilled, (state, action) => {
@@ -57,6 +64,6 @@ const subcriptionSlice = createSlice({
   },
 });
 
-export const { resetSubs } = subcriptionSlice.actions;
+export const { resetSubs, setSubscriptionModalOpen } = subcriptionSlice.actions;
 
 export default subcriptionSlice.reducer;

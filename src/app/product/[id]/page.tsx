@@ -38,6 +38,7 @@ import {
   productI,
   ReviewI,
 } from '@/interfaces/product.interface';
+import { cartProduct } from '~/images';
 
 export interface StarSummary {
   average: number
@@ -239,7 +240,9 @@ export default function Register() {
     if (token) {
       if (activeSubcription && dataUser?.coin && (dataUser?.coin !== 0))
         handleBuyPoint();
-      else handleCart();
+      else
+        // handleCart();
+        toast.error("You don't have enough coin to download this product, please top up your coin first!");
     } else {
       dispatch(setOpenModal(true));
     }
@@ -448,16 +451,17 @@ export default function Register() {
   }, [productData]);
 
   const generatePrice = (): string => {
-    let price = '$0';
-    if (activeSubcription && dataUser?.coin && dataUser?.coin !== 0) {
-      price = `${productData?.product.coinPrice[type] ?? 0} Coin`;
-    } else {
-      if (isDiscount) {
-        price = `$${productData?.product.discount[type] ?? 0}`;
-      } else {
-        price = `$${productData?.product.price[type] ?? 0}`;
-      }
-    }
+    let price = '0';
+    // if (activeSubcription && dataUser?.coin && dataUser?.coin !== 0) {
+    //
+    // } else {
+    //   if (isDiscount) {
+    //     price = `$${productData?.product.discount[type] ?? 0}`;
+    //   } else {
+    //     price = `$${productData?.product.price[type] ?? 0}`;
+    //   }
+    // }
+    price = `${productData?.product.coinPrice[type] ?? 0} Coin`;
     return price;
   };
 
@@ -501,7 +505,7 @@ export default function Register() {
             <div className='flex flex-col gap-4 lg:col-span-3'>
               <div className='grid grid-cols-1 gap-8 lg:grid-cols-5'>
                 <div className='max-w-full max-md:overflow-scroll lg:order-first order-last'>
-                  <div className='flex flex-row gap-4 w-full lg:flex-col'>
+                  <div className='flex flex-row  w-full lg:flex-col'>
                     {productData?.product.imageUrl?.map((url, index) => (
                       <NextImage
                         key={index}
@@ -608,7 +612,7 @@ export default function Register() {
                 </p>
               </div>
               <div className='flex flex-col gap-4 p-2 lg:w-5/6 lg:p-0'>
-                {(!dataUser || dataUser?.coin === 0) ?
+                {/* {(!dataUser || dataUser?.coin === 0) ?
                   <>
                     <p className='font-katide-bold text-xs text-[#1A214C]'>
                       License Option
@@ -654,58 +658,73 @@ export default function Register() {
                   </>
                   :
                   <div />
-                }
-                {dataUser?.affiliate && shortUrl === undefined && (
-                  <button
-                    onClick={() => {
-                      handleGetAffiliateLink();
-                    }}
-                    className='flex w-full items-center justify-center rounded-full border border-[#1A214C] bg-white px-10 py-2 font-semibold text-[#1A214C]'
-                  >
-                    {loadingAffiliate ? <Loader /> : 'Get Affiliate Link'}
-                  </button>
-                )}
-                {shortUrl && (
-                  <button
-                    onClick={handleCopyUrl}
-                    className='flex w-full flex-row justify-between rounded-full border border-[#1A214C] bg-white p-2 px-4 font-semibold text-[#1A214C]'
-                  >
-                    <div>{shortUrl}</div>
-                    <Copy />
-                  </button>
-                )}
-                {ownerStatus ?
-                  <button
-                    onClick={handleClickDownload}
-                    disabled={loadingDownload}
-                    className='w-full rounded-full bg-[#1A214C] px-10 py-2 font-semibold text-[#e4f6fb] disabled:bg-[#1A214C]/80'
-                  >
-                    {loadingDownload
-                      ? <div className='flex w-full items-center justify-center'><Loader className='animate-spin' /></div>
-                      :
-                      "Download"
-                    }
-                  </button>
-                  :
-                  <button
-                    onClick={() => {
-                      handleBuy();
-                    }}
-                    disabled={loadingDownload}
-                    className='w-full rounded-full bg-[#1A214C] px-10 py-2 font-semibold text-[#e4f6fb] disabled:bg-[#1A214C]/80'
-                  >
-                    {activeSubcription && dataUser?.coin && dataUser?.coin !== 0
-                      ? loadingDownload
+                } */}
+                <div className='flex w-full justify-between gap-2'>
+                  {dataUser?.affiliate && shortUrl === undefined && (
+                    <button
+                      onClick={() => {
+                        handleGetAffiliateLink();
+                      }}
+                      className='flex w-full items-center justify-center rounded-[8px] border border-[#1A214C] bg-white px-10 py-2 font-semibold text-[#1A214C]'
+                    >
+                      {loadingAffiliate ? <Loader /> : 'Get Affiliate Link'}
+                    </button>
+                  )}
+                  {shortUrl && (
+                    <button
+                      onClick={handleCopyUrl}
+                      className='flex w-full flex-row justify-between rounded-[8px] border border-[#1A214C] bg-white p-2 px-4 font-semibold text-[#1A214C]'
+                    >
+                      <div>{shortUrl}</div>
+                      <Copy />
+                    </button>
+                  )}
+                  {ownerStatus ?
+                    <button
+                      onClick={handleClickDownload}
+                      disabled={loadingDownload}
+                      className='w-full rounded-[8px] bg-[#1A214C] px-10 py-2 font-semibold text-[#e4f6fb] disabled:bg-[#1A214C]/80'
+                    >
+                      {loadingDownload
                         ? <div className='flex w-full items-center justify-center'><Loader className='animate-spin' /></div>
-                        : 'Buy with coin'
-                      : 'Add to cart'}
+                        :
+                        "Download"
+                      }
+                    </button>
+                    :
+                    <button
+                      onClick={() => {
+                        handleBuy();
+                      }}
+                      disabled={loadingDownload}
+                      className='w-full rounded-[8px] bg-[#1A214C] px-10 py-2 font-semibold text-[#e4f6fb] disabled:bg-[#1A214C]/80'
+                    >
+                      {token
+                        ? loadingDownload
+                          ? <div className='flex w-full items-center justify-center'><Loader className='animate-spin' /></div>
+                          : 'Buy with coin'
+                        : 'Add to cart'}
+                    </button>
+                  }
+                  <button
+                    // id={`add-${data.id}-cart`}
+                    type='button'
+                    onClick={handleCart}
+                    className='flex h-[37px] items-center justify-center gap-[8px] rounded-[8px] border-2 border-gray-400 bg-white p-[12px] sm:pl-[24px] sm:pr-[24px]'
+                  >
+                    <img
+                      src={cartProduct.src}
+                      alt='cart'
+                      className='h-4 w-4 sm:h-5 sm:w-5' // kecil di mobile, normal di layar besar
+                    />
                   </button>
-                }
+                </div>
+
                 <div className='my-4 w-full border-t-2 border-[#1A214C]/15' />
-                <p className='text-lg font-semibold text-[#777777]'>
+                {/* <p className='text-lg font-semibold text-[#777777]'>
                   License Terms
-                </p>
-                {type === 0 &&
+                </p> */}
+                {/* {type === 0 &&
                   <ul className='list-disc text-[12px] text-[#777777]'>
                     <li>Personal Use Only</li>
                     <li>
@@ -766,7 +785,7 @@ export default function Register() {
                       Physical & Digital End Products (Read more)
                     </li>
                   </ul>
-                }
+                } */}
               </div>
             </div>
           </div>

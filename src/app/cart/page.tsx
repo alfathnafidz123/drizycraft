@@ -1,19 +1,23 @@
 'use client';
 
+import { IoIosCloseCircleOutline } from '@react-icons/all-files/io/IoIosCloseCircleOutline';
 import axios, { AxiosError } from 'axios';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import * as React from 'react';
-import { IoIosCloseCircleOutline } from '@react-icons/all-files/io/IoIosCloseCircleOutline';
 import { toast } from 'react-toastify';
 
 import errorHandler from '@/lib/errorHandler';
 import { fetchCart } from '@/lib/slices/cart';
+import { setSubscriptionModalOpen } from '@/lib/slices/subcription';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
+
+import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
 
 import { itemPayment } from '@/app/api/billing/itemPayment';
 import { CheckCouponResI } from '@/interfaces/coupon.interface';
-import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
+import {fetchCoin, fetchProfile, setOpenModal} from "@/lib/slices/user";
+import {OrderI} from "@/interfaces/product.interface";
 const CartLottie = dynamic(
   () => import('../../components/lottie/cart'),
   { ssr: false }
@@ -27,8 +31,21 @@ export default function Register() {
   }));
   const [couponCode, setCouponCode] = React.useState('');
   const [coupon, setCoupon] = React.useState<CheckCouponResI>();
-  const [total, setTotal] = React.useState(cart.reduce((prev, current) => prev + current.product.price[current.licenseType], 0));
+  const [total, setTotal] = React.useState(0);
+
+  React.useEffect(() => {
+    const newTotal = cart.reduce((prev, current) => {
+      const price = current?.product?.coinPrice?.[current.licenseType] || 0;
+      return prev + price;
+    }, 0);
+    setTotal(newTotal);
+  }, [cart]);
+
   const { trackEvent } = PixelEventsHooks();
+  const activeSubcriptionState = useAppSelector(state => state.subs);
+  const activeSubcription = React.useMemo(() => {
+    return activeSubcriptionState;
+  }, [activeSubcriptionState]);
 
   React.useEffect(() => {
     if (token) {
@@ -43,7 +60,7 @@ export default function Register() {
         const couponData = res.data as CheckCouponResI;
         if (couponData.status === "active") {
           setTotal(_ => {
-            const temp = cart.reduce((prev, current) => prev + current.product.price[current.licenseType], 0);
+            const temp = cart.reduce((prev, current) => prev + current.product.coinPrice[current.licenseType], 0);
             if (couponData.coupon?.percentage) {
               return temp - (temp * couponData.coupon?.percentage / 100);
             } else {
@@ -71,26 +88,31 @@ export default function Register() {
 
   const handlePayment = async () => {
     try {
-      const products: string[] = [];
-      const licenses: number[] = [];
-      const affiliates: string[] = [];
-      cart.forEach((item) => {
-        products.push(item.productId);
-        licenses.push(item.licenseType);
-        affiliates.push(item.affiliateId ?? '');
-      });
-      const data = await itemPayment({
-        productId: products,
-        licenseType: licenses,
-        affiliateId: affiliates,
-        token: token,
-        coupon: coupon?.status === "active" ? couponCode : undefined,
-      });
-      await trackEvent(EventsEnum.InitCheckout, {
-        products: cart.map(item => ({ productName: item.product.name, license: item.licenseType })),
-        coupon: coupon?.status === "active" ? couponCode : undefined,
-      });
-      window.location.replace(data.data);
+      if (activeSubcription.activeSubcription){
+        const products: string[] = [];
+        const licenses: number[] = [];
+        const affiliates: string[] = [];
+        cart.forEach((item) => {
+          products.push(item.productId);
+          licenses.push(item.licenseType);
+          affiliates.push(item.affiliateId ?? '');
+        });
+        const data = await itemPayment({
+          productId: products,
+          licenseType: licenses,
+          affiliateId: affiliates,
+          token: token,
+          coupon: coupon?.status === "active" ? couponCode : undefined,
+        });
+        await trackEvent(EventsEnum.InitCheckout, {
+          products: cart.map(item => ({ productName: item.product.name, license: item.licenseType })),
+          coupon: coupon?.status === "active" ? couponCode : undefined,
+        });
+        window.location.replace(data.data);
+      } else {
+        dispatch(setSubscriptionModalOpen(true));
+      }
+      
     } catch (error) {
       const err = error as AxiosError;
       const errorData: any = err.response?.data;
@@ -113,6 +135,124 @@ export default function Register() {
       toast.error((errorData.message as string) ?? 'Unknown error!');
     }
   };
+
+  const showSuccessToast = (data: { product: { name: string } }[]) => {
+    const productList = data.map(item => `✅ ${item.product.name}`).join('\n');
+
+    toast.success(`Successfully bought:\n${productList}`, {
+      style: { whiteSpace: 'pre-line' }, // agar \n tampil sebagai line break
+    });
+  };
+
+  const handleDownload = async () => {
+    for (const data of cart) {
+      try {
+        if (token) {
+          if (activeSubcription.activeSubcription) {
+            const payload: { [key: string]: string | number } = {
+              productId: data.product.id,
+              licenseType: 0,
+            };
+            await axios.post(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/buy-with-coin`,
+                payload,
+                {headers: {Authorization: `Bearer ${token}`}}
+            );
+            dispatch(fetchProfile(token!));
+            dispatch(fetchCoin(token!));
+            // toast.success(`Successfully buy ${data?.product.name}!`);
+            showSuccessToast(cart)
+            await getTransactionData();
+          } else {
+            // const payment = await itemPayment({
+            //   productId: [data.id],
+            //   licenseType: [0],
+            //   affiliateId: [''],
+            //   token: token,
+            // });
+            // window.location.replace(payment.data);
+            // dispatch(setSubscriptionModalOpen(true));
+            toast.error("You don't have enough coin to download this product, please top up your coin first!");
+          }
+        } else {
+          dispatch(setOpenModal(true));
+        }
+      } catch (error) {
+        const err = error as AxiosError;
+        const errorData: any = err.response?.data;
+        toast.error(
+            (errorData.message as string) ?? 'Error when generate payment!'
+        );
+      }
+    }
+  };
+
+  const getTransactionData = async () => {
+    for (const data of cart) {
+      try {
+        const res = await axios.get(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-transaction?page=1&limit=500`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+        );
+        const orders: OrderI[] = res.data.data;
+        const found = orders.find(item => item.productId === data?.product.id);
+        if (found) {
+          await handleDownloadClick(found.id);
+          await trackEvent(EventsEnum.Download, {productId: data.id, productName: data.product.name});
+        }
+      } catch (error) {
+        const err = error as AxiosError;
+        toast.error(err.message);
+      }
+    }
+  };
+
+  const handleDownloadClick = async (id: number) => {
+    for (const data of cart) {
+      try {
+        const res = await fetch(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-file-download/${id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+        );
+
+        if (!res.ok) {
+          throw new Error(`Failed to download file: ${res.statusText}`);
+        }
+        const blob = await res.blob();
+
+        const url = window.URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = url;
+
+        let fileName = `${data.product.name}.zip`;
+        const contentDisposition = res.headers.get('content-disposition');
+        if (contentDisposition) {
+          const matches = contentDisposition.match(/filename="(.+)"/);
+          if (matches && matches.length === 2) {
+            fileName = matches[1];
+          }
+        }
+        link.setAttribute('download', fileName);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setTimeout(() => window.URL.revokeObjectURL(url), 100);
+      } catch (error) {
+        const err = error as AxiosError;
+        toast.error(err.message);
+      }
+    }
+  };
+
 
   return (
     <main className='bg-[#F4F4F4]'>
@@ -157,7 +297,7 @@ export default function Register() {
                       </td>
                       <td className='w-4/12'>{item.product.name}</td>
                       <td className='w-2/12'>
-                        ${item.product.price[item.licenseType]}
+                        {item.product.coinPrice[item.licenseType]} Coin
                       </td>
                     </tr>
                   ))}
@@ -175,13 +315,13 @@ export default function Register() {
               </div>
               <div className="w-full px-2 flex flex-row justify-end gap-2 items-center font-katide-bold">
                 <div className='text-sm'>Grand Total</div>
-                <div className='text-sm'>${total}</div>
+                <div className='text-sm'>{total} Coin</div>
               </div>
               <button
-                onClick={handlePayment}
+                onClick={handleDownload}
                 className='self-end rounded-full bg-[#4065D1] hover:bg-[#2A3B80] px-24 py-3 text-white'
               >
-                Checkout
+                Download
               </button>
             </>
           )}

@@ -43,24 +43,36 @@ export default function Register() {
   const [coppied, setCoppied] = useState(false);
 
   const handleLoginSocial = async (email: string, fullName: string, gid: string, avatar: string, provider: "google" | "facebook") => {
-    try {
-      setLoading(true);
-      const response = await loginSocial({ email, fullName, id: `${gid}`, avatar, provider });
-      const { user, token } = response;
-      dispatch(setDataUser({ userData: user }));
-      dispatch(setToken({ token }));
-      router.replace("/");
-    } catch (error: any) {
-      toast('Login failed');
-    } finally {
-      setLoading(false);
-    }
+      try {
+        setLoading(true);
+        const response = await loginSocial({ email, fullName, id: `${gid}`, avatar, provider });
+        const { user, token, isNewUser } = response;
+        
+        dispatch(setOpenModal(false));
+        localStorage.setItem('resetEmail', user.email);
+  
+        if (isNewUser) {
+          router.push(`/create-password?token=${token}`);
+        } else {
+          dispatch(setDataUser({ userData: user }));
+          dispatch(setToken({ token }));
+          toast(`Welcome ${user.username} !`);
+          router.push('/'); 
+        }
+      } catch (error: any) {
+        toast('Login failed');
+        console.error('Login failed:', error);
+      } finally {
+        setLoading(false);
+      }
   };
 
   const handleRegister = async () => {
     try {
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/user/register`,
+      const response = await axios.post(
+        // `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/user/register`,
+        `http://localhost:3001/user/register`,
+
         {
           email,
           username: firstName,
@@ -71,7 +83,12 @@ export default function Register() {
       setLastName('');
       setEmail('');
       setDisplayName('');
-      toast('Please check your email to set the password!');
+      // toast('Please check your email to set the password!');
+      const { token, email: returnedEmail } = response.data;
+
+      localStorage.setItem('resetEmail', returnedEmail);
+
+      router.push(`/create-password?token=${token}`);
     } catch (error) {
       toast('Email already registered');
     }

@@ -44,7 +44,7 @@ import cat7 from './categories/7.png';
 import cat8 from './categories/8.png';
 import cat9 from './categories/9.png';
 import cat10 from './categories/10.png';
-import cat11 from './categories/11.png';
+import cat11 from './categories/11.jpg';
 import categories1 from './categories-1.webp';
 import categories2 from './categories-2.webp';
 import categories3 from './categories-3.webp';
@@ -83,6 +83,7 @@ import defaultProfile from './default-profile.svg';
 import designBundles from './designBundles.svg';
 import download from './download.svg';
 import downloadInactive from './downloadInactive.svg';
+import drizyAtelierBanner from './drizy-atelier-banner.webp';
 import drizyteam1 from './drizy-team-1.png';
 import drizyteam2 from './drizy-team-2.png';
 import drizyteam3 from './drizy-team-3.png';
@@ -178,6 +179,7 @@ import order from './orders.svg';
 import orderInactive from './ordersInactive.svg';
 import paymentMethod from './paymentMethod.png';
 import pintCrafter from './pintCrafter.svg';
+import account2 from './profile-vector.png';
 import project1 from './project-1.png';
 import projectLeftBg from './project-left-bg.webp'
 import projectImg1 from './project1.png'
@@ -220,7 +222,7 @@ import michelle from './testimonies/michelle.webp';
 import nad from './testimonies/nad.webp';
 import pam from './testimonies/pam.webp';
 import testimony from './testimony.png';
-import trend1 from './trend-section/trending1.png';
+import trend1 from './trend-section/trending1.webp';
 import trend2 from './trend-section/trending2.webp';
 import trend3 from './trend-section/trending3.webp';
 import trend4 from './trend-section/trending4.webp';
@@ -237,6 +239,7 @@ import wordBank from './wordBank.svg';
 export {
   aboutHeader,
   account,
+  account2,
   accountIllustration,
   accountInactive,
   address,
@@ -324,6 +327,7 @@ export {
   dgroupBanner,
   download,
   downloadInactive,
+  drizyAtelierBanner,
   drizyteam1,
   drizyteam2,
   drizyteam3,

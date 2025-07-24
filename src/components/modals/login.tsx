@@ -9,6 +9,7 @@ import axios from 'axios';
 import { Loader } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -30,7 +31,7 @@ const ModalLogin: React.FC = () => {
   const closeModal = () => {
     dispatch(setOpenModal(false));
   };
-
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [payload, setPayload] = useState('');
   const [password, setPassword] = useState('');
@@ -44,7 +45,7 @@ const ModalLogin: React.FC = () => {
       dispatch(setDataUser({ userData: user }));
       dispatch(setToken({ token }));
       dispatch(setOpenModal(false));
-      toast(`Welcome ${user.username}!`);
+      toast(`Welcome ${user.username} !`);
     } catch (error: any) {
       toast('Login failed');
     } finally {
@@ -56,12 +57,21 @@ const ModalLogin: React.FC = () => {
     try {
       setLoading(true);
       const response = await loginSocial({ email, fullName, id: `${gid}`, avatar, provider });
-      const { user, token } = response;
-      dispatch(setDataUser({ userData: user }));
-      dispatch(setToken({ token }));
+      const { user, token, isNewUser } = response;
+      
       dispatch(setOpenModal(false));
+      localStorage.setItem('resetEmail', user.email);
+
+      if (isNewUser) {
+        router.push(`/create-password?token=${token}`);
+      } else {
+        dispatch(setDataUser({ userData: user }));
+        dispatch(setToken({ token }));
+        toast(`Welcome ${user.username} !`);
+      }
     } catch (error: any) {
       toast('Login failed');
+      console.error('Login failed:', error);
     } finally {
       setLoading(false);
     }

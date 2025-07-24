@@ -7,11 +7,12 @@ import axios from 'axios';
 import { Loader } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import * as React from 'react';
-import { toast } from 'react-toastify';
 
 import errorHandler from '@/lib/errorHandler';
-import { setOpenModal } from '@/lib/slices/user';
+import { setDataUser, setOpenModal, setToken } from '@/lib/slices/user';
 import { useAppDispatch } from '@/lib/store';
+
+import { login } from '@/app/api/auth/login';
 
 import { loginImage } from '~/images';
 
@@ -26,6 +27,8 @@ export default function Register() {
     password: '',
     confirm: '',
   });
+  const savedEmail = localStorage.getItem('resetEmail');
+  
   const [match, setMatch] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const router = useRouter();
@@ -34,6 +37,7 @@ export default function Register() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
 
   React.useEffect(() => {
     if (form.password === form.confirm && form.password !== '') {
@@ -56,8 +60,26 @@ export default function Register() {
         password: form.password,
         token,
       });
-      toast('Password succesfully set. Please login!');
-      router.push('/');
+      //  await axios.post(`http://localhost:3001/user/reset-password`, {
+      //   password: form.password,
+      //   token,
+      // });
+      // toast('Password succesfully set. Please login!');
+      // router.push('/');
+      const response = await login({ payload: savedEmail ?? '', password: form.password });
+
+      // 3. Ambil user dan token dari response login
+      const { user, token: authToken } = response;
+
+      // 4. Simpan data user dan token ke redux (sesuai kode kamu)
+      dispatch(setDataUser({ userData: user }));
+      dispatch(setToken({ token: authToken }));
+      dispatch(setOpenModal(false));
+
+      // toast(`Welcome ${user.username}!`);
+
+      // 5. Redirect atau lakukan aksi setelah login sukses (jika perlu)
+      router.push('/select-plan');
     } catch (error) {
       errorHandler(error);
     } finally {
@@ -80,6 +102,18 @@ export default function Register() {
           onSubmit={handleSubmit}
           className='flex lg:h-1/2 flex-grow flex-col items-center justify-center gap-4 rounded-xl bg-[#E5F6FB] p-4 lg:p-8 shadow-lg'
         >
+          <div className='flex flex-col'>
+            <label className='pl-4 text-[#1A214C]'>
+              Email
+            </label>
+            <input
+              type='text'
+              className='border-grey-700 my-2 w-[300px] rounded-full border p-4'
+              value={savedEmail ?? ''}
+              // onChange={handleChange}
+              readOnly
+            ></input>
+          </div>
           <div className='flex flex-col'>
             <label className='pl-4 text-[#1A214C]'>
               New Password <span className='text-red-500'>*</span>

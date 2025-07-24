@@ -35,7 +35,7 @@ const ProductCategories: React.FC<ProductCategoriesProps> = ({
           <img
             src={image} // ganti dengan path asli
             alt={name.split(' ')[0]}
-            className="w-full h-full rounded-xl object-cover rounded-[12px]"
+            className="w-full h-full object-cover rounded-[12px]"
           />
         </div>
         

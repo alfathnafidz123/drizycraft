@@ -107,7 +107,7 @@ export default async function HomePage() {
   // }, []);
 
   const categoryStatic = [
-    { name: 'Free SVGs', link: 'Free SVGs', image: cat11.src },
+    { name: 'Drizy Atelier ', link: '', image: cat11.src },
     { name: 'Shadow Box SVG', link: '3D Shadow Box SVGs', image: cat2.src },
     { name: 'Cricut SVG', link: 'Cricut SVG', image: cat3.src },
     { name: 'SVG Cut File', link: 'SVG Cut Files', image: cat4.src },

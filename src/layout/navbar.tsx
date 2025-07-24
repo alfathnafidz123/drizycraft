@@ -12,12 +12,12 @@ import { MdArrowOutward } from '@react-icons/all-files/md/MdArrowOutward';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { fetchCart } from '@/lib/slices/cart';
-import { fetchSubs } from '@/lib/slices/subcription';
+import { fetchSubs, setSubscriptionModalOpen } from '@/lib/slices/subcription';
 import { fetchCoin, fetchProfile, setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 import useOutsideClick from '@/lib/useOutsideClick';
@@ -27,10 +27,12 @@ const ModalLogin = dynamic(() => import('@/components/modals/login'));
 import axios from 'axios';
 import dynamic from 'next/dynamic';
 
+import NonMemberModal from '@/components/modals/non-member';
 import NextImage from '@/components/NextImage';
 import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
 
 import {
+  account2,
   betaLogo,
   cart,
   crownMember,
@@ -54,6 +56,8 @@ interface SubMenuState {
 
 const Navbar: React.FC = () => {
   const dispatch = useAppDispatch();
+  const pathname = usePathname();
+  const isOpen = useAppSelector((state) => state.subs.showSubscriptionModal);
   const isLogin = useAppSelector((state) => state.user.token);
   const dataUser = useAppSelector((state) => state.user.dataUser);
   const cartData = useAppSelector((state) => state.cart.cart);
@@ -132,6 +136,11 @@ const Navbar: React.FC = () => {
   const openModalLogin = () => {
     dispatch(setOpenModal(true));
   };
+
+  useEffect(() => {
+    dispatch(setSubscriptionModalOpen(false));
+  }, [pathname, dispatch]);
+
   const openProfile = () => {
     router.push('/profile/account');
   };
@@ -175,6 +184,10 @@ const Navbar: React.FC = () => {
     <GoogleOAuthProvider clientId='660205853013-i0r4emab9r16stvggpb9gu24gmd0mgqr.apps.googleusercontent.com'>
       <nav className='sticky top-0 z-30 hidden h-[139px] items-center bg-white shadow-xl lg:flex'>
         <ModalLogin />
+        <NonMemberModal
+          isOpen={isOpen}
+          onClose={() => dispatch(setSubscriptionModalOpen(false))}
+        />
         <div className='container mx-auto flex w-[1164px] items-center justify-between'>
           <Link href='/'>
             <NextImage width={200} height={200} src={betaLogo.src} alt='Logo' className='object-contain' />
@@ -686,11 +699,16 @@ const Navbar: React.FC = () => {
                           <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
                             <div
                               onClick={() => {
-                                router.push('/category/Free SVGs');
+                                router.push('/');
                               }}
                               className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                             >
-                              <p>Free SVGs</p>
+                              <p>
+                                Drizy Atelier
+                                <span className="ms-1 bg-[#EE4C73] text-white text-[10px] font-katide-medium px-1.5 py-[2px] rounded-full leading-none shadow-sm">
+                                  Soon
+                                </span>
+                              </p>
                               <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                             </div>
                             <div
@@ -790,13 +808,19 @@ const Navbar: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                <Link
-                  href='#'
-                  id='freeSvg'
-                  className='flex h-[40px] w-[115px] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] px-4 py-3 hover:bg-[#CCE7EF]'
-                >
-                  Drizy Atelier
-                </Link>
+                <div className="relative inline-block">
+                  <Link
+                    // href="/catalog-drizy-atelier"
+                    href="#"
+                    id="freeSvg"
+                    className="flex h-[40px] w-[115px] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] px-4 py-3 hover:bg-[#CCE7EF] relative"
+                  >
+                    Drizy Atelier
+                  </Link>
+                  <span className="absolute -top-1.5 -right-0 bg-[#EE4C73] text-white text-[9px] font-katide-medium px-1.5 py-[3px] rounded-full leading-none shadow-sm">
+                    Soon
+                  </span>
+                </div>
                 <Link
                   href='/blog'
                   id='bundles'
@@ -822,11 +846,24 @@ const Navbar: React.FC = () => {
               <div className='flex flex-row justify-between gap-[20px]'>
                 <button
                   id='profilelogin'
-                  className='font-katide-bold h-[39px] w-[93px] rounded-full bg-[#e4f6fb] text-[14px] text-[#008ECC] hover:bg-[#C0E9F4]'
+                  className='font-katide-bold flex h-[40px] w-[110px] justify-center items-center gap-2 rounded-full py-4 text-[14px] bg-[#e4f6fb] text-[#008ECC] hover:bg-[#C0E9F4]'
                   // eslint-disable-next-line @typescript-eslint/no-empty-function
                   onClick={!isLogin ? openModalLogin : openProfile}
                 >
-                  {isLogin ? 'PROFILE' : 'LOGIN'}
+                  {isLogin ? (
+                      <>
+                        <Image
+                          src={dataUser?.avatar || account2.src}
+                          alt="Profile"
+                          width={20}
+                          height={20}
+                          className="rounded-full object-cover"
+                        />
+                        <p>Profile</p>
+                      </>
+                  ) : (
+                    <p>LOGIN</p>
+                  )}
                 </button>
                 <Link
                   href='/cart'
@@ -923,7 +960,7 @@ const Navbar: React.FC = () => {
                 
                 <Link
                   href='/membership'
-                  className='font-katide-semibold flex h-[40px] w-[178px] items-center gap-3 rounded-full bg-[#EE4C73] px-8 py-4 text-[14px] text-white hover:bg-[#CE4768]'
+                  className='font-katide-semibold flex h-[40px] w-[178px] items-center gap-3 rounded-full px-8 py-4 text-[14px] bg-[#EE4C73] text-white hover:bg-[#CE4768]'
                 >
                   <img src={crownMember.src} alt='Membership' />
                   <p className='mt-0.5'>Membership</p>
@@ -935,6 +972,10 @@ const Navbar: React.FC = () => {
       </nav>
       <nav className='sticky top-0 z-30 flex h-[139px] items-center bg-white lg:hidden'>
         <ModalLogin />
+        <NonMemberModal
+          isOpen={isOpen}
+          onClose={() => dispatch(setSubscriptionModalOpen(false))}
+        />
         <div className='relative flex h-full w-full flex-col justify-evenly px-2'>
           <div className='container mx-auto flex h-1/2 items-center justify-between lg:px-0'>
             <div className='flex gap-4'>
@@ -1197,12 +1238,17 @@ const Navbar: React.FC = () => {
                       <div className='ml-4'>
                         <div
                           onClick={() => {
-                            router.push('/category/Free SVGs');
+                            router.push('/');
                             setSidebarOpen(false);
                           }}
                           className='ml-4 border-t-2 p-4'
                         >
-                          <p className='font-katide-semibold'>Free SVGs</p>
+                          <p className='font-katide-semibold'>
+                            Drizy Atelier
+                            <span className="ms-1 bg-[#EE4C73] text-white text-[10px] font-katide-medium px-1.5 py-[2px] rounded-full leading-none shadow-sm">
+                              Soon
+                            </span>
+                          </p>
                         </div>
                         <div
                           onClick={() => {
@@ -1337,12 +1383,17 @@ const Navbar: React.FC = () => {
                 
                 <div
                   onClick={() => {
-                    router.push('#');
+                    // router.push('/catalog-drizy-atelier');
+                    router.push('/');
                     setSidebarOpen(false);
                   }}
                   className='border-t-2 p-4'
                 >
-                  <p className='font-katide-semibold'>Drizy Atelier</p>
+                  <p className='font-katide-semibold'>Drizy Atelier
+                  <span className="ms-1 bg-[#EE4C73] text-white text-[10px] font-katide-medium px-1.5 py-[2px] rounded-full leading-none shadow-sm">
+                    Soon
+                  </span>
+                  </p>
                 </div>
                 <div
                   onClick={() => {
