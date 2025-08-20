@@ -74,8 +74,8 @@ const ModalRechargeCoin: React.FC<ModalProps> = ({
         <div className='fixed left-0 top-0 z-30 transform overflow-hidden rounded-3xl bg-white shadow-lg max-md:w-full lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2'>
           <div className='flex h-4/5 w-full flex-col max-md:overflow-y-scroll lg:h-[500px] lg:w-[410px]'>
             <div className='flex flex-col items-center gap-4 bg-center bg-cover bg-[url(/images/banner-coin.png)] p-8 pb-4'>
-              <h2 className='font-katide-bold text-5xl text-center'>RECHARGE DRIZY COIN</h2>
-              <p className='text-center text-sm'>Coin validity aligns with your subscription period. Any purchased coins will expire if you cancel your Drizy VIP+ subscription.</p>
+              <h2 className='font-katide-bold text-5xl text-center'>TOP UP DRIZY COIN</h2>
+              <p className='text-center text-sm'>Purchase Drizy Coins directly, with or without a VIP+ subscription. The coins you buy have no expiration date and can be used for any product on our website.</p>
             </div>
             <div className='grid grid-cols-4 py-5 px-4 gap-3'>
               <label htmlFor='15' className={`border-[3px] ${productId === process.env.NEXT_PUBLIC_PRICE_FIFTEEN ? "border-[#FFBB3C]" : "border-[#AAAAAA]"} rounded-xl cursor-pointer px-3 pt-4 pb-2 flex flex-col items-center relative`}>

@@ -14,6 +14,8 @@ import { subscriptionPayment } from '@/app/api/billing/subscriptionPayment';
 import { HomepageDataI } from "@/interfaces/product.interface";
 
 import { bannerVector, craftToConnect, projectStars } from "~/images";
+import { SubsTransactionResI } from '@/interfaces/transaction.interfaces';
+import axios from 'axios';
 
 const JumbotronSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
   const { trackEvent } = PixelEventsHooks();
@@ -21,7 +23,7 @@ const JumbotronSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
   const { token } = useAppSelector((state) => state.user);
   const subscriptionPlans = [
     {
-      duration: '14 Day',
+      duration: '7 DAYS',
       buttonText: 'START FREE !',
       price: 'Free Trial',
       discount: undefined,
@@ -46,11 +48,28 @@ const JumbotronSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
     },
   ];
 
-  const plan = subscriptionPlans.find(plan => plan.duration === '14 Day');
+  const plan = subscriptionPlans.find(plan => plan.duration === '7 DAYS');
 
   const handleSubscribe = async (priceId: string, token: string, membership: string) => {
       try {
         if (token) {
+          const params = { page: 1, limit: 10 }
+          const res = await axios.get(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-subs-transaction`,
+            { headers: { Authorization: `bearer ${token}` }, params }
+          );
+          const transactionData = res.data as SubsTransactionResI;
+
+          // Cek apakah sudah pernah ambil Free Trial
+          const alreadyUsedTrial = transactionData.data.some(
+            (trx) =>
+              trx.name?.toLowerCase() === 'free trial' && trx.status === 'success'
+          );
+
+          if (alreadyUsedTrial && priceId == process.env.NEXT_PUBLIC_PRICE_TRIAL) {
+            toast.error('You have already used the Free Trial. Please choose another plan.');
+            return;
+          }
           const data = await subscriptionPayment({
             priceId: priceId as string,
             token: token,
@@ -87,9 +106,11 @@ const JumbotronSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
             {/* Stars */}
             <div className="flex mb-2">
               {Array.from({ length: 5 }, (_, index) => (
-                <img
-                  loading="lazy"
+                <Image
+                  alt={`Project Star ${index + 1}`}
                   key={index}
+                  width={20}
+                  height={20}
                   src={projectStars.src}
                   className="my-auto"
                 />
@@ -105,19 +126,37 @@ const JumbotronSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
             {/* List */}
             <ul className="font-katide-regular space-y-3 text-gray-700 text-base mb-6 items-start text-left">
               <li className="flex items-start gap-2">
-                <img src={bannerVector.src} className="w-5 mt-2" />
+                <Image
+                  src={bannerVector.src}
+                  alt="banner"
+                  width={20}
+                  height={20}
+                  className="mt-2"
+                />
                 <span>
                   Discover fresh ideas with <strong>Drizy Projects</strong>
                 </span>
               </li>
               <li className="flex items-start gap-2">
-                <img src={bannerVector.src} className="w-5 mt-2" />
+                <Image
+                  src={bannerVector.src}
+                  alt="banner"
+                  width={20}
+                  height={20}
+                  className="mt-2"
+                />
                 <span>
                   Thousands of easy with <strong>Drizy Breezy</strong>
                 </span>
               </li>
               <li className="flex items-start gap-2">
-                <img src={bannerVector.src} className="w-5 mt-2" />
+                <Image
+                  src={bannerVector.src}
+                  alt="banner"
+                  width={20}
+                  height={20}
+                  className="mt-2"
+                />
                 <span>
                   <strong>Request design?</strong> Yes! Go unlimited with your machine!
                 </span>

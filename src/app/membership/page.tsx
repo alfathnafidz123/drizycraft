@@ -2,7 +2,8 @@
 'use client';
 import Image from 'next/image';
 import { toast } from 'react-toastify';
-
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import SectionContainer from '@/components/container/sectionContainer';
@@ -44,6 +45,7 @@ import {
   rightMembership,
   vip,
 } from '~/images';
+import { SubsTransactionResI } from '@/interfaces/transaction.interfaces';
 const CustomerSupportLottie = dynamic(
   () => import('../../components/lottie/customer-support'),
   { ssr: false }
@@ -145,28 +147,51 @@ export default function Membership() {
   // Handle subscription 
   const handleSubscribe = async (priceId: string, token: string, membership: string) => {
     try {
-      if (token) {
-        const data = await subscriptionPayment({
-          priceId: priceId as string,
-          token: token,
-          membership:membership,
-        });
-        await trackEvent(EventsEnum.InitCheckoutMembership, {
-          priceId: priceId as string,
-          membership,
-        });
-        window.location.replace(data.data);
-      } else {
+      if (!token) {
         dispatch(setOpenModal(true));
+        return;
       }
-    } catch (error: any) {
-      toast(
-        'Create Checkout Page failed, please reach out to the administrator'
+
+      // Cek transaksi dulu
+      const params = { page: 1, limit: 10 }
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-subs-transaction`,
+        { headers: { Authorization: `bearer ${token}` }, params }
       );
+
+      const transactionData = res.data as SubsTransactionResI;
+
+      // Cek apakah sudah pernah ambil Free Trial
+      const alreadyUsedTrial = transactionData.data.some(
+        (trx) =>
+          trx.name?.toLowerCase() === 'free trial' && trx.status === 'success'
+      );
+
+      if (alreadyUsedTrial && priceId == process.env.NEXT_PUBLIC_PRICE_TRIAL) {
+        toast.error('You have already used the Free Trial. Please choose another plan.');
+        return;
+      }
+
+      // Lanjut proses checkout
+      const data = await subscriptionPayment({
+        priceId: priceId as string,
+        token: token,
+        membership: membership,
+      });
+      localStorage.setItem('checkoutSession', JSON.stringify(data));
+
+      await trackEvent(EventsEnum.InitCheckoutMembership, {
+        priceId: priceId as string,
+        membership,
+      });
+
+      window.location.replace(data.data);
+
+    } catch (error: any) {
+      toast('Create Checkout Page failed, please reach out to the administrator');
     }
   };
 
-  
 
   // Product Carousel Images 
   const productsMembership = [
@@ -184,7 +209,7 @@ export default function Membership() {
     srcActive: string;
     alt: string;
   }
-  
+
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   // Data video carousel
@@ -202,7 +227,7 @@ export default function Membership() {
     { src: '/images/feature3.png', alt: 'Feature 3', srcActive: '/images/feature3_active.png' },
     { src: '/images/feature4.png', alt: 'Feature 4', srcActive: '/images/feature4_active.png' },
   ];
-  
+
 
   const featureDescriptions = [
     {
@@ -238,9 +263,6 @@ export default function Membership() {
       buttonText: "",
     },
   ];
-  
-  
-  
 
   // Membuat peta video berdasarkan indeks fitur
   const videoMap: { [key: number]: number } = {
@@ -255,14 +277,13 @@ export default function Membership() {
       setCurrentIndex((prevIndex) =>
         prevIndex === carouselVideos.length - 1 ? 0 : prevIndex + 1
       );
-    }, 5000); 
+    }, 5000);
 
-    return () => clearInterval(interval); 
+    return () => clearInterval(interval);
   }, [carouselVideos.length]);
 
   return (
     <main>
-  
         {/* Main Membership Content  */}
         <section className="relative flex flex-col items-center justify-end gap-8 px-4 pt-32 pb-20 lg:px-0 overflow-hidden">
           <div className="absolute inset-0 z-0">
@@ -344,7 +365,7 @@ export default function Membership() {
 
                       {/* Best Value Badge */}
                       {plan.duration === "ANNUAL ACCESS" && (
-                        <img src={bestValue.src} alt='best value' className='absolute -top-10 -right-10 z-20' />
+                        <img src={bestValue.src} alt='best value' className='absolute -top-10 -right-10 z-20' loading='lazy' />
                       )}
 
                       {/* <div className={`flex flex-col rounded-2xl p-2 lg:p-6 z-10 w-full ${plan.duration === "ANNUAL ACCESS" ? "absolute bg-transparent" : ""}`}> */}
@@ -390,7 +411,7 @@ export default function Membership() {
                               <div className='text-center font-katide-semibold text-gray-400 line-through'>{plan.discount}</div>
                             </div>
                           )}
-                          
+
                           {/* Additional Text */}
                           {plan.price?.trim() === '$3.99/mo' && (
                             <div className="relative h-6 overflow-visible">
@@ -412,7 +433,7 @@ export default function Membership() {
                               />
                               {plan.coin}
                             </div>
-                          )} 
+                          )}
                         </div>
 
                         {/* Plan Description */}
@@ -594,6 +615,7 @@ export default function Membership() {
                           setCurrentIndex(newIndex);
                         }}
                         className="cursor-pointer rounded-lg w-full aspect-square object-cover transition-transform duration-300 hover:scale-110"
+                        loading='lazy'
                       />
                     ))}
                   </div>
@@ -920,7 +942,7 @@ export default function Membership() {
         </section>
         {showChat ?
           <div ref={refChat} className='fixed bottom-0 right-0 z-[99]'>
-            <iframe height={500} src='https://tawk.to/chat/672866874304e3196adcbd50/1ibqt10pq' />
+            <iframe height={500} src='https://tawk.to/chat/64abcc35cc26a871b0276fc0/1h4vhbd1k' />
           </div>
           :
           <div onClick={() => setShowChat(true)} className="fixed bottom-0 right-0 z-[500]">

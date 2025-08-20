@@ -69,7 +69,13 @@ export default function Register() {
   useEffect(() => {
     getCrafter();
   }, [params.page]);
-  
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("upload") === "success") {
+      setIsUploadSuccessShow(true);
+    }
+  }, []);
 
   return (
     <main>
@@ -101,7 +107,7 @@ export default function Register() {
               photos of your projects.
             </p>
             <div className='mt-6 flex flex-row'>
-              <img src={projectSign.src} />
+              <img src={projectSign.src} loading='lazy' />
               <Link href="/register" className='self-center pl-5'>
                 <b>Sign up: </b>
                 <span className='cursor-pointer text-[#4065D1]'>
@@ -110,7 +116,7 @@ export default function Register() {
               </Link>
             </div>
             <div className='mt-6 flex flex-row'>
-              <img src={projectSubscribe.src} />
+              <img src={projectSubscribe.src} loading='lazy' />
               <p className='self-center pl-5'>
                 <b>Subscribe:</b> Select one of our membership plans. <br />
                 Don't worry, we offer a <b>free trial</b> for you.{" "}
@@ -120,21 +126,22 @@ export default function Register() {
               </p>
             </div>
             <div className='mt-6 flex flex-row'>
-              <img src={projectShare.src} />
+              <img src={projectShare.src} loading='lazy'/>
               <p className='self-center pl-5'>
                 <b>Share:</b> Upload pictures of your projects to earn
                 <b> Drizy Coins.</b>
               </p>
             </div>
           </div>
-          <img src={projectImage.src} className='' />
+          <img src={projectImage.src} className='' loading='lazy' />
         </section>
       }
       <div className='bg-[#EBECF5] w-full'>
         <section className='flex flex-wrap justify-center gap-5 p-2 xl:pt-20 max-w-[1164px] mx-auto'>
           {activeSubcription &&
             <div
-              onClick={() => setIsPopUpShow(true)}
+              // onClick={() => setIsPopUpShow(true)}
+              onClick={() => window.location.href = `/project/create/`}
               className='h-[456px] w-[369px] cursor-pointer rounded-xl bg-white bg-opacity-30 px-8 py-8 text-center text-indigo-950 text-opacity-20 shadow-lg hover:bg-white'
             >
               <div className='flex flex-col rounded-xl border-2 border-dashed border-black border-opacity-10 py-12'>

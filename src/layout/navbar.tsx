@@ -42,6 +42,7 @@ import {
   newBadgeBlue,
   search,
 } from '~/images';
+import ModalRechargeCoin from '@/components/modals/recharge-coin';
 
 export interface MenuState {
   crafter: boolean;
@@ -71,6 +72,7 @@ const Navbar: React.FC = () => {
   const [isSeasonalOpen, setIsSeasonalOpen] = useState(false);
   const [isCraftSVGOpen, setIsCraftSVGOpen] = useState(false);
   const [isVectorOpen, setIsVectorOpen] = useState(false);
+  const [showRecharge, setShowRecharge] = useState(false);
   const [showMenu, setShowMenu] = useState<MenuState>({
     crafter: false,
     vector: false,
@@ -566,19 +568,19 @@ const Navbar: React.FC = () => {
                           <p>Premium SVG</p>
                           <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                         </div>
-                        <div
-                          onMouseEnter={() =>
-                            setShowSubMenu((prev) => ({
-                              ...prev,
-                              seasonal: false,
-                              craft: false,
-                            }))
-                          }
-                          className='cursor-pointer group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                        >
-                          <p>Exclusive Partners</p>
-                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                        </div>
+                        {/*<div*/}
+                        {/*  onMouseEnter={() =>*/}
+                        {/*    setShowSubMenu((prev) => ({*/}
+                        {/*      ...prev,*/}
+                        {/*      seasonal: false,*/}
+                        {/*      craft: false,*/}
+                        {/*    }))*/}
+                        {/*  }*/}
+                        {/*  className='cursor-pointer group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'*/}
+                        {/*>*/}
+                        {/*  <p>Exclusive Partners</p>*/}
+                        {/*  <MdArrowOutward className='opacity-0 group-hover:opacity-100' />*/}
+                        {/*</div>*/}
                         <div
                           onMouseEnter={() =>
                             setShowSubMenu((prev) => ({
@@ -891,24 +893,26 @@ const Navbar: React.FC = () => {
                     <span className='font-katide-semibold text-[14px] text-[#008ECC]'>
                       {isLogin && dataUser ? (
                         (coin === 0) ? (
-                          <Image
-                            src={emptyCoin.src}
-                            alt='empty-coin'
-                            width={80}
-                            height={80}
-                            className='h-4 w-4'
-                          />
+                          // <Image
+                          //   src={emptyCoin.src}
+                          //   alt='empty-coin'
+                          //   width={80}
+                          //   height={80}
+                          //   className='h-4 w-4'
+                          // />
+                          0
                         ) : coin === -1 ? "♾️" : (
                           coin
                         )
                       ) : (
-                        <Image
-                          src={emptyCoin.src}
-                          alt='empty-coin'
-                          width={80}
-                          height={80}
-                          className='h-4 w-4'
-                        />
+                        // <Image
+                        //   src={emptyCoin.src}
+                        //   alt='empty-coin'
+                        //   width={80}
+                        //   height={80}
+                        //   className='h-4 w-4'
+                        // />
+                        0
                       )}
                     </span>
                     COIN
@@ -935,8 +939,11 @@ const Navbar: React.FC = () => {
                           )}
                         </p>
                         <Button onClick={() => {
-                          if (coin === -1) toast('You have unlimited coin');
-                          else router.push('/profile/subscription');
+                          if
+                            (coin === -1) toast('You have unlimited coin');
+                          else
+                            // router.push('/profile/subscription');
+                            setShowRecharge(true)
                         }} className='font-katide-bold flex w-full items-center justify-center rounded-full border-none bg-[#008ECC] hover:bg-[#008ECC]/90 text-xs'>
                           TOP UP HERE
                         </Button>
@@ -1133,12 +1140,12 @@ const Navbar: React.FC = () => {
                     >
                       <p className='font-katide-semibold'>Premium SVG</p>
                     </div>
-                    <div onClick={() => {
-                      router.push('/exclusive-partners');
-                      setSidebarOpen(false);
-                    }} className='ml-4 border-t-2 p-4'>
-                      <p className='font-katide-semibold'>Exclusive Partner</p>
-                    </div>
+                    {/*<div onClick={() => {*/}
+                    {/*  router.push('/exclusive-partners');*/}
+                    {/*  setSidebarOpen(false);*/}
+                    {/*}} className='ml-4 border-t-2 p-4'>*/}
+                    {/*  <p className='font-katide-semibold'>Exclusive Partner</p>*/}
+                    {/*</div>*/}
                     <div
                       onClick={() => {
                         setIsSeasonalOpen(prev => !prev);
@@ -1406,7 +1413,7 @@ const Navbar: React.FC = () => {
                 </div>
                 <div
                   onClick={() => {
-                    router.push('/blog');
+                    router.push('/project');
                     setSidebarOpen(false);
                   }}
                   className='border-t-2 p-4'
@@ -1439,6 +1446,7 @@ const Navbar: React.FC = () => {
           )}
         </div>
       </nav>
+      <ModalRechargeCoin isOpen={showRecharge} onClose={() => { setShowRecharge(false) }} />
     </GoogleOAuthProvider>
   );
 };

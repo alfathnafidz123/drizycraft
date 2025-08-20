@@ -57,7 +57,7 @@ const Project: React.FC<ModalProps> = ({ onClick, item, onLike }) => {
           className='w-10 h-10 rounded-full mr-3'
         />
         <div className=''>By</div>
-        <div className='font-katide-bold'>{item?.user?.displayName}</div>
+        <div className='font-katide-bold ms-1'>{item?.user?.displayName}</div>
       </div>
       <div className='relative mt-4'>
         <NextImage
@@ -67,7 +67,10 @@ const Project: React.FC<ModalProps> = ({ onClick, item, onLike }) => {
           classNames={{ image: 'max-h-[205px] w-full object-cover rounded-lg' }}
           alt='gambar'
         />
-        <div onClick={onItemClick} className='font-katide-bold absolute inset-0 flex items-center justify-center rounded-lg bg-black/50 text-white opacity-0 hover:opacity-100 z-10'>
+        <div
+          // onClick={onItemClick}
+          onClick={() => window.location.href = `/project/${item.id}`}
+          className='font-katide-bold absolute inset-0 flex items-center justify-center rounded-lg bg-black/50 text-white opacity-0 hover:opacity-100 z-10'>
           Click for detail
         </div>
         {isPopoverOpen &&

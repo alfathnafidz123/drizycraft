@@ -4,6 +4,8 @@
 'use client';
 
 import axios from 'axios';
+import { AxiosError } from 'axios';
+
 import { Loader } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import * as React from 'react';
@@ -15,6 +17,7 @@ import { useAppDispatch } from '@/lib/store';
 import { login } from '@/app/api/auth/login';
 
 import { loginImage } from '~/images';
+import { toast } from 'react-toastify';
 
 // !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
 // Before you begin editing, follow all comments with `STARTERCONF`,
@@ -28,6 +31,7 @@ export default function Register() {
     confirm: '',
   });
   const savedEmail = localStorage.getItem('resetEmail');
+  const remail =  searchParams.get('email');
   
   const [match, setMatch] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -51,6 +55,16 @@ export default function Register() {
     dispatch(setOpenModal(false));
   }, []);
 
+  React.useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const message = queryParams.get("message");
+    const remail = queryParams.get("email");
+
+    if (message === "verification-success") {
+      toast.success("Verification success. Please set your password.");
+    }
+  }, [location.search]);
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
@@ -66,7 +80,7 @@ export default function Register() {
       // });
       // toast('Password succesfully set. Please login!');
       // router.push('/');
-      const response = await login({ payload: savedEmail ?? '', password: form.password });
+      const response = await login({ payload: remail ?? '', password: form.password });
 
       // 3. Ambil user dan token dari response login
       const { user, token: authToken } = response;
@@ -80,8 +94,10 @@ export default function Register() {
 
       // 5. Redirect atau lakukan aksi setelah login sukses (jika perlu)
       router.push('/select-plan');
-    } catch (error) {
+    } catch (err) {
+      const error = err as AxiosError;
       errorHandler(error);
+      toast('Try another password');
     } finally {
       setLoading(false);
     }
@@ -109,7 +125,7 @@ export default function Register() {
             <input
               type='text'
               className='border-grey-700 my-2 w-[300px] rounded-full border p-4'
-              value={savedEmail ?? ''}
+              value={remail ?? ''}
               // onChange={handleChange}
               readOnly
             ></input>

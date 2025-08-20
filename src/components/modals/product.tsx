@@ -22,7 +22,7 @@ import NextImage from '@/components/NextImage';
 
 import { OrderI, productI } from '@/interfaces/product.interface';
 
-import { hoverPinterest, hoverWA, projectStars } from '~/images';
+import { cartProduct, hoverPinterest, hoverWA, projectStars } from '~/images';
 import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
 
 interface ModalProps {
@@ -84,7 +84,8 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
     if (token) {
       if (activeSubcription.activeSubcription) {
         handleBuyPoint();
-      } else handleCart();
+      } else
+        handleCart();
     } else {
       dispatch(setOpenModal(true));
       closeModal();
@@ -385,10 +386,10 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
                 : <div className='h-20' />
               }
 
-              <div className='mt-[13%] flex flex-row justify-between'>
+              <div className='mt-[13%] flex flex-row justify-between gap-2'>
                 <button
                   onClick={handleBuy}
-                  className='inline-flex h-9 w-44 items-center justify-center rounded-lg bg-[#2A3B80] hover:bg-[#132159]'
+                  className='inline-flex h-9 w-full items-center justify-center rounded-lg bg-[#2A3B80] hover:bg-[#132159]'
                   disabled={loading}
                   id='handle-buy'
                   aria-label={`Buy ${product?.name}`}
@@ -404,17 +405,32 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
                   )}
                 </button>
                 <button
+                  // id={`add-${data.id}-cart`}
+                  type='button'
+                  onClick={handleCart}
+                  className='flex h-[37px] items-center justify-center gap-[8px] rounded-[8px] border-2 border-gray-400 bg-white p-[12px] sm:pl-[24px] sm:pr-[24px]'
+                >
+                  <img
+                    src={cartProduct.src}
+                    alt='cart'
+                    className='h-4 w-4 sm:h-5 sm:w-5' // kecil di mobile, normal di layar besar
+                  />
+                </button>
+
+              </div>
+              <div className='mt-5 flex items-end'>
+                <button
                   id='show-detail'
                   aria-label={`Show ${product?.name} detail`}
-                  className='flex'
+                  className='flex ml-auto'
                   onClick={() =>
                     router.push(`/product/${product?.meta?.[0].title}`)
                   }
                 >
-                  <p className='font-katide-semibold mr-3 mt-2 text-[14px] text-[#1A214C] hover:underline'>
+                  <p className='font-katide-semibold mr-3 text-[14px] text-[#1A214C] hover:underline'>
                     View full details
                   </p>
-                  <FaAngleRight className='mt-[7%] text-[#1A214C]' />
+                  <FaAngleRight className='mt-[3%] text-[#1A214C]' />
                 </button>
               </div>
             </div>

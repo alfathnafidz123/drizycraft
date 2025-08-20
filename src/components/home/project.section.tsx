@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 import SectionContainer from "@/components/container/sectionContainer";
 import NextImage from "@/components/NextImage";
+import Image from "next/image";
 
 import { getAllCrafter } from "@/app/api/product/getCrafter";
 import { CrafterI, HomepageDataI } from "@/interfaces/product.interface";
@@ -134,7 +135,12 @@ const ProjectSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
           <div className="col-span-1 lg:col-span-3 grid-cols-2 gap-4 hidden lg:grid">
             {/* Card 1 */}
             <div className="relative rounded-xl overflow-hidden shadow group">
-              <img src={jennieGproject.src} alt="Project 1" className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+              <Image
+                src={jennieGproject.src}
+                alt="Project 1"
+                fill
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
               <div className="absolute top-2 left-2 bg-white/60 backdrop-blur-sm px-3 py-2 rounded-xl text-sm text-gray-800 shadow flex items-center gap-2 h-[70px]">
                 <NextImage
                   src={jennieg.src}
@@ -149,7 +155,12 @@ const ProjectSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
             </div>
             {/* Card 2 */}
             <div className="relative rounded-xl overflow-hidden shadow group">
-              <img src={kerryBproject.src} alt="Project 1" className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+              <Image
+                src={kerryBproject.src}
+                alt="Project 1"
+                fill
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
               <div className="absolute top-2 left-2 bg-white/60 backdrop-blur-sm px-3 py-2 rounded-xl text-sm text-gray-800 shadow flex items-center gap-2 h-[70px]">
                 <NextImage
                   src={kerryb.src}
@@ -164,7 +175,12 @@ const ProjectSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
             </div>
             {/* Card 3 */}
             <div className="relative rounded-xl overflow-hidden shadow group">
-              <img src={projectImg1.src} alt="Project 1" className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+              <Image
+                src={kerryBproject.src}
+                alt="Project 1"
+                fill
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
               <div className="absolute top-2 left-2 bg-white/60 backdrop-blur-sm px-3 py-2 rounded-xl text-sm text-gray-800 shadow flex items-center gap-2 h-[70px]">
                 <NextImage
                   src={kerryb.src}
@@ -179,7 +195,12 @@ const ProjectSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
             </div>
             {/* Card 4 */}
             <div className="relative rounded-xl overflow-hidden shadow group">
-              <img src={syelmaProject.src} alt="Project 1" className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+              <Image
+                src={syelmaProject.src}
+                alt="Project 1"
+                fill
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
               <div className="absolute top-2 left-2 bg-white/60 backdrop-blur-sm px-3 py-2 rounded-xl text-sm text-gray-800 shadow flex items-center gap-2 h-[70px]">
                 <NextImage
                   src={syelmav.src}
@@ -200,12 +221,13 @@ const ProjectSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
             {crafterData.slice(0, 5).map((item, index) => (
               <div
                 key={index}
-                className="group aspect-square overflow-hidden rounded-xl cursor-pointer"
+                className="group relative aspect-square overflow-hidden rounded-xl cursor-pointer"
               >
-                <img
+                <Image
                   src={item.imageUrl}
                   alt={`Project ${index + 1}`}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-110"
                 />
               </div>
             ))}
@@ -217,12 +239,13 @@ const ProjectSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
             {crafterData.slice(0, 6).map((item, index) => (
               <div
                 key={index}
-                className="group aspect-square overflow-hidden rounded-xl cursor-pointer"
+                className="group relative aspect-square overflow-hidden rounded-xl cursor-pointer"
               >
-                <img
+                <Image
                   src={item.imageUrl}
                   alt={`Project ${index + 1}`}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-110"
                 />
               </div>
             ))}

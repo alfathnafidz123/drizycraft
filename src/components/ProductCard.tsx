@@ -26,6 +26,8 @@ import {
   hoverWA,
   saleSvg,
 } from '~/images';
+import errorHandler from '@/lib/errorHandler';
+import { fetchCart } from '@/lib/slices/cart';
 
 interface ProductCardProps {
   data: productI;
@@ -66,32 +68,38 @@ const ProductCard: React.FC<ProductCardProps> = ({
   }, [data]);
 
   const handleCart = async () => {
-    handleShowDetail?.(data);
-    // try {
-    //   const payload: { [key: string]: string | number } = {
-    //     productId: data.id,
-    //     licenseType: 0,
-    //   };
-    //   if (token) {
-    //     await axios.post(
-    //       `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/cart`,
-    //       payload,
-    //       { headers: { Authorization: `Bearer ${token}` } }
-    //     );
-    //     dispatch(fetchCart(token!));
-    //     toast('Item added to cart!');
-    //   } else {
-    //     dispatch(setOpenModal(true));
-    //   }
-    // } catch (error: any) {
-    //   toast.error('Add to cart failed, please reach out to the administrator');
-    // }
+    // handleShowDetail?.(data);
+    try {
+      const payload: { [key: string]: string | number } = {
+        productId: data.id,
+        licenseType: 0,
+      };
+      if (token) {
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/cart`,
+          payload,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        toast('Item added to cart!');
+        await trackEvent(EventsEnum.AddToCart, { productId: data.id, productName: data.name });
+        dispatch(fetchCart(token!));
+        // router.push('/cart');
+
+      } else {
+        dispatch(setOpenModal(true));
+      }
+    } catch (err) {
+      const error = err as AxiosError;
+      errorHandler(error);
+      // toast.error('Add to cart failed, please reach out to the administrator');
+    }
   };
 
   const handleDownload = async () => {
     try {
       if (token) {
-        if (activeSubcription.activeSubcription) {
+        if (activeSubcription.subcription !== undefined) {
           const payload: { [key: string]: string | number } = {
             productId: data.id,
             licenseType: 0,

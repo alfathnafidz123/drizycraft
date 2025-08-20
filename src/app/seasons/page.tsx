@@ -27,7 +27,7 @@ import {
   bestValue,
   checkblue,
   crossMember,
-  drizzyCoin,
+  drizzyCoin, leftMembership,
   leftMembership2,
   member1,
   member2,
@@ -45,10 +45,12 @@ import {
   newMembershipProduct6,
   newMembershipProduct7,
   newMembershipProduct8,
-  newMembershipProduct9,
+  newMembershipProduct9, rightMembership,
   rightMembership2,
-  vip,
+  vip
 } from '~/images';
+import axios from 'axios';
+import { SubsTransactionResI } from '@/interfaces/transaction.interfaces';
 const CustomerSupportLottie = dynamic(
   () => import('../../components/lottie/customer-support'),
   { ssr: false }
@@ -150,26 +152,51 @@ export default function Membership() {
   // Handle subscription 
   const handleSubscribe = async (priceId: string, token: string, membership: string) => {
     try {
-      if (token) {
-        const data = await subscriptionPayment({
-          priceId: priceId as string,
-          token: token,
-          membership:membership,
-        });
-        await trackEvent(EventsEnum.InitCheckoutMembership, {
-          priceId: priceId as string,
-          membership,
-        });
-        window.location.replace(data.data);
-      } else {
+      if (!token) {
         dispatch(setOpenModal(true));
+        return;
       }
-    } catch (error: any) {
-      toast(
-        'Create Checkout Page failed, please reach out to the administrator'
+
+      // Cek transaksi dulu
+      const params = { page: 1, limit: 10 }
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-subs-transaction`,
+        { headers: { Authorization: `bearer ${token}` }, params }
       );
+
+      const transactionData = res.data as SubsTransactionResI;
+
+      // Cek apakah sudah pernah ambil Free Trial
+      const alreadyUsedTrial = transactionData.data.some(
+        (trx) =>
+          trx.name?.toLowerCase() === 'free trial' && trx.status === 'success'
+      );
+
+      if (alreadyUsedTrial && priceId == process.env.NEXT_PUBLIC_PRICE_TRIAL) {
+        toast.error('You have already used the Free Trial. Please choose another plan.');
+        return;
+      }
+
+      // Lanjut proses checkout
+      const data = await subscriptionPayment({
+        priceId: priceId as string,
+        token: token,
+        membership: membership,
+      });
+      localStorage.setItem('checkoutSession', JSON.stringify(data));
+
+      await trackEvent(EventsEnum.InitCheckoutMembership, {
+        priceId: priceId as string,
+        membership,
+      });
+
+      window.location.replace(data.data);
+
+    } catch (error: any) {
+      toast('Create Checkout Page failed, please reach out to the administrator');
     }
   };
+
 
   // Product Carousel Images 
   const productsMembership = [
@@ -247,20 +274,20 @@ export default function Membership() {
 
   const ProductImage = [
     { id: 1, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F07%2F04%2F1-eda9.jpg&w=750&q=70' },
-    { id: 2, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2024%2F12%2F12%2FPreview-1-69-scaled-35fd.webp&w=750&q=70' },
-    { id: 3, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2022%2F11%2F1-1-scaled.jpg&w=750&q=70' },
-    { id: 4, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F03%2F07%2FSlide%201-10abe.jpg&w=750&q=70' },
-    { id: 5, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F03%2F07%2FSlide%201-c4aa.jpg&w=750&q=70' },
-    { id: 6, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2024%2F06%2FSummer-Time-3D-Shadow-Box-1-scaled.jpg&w=750&q=70' },
-    { id: 7, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2024%2F08%2FSummer-Gnomes-3D-Shadow-Box-1-scaled.jpg&w=750&q=70' },
-    { id: 8, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F04%2F21%2FCOVER-78d6.jpg&w=750&q=70' },
-    { id: 9, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F05%2F22%2FSlide%201-34fa.png&w=750&q=70' },
-    { id: 10, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F03%2F20%2Fphoto_2025-03-20_11-55-43-c418.jpg&w=750&q=70' },
-    { id: 11, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2023%2F06%2FFunny-Summer-Quotes-SVG-scaled.jpg&w=750&q=70' },
-    { id: 12, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2022%2F08%2FSummer-Things-in-Stranger-Things-Font-with-Tropical-Plant-scaled.jpg&w=750&q=70' },
-    { id: 13, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2022%2F06%2F1-48-scaled.jpg&w=750&q=70' },
-    { id: 14, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2Fwoocommerce_uploads%2F2022%2F08%2FChristmas-Ornament-SVG-Nativity-Scene-hwvyb3-scaled.jpg&w=750&q=70' },
-    { id: 15, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2Fwoocommerce_uploads%2F2022%2F08%2FNativity-Scene-SVG-Bundle-5-Cricut-Christmas-Idea-zylpbs-scaled.jpg&w=750&q=70' }
+    { id: 2, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F07%2F11%2F1-f215.jpg&w=750&q=70' },
+    { id: 3, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F07%2F18%2F1-b10fa.jpg&w=750&q=70' },
+    { id: 4, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F07%2F25%2F1-116f.jpg&w=750&q=70' },
+    { id: 5, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F08%2F01%2F4-Season-Tree-with-Scenery-Continuous-Layered-Paper-Cut-2-453e.jpg&w=750&q=70' },
+    { id: 6, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F08%2F01%2F4-Season-Tree-with-Scenery-Continuous-Layered-Paper-Cut-1-a988.jpg&w=750&q=70' },
+    { id: 7, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F03%2F07%2FSlide%201-10abe.jpg&w=750&q=70' },
+    { id: 8, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F03%2F07%2FSlide%201-c4aa.jpg&w=750&q=70' },
+    { id: 9, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F04%2F21%2FCOVER-78d6.jpg&w=750&q=70' },
+    { id: 10, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F05%2F22%2FSlide%201-34fa.png&w=750&q=70' },
+    { id: 11, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F07%2F04%2F1-eda9.jpg&w=750&q=70' },
+    { id: 12, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F07%2F11%2F1-f215.jpg&w=750&q=70' },
+    { id: 13, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F07%2F18%2F1-b10fa.jpg&w=750&q=70' },
+    { id: 14, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F07%2F25%2F1-116f.jpg&w=750&q=70' },
+    { id: 15, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F08%2F01%2F4-Season-Tree-with-Scenery-Continuous-Layered-Paper-Cut-2-453e.jpg&w=750&q=70' },
   ]
 
   
@@ -320,18 +347,19 @@ export default function Membership() {
             <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-white to-transparent z-10" />
           </div>
 
-          <div className="absolute top-0 left-[-15px] lg:top-[-25px] lg:left-[-65px]  lg:pr-[1050px] z-20">
+          <div className="absolute top-0 left-[-10px] lg:top-[-5px] lg:left-[-15px] lg:pr-[1200px] z-20">
             <Image
               src={leftMembership2}
               alt="Left Membership"
-              className="h-[160px] sm:h-[180px] md:h-[280px] lg:h-[592px]  w-auto lg:min-w-[400px] object-contain pointer-events-none"
+              className="h-[160px] sm:h-[180px] md:h-[280px] lg:h-auto lg:max-h-[592px] w-auto object-contain pointer-events-none "
             />
           </div>
-          <div className="absolute top-0 right-[-10px] lg:top-[-35px] lg:right-[-45px] lg:pl-[1050px] z-20">
+
+          <div className="absolute top-0 right-[-10px] lg:top-[-5px] lg:right-[-15px] lg:pl-[1200px] z-20">
             <Image
               src={rightMembership2}
               alt="Right Membership"
-              className="h-[160px] sm:h-[180px] md:h-[280px] lg:h-[592px] w-auto lg:min-w-[400px] object-contain pointer-events-none"
+              className="h-[160px] sm:h-[180px] md:h-[280px] lg:h-auto lg:max-h-[592px] w-auto object-contain pointer-events-none"
             />
           </div>
           <div className="z-20 max-w-4xl text-center pt-10 sm:pt-24 md:pt-32 lg:pt-0">
@@ -417,7 +445,7 @@ export default function Membership() {
 
                       {/* Best Value Badge */}
                       {plan.duration === "ANNUAL ACCESS" && (
-                        <img src={bestValue.src} alt='best value' className='absolute -top-10 -right-10 z-20' />
+                        <img src={bestValue.src} alt='best value' className='absolute -top-10 -right-10 z-20' loading='lazy' />
                       )}
 
                       {/* <div className={`flex flex-col rounded-2xl p-2 lg:p-6 z-10 w-full ${plan.duration === "ANNUAL ACCESS" ? "absolute bg-transparent" : ""}`}> */}
@@ -667,6 +695,7 @@ export default function Membership() {
                           setCurrentIndex(newIndex);
                         }}
                         className="cursor-pointer rounded-lg w-full aspect-square object-cover transition-transform duration-300 hover:scale-110"
+                        loading='lazy'
                       />
                     ))}
                   </div>
@@ -989,17 +1018,17 @@ export default function Membership() {
         <section>
           <AffiliateBanner />
         </section>
-        {showChat ?
-          <div ref={refChat} className='fixed bottom-0 right-0 z-[99]'>
-            <iframe height={500} src='https://tawk.to/chat/672866874304e3196adcbd50/1ibqt10pq' />
-          </div>
-          :
-          <div onClick={() => setShowChat(true)} className="fixed bottom-0 right-0 z-[500]">
-            <div className='-mb-8 max-w-[200px]'>
-              <CustomerSupportLottie />
-            </div>
-          </div>
-        }
+        {/*{showChat ?*/}
+        {/*  <div ref={refChat} className='fixed bottom-0 right-0 z-[99]'>*/}
+        {/*    <iframe height={500} src='https://tawk.to/chat/672866874304e3196adcbd50/1ibqt10pq' />*/}
+        {/*  </div>*/}
+        {/*  :*/}
+        {/*  <div onClick={() => setShowChat(true)} className="fixed bottom-0 right-0 z-[500]">*/}
+        {/*    <div className='-mb-8 max-w-[200px]'>*/}
+        {/*      <CustomerSupportLottie />*/}
+        {/*    </div>*/}
+        {/*  </div>*/}
+        {/*}*/}
     </main>
   );
 }

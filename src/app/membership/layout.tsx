@@ -6,48 +6,62 @@ import '@/styles/globals.css';
 import '@/styles/colors.css';
 
 import { siteConfig } from '@/constant/config';
+import { generateMetadata } from '@/lib/seo';
+import SEOJsonLD from '@/components/SEOJsonLD';
 
 // !STARTERCONF Change these default meta
 // !STARTERCONF Look at @/constant/config to change them
-export const metadata: Metadata = {
-  title: `${siteConfig.title} | Drizy Craft`,
-  description: siteConfig.description,
-  robots: { index: true, follow: true },
-  // !STARTERCONF this is the default favicon, you can generate your own from https://realfavicongenerator.net/
-  // ! copy to /favicon folder
-  icons: {
-    icon: '/favicon/favicon.ico',
-    shortcut: '/favicon/favicon-16x16.png',
-    apple: '/favicon/apple-touch-icon.png',
-  },
-  manifest: `/favicon/site.webmanifest`,
-  openGraph: {
-    url: siteConfig.url,
-    title: siteConfig.title,
-    description: siteConfig.description,
-    siteName: siteConfig.title,
-    images: [`${siteConfig.url}/images/og.jpg`],
-    type: 'website',
-    locale: 'en_US',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: siteConfig.title,
-    description: siteConfig.description,
-    images: [`${siteConfig.url}/images/og.jpg`],
-  },
-  authors: [
-    {
-      name: 'Drizycraft',
-      url: 'https://github.com/itdrizy',
-    },
-  ],
-};
+// export const metadata: Metadata = {
+//   title: `Membership`,
+//   description: siteConfig.description,
+//   robots: { index: true, follow: true },
+//   // !STARTERCONF this is the default favicon, you can generate your own from https://realfavicongenerator.net/
+//   // ! copy to /favicon folder
+//   icons: {
+//     icon: '/favicon/favicon.ico',
+//     shortcut: '/favicon/favicon-16x16.png',
+//     apple: '/favicon/apple-touch-icon.png',
+//   },
+//   manifest: `/favicon/site.webmanifest`,
+//   openGraph: {
+//     url: siteConfig.url,
+//     title: siteConfig.title,
+//     description: siteConfig.description,
+//     siteName: siteConfig.title,
+//     images: [`${siteConfig.url}/images/og.jpg`],
+//     type: 'website',
+//     locale: 'en_US',
+//   },
+//   twitter: {
+//     card: 'summary_large_image',
+//     title: siteConfig.title,
+//     description: siteConfig.description,
+//     images: [`${siteConfig.url}/images/og.jpg`],
+//   },
+//   authors: [
+//     {
+//       name: 'Drizycraft',
+//       url: 'https://github.com/itdrizy',
+//     },
+//   ],
+// };
+export const metadata = generateMetadata({
+  title: 'Membership',
+  description: 'Join our membership to access premium SVG craft designs.',
+  url: 'https://drizycraft.com/membership',
+});
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <>
+    {
+      children
+    }
+      <SEOJsonLD />
+    </>
+  );
 }

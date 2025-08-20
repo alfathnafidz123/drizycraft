@@ -6,12 +6,13 @@ import '@/styles/globals.css';
 import '@/styles/colors.css';
 
 import { siteConfig } from '@/constant/config';
+import SEOJsonLD from '@/components/SEOJsonLD';
 
 // !STARTERCONF Change these default meta
 // !STARTERCONF Look at @/constant/config to change them
 export const metadata: Metadata = {
   title: {
-    default: siteConfig.title,
+    default: `Drizy Atelier | ${siteConfig.title}`,
     template: `%s | ${siteConfig.title}`,
   },
   description: siteConfig.description,
@@ -52,5 +53,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <SEOJsonLD />
+    </>
+  );
 }

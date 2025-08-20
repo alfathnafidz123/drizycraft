@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 import Slider from 'react-slick';
-
+import Image from 'next/image';
 import SectionContainer from '@/components/container/sectionContainer';
 
 import {
@@ -48,12 +48,22 @@ const Testimonies = () => {
       className='flex flex-col items-center pb-6'
     >
       <div className=' w-full bg-[#E1E3F4] max-md:pb-10 max-md:px-5'>
-        <div className='flex w-full items-center justify-center pt-12'>
-          <a href="https://www.facebook.com/groups/drizyfreebies" className='h-[200px] lg:h-auto' target="_blank" rel="noopener noreferrer">
-            <img className='b rounded-[20px] object-cover h-full' alt='dgroup banner'
-              src={dgroupBanner.src} />
+        <div className="flex w-full items-center justify-center pt-12">
+          <a
+            href="https://www.facebook.com/groups/drizyfreebies"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              src={dgroupBanner.src}
+              alt="dgroup banner"
+              width={1200}
+              height={400}
+              className="rounded-[20px] object-cover h-[200px] lg:h-auto w-full"
+            />
           </a>
         </div>
+
         <div className='font-katide-bold flex justify-center text-[24px] leading-6 text-indigo-950 mt-12 lg:mt-24'>
           Let’s Crafting!
         </div>
@@ -63,7 +73,7 @@ const Testimonies = () => {
               <div className='slide pb-4 lg:pr-4'>
                 <div className='!important flex h-[430px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg lg:w-[375px]'>
                   <div className='flex h-full flex-col items-start p-8 text-[14px]'>
-                    <img src={testimony.src} alt='Quote' className='mb-8' />
+                    <img src={testimony.src} alt='Quote' className='mb-8' loading='lazy' />
                     <p>
                       I've worked with Faqih at Drizy Studio for a couple of
                       years. I've always found the team to be very professional
@@ -78,6 +88,7 @@ const Testimonies = () => {
                       src={andy.src}
                       className='rounded-full border-[3px] h-12 w-12 border-white'
                       alt='avatar'
+                      loading='lazy'
                     />
                     <div className='flex flex-col'>
                       <p className='text-grey-200 font-katide-bold text-[16px]'>
@@ -91,7 +102,7 @@ const Testimonies = () => {
               <div className='slide pb-4 lg:pr-4'>
                 <div className='!important flex h-[430px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg lg:w-[375px]'>
                   <div className='flex h-full flex-col items-start p-8 text-[14px]'>
-                    <img src={testimony.src} alt='Quote' className='mb-8' />
+                    <img src={testimony.src} alt='Quote' className='mb-8' loading='lazy'/>
                     <p>
                       Love the designs. I was impressed how easily my Joy was
                       able to cut such intricate designs.
@@ -102,6 +113,7 @@ const Testimonies = () => {
                       src={leslie.src}
                       className='rounded-full border-[3px] h-12 w-12 border-white'
                       alt='avatar'
+                      loading='lazy'
                     />
                     <div className='flex flex-col'>
                       <p className='text-grey-200 font-katide-bold text-[16px]'>
@@ -115,7 +127,7 @@ const Testimonies = () => {
               <div className='slide pb-4 lg:pr-4'>
                 <div className='!important flex h-[430px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg lg:w-[375px]'>
                   <div className='flex h-full flex-col items-start p-8 text-[14px]'>
-                    <img src={testimony.src} alt='Quote' className='mb-8' />
+                    <img src={testimony.src} alt='Quote' className='mb-8' loading='lazy' />
                     <p>
                       I do love your products and already have your website
                       bookmarked and have downloaded quite a few designs from
@@ -127,6 +139,7 @@ const Testimonies = () => {
                       src={nad.src}
                       className='rounded-full border-[3px] h-12 w-12 border-white'
                       alt='avatar'
+                      loading='lazy'
                     />
                     <div className='flex flex-col'>
                       <p className='text-grey-200 font-katide-bold text-[16px]'>
@@ -140,7 +153,7 @@ const Testimonies = () => {
               <div className='slide pb-4 lg:pr-4'>
                 <div className='!important flex h-[430px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg lg:w-[375px]'>
                   <div className='flex h-full flex-col items-start p-8 text-[14px]'>
-                    <img src={testimony.src} alt='Quote' className='mb-8' />
+                    <img src={testimony.src} alt='Quote' className='mb-8' loading='lazy' />
                     <p>
                       Love this group! Helpful with answers. Lots of free
                       goodies. Small membership price if you want. Lots of
@@ -153,6 +166,7 @@ const Testimonies = () => {
                       src={pam.src}
                       className='rounded-full border-[3px] h-12 w-12 border-white'
                       alt='avatar'
+                      loading='lazy'
                     />
                     <div className='flex flex-col'>
                       <p className='text-grey-200 font-katide-bold text-[16px]'>
@@ -166,7 +180,7 @@ const Testimonies = () => {
               <div className='slide pb-4 lg:pr-4'>
                 <div className='!important flex h-[430px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg lg:w-[375px]'>
                   <div className='flex h-full flex-col items-start p-8 text-[14px]'>
-                    <img src={testimony.src} alt='Quote' className='mb-8' />
+                    <img src={testimony.src} alt='Quote' className='mb-8' loading='lazy' />
                     <p>
                       Love Drizy Studio!! Fantastic selection of SVG's that cut beautifully! I recommend to anyone looking for easily accessible designs that download easily. I have learned so much from being in the group. Also lots of informative and creative people willing to help out.
                     </p>
@@ -176,6 +190,7 @@ const Testimonies = () => {
                       src={bonnie.src}
                       className='rounded-full border-[3px] h-12 w-12 border-white'
                       alt='avatar'
+                      loading='lazy'
                     />
                     <div className='flex flex-col'>
                       <p className='text-grey-200 font-katide-bold text-[16px]'>
@@ -189,7 +204,7 @@ const Testimonies = () => {
               <div className='slide pb-4 lg:pr-4'>
                 <div className='!important flex h-[430px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl bg-white shadow-lg lg:w-[375px]'>
                   <div className='flex h-full flex-col items-start p-8 text-[14px]'>
-                    <img src={testimony.src} alt='Quote' className='mb-8' />
+                    <img src={testimony.src} alt='Quote' className='mb-8' loading='lazy' />
                     <p>
                       I fell in love Drizy Studio’s designs and have used them to create some amazing gifts for family, friends, and teachers. Being able to see other artist's work showcased makes me happy. Drizy Studio goes the extra mile to help bring attention to other artists they themselves admire.
                     </p>
@@ -199,6 +214,7 @@ const Testimonies = () => {
                       src={michelle.src}
                       className='rounded-full border-[3px] h-12 w-12 border-white'
                       alt='avatar'
+                      loading='lazy'
                     />
                     <div className='flex flex-col'>
                       <p className='text-grey-200 font-katide-bold text-[16px]'>
@@ -220,6 +236,7 @@ const Testimonies = () => {
                   src={endlessCrafting.src}
                   className='aspect-square w-20'
                   alt='endless'
+
                 />
                 <div className='my-auto flex flex-1 flex-col max-md:max-w-full'>
                   <div className='font-bold leading-[200%] text-indigo-950 max-md:max-w-full'>

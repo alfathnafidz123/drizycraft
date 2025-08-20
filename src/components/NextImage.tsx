@@ -50,6 +50,7 @@ export default function NextImage({
         src={src}
         width={width}
         height={height}
+        loading="lazy"
         alt={alt}
         onLoadingComplete={() => setStatus('complete')}
         {...rest}

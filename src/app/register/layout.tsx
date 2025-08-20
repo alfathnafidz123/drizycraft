@@ -8,6 +8,7 @@ import '@/styles/globals.css';
 import '@/styles/colors.css';
 
 import { siteConfig } from '@/constant/config';
+import SEOJsonLD from '@/components/SEOJsonLD';
 
 // !STARTERCONF Change these default meta
 // !STARTERCONF Look at @/constant/config to change them
@@ -56,6 +57,7 @@ export default function RootLayout({
 }) {
   return (
     <>
+      <SEOJsonLD />
       <ToastContainer />
       {children}
     </>

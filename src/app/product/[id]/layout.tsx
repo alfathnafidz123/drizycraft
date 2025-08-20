@@ -7,6 +7,7 @@ import '@/styles/colors.css';
 
 import { siteConfig } from '@/constant/config';
 import { ResArticleMetadata } from '@/interfaces/article.interfaces';
+import SEOJsonLD from '@/components/SEOJsonLD';
 type Props = {
   params: { id: string };
 };
@@ -36,7 +37,7 @@ export async function generateMetadata(
 
 
   return {
-    title: `${resMetadata.data.realTitle} | ${previousMetadata.title?.absolute || 'Drizy'}`,
+    title: `${resMetadata.data.realTitle} | Drizy Craft`,
     description: resMetadata.data.description,
     alternates: {
       canonical: `https://drizycraft.com/product/${id}`,
@@ -96,5 +97,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <SEOJsonLD />
+    </>
+  );
 }

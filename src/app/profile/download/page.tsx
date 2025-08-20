@@ -113,43 +113,40 @@ export default function Register() {
   return (
     <>
       <div className='flex w-full flex-col gap-2'>
-        <table className='table-auto'>
-          <thead>
-            <tr className='text-left text-[#1A214C]'>
-              <th>Product</th>
-              <th>Download remaining</th>
-              <th>Expires</th>
-              <th>Download</th>
-            </tr>
+        <table className='min-w-full border border-gray-300 border-collapse'>
+          <thead className='bg-gray-100'>
+          <tr className='text-center text-[#1A214C]'>
+            <th className='border border-gray-300 px-4 py-2'>Product</th>
+            <th className='border border-gray-300 px-4 py-2'>Download remaining</th>
+            <th className='border border-gray-300 px-4 py-2'>Expires</th>
+            <th className='border border-gray-300 px-4 py-2'></th>
+          </tr>
           </thead>
           <tbody className='text-[#1A214C]'>
-            {ordersData?.map((item, index) => {
-              return (
-                <tr key={index}>
-                  <td>{item?.product?.name}</td>
-                  <td>
-                    <FaInfinity />
-                  </td>
-                  <td>Never</td>
-                  <td>
-                    <button
-                      onClick={() => {
-                        handleDownloadClick(item);
-                      }}
-                      className='rounded-full bg-[#008ECC] px-10 py-2 font-semibold text-[#e4f6fb]'
-                    >
-                      {loading.id === item.id && loading.loading ?
-                        <Loader className='animate-spin' />
-                        :
-                        "Download"
-                      }
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
+          {ordersData?.map((item, index) => (
+            <tr key={index} className='hover:bg-gray-50'>
+              <td className='border border-gray-300 px-4 py-2'>{item?.product?.name}</td>
+              <td className='border border-gray-300 px-4 py-2 '>
+                <FaInfinity />
+              </td>
+              <td className='border border-gray-300 px-4 py-2'>Never</td>
+              <td className='border border-gray-300 px-4 py-2'>
+                <button
+                  onClick={() => handleDownloadClick(item)}
+                  className='rounded-full bg-[#008ECC] px-6 py-2 font-semibold text-white'
+                >
+                  {loading.id === item.id && loading.loading ? (
+                    <Loader className='animate-spin' />
+                  ) : (
+                    "Download"
+                  )}
+                </button>
+              </td>
+            </tr>
+          ))}
           </tbody>
         </table>
+
         {meta?.hasNextPage && (
           <div className='mt-8 flex w-full justify-center'>
             <div onClick={() => { setParams(prev => ({ ...prev, page: prev.page + 1 })) }} className='flex items-center justify-center cursor-pointer text-center mt-10'>

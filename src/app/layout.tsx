@@ -21,50 +21,56 @@ import StoreProvider from '@/app/StoreProvider';
 import { siteConfig } from '@/constant/config';
 import AsyncCSSSlick from '@/layout/asyncCssSlick';
 import AsyncCSSThemeSlick from '@/layout/asyncCssThemeSlick';
+import { generateMetadata } from '@/lib/seo';
 
 const Footer = lazy(() => import('@/layout/footer'));
 const Navbar = lazy(() => import('@/layout/navbar'));
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
-  title: {
-    default: siteConfig.title,
-    template: `%s | ${siteConfig.title}`,
-  },
-  description: siteConfig.description,
-  robots: { index: true, follow: true },
-  icons: {
-    icon: '/favicon/favicon.ico',
-    shortcut: '/favicon/favicon-16x16.png',
-    apple: '/favicon/apple-touch-icon.png',
-  },
-  manifest: `/favicon/site.webmanifest`,
-  openGraph: {
-    url: siteConfig.url,
-    title: siteConfig.title,
-    description: siteConfig.description,
-    siteName: siteConfig.title,
-    images: [
-      { url: `/images/drizy-simple-icon.png`, width: 1200, height: 630, alt: 'Drizy' },
-    ],
-    type: 'website',
-    locale: 'en_US',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: siteConfig.title,
-    description: siteConfig.description,
-    images: [
-      { url: `/images/drizy-simple-icon.png`, width: 1200, height: 630, alt: 'Drizy' },
-    ],
-  },
-  authors: [
-    {
-      name: 'Drizycraft',
-      url: 'https://github.com/itdrizy',
-    },
-  ],
-};
+// export const metadata: Metadata = {
+//   metadataBase: new URL(siteConfig.url),
+//   title: {
+//     default: siteConfig.metaTitle,
+//     template: `%s | ${siteConfig.title}`,
+//   },
+//   description: siteConfig.description,
+//   robots: { index: true, follow: true },
+//   icons: {
+//     icon: '/favicon/favicon.ico',
+//     shortcut: '/favicon/favicon-16x16.png',
+//     apple: '/favicon/apple-touch-icon.png',
+//   },
+//   manifest: `/favicon/site.webmanifest`,
+//   openGraph: {
+//     url: siteConfig.url,
+//     title: siteConfig.title,
+//     description: siteConfig.description,
+//     siteName: siteConfig.title,
+//     images: [
+//       { url: `/images/drizy-simple-icon.png`, width: 1200, height: 630, alt: 'Drizy' },
+//     ],
+//     type: 'website',
+//     locale: 'en_US',
+//   },
+//   twitter: {
+//     card: 'summary_large_image',
+//     title: siteConfig.title,
+//     description: siteConfig.description,
+//     images: [
+//       { url: `/images/drizy-simple-icon.png`, width: 1200, height: 630, alt: 'Drizy' },
+//     ],
+//   },
+//   authors: [
+//     {
+//       name: 'Drizycraft',
+//       url: 'https://github.com/itdrizy',
+//     },
+//   ],
+// };
+
+export const metadata = generateMetadata({
+  description: 'Premium Craft SVG Cut Files for Cricut and Silhouette',
+  url: 'https://drizycraft.com',
+});
 
 export default function RootLayout({
   children,
@@ -72,6 +78,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
+    <>
     <html className='!scroll-smooth' lang='en'>
       <head>
         {/* preload Katide font */}
@@ -219,5 +226,6 @@ export default function RootLayout({
       {/* <GoogleAnalytics gaId='G-S80R5B2E8S' /> */}
       {/* <GoogleAnalytics gaId='G-5YWS2KPHSX' /> */}
     </html>
+    </>
   );
 }

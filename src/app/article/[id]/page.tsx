@@ -20,6 +20,13 @@ import NextImage from '@/components/NextImage';
 import { ArticleI, ResArticleI } from '@/interfaces/article.interfaces';
 
 import { AssetSubscribe, avatarExample, bannerArticle } from '~/images';
+type SharePlatform =
+  | 'linkedin'
+  | 'facebook'
+  | 'twitter'
+  | 'pinterest'
+  | 'whatsapp'
+  | 'instagram';
 
 async function getArticle(id: string) {
   const res = await fetch(
@@ -68,6 +75,38 @@ export default function Article({ params }: ArticleProps) {
     return <div>Loading...</div>;
   }
 
+  const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
+
+  const handleShare = (platform: SharePlatform) => {
+    const text = encodeURIComponent("Check this out!");
+    const url = encodeURIComponent(currentUrl);
+
+    let shareUrl = '';
+
+    switch (platform) {
+      case 'linkedin':
+        shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${url}`;
+        break;
+      case 'facebook':
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+        break;
+      case 'twitter':
+        shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
+        break;
+      case 'pinterest':
+        shareUrl = `https://pinterest.com/pin/create/button/?url=${url}&description=${text}`;
+        break;
+      case 'whatsapp':
+        shareUrl = `https://wa.me/?text=${text}%20${url}`;
+        break;
+      case 'instagram':
+        alert('Instagram does not support direct web sharing.'); // Optional
+        return;
+    }
+
+    window.open(shareUrl, '_blank', 'noopener,noreferrer');
+  };
+
   return (
       <main className='w-full max-w-full'>
         <section>
@@ -105,12 +144,12 @@ export default function Article({ params }: ArticleProps) {
               <div className='mt-4 flex text-[#AAAAAA] lg:mt-14'>
                 <div className=' text-[12px]'>Share:</div>
                 <div className='ml-[18px] mt-0.5 flex gap-3 text-[17px]'>
-                  <FaLinkedinIn />
-                  <FaFacebookF />
-                  <FaXTwitter />
-                  <FaPinterest />
-                  <FaInstagram />
-                  <FaWhatsapp />
+                  <FaLinkedinIn onClick={() => handleShare('linkedin')} />
+                  <FaFacebookF onClick={() => handleShare('facebook')} />
+                  <FaXTwitter onClick={() => handleShare('twitter')} />
+                  <FaPinterest onClick={() => handleShare('pinterest')} />
+                  {/*<FaInstagram onClick={() => handleShare('instagram')} />*/}
+                  <FaWhatsapp onClick={() => handleShare('whatsapp')} />
                 </div>
               </div>
             </div>
@@ -123,12 +162,12 @@ export default function Article({ params }: ArticleProps) {
             <div className='flex pt-[50px] text-[#AAAAAA]'>
               <div className=' text-[12px]'>Share:</div>
               <div className='ml-[18px] mt-0.5 flex gap-3 text-[17px]'>
-                <FaLinkedinIn />
-                <FaFacebookF />
-                <FaXTwitter />
-                <FaPinterest />
-                <FaInstagram />
-                <FaWhatsapp />
+                <FaLinkedinIn onClick={() => handleShare('linkedin')} />
+                <FaFacebookF onClick={() => handleShare('facebook')} />
+                <FaXTwitter onClick={() => handleShare('twitter')} />
+                <FaPinterest onClick={() => handleShare('pinterest')} />
+                {/*<FaInstagram onClick={() => handleShare('instagram')} />*/}
+                <FaWhatsapp onClick={() => handleShare('whatsapp')} />
               </div>
             </div>
             {article.author && (

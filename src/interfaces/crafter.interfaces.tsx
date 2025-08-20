@@ -21,6 +21,18 @@ export interface CrafterI {
   breezy: any[]
   user: User
   likes: any[]
+  operation: string[]
+  material: string[]
+  difficulty: string
+  time: number
+  steps: CrafterStepsI[]
+}
+
+export interface CrafterStepsI {
+  id: string
+  stepsNumber: number
+  description: string
+  imageUrl: string
 }
 
 export interface Product {

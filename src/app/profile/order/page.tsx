@@ -71,33 +71,42 @@ export default function Register() {
   return (
     <>
       <div className='flex w-full flex-col gap-2'>
-        <table className='table-auto'>
+        <table className='table-auto w-full border border-gray-300'>
           <thead>
-            <tr className='text-left text-[#1A214C]'>
-              <th>Orders</th>
-              <th>Date</th>
-              <th>Status</th>
-              <th>Total</th>
-              <th>Actions</th>
-            </tr>
+          <tr className='bg-gray-100 text-left text-[#1A214C]'>
+            <th className='border border-gray-300 px-4 py-2'>Orders</th>
+            <th className='border border-gray-300 px-4 py-2'>Date</th>
+            <th className='border border-gray-300 px-4 py-2'>Status</th>
+            <th className='border border-gray-300 px-4 py-2'>Total</th>
+            <th className='border border-gray-300 px-4 py-2'>Actions</th>
+          </tr>
           </thead>
           <tbody className='text-[#1A214C]'>
-            {transactions.map((item) => (
-              <tr key={item.id}>
-                <td>#{item.id}</td>
-                <td>{moment(item.createdAt).format('MMMM DD, YYYY')}</td>
-                <td>Completed</td>
-                <td>
-                  {item.checkoutId === 'coin'
-                    ? `${item.price} coin`
-                    : `$${item.price / 100}`}{' '}
-                  for 1 item
-                </td>
-                <td><div className='hover:underline cursor-pointer' onClick={() => downloadInvoice(item.checkoutId)}>Invoice</div></td>
-              </tr>
-            ))}
+          {transactions.map((item) => (
+            <tr key={item.id} className='hover:bg-gray-50'>
+              <td className='border border-gray-300 px-4 py-2'>#{item.id}</td>
+              <td className='border border-gray-300 px-4 py-2'>
+                {moment(item.createdAt).format('MMMM DD, YYYY')}
+              </td>
+              <td className='border border-gray-300 px-4 py-2'>Completed</td>
+              <td className='border border-gray-300 px-4 py-2'>
+                {item.checkoutId === 'coin'
+                  ? `${item.price} coin`
+                  : `$${item.price / 100}`} for 1 item
+              </td>
+              <td className='border border-gray-300 px-4 py-2'>
+                <div
+                  className='text-blue-600 hover:underline cursor-pointer'
+                  onClick={() => downloadInvoice(item.checkoutId)}
+                >
+                  Invoice
+                </div>
+              </td>
+            </tr>
+          ))}
           </tbody>
         </table>
+
         {meta?.hasNextPage && (
           <div className='mt-8 flex w-full justify-center'>
             <div onClick={() => { setParams(prev => ({ ...prev, page: prev.page + 1 })) }} className='flex items-center justify-center cursor-pointer text-center mt-10'>

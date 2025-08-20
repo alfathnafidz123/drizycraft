@@ -45,6 +45,7 @@ const ModalLogin: React.FC = () => {
       dispatch(setDataUser({ userData: user }));
       dispatch(setToken({ token }));
       dispatch(setOpenModal(false));
+      localStorage.setItem('user_token', token);
       toast(`Welcome ${user.username} !`);
     } catch (error: any) {
       toast('Login failed');
@@ -69,6 +70,7 @@ const ModalLogin: React.FC = () => {
         dispatch(setToken({ token }));
         toast(`Welcome ${user.username} !`);
       }
+      localStorage.setItem('user_token', token);
     } catch (error: any) {
       toast('Login failed');
       console.error('Login failed:', error);

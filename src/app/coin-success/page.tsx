@@ -34,7 +34,8 @@ export default function SubSuccess() {
           },
         }
       );
-      router.replace('/profile/subscription');
+      // router.replace('/profile/subscription');
+      window.location.href = '/profile/subscription';
     } catch (error: any) {
       toast('Payment failed, please reach out to the administrator');
     }

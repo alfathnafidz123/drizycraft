@@ -3,6 +3,19 @@ export interface TransactionResI {
   meta: Meta;
 }
 
+export interface SubsTransactionResI {
+  data: SubsTransactionI[];
+  meta: Meta;
+}
+
+export interface SubsTransactionI {
+  id: string;
+  name: string;
+  status: string;
+  price: number;
+  userId: string;
+}
+
 export interface TransactionI {
   id: number;
   checkoutId: string;

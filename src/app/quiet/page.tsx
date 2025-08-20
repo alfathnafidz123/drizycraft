@@ -54,6 +54,8 @@ import {
   rightMembership,
   vip,
 } from '~/images';
+import axios from 'axios';
+import { SubsTransactionResI } from '@/interfaces/transaction.interfaces';
 const CustomerSupportLottie = dynamic(
   () => import('../../components/lottie/customer-support'),
   { ssr: false }
@@ -157,26 +159,51 @@ export default function Membership() {
   // Handle subscription 
   const handleSubscribe = async (priceId: string, token: string, membership: string) => {
     try {
-      if (token) {
-        const data = await subscriptionPayment({
-          priceId: priceId as string,
-          token: token,
-          membership:membership,
-        });
-        await trackEvent(EventsEnum.InitCheckoutMembership, {
-          priceId: priceId as string,
-          membership,
-        });
-        window.location.replace(data.data);
-      } else {
+      if (!token) {
         dispatch(setOpenModal(true));
+        return;
       }
-    } catch (error: any) {
-      toast(
-        'Create Checkout Page failed, please reach out to the administrator'
+
+      // Cek transaksi dulu
+      const params = { page: 1, limit: 10 }
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-subs-transaction`,
+        { headers: { Authorization: `bearer ${token}` }, params }
       );
+
+      const transactionData = res.data as SubsTransactionResI;
+
+      // Cek apakah sudah pernah ambil Free Trial
+      const alreadyUsedTrial = transactionData.data.some(
+        (trx) =>
+          trx.name?.toLowerCase() === 'free trial' && trx.status === 'success'
+      );
+
+      if (alreadyUsedTrial && priceId == process.env.NEXT_PUBLIC_PRICE_TRIAL) {
+        toast.error('You have already used the Free Trial. Please choose another plan.');
+        return;
+      }
+
+      // Lanjut proses checkout
+      const data = await subscriptionPayment({
+        priceId: priceId as string,
+        token: token,
+        membership: membership,
+      });
+      localStorage.setItem('checkoutSession', JSON.stringify(data));
+
+      await trackEvent(EventsEnum.InitCheckoutMembership, {
+        priceId: priceId as string,
+        membership,
+      });
+
+      window.location.replace(data.data);
+
+    } catch (error: any) {
+      toast('Create Checkout Page failed, please reach out to the administrator');
     }
   };
+
 
   // Product Carousel Images 
   const productsMembership = [
@@ -330,15 +357,15 @@ export default function Membership() {
                             alt="Left Membership"
                             className="h-[160px] sm:h-[180px] md:h-[280px] lg:h-[592px] w-auto object-contain pointer-events-none"
                           />
-                        </div>
+            </div>
             
-                        <div className="absolute top-0 right-[-10px] lg:top-[-35px] lg:right-[-45px] z-20">
+            <div className="absolute top-0 right-[-10px] lg:top-[-35px] lg:right-[-45px] z-20">
                           <Image
                             src={rightMembership}
                             alt="Right Membership"
                             className="h-[160px] sm:h-[180px] md:h-[280px] lg:h-[592px] w-auto object-contain pointer-events-none"
                           />
-                        </div>
+            </div>
           <div className="z-20 max-w-4xl text-center pt-10 sm:pt-24 md:pt-32 lg:pt-0">
               <h1 className="font-katide-heavy text-[52px] md:text-[64px] lg:text-[106px] leading-tight text-[#4065D1]">
                 Hands Busy, <br></br> Feel Better.

@@ -44,7 +44,7 @@ import cat7 from './categories/7.png';
 import cat8 from './categories/8.png';
 import cat9 from './categories/9.png';
 import cat10 from './categories/10.png';
-import cat11 from './categories/11.jpg';
+import cat11 from './categories/11.png';
 import categories1 from './categories-1.webp';
 import categories2 from './categories-2.webp';
 import categories3 from './categories-3.webp';
@@ -235,8 +235,56 @@ import vectorDesign from './vector-design.png';
 import vip from './VIP+.png.png';
 import waCrafter from './waCrafter.svg';
 import wordBank from './wordBank.svg';
+export { default as Laser } from "./dump/laser.svg";
+export { default as Draw } from "./dump/draw.svg";
+export { default as Emoji } from "./dump/emoji.svg";
+export { default as Ellipsis } from "./dump/ellipsis.svg";
+export { default as Print } from "./dump/print.svg";
+export { default as Cut } from "./dump/cut.svg";
+export { default as Grab } from "./dump/grab.svg";
+export { default as Embroidery } from "./dump/embroidery.svg";
+import operationType from "./dump/operatio-type.svg";
+import materialUsed from "./dump/material-used.svg";
+import difficultyLevel from "./dump/difficulty.svg";
+import totalTime from "./dump/total-time.svg";
+import StripeLogo from "./footer/stripe.svg";
+import MasterCardLogo from "./footer/mastercard.svg";
+import VisaLogo from "./footer/visa.svg";
+import AmexLogo from "./footer/amex.svg";
+import DiscoverLogo from "./footer/discover.svg";
+import JcbLogo from "./footer/jcb.svg";
+import DinersClubLogo from "./footer/diners-club-seeklogo.svg";
+import YCSC from "./footer/ycsc.svg";
+import YCSCHover from "./footer/ycsc-hover.svg";
+import trashBtn from "./trash.png";
+import Comp1 from "./comp/comp1.png";
+import Comp2 from "./comp/comp2.png";
+import Comp3 from "./comp/comp3.png";
+import Comp4 from "./comp/comp4.png";
+import Comp5 from "./comp/comp5.png";
+import Comp6 from "./comp/comp6.png";
 
 export {
+  Comp1,
+  Comp2,
+  Comp3,
+  Comp4,
+  Comp5,
+  Comp6,
+  trashBtn,
+  YCSC,
+  YCSCHover,
+  StripeLogo,
+  MasterCardLogo,
+  VisaLogo,
+  AmexLogo,
+  DiscoverLogo,
+  JcbLogo,
+  DinersClubLogo,
+  operationType,
+  materialUsed,
+  difficultyLevel,
+  totalTime,
   aboutHeader,
   account,
   account2,

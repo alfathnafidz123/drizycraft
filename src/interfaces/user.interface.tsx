@@ -10,6 +10,7 @@ export interface UserI {
   updatedAt: string;
   coin: number | null;
   affiliateId: string | null;
+  avatar: string | null;
 }
 
 export interface UserPayloadI {

@@ -36,6 +36,7 @@ export default function Register() {
         }
       );
       setSubsData(res.data.data);
+      console.log(res.data.data);
     } catch (error) {
       const err = error as AxiosError;
       toast.error((err.response?.data as any).message ?? "Unknown error");
@@ -50,6 +51,8 @@ export default function Register() {
           Authorization: `Bearer ${token}`,
         },
       });
+      toast.success("Subscription cancelled successfully");
+      window.location.reload();
     } catch (error) {
       const err = error as AxiosError;
       toast.error((err.response?.data as any).message ?? "Unknown error");
@@ -88,6 +91,8 @@ export default function Register() {
     return '-';
   };
 
+  console.log(subsData);
+
   return (
     <>
       <div className='flex w-full flex-col gap-2'>
@@ -102,7 +107,7 @@ export default function Register() {
                   Status Subscription
                 </td>
                 <td className='whitespace-nowrap border border-[#AAAAAA] px-6 py-4 text-[#AAAAAA]'>
-                  {subsData ? "Active" : "-"}
+                  {subsData && subsData?.product != "" ? "Active" : "-"}
                 </td>
               </tr>
               <tr className='bg-white'>
@@ -149,16 +154,25 @@ export default function Register() {
           </table>
         </div>
         <div className='mt-8 flex lg:flex-row flex-col-reverse w-full justify-between items-center gap-3'>
-          {subsData &&
+          {subsData && subsData?.product !== "" &&
             <button onClick={cancelSubscription} className='rounded-full bg-[#008ECC] px-14 py-3 font-semibold text-[#e4f6fb] whitespace-nowrap'>
               {loading ? <Loader /> :
                 "Cancel subscription"
               }
             </button>
           }
-          {subsData && subsData?.coin !== -1 &&
+          {/*{subsData && subsData?.coin !== -1 &&*/}
             <div className='w-full flex justify-center lg:justify-end'>
-              <button className="button-coin" onClick={() => { setShowRecharge(true) }}>
+              <button
+                className="button-coin"
+                onClick={() => {
+                  if (subsData?.coin === -1) {
+                    toast.error("You have unlimited coin");
+                    return;
+                  } else {
+                    setShowRecharge(true);
+                  }
+                }}>
                 <svg xmlns="http://www.w3.org/2000/svg">
                   <rect className="border-coin" pathLength="100"></rect>
                   <rect className="loading-coin" pathLength="100"></rect>
@@ -180,10 +194,10 @@ export default function Register() {
                     ></path>
                   </svg>
                 </svg>
-                <div className="txt-upload bg-[#FFBB3C] hover:bg-[#ED9B37] rounded-2xl">Recharge Coin</div>
+                <div className="txt-upload bg-[#FFBB3C] hover:bg-[#ED9B37] rounded-2xl">Top Up Coin</div>
               </button>
             </div>
-          }
+          {/*}*/}
         </div>
       </div>
       <ModalRechargeCoin isOpen={showRecharge} onClose={() => { setShowRecharge(false) }} />

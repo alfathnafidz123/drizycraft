@@ -12,7 +12,7 @@ import { Copy, Loader } from 'lucide-react';
 import moment from 'moment';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { fetchCoin, fetchProfile, setOpenModal } from '@/lib/slices/user';
@@ -38,7 +38,8 @@ import {
   productI,
   ReviewI,
 } from '@/interfaces/product.interface';
-import { cartProduct } from '~/images';
+import { AmexLogo, cartProduct, Comp1, Comp2, Comp3, Comp4, Comp5, Comp6, MasterCardLogo, VisaLogo } from '~/images';
+import { fetchCart } from '@/lib/slices/cart';
 
 export interface StarSummary {
   average: number
@@ -57,6 +58,10 @@ export default function Register() {
     ...state.user,
     ...state.subs,
   }));
+  const activeSubcriptionState = useAppSelector(state => state.subs);
+  const activeSubcription2 = useMemo(() => {
+    return activeSubcriptionState;
+  }, [activeSubcriptionState]);
   const params = useParams();
   const [type, setType] = useState(0);
   const [productData, setProductData] = useState<MetaProductI>();
@@ -115,11 +120,11 @@ export default function Register() {
 
       localStorage.setItem("childSubCategory", JSON.stringify(childSubCategory));
 
-      // const lastSubCategory = childSubCategory[childSubCategory.length - 1] || null;
+      const lastSubCategory = childSubCategory[childSubCategory.length - 1] || null;
 
-      // console.log("🟢 Last Handpicked Subcategory:", lastSubCategory);
+      console.log("🟢 Last Handpicked Subcategory:", lastSubCategory);
 
-      // localStorage.setItem("lastSubCategory", JSON.stringify(lastSubCategory));
+      localStorage.setItem("lastSubCategory", JSON.stringify(lastSubCategory));
 
       // ✅ Jalankan getProductSlider setelah lastSubCategory disimpan
       await getProductSlider();
@@ -238,7 +243,7 @@ export default function Register() {
 
   const handleBuy = async () => {
     if (token) {
-      if (activeSubcription && dataUser?.coin && (dataUser?.coin !== 0))
+      if (activeSubcription2.subcription !== undefined)
         handleBuyPoint();
       else
         // handleCart();
@@ -369,11 +374,17 @@ export default function Register() {
       if (refCode) {
         payload.refCode = refCode;
       }
-      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/cart`, payload, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      await trackEvent(EventsEnum.AddToCart, { productId: productData?.productId, productName: productData?.realTitle });
-      router.push('/cart');
+      if (token) {
+        await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/cart`, payload, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        await trackEvent(EventsEnum.AddToCart, { productId: productData?.productId, productName: productData?.realTitle });
+        // router.push('/cart');
+        toast('Item added to cart!');
+        dispatch(fetchCart(token!));
+      } else {
+        dispatch(setOpenModal(true));
+      }
     } catch (error: any) {
       toast(
         'Create Checkout Page failed, please reach out to the administrator'
@@ -496,14 +507,14 @@ export default function Register() {
           refreshReview={getReview}
           productId={productData.product.id}
         />
-        <section className='mx-auto flex w-full max-w-[1164px] flex-col gap-12 max-md:p-2 lg:py-16'>
+        <section className='mx-auto flex w-full max-w-[1164px] flex-col gap-12 max-md:p-2 lg:pt-16 lg:pb-8'>
           <p className='text-xs text-[#B8B8B8]'>
             Drizy Studio » Crafters » Craft Design SVGs » Paper Cut Templates »{' '}
             {productData.product.name}
           </p>
-          <div className='grid gap-8 lg:grid-cols-5'>
-            <div className='flex flex-col gap-4 lg:col-span-3'>
-              <div className='grid grid-cols-1 gap-8 lg:grid-cols-5'>
+          <div className='grid gap-4 lg:grid-cols-8'>
+            <div className='flex flex-col gap-4 lg:col-span-5'>
+              <div className='grid grid-cols-1 lg:grid-cols-8'>
                 <div className='max-w-full max-md:overflow-scroll lg:order-first order-last'>
                   <div className='flex flex-row  w-full lg:flex-col'>
                     {productData?.product.imageUrl?.map((url, index) => (
@@ -528,7 +539,7 @@ export default function Register() {
                   </div>
                 </div>
                 {productData && (
-                  <div className='w-full relative order-first lg:col-span-4'>
+                  <div className='w-full relative order-first lg:col-span-7'>
                     <NextImage
                       src={productData?.product.imageUrl[selectedImage]}
                       alt='Product'
@@ -561,7 +572,7 @@ export default function Register() {
                 )}
               </div>
 
-              <div className='mt-8 grid grid-cols-2 grid-rows-2 gap-4 text-[14px]'>
+              <div className='mt-4 grid grid-cols-2 grid-rows-2 gap-4 text-[14px]'>
                 <div>
                   <p className='text-xs font-semibold text-[#777777] lg:text-sm'>
                     File Type
@@ -596,7 +607,7 @@ export default function Register() {
                 </div>
               </div>
             </div>
-            <div className='flex flex-col items-start gap-16 lg:col-span-2 lg:pl-6'>
+            <div className='flex flex-col items-start gap-10 lg:col-span-3 lg:pl-6'>
               <p className='text-2xl font-semibold text-[#1A214C]'>
                 {productData.product.name}
               </p>
@@ -660,25 +671,6 @@ export default function Register() {
                   <div />
                 } */}
                 <div className='flex w-full justify-between gap-2'>
-                  {dataUser?.affiliate && shortUrl === undefined && (
-                    <button
-                      onClick={() => {
-                        handleGetAffiliateLink();
-                      }}
-                      className='flex w-full items-center justify-center rounded-[8px] border border-[#1A214C] bg-white px-10 py-2 font-semibold text-[#1A214C]'
-                    >
-                      {loadingAffiliate ? <Loader /> : 'Get Affiliate Link'}
-                    </button>
-                  )}
-                  {shortUrl && (
-                    <button
-                      onClick={handleCopyUrl}
-                      className='flex w-full flex-row justify-between rounded-[8px] border border-[#1A214C] bg-white p-2 px-4 font-semibold text-[#1A214C]'
-                    >
-                      <div>{shortUrl}</div>
-                      <Copy />
-                    </button>
-                  )}
                   {ownerStatus ?
                     <button
                       onClick={handleClickDownload}
@@ -703,7 +695,7 @@ export default function Register() {
                         ? loadingDownload
                           ? <div className='flex w-full items-center justify-center'><Loader className='animate-spin' /></div>
                           : 'Buy with coin'
-                        : 'Add to cart'}
+                        : 'Buy with coin'}
                     </button>
                   }
                   <button
@@ -719,8 +711,96 @@ export default function Register() {
                     />
                   </button>
                 </div>
+                {dataUser?.affiliate && shortUrl === undefined && (
+                  <button
+                    onClick={() => {
+                      handleGetAffiliateLink();
+                    }}
+                    className='flex w-full items-center justify-center rounded-[8px] border border-[#1A214C] bg-white px-10 py-2 font-semibold text-[#1A214C]'
+                  >
+                    {loadingAffiliate ? <Loader /> : 'Get Affiliate Link'}
+                  </button>
+                )}
+                {shortUrl && (
+                  <button
+                    onClick={handleCopyUrl}
+                    className='flex w-full flex-row justify-between rounded-[8px] border border-[#1A214C] bg-white p-2 px-4 font-semibold text-[#1A214C]'
+                  >
+                    <div>{shortUrl}</div>
+                    <Copy />
+                  </button>
+                )}
 
-                <div className='my-4 w-full border-t-2 border-[#1A214C]/15' />
+                <div className='mt-4 w-full border-t-2 border-[#1A214C]/15' />
+                {activeSubcription ? (
+                  <div className="bg-[#E4F6FB] w-full rounded-xl relative overflow-hidden px-6">
+                    <div className="items-center my-6">
+                      <p className="font-katide-extrabold text-lg text-center text-[#61657D] mb-4" style={{ letterSpacing: '0.2em' }}>
+                        COMPATIBILITY
+                      </p>
+                      <div className="flex w-full gap-2 mt-5 h-20 items-center justify-center">
+                        <div className="h-[66px]">
+                          <img
+                            alt="stripe"
+                            src={Comp1.src}
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
+                        <div className="h-[70px]">
+                          <img
+                            alt="stripe"
+                            src={Comp2.src}
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
+                        <div className="flex-1  flex">
+                          <img
+                            alt="stripe"
+                            src={Comp3.src}
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
+                        <div className="h-[66px]">
+                          <img
+                            alt="stripe"
+                            src={Comp4.src}
+                            className="max-w-20 h-full object-contain"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex w-full mt-5 gap-3 items-center justify-center">
+                        <div className="flex-1 justify-center items-center">
+                          <NextImage alt="stripe" src={Comp5} width={100} height={25} className="w-full h-auto items-center justify-center flex" classNames={{ image: `w-full` }} />
+                        </div>
+                        <div className="flex-1">
+                          <NextImage alt="stripe" src={Comp6} width={100} height={25} className="w-full h-auto items-center justify-center flex" classNames={{ image: `w-full` }} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-[#E4F6FB] w-full rounded-xl relative overflow-hidden px-6">
+                    <div className="items-center my-6">
+                      <p className="font-katide-extrabold text-lg text-center text-[#1A214C] mb-4">
+                        Pay ONCE, Create FOREVER!
+                      </p>
+                      <p className="text-[#61657D] text-sm leading-relaxed text-center mb-6 px-4">
+                        Get <span className="font-semibold">unlimited designs</span> for a year!
+                        <br />
+                        Upgrade to <span className="font-semibold">VIP+</span> and unlock ALL assets,
+                        <br />
+                        request custom designs, and sell your creations <span className="font-semibold">license-free!</span>
+                      </p>
+                      <a href="/membership">
+                        <button className="bg-[#ffb31f] hover:bg-[#f5a900] text-[#1A214C] font-semibold text-sm px-6 py-3 rounded-lg w-full">
+                          Subscribe & Download
+                        </button>
+                      </a>
+                    </div>
+                  </div>
+                )}
+
+
                 {/* <p className='text-lg font-semibold text-[#777777]'>
                   License Terms
                 </p> */}

@@ -70,9 +70,7 @@ export default function Register() {
   const handleRegister = async () => {
     try {
       const response = await axios.post(
-        // `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/user/register`,
-        `http://localhost:3001/user/register`,
-
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/user/register`,
         {
           email,
           username: firstName,
@@ -83,12 +81,10 @@ export default function Register() {
       setLastName('');
       setEmail('');
       setDisplayName('');
-      // toast('Please check your email to set the password!');
-      const { token, email: returnedEmail } = response.data;
-
-      localStorage.setItem('resetEmail', returnedEmail);
-
-      router.push(`/create-password?token=${token}`);
+      toast('Please check your email to verify your account');
+      // const { token, email: returnedEmail } = response.data;
+      // localStorage.setItem('resetEmail', returnedEmail);
+      // router.push(`/create-password?token=${token}`);
     } catch (error) {
       toast('Email already registered');
     }

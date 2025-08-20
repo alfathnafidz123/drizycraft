@@ -80,32 +80,6 @@ export default async function HomePage() {
   const seasonalData = await getSeasonData();
   // const { data: productData } = await getProducts();
 
-  
-  // console.log(homeProduct.crafterData.filter(item => !item.meta?.[0].image));
-
-  // const getSeasonalHome = async () => {
-  //   try {
-  //     const response = await getSeason();
-  //     setSeasonalData(response.data);
-  //   } catch (error) {
-  //     toast('Error when trying to get category');
-  //   }
-  // };
-
-  // const getHomepageData = async () => {
-  //   try {
-  //     const response = await getHomepage();
-  //     setHomeProduct(response.data);
-  //   } catch (error) {
-  //     toast('Error when trying to get all products');
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getSeasonalHome();
-  //   getHomepageData();
-  // }, []);
-
   const categoryStatic = [
     { name: 'Drizy Atelier ', link: '', image: cat11.src },
     { name: 'Shadow Box SVG', link: '3D Shadow Box SVGs', image: cat2.src },
@@ -118,11 +92,13 @@ export default async function HomePage() {
     { name: 'T-Shirt Designs', link: 'T-Shirt Designs', image: cat9.src },
     { name: 'Papercut Template', link: 'Paper Cut Templates', image: cat10.src },
   ]
-  
 
   return (
     <main>
       {/* <BreezyBanner /> */}
+      <h1 className="hidden font-katide-heavy text-[40px] leading-[120%] text-indigo-950 lg:text-[64px] mt-5 mb-6">
+        Premium Craft SVG Cut Files for Cricut and Silhouette
+      </h1>
       <JumbotronSection homeProduct={homeProduct} />
       {/* <ProjectSection homeProduct={homeProduct} /> */}
       <RecentSection product={[]}/>
