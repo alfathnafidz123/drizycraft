@@ -63,8 +63,8 @@ export default function Membership() {
       discount: undefined,
       extra: undefined,
       additional: undefined,
-      text: "<br/> Get started with Drizy VIP+ Annual Access with a 7 DAYS of free trial. Download premium products for 7 DAYS. <br/> <br/> You’ll be billed $35.88/year on the 8th day. You can cancel anytime before the trial ends.",
-      coin: undefined,
+      text: "<p><br/> Get started with <strong>Drizy VIP+ Annual Access</strong> with a 7 DAYS of free trial. Download premium products for 7 DAYS. <br/> <br/> You'll be billed <strong>$74.99/year on the 7th day</strong>. You can cancel anytime before the trial ends.</p>",
+      coin: <p className='text-sm'>Free up to 10 designs</p>,
       features: [
         { title: 'Daily SVG Updates', desc: 'always something new to explore' },
         { title: 'Breezy Mode', desc: 'seamless creations with drag & drop' },
@@ -79,13 +79,13 @@ export default function Membership() {
       priceId: process.env.NEXT_PUBLIC_PRICE_TRIAL,
     },
     {
-      duration: 'MONTHLY ACCESS',
+      duration: 'BASIC 1 MONTH',
       buttonText: 'UNLOCK NOW !',
-      price: '$3.99/mo',
-      discount: '$9.99',
+      price: '$24.99/mo',
+      discount: '$30',
       extra: undefined,
       additional: 'First Month Only',
-      text: "Get unlimited access to all premium assets. Unleash boundless crafting joy, as effortless as drag-and-drop onto your beloved cutting, laser & sublimation machines. Commercial and POD license included. <br /><br />Billed $4.99/month after First Month Promo Ends. Cancel anytime.",
+      text: "<p><br />Get unlimited access to <strong>all premium assets.</strong> Unleash boundless crafting joy, as effortless as drag-and-drop onto your beloved cutting, laser & sublimation machines. Commercial and POD license included. Cancel anytime <br /><br /></p>",
       coin: <p className='text-sm'>
         <span className='font-katide-semibold'>50 Drizy Coins</span> to all premium products
       </p>,
@@ -105,11 +105,11 @@ export default function Membership() {
     {
       duration: 'ANNUAL ACCESS',
       buttonText: 'GET YEARLY !',
-      price: '$2.99/mo',
-      discount: '$199.88',
-      extra: '($35.88/year)',
+      price: '$6.25/mo',
+      discount: '$299.88',
+      extra: '($74.99/year)',
       additional: undefined,
-      text: "<br/> Crafting your Way! Unlock a year of premium features at the lowest price. Save more. <br/><br/>Billed $35.88/year after First Month Promo Ends. Cancel anytime. <br/><br/>",
+      text: "<p><br/> Crafting your Way! Unlock a year of <strong>premium features</strong> at the lowest price. Save more. <br/><br/>You're billed $74.99 per year, saving you 75% compared to the monthly plan! Cancel anytime. <br/></p>",
       coin: <p className='text-sm'>
         <span className='font-katide-semibold'>Unlimited Drizy Coins</span> for
         Diverse Crafting Options
@@ -167,7 +167,7 @@ export default function Membership() {
           trx.name?.toLowerCase() === 'free trial' && trx.status === 'success'
       );
 
-      if (alreadyUsedTrial && priceId == process.env.NEXT_PUBLIC_PRICE_TRIAL) {
+      if (alreadyUsedTrial && membership?.toLowerCase().includes("7")) {
         toast.error('You have already used the Free Trial. Please choose another plan.');
         return;
       }
@@ -311,8 +311,7 @@ export default function Membership() {
                 className="h-[160px] sm:h-[180px] md:h-[200px] lg:h-[450px] w-auto object-contain pointer-events-none"
               />
             </div>
-
-            <div className="absolute top-0 right-0 z-20">
+            <div className="absolute top-0 lg:-right-8 -right-4 z-20">
               <Image
                 src={rightMembership}
                 alt="Right Membership"
@@ -322,8 +321,7 @@ export default function Membership() {
           <div className="z-0 max-w-4xl text-center pt-10 sm:pt-24 md:pt-32 lg:pt-0">
               <h1 className="font-katide-heavy text-[32px] md:text-[44px] lg:text-[56px] leading-tight text-[#4065D1]">
                 Sign up and get <br className="block lg:hidden" />
-                <span className="text-[#EE4C73]">unlimited</span> access<br className="block lg:hidden" />
-                to our <span className="text-[#4065D1]">SVG</span>.
+                <span className="text-[#EE4C73]">unlimited</span> access<br className="block lg:hidden" /> to our <span className="text-[#4065D1]">SVG</span>.
               </h1>
 
               <p className="mt-6 font-katide-regular text-[12px] sm:text-[16px] leading-relaxed text-[#1A214C] text-center">
@@ -352,12 +350,18 @@ export default function Membership() {
                   {subscriptionPlans.map((plan, index) => (
                     <div
                       key={index}
-                      className="rounded-2xl bg-white shadow-2xl shadow-[#00000033] max-md:min-h-[400px] max-md:w-[280px] lg:!min-h-[1020px] lg:w-1/4 relative group border-2 border-white hover:border-[#EE4C73] transition-all max-sm:p-2 max-sm:shadow-2xl"
+                      className={`rounded-2xl shadow-2xl shadow-[#00000033] max-md:min-h-[400px] max-md:w-[280px] lg:!min-h-[1020px] lg:w-1/4 relative group border-white hover:border-[#EE4C73] transition-all max-sm:p-2 max-sm:shadow-2xl ${
+                        plan.duration === "ANNUAL ACCESS"
+                          ? "bg-[#C2E5FF] mt-14 lg:mt-0"
+                          : plan.duration === "BASIC 1 MONTH"
+                            ? "bg-[#E4F6FB]"
+                            : "bg-white"
+                      }`}
                     >
 
                       {/* Header Style Color */}
                       {plan.duration === "ANNUAL ACCESS" && (
-                        <div className='bg-[#EE4C73] w-full h-36 absolute top-0 left-0 rounded-2xl' />
+                        <div className='bg-[#61A9FA] w-full h-36 absolute top-0 left-0 rounded-t-2xl' />
                       )}
                       {plan.duration === "0" && (
                         <div className='bg-[#61A9FA] w-full h-36 absolute top-0 left-0 rounded-2xl' />
@@ -365,7 +369,10 @@ export default function Membership() {
 
                       {/* Best Value Badge */}
                       {plan.duration === "ANNUAL ACCESS" && (
-                        <img src={bestValue.src} alt='best value' className='absolute -top-10 -right-10 z-20' loading='lazy' />
+                        <div className='bg-[#FFBB3C] w-full h-36 absolute -top-14 left-0 rounded-2xl -z-10 text-center pt-2 flex flex-col'>
+                          <span className='font-katide-bold text-[#61657D] tracking-widest h-5'>LIMITED TIME !</span>
+                          <span className='font-katide-heavy text-lg text-[#1A214C]'>SAVE 75%</span>
+                        </div>
                       )}
 
                       {/* <div className={`flex flex-col rounded-2xl p-2 lg:p-6 z-10 w-full ${plan.duration === "ANNUAL ACCESS" ? "absolute bg-transparent" : ""}`}> */}
@@ -376,18 +383,11 @@ export default function Membership() {
                           </p>
 
                           {plan.price === 'Free Trial' ? (
-                            <div className='rounded-xl bg-[#EBECF5] w-full h-full flex justify-center items-center'>
+                            <div className='rounded-xl w-full h-2/4 flex justify-center items-center'>
                               <div className='flex flex-col items-center gap-3 text-center'>
                                 <div className='font-katide-heavy text-[40px] text-[#1A214C]'>
                                   {plan.price}
                                 </div>
-                                <Image
-                                  src={drizzyCoin.src}
-                                  alt='coin'
-                                  width={40}
-                                  height={40}
-                                  className='h-16 w-16 mt-4'
-                                />
                               </div>
                             </div>
                           ) : (
@@ -412,18 +412,13 @@ export default function Membership() {
                             </div>
                           )}
 
-                          {/* Additional Text */}
-                          {plan.price?.trim() === '$3.99/mo' && (
-                            <div className="relative h-6 overflow-visible">
-                              <div className="absolute left-1/2 -translate-x-1/2 -top-1 font-katide text-gray-400 text-[12px] opacity-70 whitespace-nowrap">
-                                First Month Only
-                              </div>
-                            </div>
-                          )}
-
                           {/* Coin Info */}
-                          {plan.price !== 'Free Trial' && (
-                            <div className='absolute bottom-0 left-1/2 -translate-x-1/2 flex w-[101%] items-center gap-3 rounded-2xl bg-[#C2E5FF] p-4 h-14'>
+
+                          <div
+                            className={`absolute bottom-0 left-1/2 -translate-x-1/2 flex w-[101%] items-center gap-3 rounded-2xl p-4 h-14 ${
+                              plan.duration === "ANNUAL ACCESS" ? "bg-[#61A9FA]" : "bg-[#C2E5FF]"
+                            }`}
+                          >
                               <Image
                                 src={drizzyCoin.src}
                                 alt='coin'
@@ -433,7 +428,6 @@ export default function Membership() {
                               />
                               {plan.coin}
                             </div>
-                          )}
                         </div>
 
                         {/* Plan Description */}

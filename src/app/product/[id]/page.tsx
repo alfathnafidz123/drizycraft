@@ -38,8 +38,26 @@ import {
   productI,
   ReviewI,
 } from '@/interfaces/product.interface';
-import { AmexLogo, cartProduct, Comp1, Comp2, Comp3, Comp4, Comp5, Comp6, MasterCardLogo, VisaLogo } from '~/images';
+import {
+  AmexLogo,
+  cartProduct, CheckNonLoginAds,
+  Comp1,
+  Comp2,
+  Comp3,
+  Comp4,
+  Comp5,
+  Comp6,
+  MasterCardLogo,
+  orders,
+  VisaLogo
+} from '~/images';
 import { fetchCart } from '@/lib/slices/cart';
+import { TransactionResI } from '@/interfaces/transaction.interfaces';
+import Image from 'next/image';
+import FreeTrialModal from '@/components/modals/free-trial';
+import TrialDownloadSuccess from '@/components/modals/trial-download-success';
+import TrialExpired from '@/components/modals/trial-expired';
+import { fetchDownloadRemaining } from '@/lib/slices/download';
 
 export interface StarSummary {
   average: number
@@ -74,6 +92,7 @@ export default function Register() {
   const [isDiscount, setIsDiscount] = useState(false);
   const searchParams = useSearchParams();
   const [limit, setLimit] = useState(5);
+  const [orders, setOrders] = useState<OrderI[]>([]);
   const [subsData, setSubsData] = useState<SubscriptionI>();
   const refCode = searchParams.get('ref');
   const [loadingDownload, setLoadingDownload] = useState(false);
@@ -88,6 +107,11 @@ export default function Register() {
   const [selectedShortByOption, setSelectedShortByOption] = useState<SortType>(
       SortType.Latest
     );
+  const [showTrialModal, setShowTrialModal] = useState(false);
+  const [modalProductName, setModalProductName] = useState('');
+  const [showTrialSuccessModal, setShowTrialSuccessModal] = useState(false);
+  const downloadRemaining = useAppSelector(state => state.download.remaining);
+  const [showTrialExpiredModal, setShowTrialExpiredModal] = useState(false);
 
   const getProduct = async () => {
     try {
@@ -95,7 +119,7 @@ export default function Register() {
       const product = response.data;
 
       setProductData(product);
-      console.log('respon', response);
+      // console.log('respon', response);
 
       // Ambil data recentProducts dari localStorage
       const stored = localStorage.getItem("recentProducts");
@@ -116,13 +140,13 @@ export default function Register() {
       // Map childSubCategory
       const childSubCategory = product.product.chilSubCategories;
 
-      console.log("🟢 Handpicked Subcategories:", childSubCategory);
+      // console.log("🟢 Handpicked Subcategories:", childSubCategory);
 
       localStorage.setItem("childSubCategory", JSON.stringify(childSubCategory));
 
       const lastSubCategory = childSubCategory[childSubCategory.length - 1] || null;
 
-      console.log("🟢 Last Handpicked Subcategory:", lastSubCategory);
+      // console.log("🟢 Last Handpicked Subcategory:", lastSubCategory);
 
       localStorage.setItem("lastSubCategory", JSON.stringify(lastSubCategory));
 
@@ -133,7 +157,6 @@ export default function Register() {
       toast('Error when trying to get all products');
     }
   };
-
   const getOwnerStatus = async () => {
     try {
       if (token) {
@@ -243,11 +266,21 @@ export default function Register() {
 
   const handleBuy = async () => {
     if (token) {
-      if (activeSubcription2.subcription !== undefined)
+      if (subsData?.status === "trialing" && orders.length >= 10) {
+        toast.error("You reached the maximum download limit during the free trial period. Please upgrade your subscription to continue downloading.");
+        setShowTrialExpiredModal(true);
+      }else if (subsData?.status === "trialing" && orders.length === 9) {
         handleBuyPoint();
-      else
-        // handleCart();
-        toast.error("You don't have enough coin to download this product, please top up your coin first!");
+        setTimeout(() => {
+          setShowTrialExpiredModal(true);
+        }, 4000);
+      } else {
+        if (activeSubcription2.subcription !== undefined)
+          handleBuyPoint();
+        else
+          // handleCart();
+          toast.error("You don't have enough coin to download this product, please top up your coin first!");
+      }
     } else {
       dispatch(setOpenModal(true));
     }
@@ -268,11 +301,21 @@ export default function Register() {
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      dispatch(fetchProfile(token!));
-      dispatch(fetchCoin(token!));
+      await Promise.all([
+        dispatch(fetchProfile(token!)),
+        dispatch(fetchCoin(token!)),
+        dispatch(fetchDownloadRemaining(token!)),
+        getTransactionData(),
+        getOwnerStatus()
+      ]);
       await trackEvent(EventsEnum.Purchase, { productId: productData?.productId, productName: productData?.realTitle, productPrice: productData?.product.coinPrice[type], paymentType: 'coin' });
-      await getTransactionData();
-      toast.success(`Successfully buy ${productData?.product?.name}!`);
+
+      if (subsData?.status === "trialing") {
+        setShowTrialSuccessModal(true);
+        toast.success(`Successfully buy ${productData?.product?.name}!`);
+      } else {
+        toast.success(`Successfully buy ${productData?.product?.name}!`);
+      }
     } catch (error: any) {
       toast(
         'Create Checkout Page failed, please reach out to the administrator'
@@ -297,6 +340,25 @@ export default function Register() {
     } catch (error) {
       const err = error as AxiosError;
       toast.error(err.message);
+    }
+  };
+
+  const getTransactionData2 = async () => {
+    if (token) {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-transaction?page=1&limit=12`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setOrders(res.data.data);
+      } catch (error) {
+        const err = error as AxiosError;
+        toast.error(err.message);
+      }
     }
   };
 
@@ -447,6 +509,7 @@ export default function Register() {
     getOwnerStatus();
     getProduct();
     // getProductSlider();
+    getTransactionData2()
     getReview();
   }, []);
 
@@ -497,7 +560,6 @@ export default function Register() {
     
   }, [params]);
 
-
   return productData ? (
     <>
       <main>
@@ -507,7 +569,7 @@ export default function Register() {
           refreshReview={getReview}
           productId={productData.product.id}
         />
-        <section className='mx-auto flex w-full max-w-[1164px] flex-col gap-12 max-md:p-2 lg:pt-16 lg:pb-8'>
+        <section className='mx-auto flex w-full max-w-[1164px] flex-col gap-12 max-md:p-2   lg:pt-16 lg:pb-8'>
           <p className='text-xs text-[#B8B8B8]'>
             Drizy Studio » Crafters » Craft Design SVGs » Paper Cut Templates »{' '}
             {productData.product.name}
@@ -618,8 +680,17 @@ export default function Register() {
                     ${productData.product.price[type]}
                   </p>
                 ) : null}
-                <p className='font-katide-bold text-[40px] text-[#1A214C]'>
-                  {generatePrice()}
+                <p className={`font-katide-bold text-[40px] ${
+                  ownerStatus
+                    ? 'text-[#1A214C]'
+                    : 'text-[#1A214C]'
+                }`}>
+                  {ownerStatus
+                    ? 'OWNED'
+                    : token
+                      ? `${generatePrice()}`
+                      : 'FREE'
+                  }
                 </p>
               </div>
               <div className='flex flex-col gap-4 p-2 lg:w-5/6 lg:p-0'>
@@ -671,45 +742,71 @@ export default function Register() {
                   <div />
                 } */}
                 <div className='flex w-full justify-between gap-2'>
-                  {ownerStatus ?
+                  {ownerStatus ? (
                     <button
                       onClick={handleClickDownload}
                       disabled={loadingDownload}
                       className='w-full rounded-[8px] bg-[#1A214C] px-10 py-2 font-semibold text-[#e4f6fb] disabled:bg-[#1A214C]/80'
                     >
-                      {loadingDownload
-                        ? <div className='flex w-full items-center justify-center'><Loader className='animate-spin' /></div>
-                        :
+                      {loadingDownload ? (
+                        <div className='flex w-full items-center justify-center'>
+                          <Loader className='animate-spin' />
+                        </div>
+                      ) : (
                         "Download"
-                      }
+                      )}
                     </button>
-                    :
+                  ) : (
                     <button
                       onClick={() => {
-                        handleBuy();
+                        // Cek jika user dalam trial dan sudah mencapai limit download
+                        if (subsData?.status === "trialing" && orders.length >= 10) {
+                          window.location.href = "/select-plan";
+                          return;
+                        }
+
+                        if (!token) {
+                          setModalProductName(productData.product.name);
+                          setShowTrialModal(true);
+                        } else {
+                          handleBuy();
+                        }
                       }}
                       disabled={loadingDownload}
-                      className='w-full rounded-[8px] bg-[#1A214C] px-10 py-2 font-semibold text-[#e4f6fb] disabled:bg-[#1A214C]/80'
+                      className={`w-full rounded-[8px] px-10 py-2 font-semibold ${
+                        subsData?.status === "trialing" && orders.length >= 10
+                          ? 'bg-[#FFBB3C] text-black hover:bg-yellow-500'
+                          : !token
+                            ? 'bg-[#FFBB3C] text-black hover:bg-yellow-500'
+                            : 'bg-[#1A214C] text-[#e4f6fb] disabled:bg-[#1A214C]/80'
+                      }`}
                     >
-                      {token
-                        ? loadingDownload
-                          ? <div className='flex w-full items-center justify-center'><Loader className='animate-spin' /></div>
-                          : 'Buy with coin'
-                        : 'Buy with coin'}
+                      {loadingDownload ? (
+                        <div className='flex w-full items-center justify-center'>
+                          <Loader className='animate-spin' />
+                        </div>
+                      ) : subsData?.status === "trialing" && orders.length >= 10 ? (
+                        'UNLOCK DOWNLOAD'
+                      ) : !token ? (
+                        'DOWNLOAD FOR FREE'
+                      ) : (
+                        'Buy with coin'
+                      )}
                     </button>
-                  }
-                  <button
-                    // id={`add-${data.id}-cart`}
-                    type='button'
-                    onClick={handleCart}
-                    className='flex h-[37px] items-center justify-center gap-[8px] rounded-[8px] border-2 border-gray-400 bg-white p-[12px] sm:pl-[24px] sm:pr-[24px]'
-                  >
-                    <img
-                      src={cartProduct.src}
-                      alt='cart'
-                      className='h-4 w-4 sm:h-5 sm:w-5' // kecil di mobile, normal di layar besar
-                    />
-                  </button>
+                  )}
+                  {token && !(subsData?.status === "trialing" && orders.length >= 10) && !ownerStatus && (
+                    <button
+                      type='button'
+                      onClick={handleCart}
+                      className='flex h-[37px] items-center justify-center gap-[8px] rounded-[8px] border-2 border-gray-400 bg-white p-[12px] sm:pl-[24px] sm:pr-[24px]'
+                    >
+                      <img
+                        src={cartProduct.src}
+                        alt='cart'
+                        className='h-4 w-4 sm:h-5 sm:w-7'
+                      />
+                    </button>
+                  )}
                 </div>
                 {dataUser?.affiliate && shortUrl === undefined && (
                   <button
@@ -732,7 +829,34 @@ export default function Register() {
                 )}
 
                 <div className='mt-4 w-full border-t-2 border-[#1A214C]/15' />
-                {activeSubcription ? (
+                {!token ? (
+                  // Card jika user belum login / token kosong
+                  <div className="bg-[#E4F6FB] w-full rounded-xl relative overflow-hidden px-6">
+                    <div className="items-center my-6">
+                      <p className="font-katide-extrabold text-lg text-center text-[#1A214C] mb-4">
+                        Unlock Unlimited Craft Designs:
+                      </p>
+                      <ul className="text-[#61657D] text-sm font-katide-regular leading-relaxed mb-6 px-2 space-y-3">
+                        <li className="flex items-start gap-2">
+                          <Image src={CheckNonLoginAds} alt="check"/> Breezy – Drag & Drop.
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <Image src={CheckNonLoginAds} alt="check"/> Unlimited access to all craft designs.
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <Image src={CheckNonLoginAds} alt="check"/> Submit custom requests and get your own designs made.
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <Image src={CheckNonLoginAds} alt="check"/> Fresh new designs daily from atelier.
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <Image src={CheckNonLoginAds} alt="check"/> Includes full commercial & corporate license (POD friendly).
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                ) : activeSubcription ? (
+                  // Card jika sudah berlangganan
                   <div className="bg-[#E4F6FB] w-full rounded-xl relative overflow-hidden px-6">
                     <div className="items-center my-6">
                       <p className="font-katide-extrabold text-lg text-center text-[#61657D] mb-4" style={{ letterSpacing: '0.2em' }}>
@@ -779,6 +903,7 @@ export default function Register() {
                     </div>
                   </div>
                 ) : (
+                  // Card default jika punya token tapi belum subscribe
                   <div className="bg-[#E4F6FB] w-full rounded-xl relative overflow-hidden px-6">
                     <div className="items-center my-6">
                       <p className="font-katide-extrabold text-lg text-center text-[#1A214C] mb-4">
@@ -799,7 +924,6 @@ export default function Register() {
                     </div>
                   </div>
                 )}
-
 
                 {/* <p className='text-lg font-semibold text-[#777777]'>
                   License Terms
@@ -1054,6 +1178,20 @@ export default function Register() {
         isOpen={showProductDetail.show}
         product={showProductDetail.product}
         onClose={() => setShowProductDetail({ show: false })}
+      />
+      <FreeTrialModal
+        isOpen={showTrialModal}
+        onClose={() => setShowTrialModal(false)}
+        productName={modalProductName}
+      />
+      <TrialDownloadSuccess
+        isOpen={showTrialSuccessModal}
+        onClose={() => setShowTrialSuccessModal(false)}
+        remaining={downloadRemaining}
+      />
+      <TrialExpired
+        isOpen={showTrialExpiredModal}
+        onClose={() => setShowTrialExpiredModal(false)}
       />
     </>
   ) : <LoadingComponent />;

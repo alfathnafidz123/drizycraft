@@ -103,6 +103,7 @@ export default function Register() {
     show: boolean;
     product?: productI;
   }>({ show: false });
+  const [isHover, setIsHover] = useState(false);
 
   const getProduct = async () => {
     try {
@@ -144,7 +145,7 @@ export default function Register() {
     } catch (error: any) {
       // Ambil pesan error dari backend
       const backendMessage =
-        error.response?.data?.message || "Gagal menyimpan like";
+        error.response?.data?.message || "Like Failed";
       toast.error(backendMessage);
 
       // rollback jumlah like
@@ -155,7 +156,7 @@ export default function Register() {
     }
   };
 
-  console.log(productData)
+  // console.log(productData)
 
   useEffect(() => {
     getProduct();
@@ -307,7 +308,7 @@ export default function Register() {
           </div>
         </section>
         <section className='flex flex-col gap-8 bg-[#EBECF5] max-md:p-2 lg:py-16'>
-          <div className='mx-auto w-full max-w-[1164px] flex-col gap-4 lg:grid lg:grid-cols-4 px-4 lg:px-0'>
+          <div className='mx-auto w-full max-w-[1164px] flex-col gap-4 lg:grid lg:grid-cols-4 px-4 lg:px-0 '>
             {productData?.steps?.length > 0 && (
               <>
                 <div className='col-span-3 flex flex-col gap-8'>
@@ -330,15 +331,32 @@ export default function Register() {
                         {/* Gambar + Deskripsi */}
                         <div className="flex flex-col lg:flex-row items-start lg:items-start space-y-4 lg:space-y-0 lg:space-x-4 flex-1 w-full">
                           {/* Gambar */}
-                          {item.imageUrl && (
+                          {item.imageUrl ? (
                             <Image
                               src={item.imageUrl}
                               alt={`Step ${item.stepsNumber}`}
-                              width={384}   // sesuai lg:w-96 (96 * 4 = 384px)
-                              height={288}  // sesuai h-72 (72 * 4 = 288px)
+                              width={384}   // lg:w-96 (96 * 4 = 384px)
+                              height={288}  // h-72 (72 * 4 = 288px)
                               className="w-full lg:w-96 h-72 object-cover rounded-lg mr-3"
                             />
-                          )}
+                          ) : item.videoUrl ? (
+                            <div
+                              className="w-full lg:w-full h-72 rounded-lg mr-3 overflow-hidden"
+                              onMouseEnter={() => setIsHover(true)}
+                              onMouseLeave={() => setIsHover(false)}
+                            >
+                              <iframe
+                                width={384}   // lg:w-96 (96 * 4 = 384px)
+                                height={288}  // h-72 (72 * 4 = 288px)
+                                src={isHover ? `${item.videoUrl}?autoplay=1&mute=1&controls=0&playsinline=1` : item.videoUrl}
+                                // title={title}
+                                className="w-full h-full rounded-lg"
+                                frameBorder="0"
+                                allow="autoplay; encrypted-media; picture-in-picture"
+                                allowFullScreen
+                              />
+                            </div>
+                          ) : null}
 
                           {/* Deskripsi */}
                           <p className="text-sm font-katide-regular text-[#61657D] leading-relaxed">
@@ -351,45 +369,47 @@ export default function Register() {
                     ))}
                   </div>
                 </div>
-                <div className="flex flex-col pl-3 lg:block hidden">
-                  <p className="font-bold text-base text-[#1A214C] mb-4">Instruction</p>
-                  <div className="relative flex flex-col items-start">
-                    {productData?.steps?.map((step, index) => {
-                      const isActive = activeStep === index;
-                      const handleClickStep = (
-                        i: React.SetStateAction<number>
-                      ) => {
-                        setActiveStep(i); // update activeStep jika perlu
-                        const element = document.getElementById(
-                          step.stepsNumber.toString()
-                        );
-                        if (element) {
-                          element.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'center',
-                          });
-                        }
-                      };
+                <div className="flex flex-col pl-3 lg:block hidden ">
+                  <div className='sticky top-44'>
+                    <p className="font-bold text-base text-[#1A214C] mb-4">Instruction</p>
+                    <div className="relative flex flex-col items-start">
+                      {productData?.steps?.map((step, index) => {
+                        const isActive = activeStep === index;
+                        const handleClickStep = (
+                            i: React.SetStateAction<number>
+                        ) => {
+                          setActiveStep(i); // update activeStep jika perlu
+                          const element = document.getElementById(
+                              step.stepsNumber.toString()
+                          );
+                          if (element) {
+                            element.scrollIntoView({
+                              behavior: 'smooth',
+                              block: 'center',
+                            });
+                          }
+                        };
 
-                      return (
-                        <button
-                          key={index}
-                          onClick={() => handleClickStep(index)}
-                          className="flex items-stretch gap-3 relative z-10"
-                        >
-                          <div
-                            className={`w-1 flex-1 border ${isActive ? "bg-[#1A214C] text-white border-[#1A214C]" : "bg-gray-300 text-gray-600 border-gray-300"}`}
-                          ></div>
-                          <span
-                            className={`text-sm flex items-center my-2 ${
-                              isActive ? "text-[#1A214C] font-semibold" : "text-gray-500"
-                            }`}
-                          >
-        Step {step.stepsNumber}
-      </span>
-                        </button>
-                      );
-                    })}
+                        return (
+                            <button
+                                key={index}
+                                onClick={() => handleClickStep(index)}
+                                className="flex items-stretch gap-3 relative z-10"
+                            >
+                              <div
+                                  className={`w-1 flex-1 border ${isActive ? "bg-[#1A214C] text-white border-[#1A214C]" : "bg-gray-300 text-gray-600 border-gray-300"}`}
+                              ></div>
+                              <span
+                                  className={`text-sm flex items-center my-2 ${
+                                      isActive ? "text-[#1A214C] font-semibold" : "text-gray-500"
+                                  }`}
+                              >
+                            Step {step.stepsNumber}
+                          </span>
+                            </button>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
               </>
@@ -398,7 +418,7 @@ export default function Register() {
               <p className='font-katide-bold mt-6 text-base text-[#1A214C] lg:mt-0 lg:text-[24px]'>
                 Production
               </p>
-              <div className="rounded-2xl border border-gray-200 bg-white p-3 shadow-2xl w-full">
+              <div className="rounded-2xl border border-gray-200 bg-white p-3 shadow-lg w-full">
                 <div className="rounded-2xl border w-full">
                   <div className='flex items-center border-b last:border-b-0'>
                     <div className='border-r px-3 py-3 gap-2 w-2/5 lg:w-1/4'>
@@ -514,6 +534,23 @@ export default function Register() {
                 </div>
               </div>
             </div>
+          </div>
+          <div className='mt-6 flex w-full flex-wrap justify-start gap-3 lg:mx-auto lg:max-w-[1164px]'>
+            <p className='font-katide-bold text-[16px] text-[#707070]'>
+              Tags :
+            </p>
+            {productData.tags && productData.tags.length > 0 ? (
+              productData.tags.map((item, i) => (
+                <div
+                  key={i.toString()}
+                  className='rounded-full bg-[#D1D1D1] px-3 text-[16px] text-[#4A4A4A]'
+                >
+                  {item}
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-400 text-sm">-</p>
+            )}
           </div>
           <div className='flex w-full items-center justify-center pt-20 lg:px-40 px-4 mb-4'>
             <a href="https://www.facebook.com/groups/drizyfreebies" className='h-[200px] lg:h-auto' target="_blank" rel="noopener noreferrer">

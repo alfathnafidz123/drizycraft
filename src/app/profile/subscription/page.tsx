@@ -7,23 +7,45 @@ import { Loader } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { useAppSelector } from '@/lib/store';
+import { store, useAppDispatch, useAppSelector } from '@/lib/store';
 
 import ModalRechargeCoin from '@/components/modals/recharge-coin';
+import { fetchCoin, fetchProfile } from '@/lib/slices/user';
+import { useRouter } from 'next/navigation';
+import { fetchCart } from '@/lib/slices/cart';
+import { fetchSubs } from '@/lib/slices/subcription';
+import { fetchDownloadRemaining } from '@/lib/slices/download';
+import TrialExpired from '@/components/modals/trial-expired';
+import * as React from 'react';
+import CancelSubsModal from '@/components/modals/cancel-subs';
 
 export interface SubscriptionI {
   product: string;
+  status?: string;
   start_date: string;
   end_date: string;
   payment: string;
   coin: number;
+  cancel_at_period_end?: boolean;
 }
 
 export default function Register() {
   const { token } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
   const [subsData, setSubsData] = useState<SubscriptionI>();
   const [showRecharge, setShowRecharge] = useState(false);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const dataUser = useAppSelector((state) => state.user.dataUser);
+  const [coin, setCoin] = useState(dataUser?.coin);
+  const isLogin = useAppSelector((state) => state.user.token);
+  const [showTrialExpiredModal, setShowTrialExpiredModal] = useState(false);
+
+  useEffect(() => {
+    if (dataUser?.coin) {
+      setCoin(dataUser.coin);
+    }
+  }, [dataUser?.coin]);
 
   const getSubscriptionData = async () => {
     try {
@@ -43,27 +65,17 @@ export default function Register() {
     }
   };
 
-  const cancelSubscription = async () => {
-    try {
-      setLoading(true);
-      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/cancel-active-sub`, {}, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      toast.success("Subscription cancelled successfully");
-      window.location.reload();
-    } catch (error) {
-      const err = error as AxiosError;
-      toast.error((err.response?.data as any).message ?? "Unknown error");
-    } finally {
-      setLoading(false);
-    }
-  }
-
   useEffect(() => {
     getSubscriptionData();
   }, []);
+
+  useEffect(() => {
+    if (isLogin) {
+      dispatch(fetchProfile(isLogin));
+      dispatch(fetchSubs(isLogin));
+      dispatch(fetchCoin(isLogin));
+    }
+  }, [isLogin]);
 
   const getSubscriptionType = (plan: string) => {
     if (plan?.includes('Personal')) {
@@ -91,7 +103,6 @@ export default function Register() {
     return '-';
   };
 
-  console.log(subsData);
 
   return (
     <>
@@ -107,15 +118,26 @@ export default function Register() {
                   Status Subscription
                 </td>
                 <td className='whitespace-nowrap border border-[#AAAAAA] px-6 py-4 text-[#AAAAAA]'>
-                  {subsData && subsData?.product != "" ? "Active" : "-"}
+                  {subsData && subsData?.product !== "" ? (
+                    subsData.cancel_at_period_end ? (
+                      <>
+                        Active (Cancel at {subsData?.end_date})
+                      </>
+                    ) : (
+                      "Active"
+                    )
+                  ) : (
+                    "-"
+                  )}
                 </td>
+
               </tr>
               <tr className='bg-white'>
                 <td className='whitespace-nowrap border border-[#AAAAAA] px-6 py-4 text-[#1A214C]'>
                   Subscription Plan
                 </td>
                 <td className='whitespace-nowrap border border-[#AAAAAA] px-6 py-4 text-[#AAAAAA]'>
-                  {subsData?.product}
+                  {subsData?.status === 'trialing' ? 'Free Trial' : subsData?.product}
                 </td>
               </tr>
               <tr className='bg-gray-100'>
@@ -155,13 +177,17 @@ export default function Register() {
         </div>
         <div className='mt-8 flex lg:flex-row flex-col-reverse w-full justify-between items-center gap-3'>
           {subsData && subsData?.product !== "" &&
-            <button onClick={cancelSubscription} className='rounded-full bg-[#008ECC] px-14 py-3 font-semibold text-[#e4f6fb] whitespace-nowrap'>
+            <button
+              onClick={() => {
+                setShowTrialExpiredModal(true)
+              }}
+              className='rounded-full bg-[#008ECC] px-14 py-3 font-semibold text-[#e4f6fb] whitespace-nowrap'>
               {loading ? <Loader /> :
                 "Cancel subscription"
               }
             </button>
           }
-          {/*{subsData && subsData?.coin !== -1 &&*/}
+          {subsData?.product !== "Annual Access" &&
             <div className='w-full flex justify-center lg:justify-end'>
               <button
                 className="button-coin"
@@ -197,10 +223,14 @@ export default function Register() {
                 <div className="txt-upload bg-[#FFBB3C] hover:bg-[#ED9B37] rounded-2xl">Top Up Coin</div>
               </button>
             </div>
-          {/*}*/}
+          }
         </div>
       </div>
       <ModalRechargeCoin isOpen={showRecharge} onClose={() => { setShowRecharge(false) }} />
+      <CancelSubsModal
+        isOpen={showTrialExpiredModal}
+        onClose={() => setShowTrialExpiredModal(false)}
+      />
     </>
   );
 }

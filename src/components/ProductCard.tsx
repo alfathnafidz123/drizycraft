@@ -6,7 +6,7 @@ import axios, { AxiosError } from 'axios';
 import { Loader } from 'lucide-react';
 import moment from 'moment';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -21,13 +21,20 @@ import { OrderI, productI } from '@/interfaces/product.interface';
 
 import {
   cartProduct,
-  defaultAvatar,
+  defaultAvatar, drizzyCoin,
   hoverPinterest,
   hoverWA,
-  saleSvg,
+  saleSvg
 } from '~/images';
 import errorHandler from '@/lib/errorHandler';
 import { fetchCart } from '@/lib/slices/cart';
+import { SubscriptionI } from '@/app/profile/subscription/page';
+import FreeTrialModal from '@/components/modals/free-trial';
+import * as React from 'react';
+import { fetchDownloadRemaining } from '@/lib/slices/download';
+import { getProductOwnedById } from '@/app/api/product/getProductOwnedById';
+import TrialDownloadSuccess from '@/components/modals/trial-download-success';
+import TrialExpired from '@/components/modals/trial-expired';
 
 interface ProductCardProps {
   data: productI;
@@ -59,13 +66,77 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const [isDiscount, setIsDiscount] = useState(false);
   const [downloadLoading, setDownloadLoading] = useState(false);
   const dispatch = useAppDispatch();
+  const params = useParams();
   const { trackEvent } = PixelEventsHooks();
+  const [orders, setOrders] = useState<OrderI[]>([]);
+  const [subsData, setSubsData] = useState<SubscriptionI>();
+  const [ownerStatus, setOwnerStatus] = useState(false);
+  const [showTrialModal, setShowTrialModal] = useState(false);
+  const [modalProductName, setModalProductName] = useState('');
+  const [showTrialSuccessModal, setShowTrialSuccessModal] = useState(false);
+  const downloadRemaining = useAppSelector(state => state.download.remaining);
+  const [showTrialExpiredModal, setShowTrialExpiredModal] = useState(false);
 
   useEffect(() => {
     if (data && data.discountPeriod) {
       setIsDiscount(moment(new Date(data.discountPeriod)).isAfter(new Date()));
     }
   }, [data]);
+
+  const getSubscriptionData = async () => {
+    if (token) {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/current-sub`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setSubsData(res.data.data);
+      } catch (error) {
+        // const err = error as AxiosError;
+        // toast.error(err.message);
+      }
+    }
+  };
+
+  const getTransactionData2 = async () => {
+    if (token) {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-transaction?page=1&limit=12`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setOrders(res.data.data);
+      } catch (error) {
+        const err = error as AxiosError;
+        toast.error(err.message);
+      }
+    }
+  };
+
+  const getOwnerStatus = async () => {
+    try {
+      if (token) {
+        const response = await getProductOwnedById({ title: data.meta?.[0]?.title as string, token });
+        setOwnerStatus(response.owned);
+      }
+    } catch (error) {
+      toast('Error when trying to get all products');
+    }
+  }
+
+  useEffect(() => {
+    getTransactionData2();
+    getSubscriptionData();
+    getOwnerStatus();
+  }, []);
 
   const handleCart = async () => {
     // handleShowDetail?.(data);
@@ -99,30 +170,47 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const handleDownload = async () => {
     try {
       if (token) {
-        if (activeSubcription.subcription !== undefined) {
-          const payload: { [key: string]: string | number } = {
-            productId: data.id,
-            licenseType: 0,
-          };
-          await axios.post(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/buy-with-coin`,
-            payload,
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
-          dispatch(fetchProfile(token!));
-          dispatch(fetchCoin(token!));
-          toast.success(`Successfully buy ${data?.name}!`);
-          await getTransactionData();
+        if (subsData?.status === "trialing" && downloadRemaining === 0) {
+          toast.error("You reached the maximum download limit during the free trial period. Please upgrade your subscription to continue downloading.");
+          setShowTrialExpiredModal(true);
         } else {
-          // const payment = await itemPayment({
-          //   productId: [data.id],
-          //   licenseType: [0],
-          //   affiliateId: [''],
-          //   token: token,
-          // });
-          // window.location.replace(payment.data);
-          // dispatch(setSubscriptionModalOpen(true));
-          toast.error("You don't have enough coin to download this product, please top up your coin first!");
+          if (activeSubcription.subcription !== undefined) {
+            const payload: { [key: string]: string | number } = {
+              productId: data.id,
+              licenseType: 0,
+            };
+            await axios.post(
+              `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/buy-with-coin`,
+              payload,
+              { headers: { Authorization: `Bearer ${token}` } }
+            );
+            await Promise.all([
+              dispatch(fetchProfile(token!)),
+              dispatch(fetchCoin(token!)),
+              dispatch(fetchDownloadRemaining(token!)),
+              getTransactionData(),
+              getOwnerStatus()
+            ]);
+
+            await trackEvent(EventsEnum.Purchase, { productId: data?.id, productName: data?.name, productPrice: data?.coinPrice, paymentType: 'coin' });
+
+            if (subsData?.status === "trialing") {
+              setShowTrialSuccessModal(true);
+              toast.success(`Successfully buy ${data?.name}!`);
+            } else {
+              toast.success(`Successfully buy ${data?.name}!`);
+            }
+          } else {
+            // const payment = await itemPayment({
+            //   productId: [data.id],
+            //   licenseType: [0],
+            //   affiliateId: [''],
+            //   token: token,
+            // });
+            // window.location.replace(payment.data);
+            // dispatch(setSubscriptionModalOpen(true));
+            toast.error("You don't have enough coin to download this product, please top up your coin first!");
+          }
         }
       } else {
         dispatch(setOpenModal(true));
@@ -234,8 +322,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
   };
 
   const generateCTA = (): string => {
-    let wording = 'BUY NOW';
-    if (activeSubcription.activeSubcription && data.coinPrice[0] === 0) {
+    let wording = 'DOWNLOAD NOW';
+    if (activeSubcription.activeSubcription && data.coinPrice[0] !== 0) {
       wording = 'DOWNLOAD NOW';
     } else {
       if ((isDiscount && data.discount[0] === 0) || data.price[0] === 0) {
@@ -285,7 +373,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
     return ' flex h-auto w-full max-w-full mx-auto flex-col flex-nowrap items-start gap-[16px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-2 shadow-xl transition-none hover:border-[2px]';
   };
 
-
   return (
     <>
       <div className={containerClassNames()}>
@@ -298,53 +385,74 @@ const ProductCard: React.FC<ProductCardProps> = ({
             height={180}
             width={260}
             quality={60}
-            className='h-auto w-full rounded-[6px] object-cover '
-            classNames={{ image: 'h-auto w-full rounded-[6px] object-cover' }}
+            className='h-auto w-full rounded-2xl object-cover '
+            classNames={{ image: 'h-auto w-full rounded-2xl object-cover' }}
             useSkeleton={true}
           />
-          <Link href={data?.meta?.[0]?.title ? `/product/${data.meta[0].title}` : '#'} className='relative z-[2] flex h-[54px] shrink-0 items-start justify-start self-stretch overflow-hidden text-left lg:text-[16px] text-[14px] font-semibold leading-[17.6px] text-[#1a204c]'>
+          <Link href={data?.meta?.[0]?.title ? `/product/${data.meta[0].title}` : '#'} className='relative z-[2] flex h-[50px] shrink-0 items-start justify-start self-stretch overflow-hidden text-left lg:text-[16px] text-[14px] font-semibold leading-[17.6px] text-[#1a204c]'>
             {data.name}
           </Link>
           <div className='flex w-full justify-between gap-2'>
-            <button
-              id={`show-detail-${data.id}`}
-              type='button'
-              onClick={handleDownload}
-              className='pointer flex h-[37px] flex-grow flex-nowrap items-center justify-center gap-[8px] rounded-[8px] bg-[#2a3b80] pb-[12px] pl-[24px] pr-[24px] pt-[12px] group-hover:bg-[#4065D1]'
-            >
-              {downloadLoading ?
-                <Loader className='animate-spin' />
-                :
-                <>
-                  <span className='font-katide-bold z-[5] flex flex-row items-center gap-1 text-[20px] leading-[16px] text-[#fff] transition-all group-hover:scale-0'>
-                    {isDiscount &&
-                      !(activeSubcription && dataUser?.coin && dataUser?.coin !== 0) ? (
-                      <p className='font-katide-regular text-sm text-white line-through'>
-                        ${data?.price[0]}
-                      </p>
-                    ) : null}
-                    {generatePrice()}
-                  </span>
-                  <span className='font-katide-bold absolute hidden items-center justify-center rounded-[8px] bg-[#4065D1] text-[16px] leading-[16px] group-hover:flex'>
-                    <span className='scale-0 text-[#fff] group-hover:scale-100'>
-                      {generateCTA()}
+            {token && activeSubcriptionState.subcription && (
+              <button
+                id={`show-detail-${data.id}`}
+                type="button"
+                onClick={() => {
+                  if (ownerStatus) {
+                    getTransactionData(); // kalau sudah owned
+                  } else if (!token) {
+                    localStorage.setItem("productUrl", `/product/${data?.meta?.[0]?.title}`);
+                    window.location.href = "/free-trial";
+                  } else {
+                    handleDownload();
+                  }
+                }}
+                className="pointer flex h-[37px] flex-grow flex-nowrap items-center justify-center gap-[8px] rounded-[8px] bg-[#2a3b80] pb-[12px] pl-[24px] pr-[24px] pt-[12px] group-hover:bg-[#4065D1]"
+              >
+                {downloadLoading ? (
+                  <Loader className="animate-spin" />
+                ) : (
+                  <>
+                    {ownerStatus ? (
+                      // ✅ Kalau sudah punya product
+                      <span className="font-katide-bold z-[5] flex flex-row items-center gap-1 text-[14px] sm:text-[16px] md:text-[16px] lg:text-[16px] leading-[16px] text-[#fff] transition-all group-hover:scale-0">
+                        OWNED
+                      </span>
+                    ) : (
+                      <span className="font-katide-bold z-[5] flex flex-row items-center gap-1 text-[14px] sm:text-[16px] md:text-[16px] lg:text-[16px] leading-[16px] text-[#fff] transition-all group-hover:scale-0">
+                        {isDiscount &&
+                        !(activeSubcription && dataUser?.coin && dataUser?.coin !== 0) ? (
+                          <p className="font-katide-regular text-sm text-white line-through">
+                            ${data?.price[0]}
+                          </p>
+                        ) : null}
+                        {/*{generatePrice()}*/} DOWNLOAD NOW
+                      </span>
+                        )}
+                      <span className="font-katide-bold absolute hidden items-center justify-center rounded-[8px] bg-[#4065D1] text-[16px] leading-[16px] group-hover:flex">
+                      <span className="scale-0 text-[#fff] group-hover:scale-100">
+                        {ownerStatus ? generateCTA() : generateCTA()}
+                      </span>
                     </span>
-                  </span>
-                </>
-              }
-            </button>
-            <button
-              id={`add-${data.id}-cart`}
-              type='button'
-              onClick={handleCart}
-              className='flex h-[37px] items-center justify-center gap-[8px] rounded-[8px] border-2 border-gray-400 bg-white p-[12px] sm:pl-[24px] sm:pr-[24px]'
-            >
-              <img
-                src={cartProduct.src}
-                alt='cart'
-                className='h-4 w-4 sm:h-5 sm:w-5' // kecil di mobile, normal di layar besar
-              />
-            </button>
+                  </>
+                )}
+              </button>
+            )}
+
+            {token && !ownerStatus && activeSubcriptionState.subcription && (
+              <button
+                id={`add-${data.id}-cart`}
+                type='button'
+                onClick={handleCart}
+                className='flex h-[37px] w-[37px] items-center justify-center rounded-[8px] border-2 border-gray-400 bg-white sm:h-[37px] sm:w-auto sm:gap-[8px] sm:px-[24px]'
+              >
+                <img
+                  src={cartProduct.src}
+                  alt='cart'
+                  className='h-3 w-3 object-contain sm:h-5 sm:w-5'
+                />
+              </button>
+            )}
           </div>
           {data.author?.name && (
             <div className='flex flex-row items-center gap-1.5'>
@@ -367,10 +475,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
               data?.meta?.[0]?.title
                 ? `https://id.pinterest.com/pin/create/button/?description=${data?.name}&url=${process.env.NEXT_PUBLIC_URL}/product/${data.meta[0].title}&media=${data?.imageUrl[0]}`
                 : '#'
-            } target='_blank' className='absolute left-[7px] top-[5px] z-[7] cursor-pointer bg-no-repeat opacity-0 transition-all duration-500 group-hover:opacity-100'>
+            } target='_blank' className='absolute left-[10px] top-[10px] z-[7] cursor-pointer bg-no-repeat opacity-0 transition-all duration-500 group-hover:opacity-100'>
             <img
               src={hoverPinterest.src}
-              className='h-[40px] w-[40px]'
+              className='h-[35px] w-[35px]'
               alt={`share-pinterest-${data.name}`}
             />
           </Link>
@@ -378,16 +486,37 @@ const ProductCard: React.FC<ProductCardProps> = ({
             data?.meta?.[0]?.title
             ? `https://api.whatsapp.com/send?text=${process.env.NEXT_PUBLIC_URL}/product/${data?.meta?.[0].title}`
             : '#'
-            } target='_blank' className='absolute left-[55px] top-[5px] z-[7] cursor-pointer bg-no-repeat opacity-0 transition-all duration-500 group-hover:opacity-100'>
+            } target='_blank' className='absolute left-[50px] top-[10px] z-[7] cursor-pointer bg-no-repeat opacity-0 transition-all duration-500 group-hover:opacity-100'>
             <img
               src={hoverWA.src}
-              className='h-[40px] w-[40px]'
+              className='h-[35px] w-[35px]'
               alt={`share-whatsapp-${data.name}`}
             />
           </Link>
+          {token && activeSubcriptionState.subcription && subsData?.coin !== -1 && (
+            <div className="absolute right-[10px] top-[10px] z-[7] flex items-center bg-white rounded-2xl gap-2 p-1 font-katide-bold shadow-lg text-[#61657D]">
+              <img src={drizzyCoin.src} alt="cart" className="w-5 h-5" />
+              <span className="me-3">{data?.coinPrice?.[0] ?? 0}</span>
+            </div>
+          )}
         </div>
       </div>
+      <FreeTrialModal
+        isOpen={showTrialModal}
+        onClose={() => setShowTrialModal(false)}
+        productName={modalProductName}
+      />
+      <TrialDownloadSuccess
+        isOpen={showTrialSuccessModal}
+        onClose={() => setShowTrialSuccessModal(false)}
+        remaining={downloadRemaining}
+      />
+      <TrialExpired
+        isOpen={showTrialExpiredModal}
+        onClose={() => setShowTrialExpiredModal(false)}
+      />
     </>
+
   );
 };
 

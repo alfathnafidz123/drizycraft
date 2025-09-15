@@ -18,6 +18,13 @@ import { itemPayment } from '@/app/api/billing/itemPayment';
 import { CheckCouponResI } from '@/interfaces/coupon.interface';
 import {fetchCoin, fetchProfile, setOpenModal} from "@/lib/slices/user";
 import {OrderI} from "@/interfaces/product.interface";
+import { fetchDownloadRemaining } from '@/lib/slices/download';
+import { useEffect, useState } from 'react';
+import { SubscriptionI } from '@/app/profile/subscription/page';
+import { getProductOwnedById } from '@/app/api/product/getProductOwnedById';
+import FreeTrialModal from '@/components/modals/free-trial';
+import TrialDownloadSuccess from '@/components/modals/trial-download-success';
+import TrialExpired from '@/components/modals/trial-expired';
 const CartLottie = dynamic(
   () => import('../../components/lottie/cart'),
   { ssr: false }
@@ -46,12 +53,40 @@ export default function Register() {
   const activeSubcription = React.useMemo(() => {
     return activeSubcriptionState;
   }, [activeSubcriptionState]);
+  const [subsData, setSubsData] = useState<SubscriptionI>();
+  const [ownerStatus, setOwnerStatus] = useState(false);
+  const [showTrialModal, setShowTrialModal] = useState(false);
+  const [modalProductName, setModalProductName] = useState('');
+  const [showTrialSuccessModal, setShowTrialSuccessModal] = useState(false);
+  const downloadRemaining = useAppSelector(state => state.download.remaining);
+  const [showTrialExpiredModal, setShowTrialExpiredModal] = useState(false);
 
   React.useEffect(() => {
     if (token) {
       dispatch(fetchCart(token));
     }
   }, []);
+
+  useEffect(() => {
+    getSubscriptionData();
+  }, []);
+
+  const getSubscriptionData = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/current-sub`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setSubsData(res.data.data);
+    } catch (error) {
+      // const err = error as AxiosError;
+      // toast.error(err.message);
+    }
+  };
 
   const getCoupon = React.useCallback(async () => {
     try {
@@ -145,47 +180,85 @@ export default function Register() {
   };
 
   const handleDownload = async () => {
+    let remaining = downloadRemaining ?? 0; // copy nilai awal
+
+    if (!token) {
+      dispatch(setOpenModal(true));
+      return;
+    }
+
+    // 🔑 cek quota cukup untuk semua item di cart
+    if (subsData?.status === "trialing" && cart.length > remaining) {
+      toast.error(
+        `Your download quota is not enough. You only have ${remaining} download${remaining === 1 ? '' : 's'} left.`
+      );
+      return; // stop langsung
+    }
+
     for (const data of cart) {
       try {
-        if (token) {
-          if (activeSubcription.activeSubcription) {
-            const payload: { [key: string]: string | number } = {
-              productId: data.product.id,
-              licenseType: 0,
-            };
-            await axios.post(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/buy-with-coin`,
-                payload,
-                {headers: {Authorization: `Bearer ${token}`}}
+        if (subsData?.status === "trialing" && remaining === 0) {
+          toast.error(
+            "You reached the maximum download limit during the free trial period. Please upgrade your subscription to continue downloading."
+          );
+          setShowTrialExpiredModal(true);
+          break;
+        }
+
+        if (activeSubcription.subcription !== undefined) {
+          const payload: { [key: string]: string | number } = {
+            productId: data.product.id,
+            licenseType: 0,
+          };
+
+          await axios.post(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/buy-with-coin`,
+            payload,
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+
+          // kurangi quota lokal
+          if (subsData?.status === "trialing") {
+            remaining = Math.max(remaining - 1, 0);
+          }
+
+          await Promise.all([
+            dispatch(fetchProfile(token!)),
+            dispatch(fetchCoin(token!)),
+            dispatch(fetchDownloadRemaining(token!)),
+            getTransactionData(),
+          ]);
+
+          await trackEvent(EventsEnum.Purchase, {
+            productId: data?.id,
+            productName: data?.product.name,
+            productPrice: data?.product.coinPrice,
+            paymentType: 'coin'
+          });
+
+          if (subsData?.status === "trialing") {
+            setShowTrialSuccessModal(true);
+            toast.success(
+              `Successfully downloaded ${data?.product.name}! Remaining quota: ${remaining}`
             );
-            dispatch(fetchProfile(token!));
-            dispatch(fetchCoin(token!));
-            // toast.success(`Successfully buy ${data?.product.name}!`);
-            showSuccessToast(cart)
-            await getTransactionData();
           } else {
-            // const payment = await itemPayment({
-            //   productId: [data.id],
-            //   licenseType: [0],
-            //   affiliateId: [''],
-            //   token: token,
-            // });
-            // window.location.replace(payment.data);
-            // dispatch(setSubscriptionModalOpen(true));
-            toast.error("You don't have enough coin to download this product, please top up your coin first!");
+            toast.success(`Successfully downloaded ${data?.product.name}!`);
           }
         } else {
-          dispatch(setOpenModal(true));
+          toast.error(
+            "You don't have enough coin to download this product, please top up your coin first!"
+          );
         }
       } catch (error) {
         const err = error as AxiosError;
         const errorData: any = err.response?.data;
         toast.error(
-            (errorData.message as string) ?? 'Error when generate payment!'
+          (errorData.message as string) ?? 'Error when generate payment!'
         );
       }
     }
   };
+
 
   const getTransactionData = async () => {
     for (const data of cart) {
@@ -326,7 +399,22 @@ export default function Register() {
             </>
           )}
         </div>
+        <FreeTrialModal
+          isOpen={showTrialModal}
+          onClose={() => setShowTrialModal(false)}
+          productName={modalProductName}
+        />
+        <TrialDownloadSuccess
+          isOpen={showTrialSuccessModal}
+          onClose={() => setShowTrialSuccessModal(false)}
+          remaining={downloadRemaining}
+        />
+        <TrialExpired
+          isOpen={showTrialExpiredModal}
+          onClose={() => setShowTrialExpiredModal(false)}
+        />
       </section>
+
     </main>
   );
 }

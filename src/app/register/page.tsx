@@ -12,17 +12,19 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { setDataUser, setOpenModal, setToken } from '@/lib/slices/user';
-import { useAppDispatch } from '@/lib/store';
+import { fetchCoin, fetchProfile, setDataUser, setOpenModal, setToken } from '@/lib/slices/user';
+import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import GoogleLoginButton from '@/components/buttons/GoogleLogin';
 
 import { loginSocial } from '@/app/api/auth/loginSocial';
 
 import { Copy } from '~/images';
+import { SubscriptionI } from '@/app/profile/subscription/page';
+import { fetchDownloadRemaining } from '@/lib/slices/download';
 
 const LoginLottie = dynamic(() => import('../../components/lottie/login'), { ssr: false });
 
@@ -41,30 +43,97 @@ export default function Register() {
   const router = useRouter();
   const [support, setSupport] = useState(true);
   const [coppied, setCoppied] = useState(false);
+  const activeSubcriptionState = useAppSelector(state => state.subs);
+  const activeSubcription = useMemo(() => {
+    return activeSubcriptionState;
+  }, [activeSubcriptionState]);
+  const [subsData, setSubsData] = useState<SubscriptionI>();
+  const getSubscriptionData = async (token: string) => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/current-sub`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setSubsData(res.data.data);
+      return res.data.data;
+    } catch (error) {
+      console.error("Failed to fetch subscription data:", error);
+      return null;
+    }
+  };
 
   const handleLoginSocial = async (email: string, fullName: string, gid: string, avatar: string, provider: "google" | "facebook") => {
-      try {
-        setLoading(true);
-        const response = await loginSocial({ email, fullName, id: `${gid}`, avatar, provider });
-        const { user, token, isNewUser } = response;
-        
-        dispatch(setOpenModal(false));
-        localStorage.setItem('resetEmail', user.email);
-  
-        if (isNewUser) {
-          router.push(`/create-password?token=${token}`);
-        } else {
-          dispatch(setDataUser({ userData: user }));
-          dispatch(setToken({ token }));
-          toast(`Welcome ${user.username} !`);
-          router.push('/'); 
+    try {
+      setLoading(true);
+      const response = await loginSocial({ email, fullName, id: `${gid}`, avatar, provider });
+      const { user, token, isNewUser } = response;
+
+      dispatch(setOpenModal(false));
+      localStorage.setItem('resetEmail', user.email);
+
+      if (isNewUser) {
+        router.push(`/create-password?token=${token}&email=${email}&message=verification-success`);
+      } else {
+        dispatch(setDataUser({ userData: user }));
+        dispatch(setToken({ token }));
+        toast(`Welcome ${user.username} !`);
+        const subs = await getSubscriptionData(token);
+        if (window.location.pathname === "/select-plan") {
+          if (subs) {
+            const productUrl = localStorage.getItem("productUrl");
+            if (productUrl) {
+              router.push(productUrl);
+              localStorage.removeItem("productUrl");
+            } else {
+              router.push("/");
+            }
+          } else {
+            // tetap di halaman /select-plan
+            router.push("/select-plan");
+          }
+        } else if (window.location.pathname === "/free-trial") {
+          if (subs) {
+            const productUrl = localStorage.getItem("productUrl");
+            if (productUrl) {
+              router.push(productUrl);
+              localStorage.removeItem("productUrl");
+            } else {
+              router.push("/");
+            }
+          } else {
+            // tetap di halaman
+            router.push("/free-trial");
+          }
         }
-      } catch (error: any) {
-        toast('Login failed');
-        console.error('Login failed:', error);
-      } finally {
-        setLoading(false);
       }
+      localStorage.setItem('user_token', token);
+      await Promise.all([
+        dispatch(fetchProfile(token!)),
+        dispatch(fetchCoin(token!)),
+        dispatch(fetchDownloadRemaining(token!)),
+      ]);
+
+    } catch (error: any) {
+      const errorData = error?.response?.data;
+
+      if (
+        Array.isArray(errorData?.message) &&
+        (errorData.message.includes("email should not be empty") ||
+          errorData.message.includes("email must be an email"))
+      ) {
+        toast.error(
+          "You don’t have a verified email on your Facebook account. Please verify your email on Facebook or try another login method."
+        );
+      } else {
+        toast.error("Login failed");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleRegister = async () => {
@@ -216,9 +285,22 @@ export default function Register() {
               <div className='flex flex-col justify-center lg:flex-row lg:gap-8'>
                 <GoogleLoginButton onSuccess={(data) => setUser(data)} />
                 <FacebookLogin
-                  appId="3917524378531645"
+                  appId="618724301311674"
                   onProfileSuccess={(res) => {
-                    handleLoginSocial(res.email!, res.name!, res.id!, res.picture!.data.url, "facebook");
+                    if (!res.email) {
+                      toast.error(
+                        "You don’t have a verified email on your Facebook account. Please verify your email on Facebook or try another login method."
+                      );
+                      return; // stop here, jangan lanjut ke handleLoginSocial
+                    }
+
+                    handleLoginSocial(
+                      res.email,
+                      res.name!,
+                      res.id!,
+                      res.picture!.data.url,
+                      "facebook"
+                    );
                   }}
                   onFail={(res) => {
                     toast.error(res.status);

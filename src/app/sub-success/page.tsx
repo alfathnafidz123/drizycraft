@@ -41,7 +41,14 @@ export default function SubSuccess() {
       });
       dispatch(fetchSubs(token!));
       dispatch(fetchCoin(token!));
-      router.replace("/");
+      const productUrl = localStorage.getItem("productUrl");
+
+      if (productUrl) {
+        router.replace(productUrl);
+        localStorage.removeItem("productUrl"); // optional supaya bersih
+      } else {
+        router.replace("/");
+      }
     } catch (error: any) {
       toast('Subs failed, please reach out to the administrator');
     }

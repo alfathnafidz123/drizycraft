@@ -22,11 +22,13 @@ import storage from 'redux-persist/es/storage';
 import cartSlice from './slices/cart';
 import subcriptionSlice from './slices/subcription';
 import userSlice from './slices/user';
+import downloadSlice from './slices/download';
 
 const rootReducer = combineReducers({
   user: userSlice,
   cart: cartSlice,
   subs: subcriptionSlice,
+  download: downloadSlice,
 });
 
 const persistConfig = {

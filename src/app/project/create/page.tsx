@@ -6,7 +6,7 @@
 import axios, { AxiosError } from 'axios';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { CrafterI } from '@/interfaces/crafter.interfaces';
@@ -34,6 +34,7 @@ interface Step {
   stepsNumber?: number;
   image: FileList | null;
   description: string;
+  videoUrl?: string;
 }
 
 enum OperationType {
@@ -109,6 +110,8 @@ export default function Register() {
   }>[]>([]);
   const [description, setDescription] = useState('');
   const [time, setTime] = useState('0');
+  const [tags, setTags] = useState([]);
+  const [inputTagsValue, setInputTagsValue] = useState<string>('');
 
   const getProducts = async (search: string) => {
     try {
@@ -229,10 +232,12 @@ export default function Register() {
         material: selectedMaterials,
         time: parseInt(time),
         difficulty: selectedDiff,
+        tags: tags,
         steps: steps.map((step, idx) => ({
           stepsNumber: step.stepsNumber,
           description: step.description,
           imageUrl: stepImageUrls[idx],
+          videoUrl: step.videoUrl || "",
         })),
       };
 
@@ -307,6 +312,56 @@ export default function Register() {
     setSteps(newSteps);
   };
 
+  const handleVideoChange = (index: number, value: string) => {
+    let embedUrl = value;
+
+    // Deteksi jika URL YouTube biasa
+    const youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([^\s&]+)/;
+    const match = value.match(youtubeRegex);
+
+    if (match && match[1]) {
+      embedUrl = `https://www.youtube.com/embed/${match[1]}`;
+    }
+
+    const newSteps = [...steps];
+    newSteps[index].videoUrl = embedUrl;
+    setSteps(newSteps);
+  };
+
+
+  const tagsRef = useRef<string[]>([]);
+
+  const addTag = () => {
+    const tagText = inputTagsValue.trim();
+
+    if (tagText !== '' && !tagsRef.current.includes(tagText)) {
+      // Tambahkan tag ke array
+      tagsRef.current = [...tagsRef.current, tagText];
+
+      // Jika menggunakan state juga
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      setTags([...tagsRef.current]);
+
+      // Reset input
+      setInputTagsValue('');
+    } else if (tagsRef.current.includes(tagText)) {
+      toast.error('Tag already added !');
+    }
+  };
+
+  // Fungsi untuk menghapus tag
+  const removeTag = (indexToRemove: number) => {
+    const newTags = tags.filter((_, index) => index !== indexToRemove);
+    setTags(newTags);
+  };
+
+  // Fungsi untuk menghapus semua tag
+  const clearAllTags = () => {
+    setTags([]);
+  };
+
+
   return (
     <>
       <main>
@@ -315,7 +370,7 @@ export default function Register() {
               <div className='flex flex-col items-center justify-center gap-10 rounded-t-3xl px-8 lg:px-40 py-8'>
                 <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl w-full">
                   <h2 className="mb-4 text-lg font-semibold text-[#1A214C]">
-                    Upload Image Project Result
+                    Upload Image Project Result <span className='text-red-500'>*</span>
                   </h2>
                   <div className="flex flex-col lg:flex-row">
                     <div className="lg:w-1/2 w-full p-4">
@@ -355,8 +410,8 @@ export default function Register() {
                       />
                     </div>
                     <div className="lg:w-1/2 w-full flex flex-col justify-between p-4">
-                      <p className='text-sm font-katide-regular text-[#61657D] mb-10'>
-                        Upload images to fully showcase what you've created.
+                      <p className='text-sm font-katide-regular text-[#61657D] mb-4'>
+                        Upload videos and images to fully showcase what you've created. or paste YouTube URL
                       </p>
                       <div className='mt-auto'>
                         <p className='text-sm font-katide-regular text-[#61657D80]'>
@@ -373,7 +428,7 @@ export default function Register() {
 
                 <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl w-full">
                   <h2 className="mb-4 text-lg font-semibold text-[#1A214C]">
-                    The product file you're using
+                    The product file you're using <span className='text-red-500'>*</span>
                   </h2>
 
                   {/* Product 1 */}
@@ -422,7 +477,7 @@ export default function Register() {
 
                 <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl w-full">
                   <h2 className="mb-4 text-lg font-semibold text-[#1A214C]">
-                    Basic Information
+                    Basic Information <span className='text-red-500'>*</span>
                   </h2>
                   <textarea
                     onChange={(e) => setDescription(e.target.value)}
@@ -493,9 +548,16 @@ export default function Register() {
                         </div>
 
                         <div className="lg:w-1/2 w-full flex flex-col justify-between p-4">
-                          <p className="text-sm font-katide-regular text-[#61657D] mb-10">
-                            Upload images to fully showcase what you've created.
+                          <p className="text-sm font-katide-regular text-[#61657D] mb-4">
+                            Upload videos and images to fully showcase what you've created. or paste YouTube URL
                           </p>
+                          <input
+                            type="text"
+                            onChange={(e) => handleVideoChange(index, e.target.value)}
+                            value={step.videoUrl}
+                            className="w-full rounded-lg border border-gray-300 bg-gray-100 p-2 placeholder:text-gray-300"
+                            placeholder="Paste YouTube URL here (Optional) e.g. https://www.youtube.com/watch?.."
+                          />
                           <div className="mt-auto">
                             <p className="text-sm font-katide-regular text-[#61657D80]">
                               Suggest upload ratio 3:2
@@ -645,6 +707,54 @@ export default function Register() {
                         placeholder="e.g., 60"
                       />
                     </div>
+                  </div>
+                  <div className='col-span-2 flex flex-col mt-5 mb-4 w-full border-t border-[#1A214C]/15' />
+                  <div className='px-2'>
+                    <h2 className="mb-2 text-sm font-semibold text-[#1A214C]">
+                      Tags
+                    </h2>
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="text"
+                        value={inputTagsValue}
+                        onChange={(e) => setInputTagsValue(e.target.value)}
+                        className="w-full rounded-lg border border-gray-300 bg-gray-100 p-2 placeholder:text-gray-300"
+                      />
+                      <button
+                        type="button"
+                        onClick={addTag}
+                        className="flex w-auto rounded-lg px-3 whitespace-nowrap py-2 font-katide-bold border border-gray-300 hover:bg-gray-100 text-[#1A214C]">
+                        Add Tags
+                      </button>
+                    </div>
+                        {tags.length > 0 ? (
+                          <div className="mt-2 border-gray-100 pt-4">
+                            <h3 className="text-sm font-semibold text-gray-700 mb-2">Tags added :</h3>
+                            <div className="bg-gray-50 p-3 rounded-lg font-mono text-sm overflow-x-auto">
+                              <div className="flex flex-wrap gap-2">
+                                {tags.map((tag, index) => (
+                                  <div key={index} className="bg-white border border-gray-200 rounded-lg px-3 py-2 flex items-center justify-between shadow-sm">
+                                    <span className="text-sm font-katide-regular text-gray-700">{tag}</span>
+                                    <button
+                                      onClick={() => removeTag(index)}
+                                      className="ml-2 text-gray-400 hover:text-red-500 transition-colors"
+                                      aria-label="Hapus tag"
+                                    >
+                                      <NextImage
+                                        src={trashBtn}
+                                        alt="Operation Type"
+                                        width={20}
+                                        height={20}
+                                      />
+                                    </button>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <p className="text-gray-400 text-sm text-center py-2"></p>
+                        )}
                   </div>
                 </div>
 

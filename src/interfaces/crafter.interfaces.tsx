@@ -26,6 +26,7 @@ export interface CrafterI {
   difficulty: string
   time: number
   steps: CrafterStepsI[]
+  tags: any[]
 }
 
 export interface CrafterStepsI {
@@ -33,6 +34,7 @@ export interface CrafterStepsI {
   stepsNumber: number
   description: string
   imageUrl: string
+  videoUrl: string
 }
 
 export interface Product {

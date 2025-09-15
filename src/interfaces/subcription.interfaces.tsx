@@ -7,4 +7,5 @@ export interface SubcriptionI {
   start_date: string;
   end_date: string;
   payment: string;
+  status?: string;
 }

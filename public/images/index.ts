@@ -120,7 +120,7 @@ import history from './historyactive.svg';
 import hoverPinterest from './hoverpint.svg';
 import hoverWA from './hoverwa.svg';
 import leftMembership from './image_membership_left.png';
-import rightMembership from './image_membership_right.png';
+import rightMembership from './image_membership_right.webp';
 import rightMembership2 from './image-membership-kanan-2.webp'
 import rightMembershipNew from './image-membership-kanan-new.png';
 import leftMembership2 from './image-membership-kiri-2.webp'
@@ -263,8 +263,14 @@ import Comp3 from "./comp/comp3.png";
 import Comp4 from "./comp/comp4.png";
 import Comp5 from "./comp/comp5.png";
 import Comp6 from "./comp/comp6.png";
+import CheckNonLoginAds from "./ads-nonlogin-check.svg";
+import arrowRightCircleFill from "./arrow_right_circle_fill.svg";
+import Unhappy from "./unhappy.svg";
 
 export {
+  Unhappy,
+  arrowRightCircleFill,
+  CheckNonLoginAds,
   Comp1,
   Comp2,
   Comp3,

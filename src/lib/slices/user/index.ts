@@ -141,6 +141,7 @@ const userSlice = createSlice({
         coin: action.payload,
       };
     });
+
   },
 });
 

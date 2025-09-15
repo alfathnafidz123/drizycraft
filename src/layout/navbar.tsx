@@ -13,7 +13,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { fetchCart } from '@/lib/slices/cart';
@@ -24,7 +24,7 @@ import useOutsideClick from '@/lib/useOutsideClick';
 
 import Button from '@/components/buttons/Button';
 const ModalLogin = dynamic(() => import('@/components/modals/login'));
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import dynamic from 'next/dynamic';
 
 import NonMemberModal from '@/components/modals/non-member';
@@ -43,6 +43,8 @@ import {
   search,
 } from '~/images';
 import ModalRechargeCoin from '@/components/modals/recharge-coin';
+import { OrderI } from '@/interfaces/product.interface';
+import { fetchDownloadRemaining } from '@/lib/slices/download';
 
 export interface MenuState {
   crafter: boolean;
@@ -83,6 +85,36 @@ const Navbar: React.FC = () => {
     seasonal: false,
     craft: false,
   });
+  const activeSubcriptionState = useAppSelector(state => state.subs);
+  const activeSubcription2 = useMemo(() => {
+    return activeSubcriptionState;
+  }, [activeSubcriptionState]);
+
+  const downloadRemaining = useAppSelector(state => state.download.remaining);
+
+  const getTransactionData2 = async () => {
+    if (isLogin) {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-transaction?page=1&limit=12`,
+          {
+            headers: {
+              Authorization: `Bearer ${isLogin}`,
+            },
+          }
+        );
+
+        // Hitung download remaining (10 - jumlah download yang sudah dilakukan)
+        const totalDownloads = res.data.data.length || 0;
+        const remaining = Math.max(0, 10 - totalDownloads); // Minimum 0
+
+      } catch (error) {
+        const err = error as AxiosError;
+        toast.error(err.message);
+      }
+    }
+  };
+
   const handleClickOutsideCrafter = useCallback(() => {
     if (showMenu.crafter) {
       setShowMenu((prev) => ({ ...prev, crafter: false }));
@@ -126,6 +158,7 @@ const Navbar: React.FC = () => {
       dispatch(fetchProfile(isLogin));
       dispatch(fetchSubs(isLogin));
       dispatch(fetchCoin(isLogin));
+      dispatch(fetchDownloadRemaining(isLogin));
     }
   }, [isLogin]);
 
@@ -133,7 +166,12 @@ const Navbar: React.FC = () => {
     if (dataUser?.coin) {
       setCoin(dataUser.coin);
     }
+    getTransactionData2();
   }, [dataUser?.coin]);
+
+  useEffect(() => {
+    setCoin(dataUser?.coin);
+  })
 
   const openModalLogin = () => {
     dispatch(setOpenModal(true));
@@ -200,7 +238,7 @@ const Navbar: React.FC = () => {
               <select onChange={(e) => { setSelectedCategory(e.target.value) }} value={selectedCategory} className='font-katide-bold mb-2 mr-2 max-w-[130px] border-none text-sm outline-none ring-0 focus:ring-0'>
                 <option value='all'>All Product</option>
                 {/* <option value='Bundles'>Bundles</option> */}
-                <option value='Crafters'>Crafters</option>
+                <option value='Crafters'>Crafts</option>
                 <option value='Freebies'>Freebies</option>
                 {/* <option value='Membership'>Membership</option>
                 <option value='Vector'>Vector</option>
@@ -527,7 +565,7 @@ const Navbar: React.FC = () => {
                         toggleMenu('crafter');
                       }}
                     ></button>
-                    Crafters
+                    Crafts
                     <FaChevronDown className='' />
                   </label>
                   <div
@@ -830,7 +868,7 @@ const Navbar: React.FC = () => {
                 >
                   Blog
                 </Link>
-                
+
                 {/* <a href="https://breezy.drizycraft.com" target="_blank" className="breezy-btn"> */}
                 <Link
                   href='/project'
@@ -839,8 +877,8 @@ const Navbar: React.FC = () => {
                 >
                   Project
                 </Link>
-                
-                
+
+
               </div>
             </div>
 
@@ -892,7 +930,11 @@ const Navbar: React.FC = () => {
                     <img src={drizzyCoin.src} alt='cart' />
                     <span className='font-katide-semibold text-[14px] text-[#008ECC]'>
                       {isLogin && dataUser ? (
-                        (coin === 0) ? (
+                        activeSubcription2?.subcription?.status === "trialing" ? (
+                            <span className="flex items-center gap-1">
+                              {downloadRemaining}
+                            </span>
+                          ) : (coin === 0) ? (
                           // <Image
                           //   src={emptyCoin.src}
                           //   alt='empty-coin'
@@ -915,7 +957,14 @@ const Navbar: React.FC = () => {
                         0
                       )}
                     </span>
-                    COIN
+                    {activeSubcription2?.subcription?.status === "trialing" ? (
+                      // Tampilkan "DOWNLOAD" вместо "COIN" untuk trial
+                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                    ) : (
+                      "COIN"
+                    )}
                   </button>
                   {showTopup &&
                     <div className='rounded-xl absolute -bottom-40 right-0 bg-gray-50 p-2 w-52'>
@@ -923,30 +972,37 @@ const Navbar: React.FC = () => {
                         <div className='absolute right-1 top-1 cursor-pointer' onClick={() => setShowTopup(false)}>
                           <IoCloseCircle />
                         </div>
-                        <p className='font-katide-bold text-sm'>Your Drizy Coins</p>
+                        <p className='font-katide-bold text-sm justify-center text-center'>
+                          {activeSubcription2?.subcription?.status === "trialing"
+                            ? "Your Trial Download Remaining"
+                            : "Your Drizy Coins"
+                          }
+                        </p>
                         <img src={drizzyCoin.src} alt='cart' className='w-8 h-8' />
                         <p className=''>
-                          {(coin === 0) ? (
-                            <Image
-                              src={emptyCoin.src}
-                              alt='empty-coin'
-                              width={80}
-                              height={80}
-                              className='h-4 w-4'
-                            />
+                          {activeSubcription2?.subcription?.status === "trialing" ? (
+                            downloadRemaining
+                          ) : (coin === 0) ? (
+                            "0"
                           ) : coin === -1 ? "♾️" : (
                             coin
                           )}
                         </p>
-                        <Button onClick={() => {
-                          if
-                            (coin === -1) toast('You have unlimited coin');
-                          else
-                            // router.push('/profile/subscription');
-                            setShowRecharge(true)
-                        }} className='font-katide-bold flex w-full items-center justify-center rounded-full border-none bg-[#008ECC] hover:bg-[#008ECC]/90 text-xs'>
-                          TOP UP HERE
+                        <Button
+                          onClick={() => {
+                            if (activeSubcription2?.subcription?.status === "trialing") {
+                              router.push('/select-plan');
+                            } else if (coin === -1) {
+                              toast('You have unlimited coin');
+                            } else {
+                              setShowRecharge(true);
+                            }
+                          }}
+                          className="font-katide-bold flex w-full items-center justify-center rounded-full border-none bg-[#008ECC] hover:bg-[#008ECC]/90 text-xs"
+                        >
+                          {activeSubcription2?.subcription?.status === "trialing" ? 'UPGRADE' : 'TOP UP HERE'}
                         </Button>
+
                       </div>
                     </div>
                   }
@@ -964,7 +1020,7 @@ const Navbar: React.FC = () => {
                     <div className="breezy-circle"></div>
                   </div>
                 </a>
-                
+
                 <Link
                   href='/membership'
                   className='font-katide-semibold flex h-[40px] w-[178px] items-center gap-3 rounded-full px-8 py-4 text-[14px] bg-[#EE4C73] text-white hover:bg-[#CE4768]'
@@ -1078,7 +1134,7 @@ const Navbar: React.FC = () => {
             <select onChange={(e) => { setSelectedCategory(e.target.value) }} value={selectedCategory} className='font-katide-bold max-w-[130px] border-none text-sm outline-none ring-0 focus:ring-0'>
               <option value='all'>All Product</option>
               {/* <option value='Bundles'>Bundles</option> */}
-              <option value='Crafters'>Crafters</option>
+              <option value='Crafters'>Crafts</option>
               <option value='Free SVGs'>Freebies</option>
               {/* <option value='Membership'>Membership</option>
               <option value='Vector'>Vector</option>
@@ -1387,7 +1443,7 @@ const Navbar: React.FC = () => {
                     </div>
                   </>
                 )}
-                
+
                 <div
                   onClick={() => {
                     // router.push('/catalog-drizy-atelier');
