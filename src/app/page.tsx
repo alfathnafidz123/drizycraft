@@ -38,7 +38,7 @@ import {
   cat8,
   cat9,
   cat10,
-  cat11,
+  cat12, cat13
 } from '~/images';
 
 export const revalidate = 600
@@ -81,9 +81,9 @@ export default async function HomePage() {
   // const { data: productData } = await getProducts();
 
   const categoryStatic = [
-    { name: 'Drizy Atelier ', link: '', image: cat11.src },
+    { name: 'All Product ', link: 'catalog-crafter', image: cat12.src },
     { name: 'Shadow Box SVG', link: '3D Shadow Box SVGs', image: cat2.src },
-    { name: 'Cricut SVG', link: 'Cricut SVG', image: cat3.src },
+    { name: 'Cake Topper', link: 'cake topper', image: cat13.src },
     { name: 'SVG Cut File', link: 'SVG Cut Files', image: cat4.src },
     { name: 'Monogram Designs', link: 'Monogram Designs', image: cat5.src },
     { name: 'Sticker SVG', link: 'Stickers SVG', image: cat6.src },

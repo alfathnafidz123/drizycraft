@@ -192,6 +192,16 @@ export default function Membership() {
 
       window.location.replace(data.data);
 
+      await trackEvent(EventsEnum.AddPaymentInfo, {
+        paymentMethod: "Stripe",
+        membership,
+      });
+
+      await trackEvent(EventsEnum.Lead, {
+        paymentMethod: "Stripe",
+        membership,
+      });
+
     } catch (error: any) {
       toast('Create Checkout Page failed, please reach out to the administrator');
     }
@@ -418,6 +428,14 @@ export default function Membership() {
         {/* Card Membership  */}
         <section className='flex flex-col items-center justify-center text-[#1A214C] pt-10 bg-[#C2E5FF]'>
         <div className='flex w-full flex-col items-center text-[#1A214C] lg:max-w-[1264px]'>
+          <div className="mb-24">
+            <h2 className='font-katide-heavy text-[32px] sm:text-[40px] lg:text-[48px] text-center mb-4 px-4 lg:px-0 text-[#2A3B80]'>
+              VIP+ is calling!
+            </h2>
+            <p className='font-katide-medium text-[16px] sm:text-[18px] text-center mb-12 px-4 lg:px-0 text-[#61657D]'>
+              There’s Light in Every Season.<br/> Find Meaning in the Moment
+            </p>
+          </div>
           <div className='relative flex flex-col flex-wrap items-center justify-center rounded-lg lg:border border-[#1A214C] p-2 lg:p-12 mb-12 sm:border-0' style={{ borderRadius: '24px' }}>
             {/* Badge Image at Top */}
             <div className='absolute -top-3 left-0 flex w-full justify-center'>

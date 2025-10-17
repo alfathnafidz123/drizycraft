@@ -349,7 +349,10 @@ export default function Register() {
                     <th></th>
                     <th></th>
                     <th>Product</th>
-                    <th>Price</th>
+                    {subsData?.coin !== -1 && (
+                      <th>Price</th>
+                    )}
+
                   </tr>
                 </thead>
                 <tbody className='text-center'>
@@ -369,9 +372,11 @@ export default function Register() {
                         />
                       </td>
                       <td className='w-4/12'>{item.product.name}</td>
-                      <td className='w-2/12'>
-                        {item.product.coinPrice[item.licenseType]} Coin
-                      </td>
+                      {subsData?.coin !== -1 && (
+                        <td className='w-2/12'>
+                          {item.product.coinPrice[item.licenseType]} Coin
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>
@@ -386,10 +391,12 @@ export default function Register() {
                   null
                 }
               </div>
-              <div className="w-full px-2 flex flex-row justify-end gap-2 items-center font-katide-bold">
-                <div className='text-sm'>Grand Total</div>
-                <div className='text-sm'>{total} Coin</div>
-              </div>
+              {subsData?.coin !== -1 && (
+                <div className="w-full px-2 flex flex-row justify-end gap-2 items-center font-katide-bold">
+                  <div className='text-sm'>Grand Total</div>
+                  <div className='text-sm'>{total} Coin</div>
+                </div>
+              )}
               <button
                 onClick={handleDownload}
                 className='self-end rounded-full bg-[#4065D1] hover:bg-[#2A3B80] px-24 py-3 text-white'

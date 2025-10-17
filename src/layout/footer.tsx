@@ -66,6 +66,7 @@ const Footer = () => {
                 <Link href='/license'>License</Link>
                 <Link href='/terms' className='whitespace-nowrap'>Terms & Conditions</Link>
                 <Link href='/privacy' className='cursor-pointer'>Privacy Policy</Link>
+                <Link href='/cancellation-policy' className='cursor-pointer'>Cancellation Policy</Link>
               </div>
             </nav>
           </div>

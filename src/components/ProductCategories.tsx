@@ -14,10 +14,17 @@ const ProductCategories: React.FC<ProductCategoriesProps> = ({
   image,
   link,
 }) => {
+  const href =
+    link === "catalog-crafter"
+      ? `/${link}`
+      : link === "cake topper"
+        ? `/category/search/${link}?category=all`
+        : `/category/${link}`;
+
   return (
     <Link
       prefetch={true}
-      href={`/category/${link}`}
+      href={href}
       aria-label={`show-product-${name}`}
       id={`show-product-${name}`}
       className='relative h-20 w-full overflow-hidden rounded-[12px] border border-[#AAAAAA]  bg-[#EBECF5]/50 hover:bg-[#C2E5FF]'

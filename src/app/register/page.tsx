@@ -25,6 +25,7 @@ import { loginSocial } from '@/app/api/auth/loginSocial';
 import { Copy } from '~/images';
 import { SubscriptionI } from '@/app/profile/subscription/page';
 import { fetchDownloadRemaining } from '@/lib/slices/download';
+import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
 
 const LoginLottie = dynamic(() => import('../../components/lottie/login'), { ssr: false });
 
@@ -48,6 +49,8 @@ export default function Register() {
     return activeSubcriptionState;
   }, [activeSubcriptionState]);
   const [subsData, setSubsData] = useState<SubscriptionI>();
+  const { trackEvent } = PixelEventsHooks();
+
   const getSubscriptionData = async (token: string) => {
     try {
       const res = await axios.get(
@@ -77,6 +80,9 @@ export default function Register() {
 
       if (isNewUser) {
         router.push(`/create-password?token=${token}&email=${email}&message=verification-success`);
+        await trackEvent(EventsEnum.CompleteRegistration, {
+          email: email,
+        });
       } else {
         dispatch(setDataUser({ userData: user }));
         dispatch(setToken({ token }));
@@ -151,6 +157,9 @@ export default function Register() {
       setEmail('');
       setDisplayName('');
       toast('Please check your email to verify your account');
+      await trackEvent(EventsEnum.CompleteRegistration, {
+        email: email,
+      });
       // const { token, email: returnedEmail } = response.data;
       // localStorage.setItem('resetEmail', returnedEmail);
       // router.push(`/create-password?token=${token}`);

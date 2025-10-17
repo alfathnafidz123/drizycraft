@@ -739,14 +739,14 @@ const Navbar: React.FC = () => {
                           <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
                             <div
                               onClick={() => {
-                                router.push('/');
+                                router.push('/catalog-drizy-atelier');
                               }}
                               className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
                             >
                               <p>
                                 Drizy Atelier
                                 <span className="ms-1 bg-[#EE4C73] text-white text-[10px] font-katide-medium px-1.5 py-[2px] rounded-full leading-none shadow-sm">
-                                  Soon
+                                  NEW !
                                 </span>
                               </p>
                               <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
@@ -850,15 +850,14 @@ const Navbar: React.FC = () => {
                 </div>
                 <div className="relative inline-block">
                   <Link
-                    // href="/catalog-drizy-atelier"
-                    href="#"
+                    href="/catalog-drizy-atelier"
                     id="freeSvg"
                     className="flex h-[40px] w-[115px] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] px-4 py-3 hover:bg-[#CCE7EF] relative"
                   >
                     Drizy Atelier
                   </Link>
                   <span className="absolute -top-1.5 -right-0 bg-[#EE4C73] text-white text-[9px] font-katide-medium px-1.5 py-[3px] rounded-full leading-none shadow-sm">
-                    Soon
+                    NEW !
                   </span>
                 </div>
                 <Link
@@ -1301,7 +1300,7 @@ const Navbar: React.FC = () => {
                       <div className='ml-4'>
                         <div
                           onClick={() => {
-                            router.push('/');
+                            router.push('/catalog-drizy-atelier');
                             setSidebarOpen(false);
                           }}
                           className='ml-4 border-t-2 p-4'
@@ -1309,7 +1308,7 @@ const Navbar: React.FC = () => {
                           <p className='font-katide-semibold'>
                             Drizy Atelier
                             <span className="ms-1 bg-[#EE4C73] text-white text-[10px] font-katide-medium px-1.5 py-[2px] rounded-full leading-none shadow-sm">
-                              Soon
+                              NEW !
                             </span>
                           </p>
                         </div>
@@ -1446,15 +1445,15 @@ const Navbar: React.FC = () => {
 
                 <div
                   onClick={() => {
-                    // router.push('/catalog-drizy-atelier');
-                    router.push('/');
+                    router.push('/catalog-drizy-atelier');
+                    // router.push('/');
                     setSidebarOpen(false);
                   }}
                   className='border-t-2 p-4'
                 >
                   <p className='font-katide-semibold'>Drizy Atelier
                   <span className="ms-1 bg-[#EE4C73] text-white text-[10px] font-katide-medium px-1.5 py-[2px] rounded-full leading-none shadow-sm">
-                    Soon
+                    NEW !
                   </span>
                   </p>
                 </div>

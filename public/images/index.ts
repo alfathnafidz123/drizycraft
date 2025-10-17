@@ -45,6 +45,8 @@ import cat8 from './categories/8.png';
 import cat9 from './categories/9.png';
 import cat10 from './categories/10.png';
 import cat11 from './categories/11.png';
+import cat12 from './categories/12.jpg';
+import cat13 from './categories/13.png';
 import categories1 from './categories-1.webp';
 import categories2 from './categories-2.webp';
 import categories3 from './categories-3.webp';
@@ -208,6 +210,7 @@ import search from './search.png';
 import searchBlue from './search-blue.png';
 import fallSeason from './season/fall-season.webp';
 import summerSeason from './season/summer-season.png';
+import halloweenSeason from './season/halloween.png';
 import seasonCategory from './season-category.png';
 import starBadge from './star-badge.png';
 import subscription from './subscription.svg';
@@ -243,6 +246,11 @@ export { default as Print } from "./dump/print.svg";
 export { default as Cut } from "./dump/cut.svg";
 export { default as Grab } from "./dump/grab.svg";
 export { default as Embroidery } from "./dump/embroidery.svg";
+import leftMembershipHalloween from './image_membership_kiri_halloween.webp';
+import rightMembershipHalloween from './image_membership_kanan_halloween.webp';
+import membershipProductHalloween1 from './halloween_bg_lp.webp';
+import frostBackgroudHalloween from './FrostyBackgroundHalloween.png'
+
 import operationType from "./dump/operatio-type.svg";
 import materialUsed from "./dump/material-used.svg";
 import difficultyLevel from "./dump/difficulty.svg";
@@ -268,6 +276,11 @@ import arrowRightCircleFill from "./arrow_right_circle_fill.svg";
 import Unhappy from "./unhappy.svg";
 
 export {
+  frostBackgroudHalloween,
+  leftMembershipHalloween,
+  rightMembershipHalloween,
+  membershipProductHalloween1,
+  halloweenSeason,
   Unhappy,
   arrowRightCircleFill,
   CheckNonLoginAds,
@@ -344,6 +357,8 @@ export {
   cat9,
   cat10,
   cat11,
+  cat12,
+  cat13,
   catalogcrafter,
   categories1,
   categories2,
@@ -392,7 +407,6 @@ export {
   endlessCrafting,
   expandingCrafting,
   facebook,
-  fallSeason,
   feature1,
   feature2,
   feature3,
@@ -515,7 +529,6 @@ export {
   subscription,
   subscriptionInactive,
   success,
-  summerSeason,
   syelmaProject,
   syelmav,
   testimony,

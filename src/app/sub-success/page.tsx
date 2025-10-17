@@ -24,8 +24,9 @@ export default function SubSuccess() {
 
   const handleSubSuccess = async () => {
     try {
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/confirm-subs-payment`,
+      const res = await axios.post(
+        // `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/confirm-subs-payment`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/subs-success`,
         {
           checkoutId: sessionId as string,
         },
@@ -36,9 +37,19 @@ export default function SubSuccess() {
           },
         }
       );
-      await trackEvent(EventsEnum.Subscribe, {
-        sessionId,
-      });
+      const par = res.data.transactionSubs.name;
+      if (par.toLowerCase().includes('trial')) {
+        await trackEvent(EventsEnum.StartTrial, {
+          sessionId,
+        });
+      } else {
+        await trackEvent(EventsEnum.Subscribe, {
+          sessionId,
+          value: res.data.transactionSubs.price, // 💰 nilai harga dikirim ke Pixel
+          currency: 'USD',  // ⚙️ tambahkan currency (disarankan oleh Meta)
+        });
+      }
+
       dispatch(fetchSubs(token!));
       dispatch(fetchCoin(token!));
       const productUrl = localStorage.getItem("productUrl");

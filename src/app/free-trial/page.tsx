@@ -117,12 +117,17 @@ export default function Register() {
       });
       localStorage.setItem('checkoutSession', JSON.stringify(data));
 
-      await trackEvent(EventsEnum.InitCheckoutMembership, {
+      await trackEvent(EventsEnum.StartTrial, {
         priceId: priceId as string,
         membership,
       });
 
       window.location.replace(data.data);
+
+      await trackEvent(EventsEnum.AddPaymentInfo, {
+        paymentMethod: "Stripe",
+        membership,
+      });
 
     } catch (error: any) {
       toast('Create Checkout Page failed, please reach out to the administrator');
@@ -155,7 +160,7 @@ export default function Register() {
             <div className='flex items-start gap-4'>
               <Image src={arrowRightCircleFill} width={20} height={20} alt="check" />
               <p className='text-[16px] text-gray-700'>
-                By clicking "<span className='font-semibold'>Confirm and Pay</span>", you agree to our <a href='https://drizycraft.com/terms' className='text-blue-600 hover:underline'>Terms & Conditions</a> and <a href='https://drizycraft.com/privacy' className='text-blue-600 hover:underline'>Cancellation Policy</a>.
+                By clicking "<span className='font-semibold'>Confirm and Pay</span>", you agree to our <a href='/terms' className='text-blue-600 hover:underline'>Terms & Conditions</a> and <a href='/cancellation-policy' className='text-blue-600 hover:underline'>Cancellation Policy</a>.
               </p>
             </div>
           </div>

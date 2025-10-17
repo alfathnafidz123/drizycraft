@@ -22,6 +22,7 @@ import { siteConfig } from '@/constant/config';
 import AsyncCSSSlick from '@/layout/asyncCssSlick';
 import AsyncCSSThemeSlick from '@/layout/asyncCssThemeSlick';
 import { generateMetadata } from '@/lib/seo';
+import { disableConsole } from '@/lib/disableConsole';
 
 const Footer = lazy(() => import('@/layout/footer'));
 const Navbar = lazy(() => import('@/layout/navbar'));
@@ -72,11 +73,10 @@ export const metadata = generateMetadata({
   url: 'https://drizycraft.com',
 });
 
-export default function RootLayout({
-  children,
-}: {
+export default function RootLayout({ children, }: {
   children: React.ReactNode;
 }) {
+  disableConsole()
   return (
     <>
     <html className='!scroll-smooth' lang='en'>

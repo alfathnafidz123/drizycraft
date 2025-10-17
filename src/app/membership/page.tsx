@@ -68,13 +68,28 @@ export default function Membership() {
       features: [
         { title: 'Daily SVG Updates', desc: 'always something new to explore' },
         { title: 'Breezy Mode', desc: 'seamless creations with drag & drop' },
-        { title: 'Machine Compatibility', desc: 'works seamlessly with cutting, laser, and sublimation devices' },
+        {
+          title: 'Machine Compatibility',
+          desc: 'works seamlessly with cutting, laser, and sublimation devices',
+        },
       ],
       exclude: [
-        { title: 'Custom Designs on Request', desc: 'chat with our team for unique creations' },
-        { title: 'Full License Coverage', desc: 'includes commercial and POD licensing' },
-        { title: 'Business Assistance', desc: 'tools and support to elevate your project' },
-        { title: 'Premium Support', desc: 'priority access to our dedicated artist team' },
+        {
+          title: 'Custom Designs on Request',
+          desc: 'chat with our team for unique creations',
+        },
+        {
+          title: 'Full License Coverage',
+          desc: 'includes commercial and POD licensing',
+        },
+        {
+          title: 'Business Assistance',
+          desc: 'tools and support to elevate your project',
+        },
+        {
+          title: 'Premium Support',
+          desc: 'priority access to our dedicated artist team',
+        },
       ],
       priceId: process.env.NEXT_PUBLIC_PRICE_TRIAL,
     },
@@ -85,20 +100,38 @@ export default function Membership() {
       discount: '$30',
       extra: undefined,
       additional: 'First Month Only',
-      text: "<p><br />Get unlimited access to <strong>all premium assets.</strong> Unleash boundless crafting joy, as effortless as drag-and-drop onto your beloved cutting, laser & sublimation machines. Commercial and POD license included. Cancel anytime <br /><br /></p>",
-      coin: <p className='text-sm'>
-        <span className='font-katide-semibold'>50 Drizy Coins</span> to all premium products
-      </p>,
+      text: '<p><br />Get unlimited access to <strong>all premium assets.</strong> Unleash boundless crafting joy, as effortless as drag-and-drop onto your beloved cutting, laser & sublimation machines. Commercial and POD license included. Cancel anytime <br /><br /></p>',
+      coin: (
+        <p className='text-sm'>
+          <span className='font-katide-semibold'>50 Drizy Coins</span> to all
+          premium products
+        </p>
+      ),
       features: [
         { title: 'Daily SVG Updates', desc: 'always something new to explore' },
         { title: 'Breezy Mode', desc: 'seamless creations with drag & drop' },
-        { title: 'Machine Compatibility', desc: 'works seamlessly with cutting, laser, and sublimation devices' },
-        { title: 'Custom Designs on Request', desc: 'chat with our team for unique creations' },
-        { title: 'Full License Coverage', desc: 'includes commercial and POD licensing' },
+        {
+          title: 'Machine Compatibility',
+          desc: 'works seamlessly with cutting, laser, and sublimation devices',
+        },
+        {
+          title: 'Custom Designs on Request',
+          desc: 'chat with our team for unique creations',
+        },
+        {
+          title: 'Full License Coverage',
+          desc: 'includes commercial and POD licensing',
+        },
       ],
       exclude: [
-        { title: 'Business Assistance', desc: 'tools and support to elevate your project' },
-        { title: 'Premium Support', desc: 'priority access to our dedicated artist team' },
+        {
+          title: 'Business Assistance',
+          desc: 'tools and support to elevate your project',
+        },
+        {
+          title: 'Premium Support',
+          desc: 'priority access to our dedicated artist team',
+        },
       ],
       priceId: process.env.NEXT_PUBLIC_PRICE_MONTHLY,
     },
@@ -110,19 +143,39 @@ export default function Membership() {
       extra: '($74.99/year)',
       additional: undefined,
       text: "<p><br/> Crafting your Way! Unlock a year of <strong>premium features</strong> at the lowest price. Save more. <br/><br/>You're billed $74.99 per year, saving you 75% compared to the monthly plan! Cancel anytime. <br/></p>",
-      coin: <p className='text-sm'>
-        <span className='font-katide-semibold'>Unlimited Drizy Coins</span> for
-        Diverse Crafting Options
-      </p>,
+      coin: (
+        <p className='text-sm'>
+          <span className='font-katide-semibold'>Unlimited Drizy Coins</span>{' '}
+          for Diverse Crafting Options
+        </p>
+      ),
       features: [
-        { title: 'Unlimited Premium Products', desc: 'access every asset, all year long' },
+        {
+          title: 'Unlimited Premium Products',
+          desc: 'access every asset, all year long',
+        },
         { title: 'Daily SVG Updates', desc: 'always something new to explore' },
         { title: 'Breezy Mode', desc: 'seamless creations with drag & drop' },
-        { title: 'Machine Compatibility', desc: 'works seamlessly with cutting, laser, and sublimation devices' },
-        { title: 'Custom Designs on Request', desc: 'chat with our team for unique creations' },
-        { title: 'Full License Coverage', desc: 'includes commercial and POD licensing' },
-        { title: 'Business Assistance', desc: 'tools and support to elevate your project' },
-        { title: 'Premium Support', desc: 'priority access to our dedicated artist team' },
+        {
+          title: 'Machine Compatibility',
+          desc: 'works seamlessly with cutting, laser, and sublimation devices',
+        },
+        {
+          title: 'Custom Designs on Request',
+          desc: 'chat with our team for unique creations',
+        },
+        {
+          title: 'Full License Coverage',
+          desc: 'includes commercial and POD licensing',
+        },
+        {
+          title: 'Business Assistance',
+          desc: 'tools and support to elevate your project',
+        },
+        {
+          title: 'Premium Support',
+          desc: 'priority access to our dedicated artist team',
+        },
       ],
       exclude: [],
       priceId: process.env.NEXT_PUBLIC_PRICE_ANNUAL,
@@ -186,6 +239,15 @@ export default function Membership() {
       });
 
       window.location.replace(data.data);
+
+      await trackEvent(EventsEnum.AddPaymentInfo, {
+        paymentMethod: "Stripe",
+        membership,
+      });
+      await trackEvent(EventsEnum.Lead, {
+        paymentMethod: "Stripe",
+        membership,
+      });
 
     } catch (error: any) {
       toast('Create Checkout Page failed, please reach out to the administrator');

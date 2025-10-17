@@ -4,6 +4,9 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // compiler: {
+  //   removeConsole: true,
+  // },
   eslint: {
     dirs: ['src'],
     ignoreDuringBuilds: true,

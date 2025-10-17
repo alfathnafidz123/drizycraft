@@ -373,134 +373,146 @@ const ProductCard: React.FC<ProductCardProps> = ({
     return ' flex h-auto w-full max-w-full mx-auto flex-col flex-nowrap items-start gap-[16px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-2 shadow-xl transition-none hover:border-[2px]';
   };
 
+  const isReady =
+    data &&
+    data.imageUrl &&
+    activeSubcriptionState?.subcription !== undefined &&
+    subsData?.coin !== undefined;
+
   return (
     <>
-      <div className={containerClassNames()}>
-        {generateSale()}
-        <div className={cardClassNames()}>
-          <NextImage
-            onClick={() => data?.meta?.[0]?.title && router.push(`/product/${data.meta[0].title}`)}
-            src={data.imageUrl[0]}
-            alt={data.name}
-            height={180}
-            width={260}
-            quality={60}
-            className='h-auto w-full rounded-2xl object-cover '
-            classNames={{ image: 'h-auto w-full rounded-2xl object-cover' }}
-            useSkeleton={true}
-          />
-          <Link href={data?.meta?.[0]?.title ? `/product/${data.meta[0].title}` : '#'} className='relative z-[2] flex h-[50px] shrink-0 items-start justify-start self-stretch overflow-hidden text-left lg:text-[16px] text-[14px] font-semibold leading-[17.6px] text-[#1a204c]'>
-            {data.name}
-          </Link>
-          <div className='flex w-full justify-between gap-2'>
-            {token && activeSubcriptionState.subcription && (
-              <button
-                id={`show-detail-${data.id}`}
-                type="button"
-                onClick={() => {
-                  if (ownerStatus) {
-                    getTransactionData(); // kalau sudah owned
-                  } else if (!token) {
-                    localStorage.setItem("productUrl", `/product/${data?.meta?.[0]?.title}`);
-                    window.location.href = "/free-trial";
-                  } else {
-                    handleDownload();
-                  }
-                }}
-                className="pointer flex h-[37px] flex-grow flex-nowrap items-center justify-center gap-[8px] rounded-[8px] bg-[#2a3b80] pb-[12px] pl-[24px] pr-[24px] pt-[12px] group-hover:bg-[#4065D1]"
-              >
-                {downloadLoading ? (
-                  <Loader className="animate-spin" />
-                ) : (
-                  <>
-                    {ownerStatus ? (
-                      // ✅ Kalau sudah punya product
-                      <span className="font-katide-bold z-[5] flex flex-row items-center gap-1 text-[14px] sm:text-[16px] md:text-[16px] lg:text-[16px] leading-[16px] text-[#fff] transition-all group-hover:scale-0">
-                        OWNED
+        <div className={containerClassNames()}>
+          {generateSale()}
+          <div className={cardClassNames()}>
+            <NextImage
+              onClick={() => data?.meta?.[0]?.title && router.push(`/product/${data.meta[0].title}`)}
+              src={data.imageUrl[0]}
+              alt={data.name}
+              height={180}
+              width={260}
+              quality={60}
+              className='h-auto w-full rounded-2xl object-cover '
+              classNames={{ image: 'h-auto w-full rounded-2xl object-cover' }}
+              useSkeleton={true}
+            />
+            <Link href={data?.meta?.[0]?.title ? `/product/${data.meta[0].title}` : '#'} className='relative z-[2] flex h-[50px] shrink-0 items-start justify-start self-stretch overflow-hidden text-left lg:text-[16px] text-[14px] font-semibold leading-[17.6px] text-[#1a204c]'>
+              {data.name}
+            </Link>
+            <div className='flex w-full justify-between gap-2'>
+              {token && activeSubcriptionState.subcription && (
+                <button
+                  id={`show-detail-${data.id}`}
+                  type="button"
+                  onClick={() => {
+                    if (ownerStatus) {
+                      getTransactionData(); // kalau sudah owned
+                    } else if (!token) {
+                      localStorage.setItem("productUrl", `/product/${data?.meta?.[0]?.title}`);
+                      window.location.href = "/free-trial";
+                    } else {
+                      handleDownload();
+                    }
+                  }}
+                  className="pointer flex h-[37px] flex-grow flex-nowrap items-center justify-center gap-[8px] rounded-[8px] bg-[#2a3b80] pb-[12px] pl-[24px] pr-[24px] pt-[12px] group-hover:bg-[#4065D1]"
+                >
+                  {downloadLoading ? (
+                    <Loader className="animate-spin" />
+                  ) : (
+                    <>
+                      {ownerStatus ? (
+                        // ✅ Kalau sudah punya product
+                        <span className="font-katide-bold z-[5] flex flex-row items-center gap-1 text-[14px] sm:text-[16px] md:text-[16px] lg:text-[16px] leading-[16px] text-[#fff] transition-all group-hover:scale-0">
+                          OWNED
+                        </span>
+                      ) : (
+                        <span className="font-katide-bold z-[5] flex flex-row items-center gap-1 text-[14px] sm:text-[16px] md:text-[16px] lg:text-[16px] leading-[16px] text-[#fff] transition-all group-hover:scale-0">
+                          {isDiscount &&
+                          !(activeSubcription && dataUser?.coin && dataUser?.coin !== 0) ? (
+                            <p className="font-katide-regular text-sm text-white line-through">
+                              ${data?.price[0]}
+                            </p>
+                          ) : null}
+                          {/*{generatePrice()}*/} DOWNLOAD NOW
+                        </span>
+                          )}
+                        <span className="font-katide-bold absolute hidden items-center justify-center rounded-[8px] bg-[#4065D1] text-[16px] leading-[16px] group-hover:flex">
+                        <span className="scale-0 text-[#fff] group-hover:scale-100">
+                          {ownerStatus ? generateCTA() : generateCTA()}
+                        </span>
                       </span>
-                    ) : (
-                      <span className="font-katide-bold z-[5] flex flex-row items-center gap-1 text-[14px] sm:text-[16px] md:text-[16px] lg:text-[16px] leading-[16px] text-[#fff] transition-all group-hover:scale-0">
-                        {isDiscount &&
-                        !(activeSubcription && dataUser?.coin && dataUser?.coin !== 0) ? (
-                          <p className="font-katide-regular text-sm text-white line-through">
-                            ${data?.price[0]}
-                          </p>
-                        ) : null}
-                        {/*{generatePrice()}*/} DOWNLOAD NOW
-                      </span>
-                        )}
-                      <span className="font-katide-bold absolute hidden items-center justify-center rounded-[8px] bg-[#4065D1] text-[16px] leading-[16px] group-hover:flex">
-                      <span className="scale-0 text-[#fff] group-hover:scale-100">
-                        {ownerStatus ? generateCTA() : generateCTA()}
-                      </span>
-                    </span>
-                  </>
-                )}
-              </button>
-            )}
+                    </>
+                  )}
+                </button>
+              )}
 
-            {token && !ownerStatus && activeSubcriptionState.subcription && (
-              <button
-                id={`add-${data.id}-cart`}
-                type='button'
-                onClick={handleCart}
-                className='flex h-[37px] w-[37px] items-center justify-center rounded-[8px] border-2 border-gray-400 bg-white sm:h-[37px] sm:w-auto sm:gap-[8px] sm:px-[24px]'
-              >
+              {token && !ownerStatus && activeSubcriptionState.subcription && (
+                <button
+                  id={`add-${data.id}-cart`}
+                  type='button'
+                  onClick={handleCart}
+                  className='flex h-[37px] w-[37px] items-center justify-center rounded-[8px] border-2 border-gray-400 bg-white sm:h-[37px] sm:w-auto sm:gap-[8px] sm:px-[24px]'
+                >
+                  <img
+                    src={cartProduct.src}
+                    alt='cart'
+                    className='h-3 w-3 object-contain sm:h-5 sm:w-5'
+                  />
+                </button>
+              )}
+            </div>
+            {data.author?.name && (
+              <div className='flex flex-row items-center gap-1.5'>
                 <img
-                  src={cartProduct.src}
-                  alt='cart'
-                  className='h-3 w-3 object-contain sm:h-5 sm:w-5'
+                  src={
+                    data.author.avatar && data.author.avatar !== ''
+                      ? data.author.avatar
+                      : defaultAvatar.src
+                  }
+                  alt={`Partner ${data.author.name}`}
+                  className='h-8 w-8 rounded-full'
                 />
-              </button>
+                <p className='font-thin text-[#777777]'>
+                  By <span className='text-[#61A9FA]'>{data.author?.name}</span>
+                </p>
+              </div>
             )}
-          </div>
-          {data.author?.name && (
-            <div className='flex flex-row items-center gap-1.5'>
-              <img
-                src={
-                  data.author.avatar && data.author.avatar !== ''
-                    ? data.author.avatar
-                    : defaultAvatar.src
-                }
-                alt={`Partner ${data.author.name}`}
-                className='h-8 w-8 rounded-full'
-              />
-              <p className='font-thin text-[#777777]'>
-                By <span className='text-[#61A9FA]'>{data.author?.name}</span>
-              </p>
-            </div>
-          )}
 
-          <Link href={
+            <Link href={
+                data?.meta?.[0]?.title
+                  ? `https://id.pinterest.com/pin/create/button/?description=${data?.name}&url=${process.env.NEXT_PUBLIC_URL}/product/${data.meta[0].title}&media=${data?.imageUrl[0]}`
+                  : '#'
+              } target='_blank' className='absolute left-[10px] top-[10px] z-[7] cursor-pointer bg-no-repeat opacity-0 transition-all duration-500 group-hover:opacity-100'>
+              <img
+                src={hoverPinterest.src}
+                className='h-[35px] w-[35px]'
+                alt={`share-pinterest-${data.name}`}
+              />
+            </Link>
+            <Link href={
               data?.meta?.[0]?.title
-                ? `https://id.pinterest.com/pin/create/button/?description=${data?.name}&url=${process.env.NEXT_PUBLIC_URL}/product/${data.meta[0].title}&media=${data?.imageUrl[0]}`
-                : '#'
-            } target='_blank' className='absolute left-[10px] top-[10px] z-[7] cursor-pointer bg-no-repeat opacity-0 transition-all duration-500 group-hover:opacity-100'>
-            <img
-              src={hoverPinterest.src}
-              className='h-[35px] w-[35px]'
-              alt={`share-pinterest-${data.name}`}
-            />
-          </Link>
-          <Link href={
-            data?.meta?.[0]?.title
-            ? `https://api.whatsapp.com/send?text=${process.env.NEXT_PUBLIC_URL}/product/${data?.meta?.[0].title}`
-            : '#'
-            } target='_blank' className='absolute left-[50px] top-[10px] z-[7] cursor-pointer bg-no-repeat opacity-0 transition-all duration-500 group-hover:opacity-100'>
-            <img
-              src={hoverWA.src}
-              className='h-[35px] w-[35px]'
-              alt={`share-whatsapp-${data.name}`}
-            />
-          </Link>
-          {token && activeSubcriptionState.subcription && subsData?.coin !== -1 && (
-            <div className="absolute right-[10px] top-[10px] z-[7] flex items-center bg-white rounded-2xl gap-2 p-1 font-katide-bold shadow-lg text-[#61657D]">
-              <img src={drizzyCoin.src} alt="cart" className="w-5 h-5" />
-              <span className="me-3">{data?.coinPrice?.[0] ?? 0}</span>
-            </div>
-          )}
+              ? `https://api.whatsapp.com/send?text=${process.env.NEXT_PUBLIC_URL}/product/${data?.meta?.[0].title}`
+              : '#'
+              } target='_blank' className='absolute left-[50px] top-[10px] z-[7] cursor-pointer bg-no-repeat opacity-0 transition-all duration-500 group-hover:opacity-100'>
+              <img
+                src={hoverWA.src}
+                className='h-[35px] w-[35px]'
+                alt={`share-whatsapp-${data.name}`}
+              />
+            </Link>
+            {token &&
+              activeSubcriptionState?.subcription !== undefined &&
+              subsData &&
+              subsData.coin !== undefined &&
+              activeSubcriptionState.subcription &&
+              subsData.coin !== -1 && (
+                <div className="absolute right-[10px] top-[10px] z-[7] flex items-center bg-white rounded-2xl gap-2 p-1 font-katide-bold shadow-lg text-[#61657D]">
+                  <img src={drizzyCoin.src} alt="coin" className="w-5 h-5" />
+                  <span className="me-3">{data?.coinPrice?.[0] ?? 0}</span>
+                </div>
+              )}
+
+          </div>
         </div>
-      </div>
       <FreeTrialModal
         isOpen={showTrialModal}
         onClose={() => setShowTrialModal(false)}

@@ -13,7 +13,7 @@ import NextImage from '@/components/NextImage';
 import { getAllProduct, SortType } from '@/app/api/product/getProduct';
 import { productI } from "@/interfaces/product.interface";
 
-import { arrowLefts, arrowRights, fallSeason } from "~/images";
+import { arrowLefts, arrowRights, halloweenSeason } from '~/images';
 
 
 const SeasonSection = ({ product }: { product: productI[] }) => {
@@ -29,7 +29,7 @@ const SeasonSection = ({ product }: { product: productI[] }) => {
     const getProduct = useCallback(async () => {
       try {
         setLoading(true);
-        const rawCategory = 'Fall SVG';
+        const rawCategory = 'Halloween SVG';
         const category = decodeURIComponent(rawCategory.replace(/^"|"$/g, ''));
         setCategoryName(category);
         // console.log('Fetching products with params:', {
@@ -74,7 +74,7 @@ const SeasonSection = ({ product }: { product: productI[] }) => {
     };
 
     const calculateTimeLeft = () => {
-      const targetDate = new Date('2025-09-30T23:59:59');
+      const targetDate = new Date('2025-11-08T23:59:59');
       const now = new Date();
       const difference = targetDate.getTime() - now.getTime();
 
@@ -138,11 +138,11 @@ const SeasonSection = ({ product }: { product: productI[] }) => {
       <SectionContainer
         className='flex flex-col items-center justify-center pt-[10px] text-center'
       >
-        <div className="relative w-full my-8 mx-4 sm:mx-6 lg:mx-8 lg:rounded-2xl overflow-hidden" style={{ backgroundImage: 'linear-gradient(to bottom, #FFE3B3, #ED7737)' }}>
+        <div className="relative w-full my-8 mx-4 sm:mx-6 lg:mx-8 lg:rounded-2xl overflow-hidden" style={{ backgroundImage: 'linear-gradient(to bottom, #D458F3, #552882)' }}>
           {/* Absolute Image on Right */}
           <div className="hidden lg:block absolute top-0 bottom-0 right-0 h-[250px]">
             <Image
-              src={fallSeason}
+              src={halloweenSeason}
               alt="Craft Banner Image"
               className="h-[250px] w-auto object-cover"
             />
@@ -157,12 +157,12 @@ const SeasonSection = ({ product }: { product: productI[] }) => {
               </span>
             </p>
             
-            <h1 className="font-katide-extrabold text-[36px] sm:text-[40px] leading-[120%] text-indigo-950 lg:text-[55px] mt-5 mb-6">
-              Hello Cozy Crafts
+            <h1 className="font-katide-extrabold text-[36px] sm:text-[40px] leading-[120%] text-[#B0F402] lg:text-[50px] mt-5 mb-6">
+              Spooky Season is Here
             </h1>
 
-            <p className="text-[16px] font-katide-regular text-gray-600 mb-4 max-w-xl leading-7">
-              As the leaves fall and the days turn crisp, craft stories of home, warmth, <br className='hidden sm:block'></br> and handmade magic with our exclusive fall-inspired SVG.
+            <p className="text-[16px] font-katide-regular text-[#EBECF5] mb-4 max-w-xl leading-7">
+              Get ready for a thrilling experience with exclusive Halloween designs,<br className='hidden sm:block'></br> limited-time offers, and festive fun!
             </p>
           </div>
           <div className="lg:mt-5 px-4">

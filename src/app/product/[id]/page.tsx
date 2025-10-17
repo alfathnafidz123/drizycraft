@@ -685,11 +685,14 @@ export default function Register() {
                     ? 'text-[#1A214C]'
                     : 'text-[#1A214C]'
                 }`}>
-                  {ownerStatus
-                    ? 'OWNED'
-                    : token
-                      ? `${generatePrice()}`
-                      : 'FREE'
+                  {
+                    ownerStatus
+                      ? 'OWNED'
+                      : dataUser?.coin === -1
+                        ? ''
+                        : token
+                          ? `${generatePrice()}`
+                          : 'FREE'
                   }
                 </p>
               </div>
@@ -789,6 +792,8 @@ export default function Register() {
                         'UNLOCK DOWNLOAD'
                       ) : !token ? (
                         'DOWNLOAD FOR FREE'
+                      ) : subsData?.coin === -1 ? (
+                        'DOWNLOAD NOW'
                       ) : (
                         'Buy with coin'
                       )}

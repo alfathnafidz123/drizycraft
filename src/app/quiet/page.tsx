@@ -197,6 +197,16 @@ export default function Membership() {
 
       window.location.replace(data.data);
 
+      await trackEvent(EventsEnum.AddPaymentInfo, {
+        paymentMethod: "Stripe",
+        membership,
+      });
+
+      await trackEvent(EventsEnum.Lead, {
+        paymentMethod: "Stripe",
+        membership,
+      });
+
     } catch (error: any) {
       toast('Create Checkout Page failed, please reach out to the administrator');
     }

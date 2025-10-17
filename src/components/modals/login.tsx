@@ -22,6 +22,7 @@ import { loginSocial } from '@/app/api/auth/loginSocial';
 import { Copy } from '~/images';
 import { SubscriptionI } from '@/app/profile/subscription/page';
 import { fetchDownloadRemaining } from '@/lib/slices/download';
+import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
 
 const LoginLottie = dynamic(() => import('../lottie/login'), { ssr: false });
 
@@ -44,6 +45,7 @@ const ModalLogin: React.FC = () => {
     ...state.subs,
   }));
   const [subsData, setSubsData] = useState<SubscriptionI>();
+  const { trackEvent } = PixelEventsHooks();
 
   const getSubscriptionData = async (token: string) => {
     try {
@@ -125,6 +127,9 @@ const ModalLogin: React.FC = () => {
 
       if (isNewUser) {
         router.push(`/create-password?token=${token}&email=${email}&message=verification-success`);
+        await trackEvent(EventsEnum.CompleteRegistration, {
+          email: email,
+        });
       } else {
         dispatch(setDataUser({ userData: user }));
         dispatch(setToken({ token }));
@@ -228,10 +233,19 @@ const ModalLogin: React.FC = () => {
       {/* Modal content */}
       {openModal && (
         <div className='fixed left-1/2 top-1/2 z-[90] max-h-screen w-full -translate-x-1/2 -translate-y-1/2 transform overflow-y-auto rounded-3xl bg-[#E5F6FB] p-8 shadow-lg lg:h-fit lg:w-fit lg:overflow-hidden'>
+          <button
+            onClick={closeModal}
+            className='absolute right-6 top-4 text-gray-600 hover:text-gray-800 text-2xl font-bold'
+            aria-label='Close'
+          >
+            ×
+          </button>
           <div className='flex flex-col gap-4 lg:flex-row lg:gap-16'>
             <div className='flex flex-col justify-between gap-8'>
               {/* <img src={loginImage.src} alt='login' /> */}
-              <LoginLottie />
+              <div className='hidden lg:flex'>
+                <LoginLottie />
+              </div>
               <p className='text-grey-900 hidden lg:block'>
                 New User?
                 <Link href='/register'>
