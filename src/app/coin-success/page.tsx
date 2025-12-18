@@ -20,21 +20,21 @@ export default function SubSuccess() {
 
   const handleBuySuccess = async () => {
     try {
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/confirm-coin-payment`,
-        {
-          checkoutId: sessionId,
-          sessionId: sessionId,
-          token: token,
-        },
-        {
-          headers: {
-            Accept: 'application/json',
-            Authorization: `Bearer ${token ?? ''}`,
-          },
-        }
-      );
-      // router.replace('/profile/subscription');
+      // await axios.post(
+      //   `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/confirm-coin-payment`,
+      //   {
+      //     checkoutId: sessionId,
+      //     sessionId: sessionId,
+      //     token: token,
+      //   },
+      //   {
+      //     headers: {
+      //       Accept: 'application/json',
+      //       Authorization: `Bearer ${token ?? ''}`,
+      //     },
+      //   }
+      // );
+      router.replace('/profile/subscription');
       window.location.href = '/profile/subscription';
     } catch (error: any) {
       toast('Payment failed, please reach out to the administrator');

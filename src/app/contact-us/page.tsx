@@ -1,16 +1,46 @@
-'use client'
+'use client';
 
-
+import { useRef, useState } from 'react';
 import { Loader } from 'lucide-react';
-
 import useSupportMessage from '@/lib/hooks/useSupportMessage';
-
 import ValidationError from '@/components/validation/error';
-
 import { ContactUs } from '~/images';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 export default function Contact() {
   const { handleCreate, isLoading, register, errors } = useSupportMessage();
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const [captchaError, setCaptchaError] = useState(false);
+
+  console.log(captchaError);
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const token = recaptchaRef.current?.getValue();
+    console.log('token recaptcha', token);
+    if (!token) {
+      setCaptchaError(true);
+      return;
+    }
+
+    const form = e.currentTarget;
+    const payload = {
+      name: (form.elements.namedItem("name") as HTMLInputElement).value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      subject: (form.elements.namedItem("subject") as HTMLInputElement).value,
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+      token,
+    };
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    await handleCreate(payload, token);
+    console.log('payload terkirim:', token);
+    recaptchaRef.current?.reset();
+  };
+
+
   return (
     <main className='bg-[#F4F4F4]'>
       <p className=' font-katide-bold mb-[2%] pt-[5%] text-center text-[36px] tracking-wider text-[#1A214C]'>
@@ -35,15 +65,14 @@ export default function Contact() {
         </div>
 
         <div className='flex w-full max-w-[569px] flex-col gap-4 rounded-xl bg-white p-4 xl:p-8 text-[14px] shadow-lg'>
-          <form onSubmit={handleCreate} className='m-[8%]'>
+          <form onSubmit={onSubmit} className='m-[8%]'>
             <div className='flex flex-grow flex-col'>
               <label className='pl-4 text-[#1A214C]'>Your name</label>
               <input
                 type='text'
                 className='border-grey-100 m-[3%] rounded-full border-[1px]'
-                placeholder=''
                 {...register('name')}
-              ></input>
+              />
               <ValidationError error={errors.name} />
             </div>
 
@@ -52,9 +81,8 @@ export default function Contact() {
               <input
                 type='email'
                 className='border-grey-100 m-[3%] rounded-full border-[1px]'
-                placeholder=''
                 {...register('email')}
-              ></input>
+              />
               <ValidationError error={errors.email} />
             </div>
 
@@ -63,9 +91,8 @@ export default function Contact() {
               <input
                 type='text'
                 className='border-grey-100 m-[3%] rounded-full border-[1px]'
-                placeholder=''
                 {...register('subject')}
-              ></input>
+              />
               <ValidationError error={errors.subject} />
             </div>
 
@@ -73,15 +100,28 @@ export default function Contact() {
               <label className='pl-4 text-[#1A214C]'>Your message</label>
               <textarea
                 className='border-grey-100 m-[3%] rounded-xl border-[1px]'
-                placeholder=''
                 {...register('message')}
-              ></textarea>
+              />
               <ValidationError error={errors.message} />
             </div>
 
-            <div className='mt-8 flex w-full'>
+            <div className='mt-4 flex justify-center'>
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+              />
+            </div>
+
+            {captchaError && (
+              <p className='text-red-500 text-center mt-2 text-sm'>
+                Please verify that you are not a robot
+              </p>
+            )}
+
+            <div className='mt-8 flex w-full justify-center'>
               <button
-                className='m-[3%] rounded-full bg-[#4065D1] hover:bg-[#2A3B80] px-[30%] py-[1%] font-semibold text-[#e4f6fb]'
+                type='submit'
+                className='rounded-full bg-[#4065D1] hover:bg-[#2A3B80] px-[30%] py-[1%] font-semibold text-[#e4f6fb]'
               >
                 {isLoading ? <Loader className='animate-spin' /> : 'Submit'}
               </button>

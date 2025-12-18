@@ -274,8 +274,34 @@ import Comp6 from "./comp/comp6.png";
 import CheckNonLoginAds from "./ads-nonlogin-check.svg";
 import arrowRightCircleFill from "./arrow_right_circle_fill.svg";
 import Unhappy from "./unhappy.svg";
+import seasonAutumn from "./season/autumn.png"
+import trendingBirtdayBox from "./trend-section/birthdayboxdrizycraft.webp"
+import trendingSchoolBus from "./trend-section/schoolbusdrizycraft.webp"
+import bfBgBanner from "./blackfriday/bg-banner.png"
+import bfBanner from "./blackfriday/bfBanner.png"
+import bfBgBannerLeft from "./blackfriday/bgBannerLeft.png"
+import bfBgBannerRight from "./blackfriday/bgBannerRight.png"
+import bgBgSlider from "./blackfriday/bf-bg-slide.png"
+import newBadgePurple from "./new-badge-purple.svg"
+import bannerMembershipNew from "./banner-membership-new.png";
+import bgBannerMembershipNew from './bg-banner-membership-new.png';
+import bgBannerMembershipNewYear from './bg-banner-membership-new-year.png';
+import bannerMembershipNewYear from './banner-membership-new-year.png';
 
 export {
+  bannerMembershipNewYear,
+  bgBannerMembershipNewYear,
+  bgBannerMembershipNew,
+  bannerMembershipNew,
+  newBadgePurple,
+  bgBgSlider,
+  bfBgBannerLeft,
+  bfBgBannerRight,
+  bfBanner,
+  bfBgBanner,
+  trendingBirtdayBox,
+  trendingSchoolBus,
+  seasonAutumn,
   frostBackgroudHalloween,
   leftMembershipHalloween,
   rightMembershipHalloween,

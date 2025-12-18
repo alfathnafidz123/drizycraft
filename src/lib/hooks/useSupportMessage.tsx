@@ -8,12 +8,19 @@ import * as yup from "yup";
 import errorHandler from "@/lib/errorHandler";
 
 interface ActionState { isLoading?: boolean; isSuccess?: boolean }
-interface FormI { email: string; name: string; subject: string; message: string; }
+interface FormI {
+  email: string;
+  name: string;
+  subject: string;
+  message: string;
+  token?: string; // 🟢 tambahkan token di tipe data
+}
 
 const useSupportMessage = () => {
   const [stateCreate, setStateCreate] = useState<ActionState>();
   const isLoading = stateCreate?.isLoading;
   const isSuccess = stateCreate?.isSuccess;
+
   const schema = yup
     .object({
       email: yup.string().email().required(),
@@ -22,18 +29,18 @@ const useSupportMessage = () => {
       message: yup.string().required(),
     })
     .required();
+
   const defaultValues: FormI = {
-    email: '',
-    name: '',
-    subject: '',
-    message: '',
+    email: "",
+    name: "",
+    subject: "",
+    message: "",
   };
 
   const {
     handleSubmit,
     formState: { errors },
     register,
-    watch,
     control,
     reset,
   } = useForm<FormI>({
@@ -42,12 +49,16 @@ const useSupportMessage = () => {
     defaultValues,
   });
 
-  const create = async (data: FormI) => {
+  // 🟢 ubah agar create menerima token secara manual
+  const create = async (data: FormI, token?: string) => {
     try {
       setStateCreate({ isLoading: true });
-      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/user/support`, data);
+      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/user/support`, {
+        ...data,
+        token, // kirim token ke backend
+      });
       setStateCreate({ isLoading: false, isSuccess: true });
-      toast.info('Message sent!');
+      toast.info("Message sent!");
       reset({});
     } catch (error) {
       errorHandler(error);
@@ -55,15 +66,14 @@ const useSupportMessage = () => {
     }
   };
 
-  const handleCreate = handleSubmit(create);
+  // 🟢 expose handleCreate agar bisa menerima token dari luar
+  const handleCreate = (data: FormI, token?: string) => create(data, token);
 
   return {
     handleCreate,
     isLoading,
     register,
     errors,
-    watch,
-    defaultValues,
     control,
     isSuccess,
     reset,

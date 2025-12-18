@@ -1,36 +1,29 @@
 'use client';
 
-import { IoIosCloseCircleOutline } from '@react-icons/all-files/io/IoIosCloseCircleOutline';
-import axios, { AxiosError } from 'axios';
-import dynamic from 'next/dynamic';
+import axios from 'axios';
 import Image from 'next/image';
 import * as React from 'react';
 import { toast } from 'react-toastify';
-
-import errorHandler from '@/lib/errorHandler';
-import { fetchCart } from '@/lib/slices/cart';
-import { setSubscriptionModalOpen } from '@/lib/slices/subcription';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
-import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
-
-import { itemPayment } from '@/app/api/billing/itemPayment';
-import { CheckCouponResI } from '@/interfaces/coupon.interface';
-import {fetchCoin, fetchProfile, setOpenModal} from "@/lib/slices/user";
-import {OrderI} from "@/interfaces/product.interface";
+import PixelEventsHooks, {
+  EventsEnum,
+  RedditEventsEnum,
+} from '@/components/pixel-custom-events';
+import { setOpenModal } from '@/lib/slices/user';
 import {
   AmexLogo,
   arrowRightCircleFill,
-  CheckNonLoginAds, DinersClubLogo,
-  DiscoverLogo, JcbLogo,
+  DinersClubLogo,
+  DiscoverLogo,
+  JcbLogo,
   MasterCardLogo,
   StripeLogo,
-  VisaLogo
+  VisaLogo,
 } from '~/images';
 import NextImage from '@/components/NextImage';
 import { SubsTransactionResI } from '@/interfaces/transaction.interfaces';
 import { subscriptionPayment } from '@/app/api/billing/subscriptionPayment';
-import { useEffect } from 'react';
 
 export default function Register() {
   const dispatch = useAppDispatch();
@@ -121,6 +114,8 @@ export default function Register() {
         priceId: priceId as string,
         membership,
       });
+      
+      await trackEvent(RedditEventsEnum.SignUp);
 
       window.location.replace(data.data);
 

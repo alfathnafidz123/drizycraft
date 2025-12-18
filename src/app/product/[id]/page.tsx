@@ -23,7 +23,10 @@ import LoadingComponent from '@/components/Loading';
 import ModalAddReview from '@/components/modals/addReview';
 import ModalProduct from '@/components/modals/product';
 import NextImage from '@/components/NextImage';
-import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
+import PixelEventsHooks, {
+  EventsEnum,
+  RedditEventsEnum,
+} from '@/components/pixel-custom-events';
 import ProductCard from '@/components/ProductCard';
 import ReviewBox from '@/components/ReviewBox';
 
@@ -39,20 +42,16 @@ import {
   ReviewI,
 } from '@/interfaces/product.interface';
 import {
-  AmexLogo,
-  cartProduct, CheckNonLoginAds,
+  cartProduct,
+  CheckNonLoginAds,
   Comp1,
   Comp2,
   Comp3,
   Comp4,
   Comp5,
   Comp6,
-  MasterCardLogo,
-  orders,
-  VisaLogo
 } from '~/images';
 import { fetchCart } from '@/lib/slices/cart';
-import { TransactionResI } from '@/interfaces/transaction.interfaces';
 import Image from 'next/image';
 import FreeTrialModal from '@/components/modals/free-trial';
 import TrialDownloadSuccess from '@/components/modals/trial-download-success';
@@ -60,12 +59,12 @@ import TrialExpired from '@/components/modals/trial-expired';
 import { fetchDownloadRemaining } from '@/lib/slices/download';
 
 export interface StarSummary {
-  average: number
-  one: number
-  two: number
-  three: number
-  four: number
-  five: number
+  average: number;
+  one: number;
+  two: number;
+  three: number;
+  four: number;
+  five: number;
 }
 
 
@@ -441,6 +440,7 @@ export default function Register() {
           headers: { Authorization: `Bearer ${token}` },
         });
         await trackEvent(EventsEnum.AddToCart, { productId: productData?.productId, productName: productData?.realTitle });
+        await trackEvent(RedditEventsEnum.AddToCart);
         // router.push('/cart');
         toast('Item added to cart!');
         dispatch(fetchCart(token!));

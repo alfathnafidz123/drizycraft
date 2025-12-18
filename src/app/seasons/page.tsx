@@ -16,7 +16,7 @@ import { useEffect, useRef, useState } from 'react';
 import { setOpenModal } from '@/lib/slices/user';
 
 import AffiliateBanner from '@/components/AffiliateBanner';
-import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
+import PixelEventsHooks, { EventsEnum, RedditEventsEnum } from '@/components/pixel-custom-events';
 
 import { subscriptionPayment } from '@/app/api/billing/subscriptionPayment';
 
@@ -201,6 +201,7 @@ export default function Membership() {
         paymentMethod: "Stripe",
         membership,
       });
+      await trackEvent(RedditEventsEnum.Lead);
 
     } catch (error: any) {
       toast('Create Checkout Page failed, please reach out to the administrator');

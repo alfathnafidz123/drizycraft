@@ -4,7 +4,7 @@ import NextImage from "@/components/NextImage";
 
 import { HomepageDataI } from "@/interfaces/product.interface";
 
-import { trend1, trend2, trend3, trend4 } from "~/images";
+import { trend1, trend2, trend3, trend4, trendingBirtdayBox, trendingSchoolBus } from '~/images';
 
 
 
@@ -45,7 +45,7 @@ const TrendingSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
               <div className="bg-[#C2E5FF] rounded-xl mb-4 w-full aspect-[273/370] relative overflow-hidden">
                 <div className="w-full h-full transition-transform duration-300 ease-in-out group-hover:scale-105">
                   <NextImage
-                    src={trend2.src}
+                    src={trendingBirtdayBox.src}
                     alt="Crafted with precision"
                     layout="responsive"
                     width={273}
@@ -88,7 +88,7 @@ const TrendingSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
               <div className="bg-[#C2E5FF] rounded-xl mb-4 w-full aspect-[273/370] relative overflow-hidden">
                 <div className="w-full h-full transition-transform duration-300 ease-in-out group-hover:scale-105">
                   <NextImage
-                    src={trend4.src}
+                    src={trendingSchoolBus.src}
                     alt="Crafted with precision"
                     layout="responsive"
                     width={273}

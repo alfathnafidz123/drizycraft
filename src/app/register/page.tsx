@@ -25,7 +25,7 @@ import { loginSocial } from '@/app/api/auth/loginSocial';
 import { Copy } from '~/images';
 import { SubscriptionI } from '@/app/profile/subscription/page';
 import { fetchDownloadRemaining } from '@/lib/slices/download';
-import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
+import PixelEventsHooks, { EventsEnum, RedditEventsEnum } from '@/components/pixel-custom-events';
 
 const LoginLottie = dynamic(() => import('../../components/lottie/login'), { ssr: false });
 
@@ -83,6 +83,7 @@ export default function Register() {
         await trackEvent(EventsEnum.CompleteRegistration, {
           email: email,
         });
+
       } else {
         dispatch(setDataUser({ userData: user }));
         dispatch(setToken({ token }));

@@ -12,6 +12,8 @@ import '@/styles/globals.css';
 import '@/styles/colors.css';
 import 'react-toastify/dist/ReactToastify.css';
 
+import RootClientLayout from "./RootClientLayout";
+
 // import LoadingComponent from '@/components/Loading';
 import FacebookPixelEvents from '@/components/pixel-events';
 
@@ -212,7 +214,8 @@ export default function RootLayout({ children, }: {
             <Navbar />
           </Suspense>
           <Suspense fallback={<Loading />}>
-            {children}
+            <RootClientLayout>{children}</RootClientLayout>
+            {/*{children}*/}
           </Suspense>
           <ToastContainer />
           <Suspense fallback={null}>
@@ -221,10 +224,13 @@ export default function RootLayout({ children, }: {
         </StoreProvider>
         <Suspense fallback={null}>
           <FacebookPixelEvents />
+
         </Suspense>
+
       </body>
       {/* <GoogleAnalytics gaId='G-S80R5B2E8S' /> */}
       {/* <GoogleAnalytics gaId='G-5YWS2KPHSX' /> */}
+
     </html>
     </>
   );

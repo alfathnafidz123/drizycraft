@@ -1,30 +1,32 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
 import { toast } from 'react-toastify';
-
+import axios from 'axios';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import SectionContainer from '@/components/container/sectionContainer';
-// const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
-const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
-
 import dynamic from 'next/dynamic';
 import localFont from 'next/font/local';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { setOpenModal } from '@/lib/slices/user';
 
 import AffiliateBanner from '@/components/AffiliateBanner';
-import PixelEventsHooks, { EventsEnum, RedditEventsEnum } from '@/components/pixel-custom-events';
+import PixelEventsHooks, {
+  EventsEnum,
+  RedditEventsEnum,
+} from '@/components/pixel-custom-events';
 
 import { subscriptionPayment } from '@/app/api/billing/subscriptionPayment';
 
 import {
   backgroundMembership1,
   backgroundMembership2,
-  bestSell,
-  bestValue,
+  bannerMembershipNew,
+  bannerMembershipNewYear,
+  bgBannerMembershipNew,
+  bgBannerMembershipNewYear,
   checkblue,
   crossMember,
   drizzyCoin,
@@ -36,32 +38,31 @@ import {
   membership2,
   membership3,
   membership4,
+  membershipProduct1,
   membershipProduct2,
-  newMembershipProduct1,
-  newMembershipProduct2,
-  newMembershipProduct3,
-  newMembershipProduct4,
-  newMembershipProduct5,
-  newMembershipProduct6,
-  newMembershipProduct7,
-  newMembershipProduct8,
-  newMembershipProduct9,
-  quietImg1,
-  quietImg2,
-  quietImg3,
-  quietImg4,
-  quietImg5,
+  membershipProduct3,
+  membershipProduct4,
+  membershipProduct5,
+  membershipProduct6,
   rightMembership,
   vip,
 } from '~/images';
-import axios from 'axios';
 import { SubsTransactionResI } from '@/interfaces/transaction.interfaces';
+import { useRouter } from 'next/navigation';
+import NextImage from '@/components/NextImage';
+import { SortType } from '@/app/api/product/getProduct';
+import Link from 'next/link';
+// const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
+const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
+
 const CustomerSupportLottie = dynamic(
   () => import('../../components/lottie/customer-support'),
   { ssr: false }
 );
 
 export default function Membership() {
+  const router = useRouter();
+
   const { token } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const { trackEvent } = PixelEventsHooks();
@@ -78,64 +79,76 @@ export default function Membership() {
       features: [
         { title: 'Daily SVG Updates', desc: 'always something new to explore' },
         { title: 'Breezy Mode', desc: 'seamless creations with drag & drop' },
-        { title: 'Machine Compatibility', desc: 'works seamlessly with cutting, laser, and sublimation devices' },
+        {
+          title: 'Machine Compatibility',
+          desc: 'works seamlessly with cutting, laser, and sublimation devices',
+        },
       ],
       exclude: [
-        { title: 'Custom Designs on Request', desc: 'chat with our team for unique creations' },
-        { title: 'Full License Coverage', desc: 'includes commercial and POD licensing' },
-        { title: 'Business Assistance', desc: 'tools and support to elevate your project' },
-        { title: 'Premium Support', desc: 'priority access to our dedicated artist team' },
+        {
+          title: 'Custom Designs on Request',
+          desc: 'chat with our team for unique creations',
+        },
+        {
+          title: 'Full License Coverage',
+          desc: 'includes commercial and POD licensing',
+        },
+        {
+          title: 'Business Assistance',
+          desc: 'tools and support to elevate your project',
+        },
+        {
+          title: 'Premium Support',
+          desc: 'priority access to our dedicated artist team',
+        },
       ],
       priceId: process.env.NEXT_PUBLIC_PRICE_TRIAL,
     },
     {
-      duration: 'BASIC 1 MONTH',
-      buttonText: 'UNLOCK NOW !',
-      price: '$24.99/mo',
-      discount: '$30',
-      extra: undefined,
-      additional: 'First Month Only',
-      text: "<p><br />Get unlimited access to <strong>all premium assets.</strong> Unleash boundless crafting joy, as effortless as drag-and-drop onto your beloved cutting, laser & sublimation machines. Commercial and POD license included. Cancel anytime <br /><br /></p>",
-      coin: <p className='text-sm'>
-        <span className='font-katide-semibold'>50 Drizy Coins</span> to all premium products
-      </p>,
-      features: [
-        { title: 'Daily SVG Updates', desc: 'always something new to explore' },
-        { title: 'Breezy Mode', desc: 'seamless creations with drag & drop' },
-        { title: 'Machine Compatibility', desc: 'works seamlessly with cutting, laser, and sublimation devices' },
-        { title: 'Custom Designs on Request', desc: 'chat with our team for unique creations' },
-        { title: 'Full License Coverage', desc: 'includes commercial and POD licensing' },
-      ],
-      exclude: [
-        { title: 'Business Assistance', desc: 'tools and support to elevate your project' },
-        { title: 'Premium Support', desc: 'priority access to our dedicated artist team' },
-      ],
-      priceId: process.env.NEXT_PUBLIC_PRICE_MONTHLY,
-    },
-    {
-      duration: 'ANNUAL ACCESS',
-      buttonText: 'GET YEARLY !',
-      price: '$6.25/mo',
-      discount: '$299.88',
-      extra: '($74.99/year)',
+      duration: 'WEEKLY ACCESS',
+      buttonText: 'GET WEEKLY !',
+      price: '$1.49/week',
+      // discount: '$299.88',
+      // extra: '($74.99/year)',
       additional: undefined,
-      text: "<p><br/> Crafting your Way! Unlock a year of <strong>premium features</strong> at the lowest price. Save more. <br/><br/>You're billed $74.99 per year, saving you 75% compared to the monthly plan! Cancel anytime. <br/></p>",
-      coin: <p className='text-sm'>
-        <span className='font-katide-semibold'>Unlimited Drizy Coins</span> for
-        Diverse Crafting Options
-      </p>,
+      text: "<p><br/> Crafting your Way! Unlock a week of <strong>premium features</strong> at the lowest price. Save more. <br/><br/>You're billed $1.49 per week. <br/><br/></p>",
+      coin: (
+        <p className='text-sm'>
+          <span className='font-katide-semibold'>Unlimited Drizy Coins</span>{' '}
+          for Diverse Crafting Options
+        </p>
+      ),
       features: [
-        { title: 'Unlimited Premium Products', desc: 'access every asset, all year long' },
+        {
+          title: 'Unlimited Premium Products',
+          desc: 'access every asset, all year long',
+        },
         { title: 'Daily SVG Updates', desc: 'always something new to explore' },
         { title: 'Breezy Mode', desc: 'seamless creations with drag & drop' },
-        { title: 'Machine Compatibility', desc: 'works seamlessly with cutting, laser, and sublimation devices' },
-        { title: 'Custom Designs on Request', desc: 'chat with our team for unique creations' },
-        { title: 'Full License Coverage', desc: 'includes commercial and POD licensing' },
-        { title: 'Business Assistance', desc: 'tools and support to elevate your project' },
-        { title: 'Premium Support', desc: 'priority access to our dedicated artist team' },
+        {
+          title: 'Machine Compatibility',
+          desc: 'works seamlessly with cutting, laser, and sublimation devices',
+        },
+        {
+          title: 'Custom Designs on Request',
+          desc: 'chat with our team for unique creations',
+        },
+        {
+          title: 'Full License Coverage',
+          desc: 'includes commercial and POD licensing',
+        },
+        {
+          title: 'Business Assistance',
+          desc: 'tools and support to elevate your project',
+        },
+        {
+          title: 'Premium Support',
+          desc: 'priority access to our dedicated artist team',
+        },
       ],
       exclude: [],
-      priceId: process.env.NEXT_PUBLIC_PRICE_ANNUAL,
+      priceId: process.env.NEXT_PUBLIC_PRICE_WEEKLY,
+
     },
   ];
   const [showChat, setShowChat] = useState(false);
@@ -177,7 +190,7 @@ export default function Membership() {
           trx.name?.toLowerCase() === 'free trial' && trx.status === 'success'
       );
 
-      if (alreadyUsedTrial && priceId == process.env.NEXT_PUBLIC_PRICE_TRIAL) {
+      if (alreadyUsedTrial && membership?.toLowerCase().includes("7")) {
         toast.error('You have already used the Free Trial. Please choose another plan.');
         return;
       }
@@ -201,31 +214,53 @@ export default function Membership() {
         paymentMethod: "Stripe",
         membership,
       });
-
       await trackEvent(EventsEnum.Lead, {
         paymentMethod: "Stripe",
         membership,
       });
       await trackEvent(RedditEventsEnum.Lead);
+
     } catch (error: any) {
       toast('Create Checkout Page failed, please reach out to the administrator');
     }
   };
 
 
-  // Product Carousel Images 
-  const productsMembership = [
-    { id : 1, image: newMembershipProduct1 },
-    { id : 2, image: newMembershipProduct2 },
-    { id : 3, image: newMembershipProduct3 },
-    { id : 4, image: newMembershipProduct4 },
-    { id : 5, image: newMembershipProduct5 },
-    { id : 6, image: newMembershipProduct6 },
-    { id : 7, image: newMembershipProduct7 },
-    { id : 8, image: newMembershipProduct8 },
-    { id : 9, image: newMembershipProduct9 },
-    { id : 10, image: membershipProduct2 },
-  ];
+  // Product Carousel Images
+  const [productData, setProductData] = useState<any[]>([]);
+  const getProduct = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        `https://api.drizycraft.com/crafter/product`,
+        {
+          params: {
+            page: 1,
+            limit: 10,
+            sortType: SortType.Latest,
+            category: "Drizy Atelier",
+            extraCategory: "",
+          },
+        }
+      );
+
+      setProductData(response.data.data);
+    } catch (error) {
+      console.error(error);
+      toast("Error when trying to get all products");
+    }
+  }, []);
+
+  useEffect(() => {
+    getProduct();
+  }, []);
+  // const productsMembership = [
+  //   { id: 1, image: membershipProduct1 },
+  //   { id: 2, image: membershipProduct2},
+  //   { id: 3, image: membershipProduct3,},
+  //   { id: 4, image: membershipProduct4,},
+  //   { id: 5, image: membershipProduct5,},
+  //   { id: 6, image: membershipProduct6,},
+  // ];
 
 
   interface Feature {
@@ -233,7 +268,7 @@ export default function Membership() {
     srcActive: string;
     alt: string;
   }
-  
+
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   // Data video carousel
@@ -251,6 +286,7 @@ export default function Membership() {
     { src: '/images/feature3.png', alt: 'Feature 3', srcActive: '/images/feature3_active.png' },
     { src: '/images/feature4.png', alt: 'Feature 4', srcActive: '/images/feature4_active.png' },
   ];
+
 
   const featureDescriptions = [
     {
@@ -287,23 +323,6 @@ export default function Membership() {
     },
   ];
 
-  const QuietImage = [
-    { id: 1, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F04%2F25%2FHeart%20Shaped%20Family%20Sign%203D%20Layered%20Paper%20Cut%20(1)-9da1.jpg&w=750&q=70' },
-    { id: 2, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2024%2F05%2F4th-of-July-3D-Shadow-Box-3-1-scaled.jpg&w=750&q=70' },
-    { id: 3, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2023%2F12%2FFour-Season-3D-Shadow-Box-SVG-1-scaled.jpg&w=1920&q=70' },
-    { id: 4, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F05%2F28%2FSphere-Popup%20-%20-Light-Box-Butterfly(1)-ecae.jpg&w=750&q=70' },
-    { id: 5, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F05%2F27%2FFox-Life-Inside-Its-Belly(1)-e8510.jpg&w=750&q=70' },
-    { id: 6, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F05%2F15%2FSlide%201-45ed.png&w=750&q=70' },
-    { id: 7, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F05%2F20%2FSlide%201-89310.png&w=750&q=70' },
-    { id: 8, image: 'https://drizycraft.com/_next/image?url=https%3A%2F%2Fmedia.drizycraft.com%2F2025%2F01%2F29%2FGrandpa-Father-Lettering-1-scaled%20(1)-cf96.webp&w=750&q=70' },
-    { id: 9, image: quietImg4 },
-    { id: 10, image: quietImg5 },
-    { id: 11, image: quietImg1 },
-    { id: 12, image: quietImg2 },
-    { id: 13, image: quietImg3 },
-  ];
-  
-
   // Membuat peta video berdasarkan indeks fitur
   const videoMap: { [key: number]: number } = {
     0: 0, // fitur 1 -> gifDrizyBreezy
@@ -317,294 +336,241 @@ export default function Membership() {
       setCurrentIndex((prevIndex) =>
         prevIndex === carouselVideos.length - 1 ? 0 : prevIndex + 1
       );
-    }, 5000); 
+    }, 5000);
 
-    return () => clearInterval(interval); 
+    return () => clearInterval(interval);
   }, [carouselVideos.length]);
 
-  // Pastikan total gambar adalah kelipatan 3
-  const imagesNeeded = Math.ceil(QuietImage.length / 3) * 3;
-  const extendedImages = [...QuietImage];
-  while (extendedImages.length < imagesNeeded) {
-    extendedImages.push(...QuietImage.slice(0, imagesNeeded - extendedImages.length));
-  }
-
-  const columns: ({ id: number; image: string; } | { id: number; image: StaticImageData; })[][] = [];
-  for (let i = 0; i < extendedImages.length; i += 3) {
-    columns.push(extendedImages.slice(i, i + 3));
-  }
-
-  const basePattern = [0, 80, 0, 80, 0, 80, 0, 80];
 
   return (
     <main>
-  
         {/* Main Membership Content  */}
-        <section className="relative flex flex-col items-center justify-end gap-8 px-4 pt-32 pb-20 lg:px-0 overflow-hidden">
-          <div className="absolute inset-0 z-0">
-            <Image
-              src={backgroundMembership1}
-              alt="Background 1"
-              className="h-full w-full object-cover opacity-100 pointer-events-none"
-              priority
-            />
+      <section className="relative bg-[#1F3AFF] flex justify-center items-center py-10">
+        {/* Background */}
+        <div className="absolute inset-0 w-full h-full -top-12 z-0">
+          <NextImage
+            src={bgBannerMembershipNewYear.src}
+            alt="Background pattern"
+            layout="fill"
+            className="object-cover object-center"
+          />
+        </div>
+
+        {/* Banner (foreground) */}
+        <div className="relative z-10">
+          <Image
+            src={bannerMembershipNewYear.src}
+            alt="banner"
+            width={1100}
+            height={150}
+            className="rounded-xl"
+          />
+          <div className="relative -top-1 lg:-top-14 flex gap-3 w-full justify-center">
+              <a
+                  href="#price-0"
+                  className="bg-[#FFBB3C] h-8 lg:h-10 w-[140px] lg:w-[200px]
+             text-black font-katide-extrabold rounded-full font-semibold
+             shadow-md hover:bg-blue-700 transition-all
+             flex items-center justify-center text-center">
+                  TRY FOR FREE
+              </a>
+              <a
+                  href="#price-1"
+                  className="bg-[#FFBB3C] h-8 lg:h-10 w-[140px] lg:w-[200px]
+             text-black font-katide-extrabold rounded-full font-semibold
+             shadow-md hover:bg-blue-700 transition-all
+             flex items-center justify-center text-center">
+                  WEEKLY ACCESS
+              </a>
           </div>
-
-          <div className="absolute inset-0 z-0">
-            <Image
-              src={backgroundMembership2}
-              alt="Background 2"
-              className="h-full w-full object-cover opacity-15 mix-blend-overlay pointer-events-none"
-            />
-            <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-white to-transparent z-10" />
-          </div>
-
-            <div className="absolute top-0 left-[-15px] lg:top-[-25px] lg:left-[-65px] z-20">
-                          <Image
-                            src={leftMembership}
-                            alt="Left Membership"
-                            className="h-[160px] sm:h-[180px] md:h-[280px] lg:h-[592px] w-auto object-contain pointer-events-none"
-                          />
-            </div>
-            
-            <div className="absolute top-0 right-[-10px] lg:top-[-35px] lg:right-[-45px] z-20">
-                          <Image
-                            src={rightMembership}
-                            alt="Right Membership"
-                            className="h-[160px] sm:h-[180px] md:h-[280px] lg:h-[592px] w-auto object-contain pointer-events-none"
-                          />
-            </div>
-          <div className="z-20 max-w-4xl text-center pt-10 sm:pt-24 md:pt-32 lg:pt-0">
-              <h1 className="font-katide-heavy text-[52px] md:text-[64px] lg:text-[106px] leading-tight text-[#4065D1]">
-                Hands Busy, <br></br> Feel Better.
-              </h1>
-
-              <p className="mt-6 font-katide-bold text-[18px] sm:text-[22px] leading-relaxed text-[#1A214C] text-center">
-                Crafting cuts screen time. It's your quiet <br></br> moment, but never a lonely one.
-              </p>
-
-          
-          </div>
-        </section>
-
-        {/* Product slide  */}
-        <section className="bg-[#C2E5FF] overflow-hidden">
-          <div >
-                      <Image
-                          src={bestSell}
-                          alt="Best Selling"
-                          className="w-full h-auto mx-auto object-contain pointer-events-none"
-                        />
-                    </div>
-          <div className="relative w-full overflow-hidden pb-[50px] lg:pb-[100px] mb-[65px]">
-            <div className="flex animate-marqueeMobile md:animate-marquee gap-6 items-start">
-              {[...Array(3)].map((_, repeatIndex) => (
-                <div key={repeatIndex} className="flex gap-6">
-                  {columns.map((colItems, colIndex) => {
-                    const marginTop = basePattern[(colIndex + repeatIndex) % basePattern.length];
-                    return (
-                      <div
-                        key={colIndex}
-                        className="flex flex-col gap-6"
-                        style={{ marginTop: `${marginTop}px` }}
-                      >
-                        {colItems.map((product, index) => (
-                          <div
-                            key={`${repeatIndex}-${colIndex}-${index}`}
-                            className="relative rounded-2xl overflow-hidden shadow-md border bg-white h-[174px] w-[260px] lg:w-[300px] lg:h-[200px]"
-                          >
-                            <Image
-                              src={product.image}
-                              alt={`Product ${product.id}`}
-                              fill
-                              className="object-contain"
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    );
-                  })}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Card Membership  */}
-      <section className='flex flex-col items-center justify-center text-[#1A214C] pt-10 bg-[#C2E5FF]'>
-        <div className='flex w-full flex-col items-center text-[#1A214C] lg:max-w-[1264px]'>
-          <div className='relative flex flex-col flex-wrap items-center justify-center rounded-lg lg:border border-[#1A214C] p-2 lg:p-12 mb-12 sm:border-0' style={{ borderRadius: '24px' }}>
-            {/* Badge Image at Top */}
-            <div className='absolute -top-3 left-0 flex w-full justify-center'>
-              <div className='absolute -top-7 left-1/2 transform -translate-x-1/2'>
-                <Image src={vip.src} alt='Cov Product' width={235} height={78} className="z-10" />
-              </div>
-            </div>
-
-            {/* Subscription Plan Cards */}
-            <div className='flex w-full flex-col justify-center lg:flex-row gap-10 lg:gap-9 max-lg:px-8 mt-8 lg:mt-8'>
-              {subscriptionPlans.map((plan, index) => (
-                <div
-                  key={index}
-                  className={`rounded-2xl shadow-2xl shadow-[#00000033] max-md:min-h-[400px] max-md:w-[280px] lg:!min-h-[1020px] lg:w-1/4 relative group border-white hover:border-[#EE4C73] transition-all max-sm:p-2 max-sm:shadow-2xl ${
-                    plan.duration === "ANNUAL ACCESS"
-                      ? "bg-[#C2E5FF] mt-14 lg:mt-0"
-                      : plan.duration === "BASIC 1 MONTH"
-                        ? "bg-[#E4F6FB]"
-                        : "bg-white"
-                  }`}
-                >
-
-                  {/* Header Style Color */}
-                  {plan.duration === "ANNUAL ACCESS" && (
-                    <div className='bg-[#61A9FA] w-full h-36 absolute top-0 left-0 rounded-t-2xl z-10' />
-                  )}
-                  {plan.duration === "0" && (
-                    <div className='bg-[#61A9FA] w-full h-36 absolute top-0 left-0 rounded-2xl' />
-                  )}
-
-                  {/* Best Value Badge */}
-                  {plan.duration === "ANNUAL ACCESS" && (
-                    <div className='bg-[#FFBB3C] w-full h-36 absolute -top-14 left-0 rounded-2xl text-center pt-2 flex flex-col'>
-                      <span className='font-katide-bold text-[#61657D] tracking-widest h-5'>LIMITED TIME !</span>
-                      <span className='font-katide-heavy text-lg text-[#1A214C]'>SAVE 75%</span>
-                    </div>
-                  )}
-
-                  {/* <div className={`flex flex-col rounded-2xl p-2 lg:p-6 z-10 w-full ${plan.duration === "ANNUAL ACCESS" ? "absolute bg-transparent" : ""}`}> */}
-                  <div className="flex flex-col rounded-2xl p-2 lg:p-6 z-10 w-full ">
-                    <div className='flex flex-col items-center gap-4 rounded-2xl border border-[#DDDDDD] bg-[#F8F8FA] pt-4 h-[274px] relative z-20'>
-                      <p className='w-5/6 rounded-xl bg-[#1A214C] py-2 text-center text-white whitespace-nowrap'>
-                        {plan.duration}
-                      </p>
-
-                      {plan.price === 'Free Trial' ? (
-                        <div className='rounded-xl w-full h-2/4 flex justify-center items-center'>
-                          <div className='flex flex-col items-center gap-3 text-center'>
-                            <div className='font-katide-heavy text-[40px] text-[#1A214C]'>
-                              {plan.price}
-                            </div>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className='rounded-[20px] bg-[#EBECF5] p-3.5'>
-                          <div className='flex flex-row items-center gap-1'>
-                            <div className='font-katide-heavy text-[48px] text-[#1A214C]'>
-                              {plan.price.split('.')[0]}
-                            </div>
-                            <div className='flex flex-col'>
-                              <p className='font-katide-semibold text-base text-[#1A214C]'>
-                                .{plan.price.split('.')[1].split('/')[0]}
-                              </p>
-                              <p className='font-katide-regular text-base text-[#1A214C]'>
-                                /{plan.price.split('.')[1].split('/')[1]}
-                              </p>
-                            </div>
-                          </div>
-                          {plan.extra && (
-                            <div className='text-[#1A214C] text-xl font-katide-bold'>{plan.extra}</div>
-                          )}
-                          <div className='text-center font-katide-semibold text-gray-400 line-through'>{plan.discount}</div>
-                        </div>
-                      )}
-
-                      {/* Coin Info */}
-
-                      <div
-                        className={`absolute bottom-0 left-1/2 -translate-x-1/2 flex w-[101%] items-center gap-3 rounded-2xl p-4 h-14 ${
-                          plan.duration === "ANNUAL ACCESS" ? "bg-[#61A9FA]" : "bg-[#C2E5FF]"
-                        }`}
-                      >
-                        <Image
-                          src={drizzyCoin.src}
-                          alt='coin'
-                          width={40}
-                          height={40}
-                          className='h-7'
-                        />
-                        {plan.coin}
-                      </div>
-                    </div>
-
-                    {/* Plan Description */}
-                    <div
-                      className='hidden lg:flex items-center justify-center text-[#1A214C] text-[10px] leading-tight text-center mt-2 px-4'
-                      dangerouslySetInnerHTML={{ __html: plan.text }}
-                    />
-                    {/* Subscribe Button */}
-                    {plan.duration !== "0" ? (
-                      <button
-                        className='font-katide-bold my-4 mx-auto w-11/12 rounded-xl bg-[#EE4C73] py-6 text-[20px] tracking-[0.12em] group-hover:bg-[#FFBB3C] text-white shadow-lg transition-all group-hover:text-[#1A214C] hover:!bg-[#ED9B37]'
-                        onClick={() => handleSubscribe(plan.priceId!, token as string, plan.duration)}
-                      >
-                        {plan.buttonText}
-                      </button>
-                    ) : (
-                      <button
-                        // className='font-katide-bold my-4 rounded-xl bg-[#4065D1] py-6 text-[20px] tracking-[0.12em] text-white shadow-lg transition-all hover:!bg-[#2A3B80]'
-                        className='font-katide-bold my-4 mx-auto w-11/12 rounded-xl bg-[#EE4C73] py-6 text-[20px] tracking-[0.12em] group-hover:bg-[#FFBB3C] text-white shadow-lg transition-all group-hover:text-[#1A214C] hover:!bg-[#ED9B37]'
-
-                        onClick={() => handleSubscribe(plan.priceId!, token as string, plan.duration)}
-                      >
-                        {plan.buttonText}
-                      </button>
-                    )}
-
-                    {/* Features Included */}
-                    <div className='hidden lg:flex flex-col gap-3.5'>
-                      <p className='font-katide-bold text-xs text-[#1A214C]'>
-                        This includes:
-                      </p>
-
-                      {plan.features.map((feature, idx) => (
-                        <div key={idx} className='flex items-center gap-3'>
-                          <Image
-                            src={checkblue.src}
-                            alt='check'
-                            width={15}
-                            height={15}
-                          />
-                          <div>
-                            <p className='text-xs font-katide-bold text-[#1A214C]'>{feature.title}</p>
-                            <p className='text-xs font-katide-light text-[#1A214C]'>{feature.desc}</p>
-                          </div>
-                        </div>
-                      ))}
-
-                      {/* Excluded Features */}
-                      {plan.exclude.map((feature, idx) => (
-                        <div key={idx} className='flex gap-3'>
-                          <Image
-                            src={crossMember.src}
-                            alt='cross'
-                            width={15}
-                            height={15}
-                          />
-                          <div>
-                            <p className='text-xs font-katide-bold text-[#AAAAAA]'>{feature.title}</p>
-                            <p className='text-xs font-katide-light text-[#AAAAAA]'>{feature.desc}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Free Plan Note */}
-                  {plan.duration === "0" && (
-                    <p className='bg-[#F8F8FA] w-full absolute bottom-0 left-0 rounded-2xl text-[#1A214C] text-xs text-center p-8 leading-[24px]'>
-                      Take your business to the next level with the <span className='font-bold'>Reseller Pro Plan</span>. Join now and boost your online store’s offerings and profitability. Consult now!
-                    </p>
-                  )}
-                </div>
-              ))}
-            </div>
+          <div className="relative flex w-full mt-4 lg:mt-0 flex-col justify-center text-center">
+            <p className="text-white font-katide-bold text-md md:text-xl">
+              Create special projects for your memorable
+            </p>
+            <p className="text-white font-katide-bold text-md md:text-xl">
+              moments with our premium assets.
+            </p>
           </div>
         </div>
       </section>
 
+
+      {/* Card Membership  */}
+        <section className='flex flex-col items-center justify-center pt-20 text-[#1A214C] bg-[#1F3AFF]' >
+            <div className='flex w-full flex-col items-center text-[#1A214C] lg:max-w-[1264px]'>
+              <div className='relative flex flex-col flex-wrap items-center justify-center rounded-lg lg:border border-[#FFBB3C] p-2 lg:p-12 mb-12 sm:border-0' style={{ borderRadius: '24px' }}>
+                {/* Badge Image at Top */}
+                <div className='absolute -top-3 left-0 flex w-full justify-center'>
+                  <div className='absolute -top-7 left-1/2 transform -translate-x-1/2'>
+                    <Image src={vip.src} alt='Cov Product' width={235} height={78} className="z-10" />
+                  </div>
+                </div>
+
+                {/* Subscription Plan Cards */}
+                <div className='flex w-full flex-col justify-center lg:flex-row gap-20 lg:gap-9 max-lg:px-8 mt-24 lg:mt-24'>
+                  {subscriptionPlans.map((plan, index) => (
+                    <div
+                      key={index}
+                      id={`price-${index}`}
+                      className={` scroll-mt-60 rounded-2xl shadow-2xl shadow-[#00000033] max-md:min-h-[400px] max-md:w-[320px] lg:!min-h-[1020px] lg:w-2/6 relative group border-white hover:border-[#EE4C73] transition-all max-sm:p-2 max-sm:shadow-2xl ${
+                        plan.duration === "ANNUAL ACCESS"
+                          ? "bg-[#C2E5FF] mt-14 lg:mt-0"
+                          : plan.duration === "BASIC 1 MONTH"
+                            ? "bg-[#E4F6FB]"
+                            : "bg-white"
+                      }`}
+                    >
+
+                      {/* Header Style Color */}
+                      {plan.duration === "WEEKLY ACCESS" && (
+                        <div className='bg-[#61A9FA] w-full h-36 absolute top-0 left-0 z-10 rounded-t-2xl' />
+                      )}
+                      {plan.duration === "0" && (
+                        <div className='bg-[#61A9FA] w-full h-36 absolute top-0 left-0 rounded-2xl' />
+                      )}
+
+                      {/* Best Value Badge */}
+                      {plan.duration === "WEEKLY ACCESS" && (
+                        <div className='bg-[#D1DD35] w-full h-36 absolute -top-14 left-0 rounded-2xl text-center pt-2 flex flex-col'>
+                          <span className='font-katide-bold text-[#61657D] tracking-widest h-5'>LIMITED TIME !</span>
+                          <span className='font-katide-heavy text-lg text-[#1A214C]'>SAVE 75%</span>
+                        </div>
+                      )}
+
+                      {/* <div className={`flex flex-col rounded-2xl p-2 lg:p-6 z-10 w-full ${plan.duration === "ANNUAL ACCESS" ? "absolute bg-transparent" : ""}`}> */}
+                      <div className="flex flex-col rounded-2xl p-2 lg:p-6 z-10 w-full">
+                        <div className='flex flex-col items-center gap-4 rounded-2xl border border-[#DDDDDD] bg-[#F8F8FA] z-20 pt-4 h-[274px] relative'>
+                          <p className='w-5/6 rounded-xl bg-[#1A214C] py-2 text-center text-white whitespace-nowrap'>
+                            {plan.duration}
+                          </p>
+
+                          {plan.price === 'Free Trial' ? (
+                            <div className='rounded-xl w-full h-2/4 flex justify-center items-center'>
+                              <div className='flex flex-col items-center gap-3 text-center'>
+                                <div className='font-katide-heavy text-[40px] text-[#1A214C]'>
+                                  {plan.price}
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className='rounded-[20px] bg-[#EBECF5] p-5 mt-4'>
+                              <div className='flex flex-row items-center gap-1'>
+                                <div className='font-katide-heavy text-[48px] text-[#1A214C]'>
+                                  {plan.price.split('.')[0]}
+                                </div>
+                                <div className='flex flex-col'>
+                                  <p className='font-katide-semibold text-base text-[#1A214C]'>
+                                    .{plan.price.split('.')[1].split('/')[0]}
+                                  </p>
+                                  <p className='font-katide-regular text-base text-[#1A214C]'>
+                                    /{plan.price.split('.')[1].split('/')[1]}
+                                  </p>
+                                </div>
+                              </div>
+                              {plan.extra && (
+                                <div className='text-[#1A214C] text-xl font-katide-bold'>{plan.extra}</div>
+                              )}
+                              <div className='text-center font-katide-semibold text-gray-400 line-through'>{plan.discount}</div>
+                            </div>
+                          )}
+
+                          {/* Coin Info */}
+
+                          <div
+                            className={`absolute bottom-0 left-1/2 -translate-x-1/2 flex w-[101%] items-center gap-3 rounded-2xl p-4 h-14 ${
+                              plan.duration === "ANNUAL ACCESS" ? "bg-[#61A9FA]" : "bg-[#C2E5FF]"
+                            }`}
+                          >
+                              <Image
+                                src={drizzyCoin.src}
+                                alt='coin'
+                                width={40}
+                                height={40}
+                                className='h-7'
+                              />
+                              {plan.coin}
+                            </div>
+                        </div>
+
+                        {/* Plan Description */}
+                        <div
+                          className='hidden lg:flex items-center justify-center text-[#1A214C] text-[10px] leading-tight text-center mt-2 px-4'
+                          dangerouslySetInnerHTML={{ __html: plan.text }}
+                        />
+                        {/* Subscribe Button */}
+                        {plan.duration !== "0" ? (
+                          <button
+                            className='font-katide-bold my-4 mx-auto w-11/12 rounded-xl bg-[#EE4C73] py-6 text-[20px] tracking-[0.12em] group-hover:bg-[#FFBB3C] text-white shadow-lg transition-all group-hover:text-[#1A214C] hover:!bg-[#ED9B37]'
+                            onClick={() => handleSubscribe(plan.priceId!, token as string, plan.duration)}
+                          >
+                            {plan.buttonText}
+                          </button>
+                        ) : (
+                          <button
+                            // className='font-katide-bold my-4 rounded-xl bg-[#4065D1] py-6 text-[20px] tracking-[0.12em] text-white shadow-lg transition-all hover:!bg-[#2A3B80]'
+                            className='font-katide-bold my-4 mx-auto w-11/12 rounded-xl bg-[#EE4C73] py-6 text-[20px] tracking-[0.12em] group-hover:bg-[#FFBB3C] text-white shadow-lg transition-all group-hover:text-[#1A214C] hover:!bg-[#ED9B37]'
+
+                            onClick={() => handleSubscribe(plan.priceId!, token as string, plan.duration)}
+                          >
+                            {plan.buttonText}
+                          </button>
+                        )}
+
+                        {/* Features Included */}
+                        <div className='hidden lg:flex flex-col gap-3.5'>
+                          <p className='font-katide-bold text-xs text-[#1A214C]'>
+                            This includes:
+                          </p>
+
+                          {plan.features.map((feature, idx) => (
+                            <div key={idx} className='flex items-center gap-3'>
+                              <Image
+                                src={checkblue.src}
+                                alt='check'
+                                width={15}
+                                height={15}
+                              />
+                              <div>
+                                <p className='text-xs font-katide-bold text-[#1A214C]'>{feature.title}</p>
+                                <p className='text-xs font-katide-light text-[#1A214C]'>{feature.desc}</p>
+                              </div>
+                            </div>
+                          ))}
+
+                          {/* Excluded Features */}
+                          {plan.exclude.map((feature, idx) => (
+                            <div key={idx} className='flex gap-3'>
+                              <Image
+                                src={crossMember.src}
+                                alt='cross'
+                                width={15}
+                                height={15}
+                              />
+                              <div>
+                                <p className='text-xs font-katide-bold text-[#AAAAAA]'>{feature.title}</p>
+                                <p className='text-xs font-katide-light text-[#AAAAAA]'>{feature.desc}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Free Plan Note */}
+                      {plan.duration === "0" && (
+                        <p className='bg-[#F8F8FA] w-full absolute bottom-0 left-0 rounded-2xl text-[#1A214C] text-xs text-center p-8 leading-[24px]'>
+                          Take your business to the next level with the <span className='font-bold'>Reseller Pro Plan</span>. Join now and boost your online store’s offerings and profitability. Consult now!
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+        </section>
+
         {/* Membership included  */}
-        <section className="block sm:hidden w-full px-4 py-12 flex flex-col items-center text-[#1A214C]">
-          <h2 className="text-2xl font-katide-extrabold text-[#4065D1] text-center mb-10">
+        <section className="block sm:hidden w-full px-4 py-12 flex flex-col items-center text-[#ffffff] bg-[#1F3AFF]">
+          <h2 className="text-2xl font-katide-extrabold text-[#ffffff] text-center mb-10">
             ALL PLANS INCLUDE:
           </h2>
 
@@ -628,55 +594,56 @@ export default function Membership() {
               },
             ].map((item, i) => (
               <div key={i} className="transition-all duration-300 p-5">
-                <h3 className="text-lg font-katide-heavy text-[#2A3B80] mb-1">{item.title}</h3>
-                <p className="text-sm text-[#666666] mt-5">{item.desc}</p>
+                <h3 className="text-lg font-katide-heavy text-[#ffffff] mb-1">{item.title}</h3>
+                <p className="text-sm text-[#ffffff] mt-5">{item.desc}</p>
               </div>
             ))}
           </div>
 
           <div className="mt-14 text-center max-w-2xl space-y-4 px-12">
-            <h3 className="text-xl font-katide-heavy text-[36px] text-[#4065D1]">
+            <h3 className="text-xl font-katide-heavy text-[36px] text-[#ffffff]">
               Ready to Create Without Limits?
             </h3>
-            <p className="text-sm text-[#666666]">
+            <p className="text-sm text-[#ffffff]">
               Subscribe now and unlock daily inspiration, effortless tools, and endless possibilities. Your next masterpiece is just a click away — let’s craft something amazing together.
             </p>
-            <button className="bg-[#4065D1] text-white font-semibold text-sm px-6 py-3 rounded-xl hover:bg-[#2A3B80] transition-all duration-300">
-              Try it Free
-            </button>
+
           </div>
+            <a href='#price-0' className="mt-5 bg-[#EE4C73] text-white font-semibold text-sm px-6 py-3 rounded-xl hover:bg-[#FFBB3C] transition-all duration-300">
+                Try it Free
+            </a>
         </section>
 
         {/* Product slide  */}
-        <section className="bg-[#C2E5FF] py-8 px-4 overflow-hidden">
-          <h2 className="text-3xl font-normal text-center my-16">
-            Explore our <span className="text-pink-500 font-normal">curated recommendations</span>
-          </h2>
+      <section className="bg-[#1F3AFF] py-8 px-4 overflow-hidden">
+        <h2 className="text-3xl font-normal text-center my-16 text-white">
+          Explore our <span className=" font-normal">curated recommendations</span>
+        </h2>
 
-          <div className="overflow-hidden w-full">
-            <div className="marquee-wrapper gap-6">
-              {[...productsMembership, ...productsMembership, ...productsMembership].map((product, index) => (
-                <div
-                  key={index}
-                  className="min-w-[260px] max-w-[260px] bg-white rounded-2xl shadow-lg overflow-hidden border-4 border-white"
-                >
-                  <div className="p-1 bg-white rounded-2xl">
-                    <Image
-                      src={product.image}
-                      alt={`Product ${product.id}`}
-                      className="rounded-xl w-full h-48 object-cover"
-                      width={260}
-                      height={192}
-                    />
-                  </div>
+        <div className="overflow-hidden w-full">
+          <div className="marquee-wrapper gap-6">
+            {productData.map((product, index) => (
+              <div
+                key={index}
+                className="min-w-[260px] max-w-[260px] bg-white rounded-2xl shadow-lg overflow-hidden border-4 border-white"
+              >
+                <div className="p-1 bg-white rounded-2xl">
+                  <Image
+                    src={product.imageUrl[0]}
+                    alt={`Product ${product.id}`}
+                    className="rounded-xl w-full h-48 object-cover"
+                    width={260}
+                    height={192}
+                  />
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
         {/* Features  */}
-        <section className="bg-[#C2E5FF] pt-8 md:pb-8 overflow-hidden">
+        <section className="bg-[#1F3AFF] pt-8 md:pb-8 overflow-hidden">
           <div className="max-w-[1280px] min-h-[1003px] md:min-h-[610px] mx-auto bg-[#EBECF5] p-8 md:p-12 rounded-none md:rounded-[24px] shadow-md">
             <div className="flex  md:grid md:grid-cols-2 gap-8">
 
@@ -705,6 +672,7 @@ export default function Membership() {
                           setCurrentIndex(newIndex);
                         }}
                         className="cursor-pointer rounded-lg w-full aspect-square object-cover transition-transform duration-300 hover:scale-110"
+                        loading='lazy'
                       />
                     ))}
                   </div>
@@ -1031,7 +999,7 @@ export default function Membership() {
         </section>
         {showChat ?
           <div ref={refChat} className='fixed bottom-0 right-0 z-[99]'>
-            <iframe height={500} src='https://tawk.to/chat/672866874304e3196adcbd50/1ibqt10pq' />
+            <iframe height={500} src='https://tawk.to/chat/64abcc35cc26a871b0276fc0/1h4vhbd1k' />
           </div>
           :
           <div onClick={() => setShowChat(true)} className="fixed bottom-0 right-0 z-[500]">

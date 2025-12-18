@@ -23,7 +23,7 @@ import NextImage from '@/components/NextImage';
 import { OrderI, productI } from '@/interfaces/product.interface';
 
 import { cartProduct, hoverPinterest, hoverWA, projectStars } from '~/images';
-import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
+import PixelEventsHooks, { EventsEnum, RedditEventsEnum } from '@/components/pixel-custom-events';
 
 interface ModalProps {
   isOpen: boolean;
@@ -198,6 +198,7 @@ const ModalProduct: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
         headers: { Authorization: `Bearer ${token}` },
       });
       await trackEvent(EventsEnum.AddToCart, { productId: product?.id, productName: product?.name });
+      await trackEvent(RedditEventsEnum.AddToCart);
       closeModal();
       dispatch(fetchCart(token!));
     } catch (error: any) {

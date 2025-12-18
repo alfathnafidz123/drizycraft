@@ -29,7 +29,7 @@ import dynamic from 'next/dynamic';
 
 import NonMemberModal from '@/components/modals/non-member';
 import NextImage from '@/components/NextImage';
-import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
+import PixelEventsHooks, { EventsEnum, RedditEventsEnum } from '@/components/pixel-custom-events';
 
 import {
   account2,
@@ -39,8 +39,8 @@ import {
   drizzyCoin,
   emptyCoin,
   newBadge,
-  newBadgeBlue,
-  search,
+  newBadgeBlue, newBadgePurple,
+  search
 } from '~/images';
 import ModalRechargeCoin from '@/components/modals/recharge-coin';
 import { OrderI } from '@/interfaces/product.interface';
@@ -199,6 +199,7 @@ const Navbar: React.FC = () => {
   const handleSearch = async (e: any) => {
     e.preventDefault();
     await trackEvent(EventsEnum.Search, { text: inputValue, category: selectedCategory });
+    await trackEvent(RedditEventsEnum.Search);
     router.push(`/category/search/${inputValue}?category=${selectedCategory}`);
   }
 
@@ -966,7 +967,7 @@ const Navbar: React.FC = () => {
                     )}
                   </button>
                   {showTopup &&
-                    <div className='rounded-xl absolute -bottom-40 right-0 bg-gray-50 p-2 w-52'>
+                    <div className='rounded-xl absolute -bottom-40 right-0 bg-gray-50 p-2 w-52 z-50'>
                       <div className='flex flex-col justify-center items-center gap-2 relative'>
                         <div className='absolute right-1 top-1 cursor-pointer' onClick={() => setShowTopup(false)}>
                           <IoCloseCircle />
@@ -1027,6 +1028,20 @@ const Navbar: React.FC = () => {
                   <img src={crownMember.src} alt='Membership' />
                   <p className='mt-0.5'>Membership</p>
                 </Link>
+                {/*<div className="relative inline-block">*/}
+                {/*  <Link*/}
+                {/*    href='/membership'*/}
+                {/*    className='font-katide-semibold flex h-[40px] w-[178px] items-center gap-3 rounded-full px-8 py-4 text-[14px] bg-[#7731C9] hover:bg-[#622da1] text-white '*/}
+                {/*  >*/}
+                {/*    <img src={crownMember.src} alt='Membership' />*/}
+                {/*    <p className='mt-0.5'>*/}
+                {/*      Membership*/}
+                {/*    </p>*/}
+                {/*  </Link>*/}
+                {/*  <span className="absolute -top-2 -right-5 bg-[#FFBB3C] text-[#000000] text-[12px] font-katide-medium px-1.5 py-[3px] rounded-full leading-none shadow-sm">*/}
+                {/*    Black Friday Sale !*/}
+                {/*  </span>*/}
+                {/*</div>*/}
               </div>
             </div>
           </div>
@@ -1495,6 +1510,19 @@ const Navbar: React.FC = () => {
                   <img src={newBadge.src} />
                   <p className='font-katide-semibold text-[#EE4C73]'>Membership</p>
                 </div>
+                {/*<div*/}
+                {/*  onClick={() => {*/}
+                {/*    router.push('/membership');*/}
+                {/*    setSidebarOpen(false);*/}
+                {/*  }}*/}
+                {/*  className='border-t-2 p-4 flex flex-row gap-2 items-center'*/}
+                {/*>*/}
+                {/*  <img src={newBadgePurple.src} className=''/>*/}
+                {/*  <p className='font-katide-semibold text-[#7731C9]'>Membership</p>*/}
+                {/*  <span className="bg-[#FFBB3C] text-[#000000] text-[12px] font-katide-medium px-1.5 py-[3px] rounded-full leading-none shadow-sm">*/}
+                {/*    Black Friday Sale !*/}
+                {/*  </span>*/}
+                {/*</div>*/}
               </div>
               <div className='h-screen grow bg-black opacity-20'></div>
             </div>

@@ -682,6 +682,25 @@
   display: block;
 }
 
+@keyframes infiniteSlider {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+.animate-infiniteSliderSlow {
+  animation: infiniteSlider 30s linear infinite;
+}
+
+.animate-infiniteSliderMedium {
+  animation: infiniteSlider 20s linear infinite;
+}
+
+.animate-infiniteSliderFast {
+  animation: infiniteSlider 12s linear infinite;
+}
+
+
+
 
 
 

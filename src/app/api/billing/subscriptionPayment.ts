@@ -6,7 +6,6 @@ interface SubscribeI {
   priceId?: string;
   token?: string;
   membership?: string;
-
 }
 
 export async function subscriptionPayment(data: SubscribeI) {

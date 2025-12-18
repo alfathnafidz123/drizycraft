@@ -2,33 +2,30 @@
 'use client';
 import Image from 'next/image';
 import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import SectionContainer from '@/components/container/sectionContainer';
-// const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
-const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
-
 import dynamic from 'next/dynamic';
 import localFont from 'next/font/local';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { setOpenModal } from '@/lib/slices/user';
 
 import AffiliateBanner from '@/components/AffiliateBanner';
-import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
+import PixelEventsHooks, {
+  EventsEnum,
+  RedditEventsEnum,
+} from '@/components/pixel-custom-events';
 
 import { subscriptionPayment } from '@/app/api/billing/subscriptionPayment';
 
 import {
-  backgroundMembership1,
-  backgroundMembership2,
-  bestValue,
+  bannerMembershipNew,
+  bgBannerMembershipNew,
   checkblue,
   crossMember,
   drizzyCoin,
-  leftMembership,
   member1,
   member2,
   member3,
@@ -42,16 +39,24 @@ import {
   membershipProduct4,
   membershipProduct5,
   membershipProduct6,
-  rightMembership,
   vip,
 } from '~/images';
 import { SubsTransactionResI } from '@/interfaces/transaction.interfaces';
+import { useRouter } from 'next/navigation';
+import NextImage from '@/components/NextImage';
+import { getAllProduct, SortType } from '@/app/api/product/getProduct';
+import { productI } from '@/interfaces/product.interface';
+// const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
+const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
+
 const CustomerSupportLottie = dynamic(
   () => import('../../components/lottie/customer-support'),
   { ssr: false }
 );
 
 export default function Membership() {
+  const router = useRouter();
+
   const { token } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const { trackEvent } = PixelEventsHooks();
@@ -179,6 +184,7 @@ export default function Membership() {
       ],
       exclude: [],
       priceId: process.env.NEXT_PUBLIC_PRICE_ANNUAL,
+
     },
   ];
   const [showChat, setShowChat] = useState(false);
@@ -248,6 +254,7 @@ export default function Membership() {
         paymentMethod: "Stripe",
         membership,
       });
+      await trackEvent(RedditEventsEnum.Lead);
 
     } catch (error: any) {
       toast('Create Checkout Page failed, please reach out to the administrator');
@@ -255,15 +262,42 @@ export default function Membership() {
   };
 
 
-  // Product Carousel Images 
-  const productsMembership = [
-    { id: 1, image: membershipProduct1 },
-    { id: 2, image: membershipProduct2},
-    { id: 3, image: membershipProduct3,},
-    { id: 4, image: membershipProduct4,},
-    { id: 5, image: membershipProduct5,},
-    { id: 6, image: membershipProduct6,},
-  ];
+  // Product Carousel Images
+    const [productData, setProductData] = useState<any[]>([]);
+    const getProduct = useCallback(async () => {
+        try {
+            const response = await axios.get(
+                `https://api.drizycraft.com/crafter/product`,
+                {
+                    params: {
+                        page: 1,
+                        limit: 10,
+                        sortType: SortType.Latest,
+                        category: "Drizy Atelier",
+                        extraCategory: "",
+                    },
+                }
+            );
+
+            setProductData(response.data.data);
+        } catch (error) {
+            console.error(error);
+            toast("Error when trying to get all products");
+        }
+    }, []);
+
+    useEffect(() => {
+    getProduct();
+  }, []);
+
+  // const productsMembership = [
+  //   { id: 1, image: membershipProduct1 },
+  //   { id: 2, image: membershipProduct2},
+  //   { id: 3, image: membershipProduct3,},
+  //   { id: 4, image: membershipProduct4,},
+  //   { id: 5, image: membershipProduct5,},
+  //   { id: 6, image: membershipProduct6,},
+  // ];
 
 
   interface Feature {
@@ -344,60 +378,47 @@ export default function Membership() {
     return () => clearInterval(interval);
   }, [carouselVideos.length]);
 
+
   return (
     <main>
         {/* Main Membership Content  */}
-        <section className="relative flex flex-col items-center justify-end gap-8 px-4 pt-32 pb-20 lg:px-0 overflow-hidden">
-          <div className="absolute inset-0 z-0">
-            <Image
-              src={backgroundMembership1}
-              alt="Background 1"
-              className="h-full w-full object-cover opacity-100 pointer-events-none"
-              priority
-            />
-          </div>
-
-          <div className="absolute inset-0 z-0">
-            <Image
-              src={backgroundMembership2}
-              alt="Background 2"
-              className="h-full w-full object-cover opacity-15 mix-blend-overlay pointer-events-none"
-            />
-            <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-white to-transparent z-10" />
-          </div>
-
-            <div className="absolute top-0 left-0 z-20">
-              <Image
-                src={leftMembership}
-                alt="Left Membership"
-                className="h-[160px] sm:h-[180px] md:h-[200px] lg:h-[450px] w-auto object-contain pointer-events-none"
-              />
+        <section className='relative mb-20'>
+            <div className="absolute inset-0 w-full h-full -top-12">
+                <NextImage
+                    src={bgBannerMembershipNew.src} // ubah sesuai gambar kamu
+                    alt="Background pattern"
+                    layout='fill'
+                    className="object-cover object-center"
+                />
             </div>
-            <div className="absolute top-0 lg:-right-8 -right-4 z-20">
-              <Image
-                src={rightMembership}
-                alt="Right Membership"
-                className="h-[160px] sm:h-[180px] md:h-[200px] lg:h-[450px] w-auto object-contain pointer-events-none"
-              />
+            <div className="flex flex-col justify-between max-md:gap-14 lg:flex-row mx-auto py-4 lg:py-20 gap-24 px-6 lg:px-0 max-w-[1264px] ">
+                <div className='flex-col z-10 text-center md:text-left'>
+                    <h1 className='font-katide-extrabold text-[36px] md:text-[52px] leading-normal lg:leading-[65px] text-[#1A214C]'>
+                        SIGN UP AND GET <span className='inline-flex items-center text-[#EE4C73] bg-[#C2E5FF] rounded-full ps-3 pe-2 leading-[60px] me-1'>UNLIMITED</span>
+                      ACCESS TO OUR<span className='inline-flex items-center bg-[#FFBB3C] rounded-full px-3 leading-[60px] mx-1'>SVG</span>
+                    </h1>
+                    <p className='font-katide-regular mt-6 text-[16px] text-[#555555]'>
+                        Pay once at a fixed price and save thousands of dollars. No more purchasing one-by-one. Now you can create unlimited works. Download any SVG you want anytime, anywhere.
+                    </p>
+                    <div className='mt-6 flex flex-row justify-center lg:justify-between'>
+                      <a
+                        className="bg-[#EE4C73] h-12 w-[180px] text-[16px] text-center text-white px-6 py-2
+             rounded-full font-semibold shadow-md hover:bg-blue-700 transition-all
+             flex items-center justify-center"
+                        href="#price"
+                      >
+                        GET UNLIMITED
+                      </a>
+
+                    </div>
+                </div>
+                <Image src={bannerMembershipNew.src} className='rounded-xl z-10' alt="banner" width={600} height={50} />
             </div>
-          <div className="z-0 max-w-4xl text-center pt-10 sm:pt-24 md:pt-32 lg:pt-0">
-              <h1 className="font-katide-heavy text-[32px] md:text-[44px] lg:text-[56px] leading-tight text-[#4065D1]">
-                Sign up and get <br className="block lg:hidden" />
-                <span className="text-[#EE4C73]">unlimited</span> access<br className="block lg:hidden" /> to our <span className="text-[#4065D1]">SVG</span>.
-              </h1>
 
-              <p className="mt-6 font-katide-regular text-[12px] sm:text-[16px] leading-relaxed text-[#1A214C] text-center">
-                Pay once at a fixed price and save thousands of dollars. <br className="hidden lg:block" />
-                No more purchasing one-by-one.  Now you can create unlimited works.<br className="hidden lg:block" />
-                Download any SVG you want anytime, anywhere.
-              </p>
-
-
-          </div>
         </section>
 
         {/* Card Membership  */}
-        <section className='flex flex-col items-center justify-center text-[#1A214C] pt-10'>
+        <section id='price' className='flex flex-col scroll-mt-40 items-center justify-center text-[#1A214C] pt-10'>
             <div className='flex w-full flex-col items-center text-[#1A214C] lg:max-w-[1264px]'>
               <div className='relative flex flex-col flex-wrap items-center justify-center rounded-lg lg:border border-[#1A214C] p-2 lg:p-12 mb-12 sm:border-0' style={{ borderRadius: '24px' }}>
                 {/* Badge Image at Top */}
@@ -621,14 +642,14 @@ export default function Membership() {
 
           <div className="overflow-hidden w-full">
             <div className="marquee-wrapper gap-6">
-              {[...productsMembership, ...productsMembership, ...productsMembership].map((product, index) => (
+              {productData.map((product, index) => (
                 <div
                   key={index}
                   className="min-w-[260px] max-w-[260px] bg-white rounded-2xl shadow-lg overflow-hidden border-4 border-white"
                 >
                   <div className="p-1 bg-white rounded-2xl">
                     <Image
-                      src={product.image}
+                      src={product.imageUrl[0]}
                       alt={`Product ${product.id}`}
                       className="rounded-xl w-full h-48 object-cover"
                       width={260}

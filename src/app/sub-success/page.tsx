@@ -11,7 +11,10 @@ import { useAppDispatch, useAppSelector } from '@/lib/store';
 import { success } from '~/images';
 import { fetchCoin } from '@/lib/slices/user';
 import { fetchSubs } from '@/lib/slices/subcription';
-import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
+import PixelEventsHooks, {
+  EventsEnum,
+  RedditEventsEnum,
+} from '@/components/pixel-custom-events';
 
 export default function SubSuccess() {
   const params = useSearchParams();
@@ -42,14 +45,15 @@ export default function SubSuccess() {
         await trackEvent(EventsEnum.StartTrial, {
           sessionId,
         });
+        await trackEvent(RedditEventsEnum.SignUp);
       } else {
         await trackEvent(EventsEnum.Subscribe, {
           sessionId,
           value: res.data.transactionSubs.price, // 💰 nilai harga dikirim ke Pixel
           currency: 'USD',  // ⚙️ tambahkan currency (disarankan oleh Meta)
         });
+        await trackEvent(RedditEventsEnum.Purchase);
       }
-
       dispatch(fetchSubs(token!));
       dispatch(fetchCoin(token!));
       const productUrl = localStorage.getItem("productUrl");

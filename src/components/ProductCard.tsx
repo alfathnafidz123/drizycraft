@@ -15,7 +15,7 @@ import { fetchCoin, fetchProfile, setOpenModal } from '@/lib/slices/user';
 import { useAppDispatch, useAppSelector } from '@/lib/store';
 
 import NextImage from '@/components/NextImage';
-import PixelEventsHooks, { EventsEnum } from '@/components/pixel-custom-events';
+import PixelEventsHooks, { EventsEnum, RedditEventsEnum } from '@/components/pixel-custom-events';
 
 import { OrderI, productI } from '@/interfaces/product.interface';
 
@@ -154,6 +154,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
         toast('Item added to cart!');
         await trackEvent(EventsEnum.AddToCart, { productId: data.id, productName: data.name });
+        await trackEvent(RedditEventsEnum.AddToCart);
         dispatch(fetchCart(token!));
         // router.push('/cart');
 
