@@ -1198,7 +1198,13 @@ const Navbar: React.FC = () => {
                 </div>
                 {isCrafterMenuOpen && (
                   <>
-                    <div className='ml-4 border-t-2 p-4'>
+                    <div
+                      onClick={() => {
+                        router.push('/category/Featured');
+                        setSidebarOpen(false);
+                      }}
+                      className='ml-4 border-t-2 p-4'
+                    >
                       <p className='font-katide-semibold'>Featured</p>
                     </div>
                     <div

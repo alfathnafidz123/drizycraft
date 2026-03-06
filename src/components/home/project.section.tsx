@@ -28,6 +28,7 @@ const ProjectSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
   };
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
     getCrafter();
   }, [params.page]);
   

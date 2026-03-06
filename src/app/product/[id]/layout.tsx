@@ -8,13 +8,11 @@ import '@/styles/colors.css';
 import { siteConfig } from '@/constant/config';
 import { ResArticleMetadata } from '@/interfaces/article.interfaces';
 import SEOJsonLD from '@/components/SEOJsonLD';
+import ErrorBoundary from '@/components/ErrorBoundary';
 type Props = {
   params: { id: string };
 };
-export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
   const id = params.id;
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/product/meta/${id}`,
@@ -35,6 +33,55 @@ export async function generateMetadata(
   const ogImageUrl = getOptimizedImageUrl(resMetadata.data.image, 1200);
   const twitterImageUrl = getOptimizedImageUrl(resMetadata.data.image, 1200);
 
+  const title = resMetadata.data.realTitle;
+
+  // helper: normalize title
+  const cleanTitle = title
+    .replace(/[-–]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+
+  const words = cleanTitle.split(' ');
+
+  // keyword dasar
+  const baseKeywords = [
+    title,
+    cleanTitle,
+    `${title} svg`,
+    `${title} 3d svg`,
+    `${title} file`,
+  ];
+
+  // keyword kombinasi
+  const combinedKeywords = [
+    `${words.slice(0, 2).join(' ')}`,            // coffee grinder
+    `${words.slice(0, 2).join(' ')} storage`,    // coffee grinder storage
+    `${words.slice(0, 3).join(' ')}`,            // coffee grinder storage
+    `${words.join(' ')} svg`,                     // coffee grinder storage box 3d svg
+  ];
+
+  // keyword konteks niche
+  const nicheKeywords = [
+    "3d svg file",
+    "laser cut svg",
+    "cnc svg",
+    "digital svg product",
+    "svg for laser cutting",
+  ];
+
+  // gabungkan & hapus duplikat
+  const keywords = Array.from(
+    new Set([
+      "drizy craft",
+      "drizy",
+      ...baseKeywords,
+      ...combinedKeywords,
+      ...nicheKeywords,
+    ])
+  );
+
+
 
   return {
     title: `${resMetadata.data.realTitle} | Drizy Craft`,
@@ -42,6 +89,7 @@ export async function generateMetadata(
     alternates: {
       canonical: `https://drizycraft.com/product/${id}`,
     },
+    keywords,
     robots: { index: true, follow: true },
     icons: {
       icon: '/favicon/favicon.ico',
@@ -57,7 +105,7 @@ export async function generateMetadata(
       siteName: siteConfig.title,
       images: [
         {
-          url: ogImageUrl,
+          url: resMetadata.data.image,
           secureUrl: ogImageUrl,
           width: 1200,
           height: 630,
@@ -75,7 +123,7 @@ export async function generateMetadata(
       description: resMetadata.data.description,
       images: [
         {
-          url: twitterImageUrl,
+          url: resMetadata.data.image,
           width: 1200,
           height: 630,
           alt: resMetadata.data.title,

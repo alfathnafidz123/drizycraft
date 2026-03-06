@@ -3,12 +3,18 @@
 import { useEffect } from "react";
 import Script from "next/script";
 import { disableConsole } from "@/lib/disableConsole";
+import { preloadLoginLottie } from '@/components/lottie/login';
 
 export default function RootClientLayout({
                                            children,
                                          }: {
   children: React.ReactNode;
 }) {
+
+  useEffect(() => {
+    preloadLoginLottie();
+  }, []);
+
   useEffect(() => {
     // Inisialisasi Reddit Pixel jika belum ada
     if (!window.rdt) {

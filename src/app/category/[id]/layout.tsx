@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import { Metadata, ResolvingMetadata } from 'next';
 import * as React from 'react';
 
 import '@/styles/globals.css';
@@ -10,43 +10,81 @@ import SEOJsonLD from '@/components/SEOJsonLD';
 
 // !STARTERCONF Change these default meta
 // !STARTERCONF Look at @/constant/config to change them
-export const metadata: Metadata = {
-  title: {
-    default: "Crafter",
-    template: `%s | ${siteConfig.title}`,
-  },
-  description: siteConfig.description,
-  robots: { index: true, follow: true },
-  // !STARTERCONF this is the default favicon, you can generate your own from https://realfavicongenerator.net/
-  // ! copy to /favicon folder
-  icons: {
-    icon: '/favicon/favicon.ico',
-    shortcut: '/favicon/favicon-16x16.png',
-    apple: '/favicon/apple-touch-icon.png',
-  },
-  manifest: `/favicon/site.webmanifest`,
-  openGraph: {
-    url: siteConfig.url,
-    title: siteConfig.title,
-    description: siteConfig.description,
-    siteName: siteConfig.title,
-    images: [`${siteConfig.url}/images/og.jpg`],
-    type: 'website',
-    locale: 'en_US',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: siteConfig.title,
-    description: siteConfig.description,
-    images: [`${siteConfig.url}/images/og.jpg`],
-  },
-  authors: [
-    {
-      name: 'Drizycraft',
-      url: 'https://github.com/itdrizy',
-    },
-  ],
+type Props = {
+  params: { id: string };
 };
+export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+  const id = params.id;
+  const cleanId = decodeURIComponent(id);
+  return {
+    title: {
+      default: cleanId,
+      template: '%s',
+    },
+    description:
+      'Drizy Craft provides premium SVG cut files for Cricut & Silhouette. Unique designs, instant downloads, and creative assets for makers worldwide.',
+    keywords: [
+      `${cleanId} svg`,
+      `${cleanId} 3d svg`,
+      `${cleanId} file`,
+      'SVG files',
+      'Cricut SVG',
+      'Silhouette SVG',
+      'Craft SVG',
+      'Cut files',
+      'Drizycraft',
+      'Drizy Craft',
+      '3d svg file',
+      'laser cut svg',
+      'digital svg product',
+      'svg for laser cutting',
+    ],
+    authors: [{ name: 'Drizy Craft' }],
+    creator: 'Drizy Craft',
+    publisher: 'Drizy Craft',
+
+    alternates: {
+      canonical: `https://drizycraft.com/category/${id}`,
+    },
+
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+        'max-video-preview': -1,
+      },
+    },
+
+    openGraph: {
+      type: 'website',
+      url: 'https://drizycraft.com',
+      title: 'Drizy Craft – Premium SVG Cut Files for Cricut & Silhouette',
+      description:
+        'Premium SVG cut files for Cricut & Silhouette. Instant download and high-quality designs for craft creators.',
+      siteName: 'Drizy Craft',
+      images: [
+        {
+          url: 'https://drizycraft.com/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: 'Drizy Craft SVG Marketplace',
+        },
+      ],
+    },
+
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Drizy Craft – Premium SVG Cut Files for Cricut & Silhouette',
+      description:
+        'Premium SVG cut files, instant downloads, and creative craft designs.',
+      images: ['https://drizycraft.com/og-image.jpg'],
+    },
+  };
+}
 
 export default function RootLayout({
   children,

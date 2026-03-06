@@ -7,11 +7,12 @@ const nextConfig = {
   // compiler: {
   //   removeConsole: true,
   // },
+
   eslint: {
     dirs: ['src'],
     ignoreDuringBuilds: true,
   },
-  // output: 'standalone',
+  output: 'standalone',
   reactStrictMode: false,
   swcMinify: true,
 

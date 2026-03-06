@@ -113,6 +113,23 @@ export default function Register() {
   const [tags, setTags] = useState([]);
   const [inputTagsValue, setInputTagsValue] = useState<string>('');
 
+  const [mainImageUrl, setMainImageUrl] = useState<string | null>(null);
+  const [isUploadingMainImage, setIsUploadingMainImage] = useState(false);
+  const [mainImageUploading, setMainImageUploading] = useState(false);
+
+  const [stepImageUrls, setStepImageUrls] = useState<(string | null)[]>([]);
+  const [stepUploading, setStepUploading] = useState<Record<number, boolean>>({});
+
+  const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
+
+  const validateImageSize = (file: File): boolean => {
+    if (file.size > MAX_IMAGE_SIZE) {
+      toast.error(`File "${file.name}" too large. Max 2MB`);
+      return false;
+    }
+    return true;
+  };
+
   const getProducts = async (search: string) => {
     try {
       if (search.includes('#')) {
@@ -149,90 +166,202 @@ export default function Register() {
     }
   }
 
+  const uploadImage = async (file: File): Promise<string> => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("type", "OTHER_URL");
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_MEDIA_URL}/image`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    const json = await res.json();
+
+    if (!json?.data?.filename) {
+      throw new Error("Upload image failed");
+    }
+
+    return json.data.filename;
+  };
+
   const loadOptions = (inputValue: string) =>
     new Promise<{ label: string, value: string }[]>((resolve) => {
       resolve(getProducts(inputValue));
     });
 
+  // const handleSubmit = async () => {
+  //   try {
+  //     // console.log("Mulai submit...");
+  //     // Upload image utama
+  //     const bodyFormData = new FormData();
+  //     bodyFormData.append("file", image![0]);
+  //     bodyFormData.append("type", "OTHER_URL");
+  //
+  //     const response = await fetch(
+  //       `${process.env.NEXT_PUBLIC_MEDIA_URL}/image`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           Accept: "*/*",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //         body: bodyFormData,
+  //       }
+  //     );
+  //
+  //     const imgResponse = await response.json();
+  //     // console.log("Main image upload response:", imgResponse);
+  //
+  //     if (!imgResponse?.data?.filename) {
+  //       throw new Error("Main image upload failed: filename not found");
+  //     }
+  //
+  //     const imageUrl = imgResponse.data.filename;
+  //
+  //     // Upload image setiap step
+  //     const stepImageUrls: string[] = [];
+  //     for (let i = 0; i < steps.length; i++) {
+  //       const stepImage = steps[i].image;
+  //       if (!stepImage || stepImage.length === 0) {
+  //         console.warn(`Step ${i + 1} belum memilih file, dilewati.`);
+  //         continue; // skip step tanpa file
+  //       }
+  //
+  //       const stepFormData = new FormData();
+  //       // Cast ke File supaya TS yakin
+  //       stepFormData.append("file", stepImage[0] as File);
+  //       stepFormData.append("type", "OTHER_URL");
+  //
+  //       try {
+  //         const stepRes = await fetch(`${process.env.NEXT_PUBLIC_MEDIA_URL}/image`, {
+  //           method: "POST",
+  //           headers: {
+  //             Accept: "*/*",
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //           body: stepFormData,
+  //         });
+  //
+  //         const stepJson = await stepRes.json();
+  //         // console.log(`Step ${i + 1} image upload response:`, stepJson);
+  //
+  //         const imageUrl = stepJson.data?.filename;
+  //         if (imageUrl) {
+  //           stepImageUrls.push(imageUrl);
+  //         } else {
+  //           console.warn(`Step ${i + 1} tidak dapat imageUrl`);
+  //         }
+  //       } catch (err) {
+  //         console.error(`Error upload step ${i + 1}:`, err);
+  //       }
+  //     }
+  //
+  //     // console.log("Semua step images:", stepImageUrls);
+  //
+  //     // Kirim data project + step
+  //     const payload = {
+  //       description,
+  //       imageUrl,
+  //       productIds: products.map((item) => item?.value),
+  //       operation: selectedOperations,
+  //       material: selectedMaterials,
+  //       time: parseInt(time),
+  //       difficulty: selectedDiff,
+  //       tags: tags,
+  //       steps: steps.map((step, idx) => ({
+  //         stepsNumber: step.stepsNumber,
+  //         description: step.description,
+  //         imageUrl: stepImageUrls[idx],
+  //         videoUrl: step.videoUrl || "",
+  //       })),
+  //     };
+  //
+  //     // console.log("Final payload yang akan dikirim:", payload);
+  //
+  //     const createRes = await axios.post(
+  //       `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/crafter`,
+  //       payload,
+  //       { headers: { Authorization: `Bearer ${token}` } }
+  //     );
+  //
+  //     // console.log("API create crafter response:", createRes.data);
+  //
+  //     toast.success("Upload Project Success (tanpa redirect)");
+  //     // window.location.href = "/project?upload=success";
+  //   } catch (error: any) {
+  //     console.error("Error in handleSubmit:", error);
+  //     toast.error(error.message || "Upload Project Failed");
+  //   }
+  // };
+
+  const handleMainImageSelect = async (files: FileList | null) => {
+    if (!files || !files[0]) return;
+
+    const file = files[0];
+    const maxSize = 2 * 1024 * 1024;
+
+    if (file.size > maxSize) {
+      toast.error("Max file size 2MB");
+      return;
+    }
+
+    setImage(files);
+    setMainImageUploading(true);
+
+    try {
+      const url = await uploadImage(file);
+      setMainImageUrl(url);
+    } catch (err) {
+      toast.error("Upload image failed");
+    } finally {
+      setMainImageUploading(false);
+    }
+  };
+
   const handleSubmit = async () => {
     try {
-      // console.log("Mulai submit...");
-      // Upload image utama
-      const bodyFormData = new FormData();
-      bodyFormData.append("file", image![0]);
-      bodyFormData.append("type", "OTHER_URL");
-
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_MEDIA_URL}/image`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "*/*",
-            Authorization: `Bearer ${token}`,
-          },
-          body: bodyFormData,
-        }
-      );
-
-      const imgResponse = await response.json();
-      // console.log("Main image upload response:", imgResponse);
-
-      if (!imgResponse?.data?.filename) {
-        throw new Error("Main image upload failed: filename not found");
+      // ===============================
+      // VALIDATION
+      // ===============================
+      if (!mainImageUrl) {
+        toast.error("Main image not uploaded yet");
+        return;
       }
 
-      const imageUrl = imgResponse.data.filename;
+      // if (!description.trim()) {
+      //   toast.error("Description is required");
+      //   return;
+      // }
 
-      // Upload image setiap step
-      const stepImageUrls: string[] = [];
+      // if (products.length === 0) {
+      //   toast.error("Please select at least one product");
+      //   return;
+      // }
+
+      // validasi step image
       for (let i = 0; i < steps.length; i++) {
-        const stepImage = steps[i].image;
-        if (!stepImage || stepImage.length === 0) {
-          console.warn(`Step ${i + 1} belum memilih file, dilewati.`);
-          continue; // skip step tanpa file
-        }
-
-        const stepFormData = new FormData();
-        // Cast ke File supaya TS yakin
-        stepFormData.append("file", stepImage[0] as File);
-        stepFormData.append("type", "OTHER_URL");
-
-        try {
-          const stepRes = await fetch(`${process.env.NEXT_PUBLIC_MEDIA_URL}/image`, {
-            method: "POST",
-            headers: {
-              Accept: "*/*",
-              Authorization: `Bearer ${token}`,
-            },
-            body: stepFormData,
-          });
-
-          const stepJson = await stepRes.json();
-          // console.log(`Step ${i + 1} image upload response:`, stepJson);
-
-          const imageUrl = stepJson.data?.filename;
-          if (imageUrl) {
-            stepImageUrls.push(imageUrl);
-          } else {
-            console.warn(`Step ${i + 1} tidak dapat imageUrl`);
-          }
-        } catch (err) {
-          console.error(`Error upload step ${i + 1}:`, err);
+        if (!stepImageUrls[i]) {
+          toast.error(`Image for Step ${i + 1} not uploaded yet`);
+          return;
         }
       }
 
-      // console.log("Semua step images:", stepImageUrls);
-
-      // Kirim data project + step
+      // ===============================
+      // BUILD PAYLOAD
+      // ===============================
       const payload = {
         description,
-        imageUrl,
+        imageUrl: mainImageUrl,
         productIds: products.map((item) => item?.value),
         operation: selectedOperations,
         material: selectedMaterials,
         time: parseInt(time),
         difficulty: selectedDiff,
-        tags: tags,
+        tags,
         steps: steps.map((step, idx) => ({
           stepsNumber: step.stepsNumber,
           description: step.description,
@@ -241,21 +370,27 @@ export default function Register() {
         })),
       };
 
-      // console.log("Final payload yang akan dikirim:", payload);
-
-      const createRes = await axios.post(
+      // ===============================
+      // API SUBMIT
+      // ===============================
+      const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/crafter`,
         payload,
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
-      // console.log("API create crafter response:", createRes.data);
+      // toast.success("Upload Project Success 🎉");
 
-      // toast.success("Upload Project Success (tanpa redirect)");
-      window.location.href = "/project?upload=success";
+      // OPTIONAL: redirect
+      router.push("/project?upload=success");
+
     } catch (error: any) {
-      console.error("Error in handleSubmit:", error);
-      toast.error(error.message || "Upload Project Failed");
+      console.error("handleSubmit error:", error);
+      toast.error(error?.response?.data?.message || "Upload Project Failed");
     }
   };
 
@@ -281,29 +416,50 @@ export default function Register() {
     // { stepNumber: 1, image: null, description: "" },
   ]);
 
+  // const handleAddStep = () => {
+  //   setSteps([...steps, {stepsNumber: steps.length + 1, image: null, description: "" }]);
+  // };
+
   const handleAddStep = () => {
-    setSteps([...steps, {stepsNumber: steps.length + 1, image: null, description: "" }]);
+    setSteps([...steps, { stepsNumber: steps.length + 1, image: null, description: "" }]);
+    setStepImageUrls([...stepImageUrls, null]);
   };
+
 
   const handleDeleteStep = (index: number) => {
     const newSteps = steps.filter((_, i) => i !== index);
     setSteps(newSteps);
   };
 
-  const handleImageChange = (index: number, files: FileList | null) => {
-    if (!files) return;
+  const handleStepImageChange = async (index: number, files: FileList | null) => {
+    if (!files || !files[0]) return;
 
     const file = files[0];
-    const maxSize = 2 * 1024 * 1024; // 2MB
+    const maxSize = 2 * 1024 * 1024;
 
     if (file.size > maxSize) {
-      toast.error(`File "${file.name}" is too large! Max 2MB.`);
+      toast.error("Max file size 2MB");
       return;
     }
 
-    const newSteps = [...steps];
-    newSteps[index].image = files; // sekarang kompatibel
-    setSteps(newSteps);
+    setStepUploading((p) => ({ ...p, [index]: true }));
+
+    try {
+      const url = await uploadImage(file);
+      setStepImageUrls((prev) => {
+        const copy = [...prev];
+        copy[index] = url;
+        return copy;
+      });
+
+      const newSteps = [...steps];
+      newSteps[index].image = files;
+      setSteps(newSteps);
+    } catch {
+      toast.error(`Upload Step ${index + 1} failed`);
+    } finally {
+      setStepUploading((p) => ({ ...p, [index]: false }));
+    }
   };
 
   const handleDescriptionChange = (index: number, value: string) => {
@@ -374,40 +530,41 @@ export default function Register() {
                   </h2>
                   <div className="flex flex-col lg:flex-row">
                     <div className="lg:w-1/2 w-full p-4">
-                      {image ?
-                          <label htmlFor='chooseImage' className="flex aspect-[3/2] w-full items-center justify-center rounded-xl bg-gray-100 p-4 h-full">
-                            <img alt='project image' src={URL.createObjectURL(image[0])} className='w-full h-full object-cover' />
-                          </label>
-                          :
-                          <label htmlFor='chooseImage' className="flex aspect-[3/2] w-full items-center justify-center rounded-xl bg-gray-100 p-4 h-full">
-                            <div className='flex h-full w-full flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed border-gray-400 border-opacity-25 px-8'>
-                              <FaPlusSquare className='text-gray-300' size={70} />
-                              <p className='text-sm text-gray-300'>
-                                Upload Image Project Result
-                              </p>
-                            </div>
-                          </label>
-                      }
+                      <label
+                        htmlFor="chooseImage"
+                        className="relative flex aspect-[3/2] w-full items-center justify-center rounded-xl bg-gray-100 overflow-hidden"
+                      >
+                        {image ? (
+                          <img
+                            src={URL.createObjectURL(image[0])}
+                            className="w-full h-full object-cover"
+                            alt="preview"
+                          />
+                        ) : (
+                          <div className="flex flex-col items-center justify-center gap-4">
+                            <FaPlusSquare className="text-gray-300" size={70} />
+                            <p className="text-sm text-gray-300">Upload Image</p>
+                          </div>
+                        )}
+
+                        {/* OVERLAY LOADING */}
+                        {mainImageUploading && (
+                          <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white">
+                            <svg className="animate-spin h-8 w-8 mb-2" viewBox="0 0 24 24">
+                              <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="4" fill="none" />
+                            </svg>
+                            <p className="text-sm">Uploading...</p>
+                          </div>
+                        )}
+                      </label>
                       <input
-                        type='file'
-                        className='hidden'
-                        id='chooseImage'
-                        accept='image/*'
-                        onChange={(e) => {
-                          if (e.target.files) {
-                            const file = e.target.files[0];
-                            const maxSize = 2 * 1024 * 1024; // 2MB dalam byte
-
-                            if (file.size > maxSize) {
-                              toast.error("File is too large! Max 2MB.");
-                              e.target.value = ""; // reset input biar gak nyangkut
-                              return;
-                            }
-
-                            setImage(e.target.files); // kalau oke, simpan ke state
-                          }
-                        }}
+                        id="chooseImage"
+                        type="file"
+                        className="hidden"
+                        accept="image/*"
+                        onChange={(e) => handleMainImageSelect(e.target.files)}
                       />
+
                     </div>
                     <div className="lg:w-1/2 w-full flex flex-col justify-between p-4">
                       <p className='text-sm font-katide-regular text-[#61657D] mb-4'>
@@ -514,36 +671,32 @@ export default function Register() {
                       </h2>
                       <div className="flex flex-col lg:flex-row">
                         <div className="lg:w-1/2 w-full">
-                          {step.image ? (
-                            <label
-                              htmlFor={`chooseImage-${index}`}
-                              className="flex aspect-[3/2] w-full items-center justify-center rounded-xl bg-gray-100 p-4 h-full"
-                            >
+                          <label
+                            htmlFor={`chooseImage-${index}`}
+                            className="relative flex aspect-[3/2] w-full items-center justify-center rounded-xl bg-gray-100 overflow-hidden"
+                          >
+                            {step.image ? (
                               <img
-                                alt="project image"
                                 src={URL.createObjectURL(step.image[0])}
                                 className="w-full h-full object-cover"
                               />
-                            </label>
-                          ) : (
-                            <label
-                              htmlFor={`chooseImage-${index}`}
-                              className="flex aspect-[3/2] w-full items-center justify-center rounded-xl bg-gray-100 p-4 h-full"
-                            >
-                              <div className="flex h-full w-full flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed border-gray-400 border-opacity-25 px-8">
-                                <FaPlusSquare className="text-gray-300" size={70} />
-                                <p className="text-sm text-gray-300">
-                                  Upload Image Project Result
-                                </p>
+                            ) : (
+                              <FaPlusSquare className="text-gray-300" size={60} />
+                            )}
+
+                            {stepUploading[index] && (
+                              <div className="absolute inset-0 bg-black/40 flex items-center justify-center text-white">
+                                <svg className="animate-spin h-6 w-6" viewBox="0 0 24 24">
+                                  <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="4" fill="none" />
+                                </svg>
                               </div>
-                            </label>
-                          )}
+                            )}
+                          </label>
                           <input
                             type="file"
                             className="hidden"
                             id={`chooseImage-${index}`}
-                            accept="image/*"
-                            onChange={(e) => handleImageChange(index, e.target.files)}
+                            onChange={(e) => handleStepImageChange(index, e.target.files)}
                           />
                         </div>
 

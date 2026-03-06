@@ -37,7 +37,7 @@ const Footer = () => {
               <div className="font-katide-regular mt-7 flex flex-col gap-2 text-[14px] lg:mt-9 lg:gap-4">
                 <Link href='#'>Drizy Atelier</Link>
                 <Link href={{ pathname: "/catalog-crafter", query: { sortType: "Latest" } }}>Newest</Link>
-                <Link href={{ pathname: "/catalog-crafter", query: { sortType: "Popularity" } }}>Popular</Link>
+                <Link href="https://developers.drizycraft.com/">Drizy API</Link>
                 <Link href='/blog'>Blogs</Link>
                 {dataUser?.affiliate && <Link href="/dashboard-afilliator">Afilliator Dashboard</Link>}
               </div>

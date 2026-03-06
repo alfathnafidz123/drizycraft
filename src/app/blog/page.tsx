@@ -26,7 +26,7 @@ import {
 const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
 
 export default function Blog() {
-  const [params, setParams] = useState<PagingArticleI>({ page: 1, limit: 0 });
+  const [params, setParams] = useState<PagingArticleI>({ page: 1, limit: 12 });
   const [articles, setArticles] = useState<ArticleI[]>([]);
   const [meta, setMeta] = useState<Meta>();
   const [loading, setLoading] = useState(false);
@@ -170,7 +170,7 @@ export default function Blog() {
           <Slider {...settings} className='w-full lg:w-[1164px]'>
             {storyParent.map((item) => (
               <div className='slide' key={item.id}>
-                <div className='!important flex h-full items-center justify-center'>
+                <div className='!important flex h-full items-center justify-center px-1'>
                   <div
                     className='group relative w-full lg:h-[240px]'
                     onClick={() => router.push(`story/${item.canonical}`)}
@@ -212,9 +212,9 @@ export default function Blog() {
               onClick={() => {
                 setParams((prev) => ({ ...prev, page: prev.page + 1 }));
               }}
-              className='font-katide-bold h-[32px] w-[138px] cursor-pointer rounded-[49px] bg-[#2A3B80] pt-1 text-center text-[12px] text-white'
+              className='font-katide-bold h-[32px] w-[138px] cursor-pointer rounded-[49px] bg-[#2A3B80] text-center text-[14px] text-white'
             >
-              Loading more...
+              Load more
             </button>
           </div>
         )}

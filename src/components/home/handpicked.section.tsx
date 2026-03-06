@@ -13,10 +13,10 @@ import { toast } from "react-toastify";
 import SectionContainer from "@/components/container/sectionContainer";
 import NextImage from "@/components/NextImage";
 
-import { getRelevantProduct, SortType } from "@/app/api/product/getProduct";
-import { productI } from "@/interfaces/product.interface";
+import { getRelevantProduct, SortType } from '@/app/api/product/getProduct';
+import { HomepageDataI, productI } from '@/interfaces/product.interface';
 
-const HandPickedSection = ({ product }: { product: productI[] }) => {
+const HandPickedSection = ({ product }: { product: HomepageDataI }) => {
   const [loading, setLoading] = useState(false);
   const params = useParams();
   const [selectedSeasonsOption, setSelectedSeasonsOption] = useState('');
@@ -99,7 +99,7 @@ const HandPickedSection = ({ product }: { product: productI[] }) => {
 
     } catch (error) {
       console.error('❌ Error when trying to get all products:', error);
-      toast('Error when trying to get all products');
+      // toast('Error when trying to get all products');
     } finally {
       setLoading(false);
     }
@@ -117,11 +117,12 @@ const HandPickedSection = ({ product }: { product: productI[] }) => {
     setShowProductDetail({ show: true, product });
   };
 
-   useEffect(() => {
-      getProduct();
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+        getProduct();
     }, [selectedSeasonsOption, selectedShortByOption, getProduct]);
 
-  const chunkArrayWithCycledPadding = (array: productI[], size: number): productI[][] => {
+    const chunkArrayWithCycledPadding = (array: productI[], size: number): productI[][] => {
     const result: productI[][] = [];
     const length = array.length;
 
@@ -142,7 +143,7 @@ const HandPickedSection = ({ product }: { product: productI[] }) => {
 
   return (
     <>
-      {productList.length > 0 && localStorage.getItem('lastSubCategory') && (
+        {productList.length > 0 && (
         <SectionContainer>
           <div className="flex w-full flex-col max-md:max-w-full mt-6 mb-6 md:px-4 lg:px-0">
             <div className="font-katide-bold text-2xl text-indigo-950 px-4 lg:px-0">

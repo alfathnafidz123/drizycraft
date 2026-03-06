@@ -2,7 +2,7 @@
 
 import { FaAngleRight } from '@react-icons/all-files/fa/FaAngleRight';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useState } from 'react';
 import Slider from 'react-slick';
 
 import ProductCard from '@/components/ProductCard';
@@ -30,11 +30,14 @@ const ProductSlider: React.FC<SwipeToSlideProps> = ({
   more,
 }) => {
   const router = useRouter();
+  const [isDragging, setIsDragging] = useState(false);
   const settings = {
     className: 'center',
     infinite: false,
     centerPadding: '60px',
     slidesToShow: 4,
+    beforeChange: () => setIsDragging(true),
+    afterChange: () => setIsDragging(false),
     swipeToSlide: true,
     nextArrow: <></>,
     prevArrow: <></>,
@@ -87,6 +90,7 @@ const ProductSlider: React.FC<SwipeToSlideProps> = ({
             <div key={index} className="pb-8 me-2">
               <ProductCard
                 data={item}
+                isDragging={isDragging}
                 handleShowDetail={(data) => handleShowDetail?.(data)}
               />
             </div>

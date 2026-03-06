@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 
 import { ArticleI } from '@/interfaces/article.interfaces';
 
-import { avatarExample, bannerArticle } from '~/images';
+import { accountIllustration, avatarExample, bannerArticle } from '~/images';
 
 const BlogArticle = ({ data }: { data: ArticleI }) => {
   const router = useRouter();
@@ -38,7 +38,7 @@ const BlogArticle = ({ data }: { data: ArticleI }) => {
         <Image
             width={32}
             height={32}
-            src={data.author?.avatar ?? avatarExample.src}
+            src={data.author?.avatar ?? accountIllustration.src}
             className='aspect-square h-8 w-8 rounded-full object-cover'
             alt='Avatar'
           />

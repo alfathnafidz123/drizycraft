@@ -62,6 +62,9 @@ const CustomerSupportLottie = dynamic(
 
 export default function Membership() {
   const router = useRouter();
+  useEffect(() => {
+    router.replace('/membership');
+  }, [router]);
 
   const { token } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();

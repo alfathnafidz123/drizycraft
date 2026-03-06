@@ -11,6 +11,7 @@ const ProductSlider = lazy(() => import("@/components/slider/ProductSlider"));
 import Link from "next/link";
 
 import NextImage from "@/components/NextImage";
+import { HomepageDataI } from '@/interfaces/product.interface';
 
 
 interface RecentProduct {
@@ -20,7 +21,7 @@ interface RecentProduct {
   name: string;
 }
 
-const RecentSection = ({ product }: { product: RecentProduct[] }) => {
+const RecentSection = ({ product }: { product: HomepageDataI }) => {
   
   const [recentProducts, setRecentProducts] = useState<RecentProduct[]>([]);
   const [showProductDetail, setShowProductDetail] = useState<{

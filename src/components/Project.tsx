@@ -49,27 +49,27 @@ const Project: React.FC<ModalProps> = ({ onClick, item, onLike }) => {
   }
 
   return (
-    <div className='flex h-[456px] w-[369px] cursor-pointer flex-col rounded-xl bg-white px-8 py-4 shadow-lg'>
+    <div className='flex h-[456px] w-[369px] cursor-pointer flex-col rounded-2xl bg-white p-5 shadow-lg'>
       <div className='flex items-center text-[14px] text-[#1A204C]'>
         <img
           loading='lazy'
           src={item.user.avatar ?? defaultAvatar.src}
-          className='w-10 h-10 rounded-full mr-3'
+          className='w-9 h-9 rounded-full mr-2'
         />
         <div className=''>By</div>
         <div className='font-katide-bold ms-1'>{item?.user?.displayName}</div>
       </div>
       <div className='relative mt-4'>
         <NextImage
-          width={305}
+          width={330}
           height={205}
           src={item.imageUrl as unknown as string}
-          classNames={{ image: 'max-h-[205px] w-full object-cover rounded-lg' }}
+          classNames={{ image: 'max-h-[205px] w-full object-cover rounded-xl' }}
           alt='gambar'
         />
         <div
           // onClick={onItemClick}
-          onClick={() => window.location.href = `/project/${item.id}`}
+          onClick={() => window.open(`/project/${item.id}`, '_blank')}
           className='font-katide-bold absolute inset-0 flex items-center justify-center rounded-lg bg-black/50 text-white opacity-0 hover:opacity-100 z-10'>
           Click for detail
         </div>

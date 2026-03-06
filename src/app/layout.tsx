@@ -29,51 +29,76 @@ import { disableConsole } from '@/lib/disableConsole';
 const Footer = lazy(() => import('@/layout/footer'));
 const Navbar = lazy(() => import('@/layout/navbar'));
 
-// export const metadata: Metadata = {
-//   metadataBase: new URL(siteConfig.url),
-//   title: {
-//     default: siteConfig.metaTitle,
-//     template: `%s | ${siteConfig.title}`,
-//   },
-//   description: siteConfig.description,
-//   robots: { index: true, follow: true },
-//   icons: {
-//     icon: '/favicon/favicon.ico',
-//     shortcut: '/favicon/favicon-16x16.png',
-//     apple: '/favicon/apple-touch-icon.png',
-//   },
-//   manifest: `/favicon/site.webmanifest`,
-//   openGraph: {
-//     url: siteConfig.url,
-//     title: siteConfig.title,
-//     description: siteConfig.description,
-//     siteName: siteConfig.title,
-//     images: [
-//       { url: `/images/drizy-simple-icon.png`, width: 1200, height: 630, alt: 'Drizy' },
-//     ],
-//     type: 'website',
-//     locale: 'en_US',
-//   },
-//   twitter: {
-//     card: 'summary_large_image',
-//     title: siteConfig.title,
-//     description: siteConfig.description,
-//     images: [
-//       { url: `/images/drizy-simple-icon.png`, width: 1200, height: 630, alt: 'Drizy' },
-//     ],
-//   },
-//   authors: [
-//     {
-//       name: 'Drizycraft',
-//       url: 'https://github.com/itdrizy',
-//     },
-//   ],
-// };
+export const metadata: Metadata = {
+  metadataBase: new URL("https://drizycraft.com"),
+  title: {
+    default:
+      "Drizy Craft – Premium SVG Cut Files for Cricut & Silhouette",
+    template: "%s",
+  },
+  description:
+    "Drizy Craft provides premium SVG cut files for Cricut & Silhouette. Unique designs, instant downloads, and creative assets for makers worldwide.",
+  keywords: [
+    "SVG files",
+    "Cricut SVG",
+    "Silhouette SVG",
+    "Craft SVG",
+    "Cut files",
+    "Drizycraft",
+    "Drizy Craft",
+    "3d svg file",
+    "laser cut svg",
+    "cnc svg",
+    "digital svg product",
+    "svg for laser cutting",
+  ],
+  authors: [{ name: "Drizy Craft" }],
+  creator: "Drizy Craft",
+  publisher: "Drizy Craft",
 
-export const metadata = generateMetadata({
-  description: 'Premium Craft SVG Cut Files for Cricut and Silhouette',
-  url: 'https://drizycraft.com',
-});
+  alternates: {
+    canonical: "https://drizycraft.com",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+
+  openGraph: {
+    type: "website",
+    url: "https://drizycraft.com",
+    title:
+      "Drizy Craft – Premium SVG Cut Files for Cricut & Silhouette",
+    description:
+      "Premium SVG cut files for Cricut & Silhouette. Instant download and high-quality designs for craft creators.",
+    siteName: "Drizy Craft",
+    images: [
+      {
+        url: "https://drizycraft.com/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Drizy Craft SVG Marketplace",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "Drizy Craft – Premium SVG Cut Files for Cricut & Silhouette",
+    description:
+      "Premium SVG cut files, instant downloads, and creative craft designs.",
+    images: ["https://drizycraft.com/og-image.jpg"],
+  },
+};
 
 export default function RootLayout({ children, }: {
   children: React.ReactNode;
@@ -83,6 +108,7 @@ export default function RootLayout({ children, }: {
     <>
     <html className='!scroll-smooth' lang='en'>
       <head>
+        <link rel="canonical" href="https://drizycraft.com/" />
         {/* preload Katide font */}
         <link
           rel='preload'

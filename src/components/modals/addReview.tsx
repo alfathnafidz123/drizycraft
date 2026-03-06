@@ -15,6 +15,7 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   refreshReview: () => Promise<void>;
+  refreshStar: () => Promise<void>;
   productId?: string;
 }
 
@@ -22,6 +23,7 @@ const ModalAddReview: React.FC<ModalProps> = ({
   isOpen,
   onClose,
   refreshReview,
+  refreshStar,
   productId,
 }) => {
   const dispatch = useAppDispatch();
@@ -44,6 +46,7 @@ const ModalAddReview: React.FC<ModalProps> = ({
         productId: productId!,
       });
       refreshReview();
+      refreshStar();
     }
   };
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {

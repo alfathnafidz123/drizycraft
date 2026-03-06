@@ -35,16 +35,18 @@ import { fetchDownloadRemaining } from '@/lib/slices/download';
 import { getProductOwnedById } from '@/app/api/product/getProductOwnedById';
 import TrialDownloadSuccess from '@/components/modals/trial-download-success';
 import TrialExpired from '@/components/modals/trial-expired';
+import DownloadProgressModal from '@/components/DownloadProgressModal';
 
 interface ProductCardProps {
   data: productI;
   isSlider?: boolean;
+  isDragging?: boolean;
   handleShowDetail?: (product: productI) => void;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
   data,
-  isSlider = true,
+  isSlider = true, isDragging,
   handleShowDetail,
 }) => {
   const router = useRouter();
@@ -76,6 +78,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const [showTrialSuccessModal, setShowTrialSuccessModal] = useState(false);
   const downloadRemaining = useAppSelector(state => state.download.remaining);
   const [showTrialExpiredModal, setShowTrialExpiredModal] = useState(false);
+
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState(0);
 
   useEffect(() => {
     if (data && data.discountPeriod) {
@@ -252,6 +257,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const handleDownloadClick = async (id: number) => {
     try {
+      setIsDownloading(true);
+      setDownloadProgress(0);
+
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-file-download/${id}`,
         {
@@ -264,29 +272,56 @@ const ProductCard: React.FC<ProductCardProps> = ({
       if (!res.ok) {
         throw new Error(`Failed to download file: ${res.statusText}`);
       }
-      const blob = await res.blob();
 
+      const contentLength = res.headers.get("Content-Length");
+      if (!contentLength) {
+        throw new Error("Cannot get file size");
+      }
+
+      const total = parseInt(contentLength, 10);
+      let loaded = 0;
+
+      const reader = res.body!.getReader();
+      const chunks: Uint8Array[] = [];
+
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        chunks.push(value);
+        loaded += value.length;
+
+        const percent = Math.round((loaded / total) * 100);
+        setDownloadProgress(percent);
+      }
+
+      const blob = new Blob(chunks);
       const url = window.URL.createObjectURL(blob);
 
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = url;
 
-      let fileName = `${data.name}.zip`;
-      const contentDisposition = res.headers.get('content-disposition');
+      let fileName = `${data?.name}.zip`;
+      const contentDisposition = res.headers.get("content-disposition");
       if (contentDisposition) {
         const matches = contentDisposition.match(/filename="(.+)"/);
-        if (matches && matches.length === 2) {
+        if (matches?.[1]) {
           fileName = matches[1];
         }
       }
-      link.setAttribute('download', fileName);
+
+      link.download = fileName;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      setTimeout(() => window.URL.revokeObjectURL(url), 100);
-    } catch (error) {
-      const err = error as AxiosError;
-      toast.error(err.message);
+
+      window.URL.revokeObjectURL(url);
+    } catch (error: any) {
+      toast.error(error.message || "Download error");
+    } finally {
+      setIsDownloading(false);
+      setDownloadProgress(0);
     }
   };
 
@@ -350,7 +385,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const containerClassNames = () => {
     const base = 'group relative w-full max-w-[100%] mx-auto lg:w-[294px]';
-
     if (data.author) {
       return `${base}`;
     }
@@ -366,12 +400,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const cardClassNames = () => {
     if (!isSlider) {
-      return ' flex h-auto w-full max-w-full mx-auto flex-col flex-nowrap items-start gap-[16px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-2 shadow-xl transition-none hover:border-[2px]';
+      return ' flex h-auto w-full max-w-full mx-auto flex-col flex-nowrap items-start gap-[16px] rounded-2xl border-[#61A9FA] bg-[#fff] p-2 shadow-xl transition-none hover:border-[2px]';
     }
     if (data.author) {
-      return ' flex h-auto w-full max-w-full mx-auto flex-col flex-nowrap items-start gap-[16px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-2 shadow-xl transition-none hover:border-[2px]';
+      return ' flex h-auto w-full max-w-full mx-auto flex-col flex-nowrap items-start gap-[16px] rounded-2xl border-[#61A9FA] bg-[#fff] p-2 shadow-xl transition-none hover:border-[2px]';
     }
-    return ' flex h-auto w-full max-w-full mx-auto flex-col flex-nowrap items-start gap-[16px] rounded-[12px] border-[#61A9FA] bg-[#fff] p-2 shadow-xl transition-none hover:border-[2px]';
+    return ' flex h-auto w-full max-w-full mx-auto flex-col flex-nowrap items-start gap-[16px] rounded-2xl border-[#61A9FA] bg-[#fff] p-2 shadow-xl transition-none hover:border-[2px]';
   };
 
   const isReady =
@@ -386,7 +420,17 @@ const ProductCard: React.FC<ProductCardProps> = ({
           {generateSale()}
           <div className={cardClassNames()}>
             <NextImage
-              onClick={() => data?.meta?.[0]?.title && router.push(`/product/${data.meta[0].title}`)}
+              onClick={(e) => {
+                if (isDragging) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  return;
+                }
+
+                if (data?.meta?.[0]?.title) {
+                  router.push(`/product/${data.meta[0].title}`);
+                }
+              }}
               src={data.imageUrl[0]}
               alt={data.name}
               height={180}
@@ -396,10 +440,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
               classNames={{ image: 'h-auto w-full rounded-2xl object-cover' }}
               useSkeleton={true}
             />
-            <Link href={data?.meta?.[0]?.title ? `/product/${data.meta[0].title}` : '#'} className='relative z-[2] flex h-[50px] shrink-0 items-start justify-start self-stretch overflow-hidden text-left lg:text-[16px] text-[14px] font-semibold leading-[17.6px] text-[#1a204c]'>
+            <Link
+              href={data?.meta?.[0]?.title ? `/product/${data.meta[0].title}` : '#'}
+              onClick={(e) => {
+                if (isDragging) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }
+              }}
+              className='relative z-[2] flex h-[50px] shrink-0 items-start justify-start self-stretch overflow-hidden text-left lg:text-[16px] text-[14px] font-semibold leading-[17.6px] text-[#1a204c]'
+            >
               {data.name}
             </Link>
-            <div className='flex w-full justify-between gap-2'>
+            <div className='flex w-full justify-between gap-1'>
               {token && activeSubcriptionState.subcription && (
                 <button
                   id={`show-detail-${data.id}`}
@@ -414,7 +467,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                       handleDownload();
                     }
                   }}
-                  className="pointer flex h-[37px] flex-grow flex-nowrap items-center justify-center gap-[8px] rounded-[8px] bg-[#2a3b80] pb-[12px] pl-[24px] pr-[24px] pt-[12px] group-hover:bg-[#4065D1]"
+                  className="pointer flex h-[37px] flex-grow flex-nowrap items-center justify-center gap-[8px] rounded-xl bg-[#2a3b80] p-[12px] group-hover:bg-[#4065D1]"
                 >
                   {downloadLoading ? (
                     <Loader className="animate-spin" />
@@ -451,7 +504,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   id={`add-${data.id}-cart`}
                   type='button'
                   onClick={handleCart}
-                  className='flex h-[37px] w-[37px] items-center justify-center rounded-[8px] border-2 border-gray-400 bg-white sm:h-[37px] sm:w-auto sm:gap-[8px] sm:px-[24px]'
+                  className='md:flex hidden items-center justify-center rounded-xl border-2 border-[#2a3b80] bg-white px-3.5'
                 >
                   <img
                     src={cartProduct.src}
@@ -507,13 +560,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
               activeSubcriptionState.subcription &&
               subsData.coin !== -1 && (
                 <div className="absolute right-[10px] top-[10px] z-[7] flex items-center bg-white rounded-2xl gap-2 p-1 font-katide-bold shadow-lg text-[#61657D]">
-                  <img src={drizzyCoin.src} alt="coin" className="w-5 h-5" />
-                  <span className="me-3">{data?.coinPrice?.[0] ?? 0}</span>
+                  <img src={drizzyCoin.src} alt="coin" className="w-5 h-5 ms-0.5" />
+                  <span className="me-2">{data?.coinPrice?.[0] ?? 0}</span>
                 </div>
               )}
 
           </div>
         </div>
+      {isDownloading && (
+        <DownloadProgressModal
+          open={isDownloading}
+          progress={downloadProgress}
+        />
+      )}
       <FreeTrialModal
         isOpen={showTrialModal}
         onClose={() => setShowTrialModal(false)}

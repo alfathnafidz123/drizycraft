@@ -1,4 +1,4 @@
-import axios from 'axios';
+  import axios from 'axios';
 import { NextResponse } from 'next/server';
 
 export enum SortType {
@@ -8,7 +8,7 @@ export enum SortType {
   Latest = 'Latest',
 }
 
-interface GetProductPayload {
+interface   GetProductPayload {
   page: number;
   limit: number;
   search?: string;

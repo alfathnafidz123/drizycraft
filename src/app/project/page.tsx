@@ -42,7 +42,7 @@ export default function Register() {
   const [isProjectDetailShow, setIsProjectDetailShow] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const { activeSubcription } = useAppSelector(state => state.subs);
-  const [params, setParams] = useState({ page: 1, limit: 11 });
+  const [params, setParams] = useState({ page: 1, limit: 12 });
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(false);
 

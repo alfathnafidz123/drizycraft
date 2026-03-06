@@ -283,12 +283,18 @@ import bfBgBannerLeft from "./blackfriday/bgBannerLeft.png"
 import bfBgBannerRight from "./blackfriday/bgBannerRight.png"
 import bgBgSlider from "./blackfriday/bf-bg-slide.png"
 import newBadgePurple from "./new-badge-purple.svg"
-import bannerMembershipNew from "./banner-membership-new.png";
+import bannerMembershipNew from "./banner-membership-new.webp";
 import bgBannerMembershipNew from './bg-banner-membership-new.png';
 import bgBannerMembershipNewYear from './bg-banner-membership-new-year.png';
 import bannerMembershipNewYear from './banner-membership-new-year.png';
+import seasonChristmas from './season/christmas.png';
+import seasonSnow from "./season/snow.png";
+import seasonSpring from "./season/spring.png";
 
 export {
+  seasonSpring,
+  seasonSnow,
+  seasonChristmas,
   bannerMembershipNewYear,
   bgBannerMembershipNewYear,
   bgBannerMembershipNew,

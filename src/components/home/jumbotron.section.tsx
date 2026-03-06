@@ -119,9 +119,9 @@ const JumbotronSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
 
             {/* Title */}
             
-            <h1 className="font-katide-heavy text-[40px] leading-[120%] text-indigo-950 lg:text-[64px] mt-5 mb-6">
+            <h2 className="font-katide-heavy text-[40px] leading-[120%] text-indigo-950 lg:text-[64px] mt-5 mb-6">
               Craft to Connect
-            </h1>
+            </h2>
 
             {/* List */}
             <ul className="font-katide-regular space-y-3 text-gray-700 text-base mb-6 items-start text-left">

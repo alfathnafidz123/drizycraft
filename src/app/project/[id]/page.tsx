@@ -143,10 +143,15 @@ export default function Register() {
         }
       );
     } catch (error: any) {
-      // Ambil pesan error dari backend
-      const backendMessage =
-        error.response?.data?.message || "Like Failed";
-      toast.error(backendMessage);
+      let message = "Like Failed";
+
+      if (error.response?.status === 401) {
+        message = "Please Login first";
+      } else if (error.response?.data?.message) {
+        message = error.response.data.message;
+      }
+
+      toast.error(message);
 
       // rollback jumlah like
       setProductData((prev) => ({
@@ -535,7 +540,7 @@ export default function Register() {
               </div>
             </div>
           </div>
-          <div className='mt-6 flex w-full flex-wrap justify-start gap-3 lg:mx-auto lg:max-w-[1164px]'>
+          <div className='mt-6 flex w-full flex-wrap justify-start gap-3 px-3 lg:mx-auto lg:max-w-[1164px]'>
             <p className='font-katide-bold text-[16px] text-[#707070]'>
               Tags :
             </p>

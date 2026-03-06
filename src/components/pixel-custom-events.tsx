@@ -32,7 +32,7 @@ export enum RedditEventsEnum {
 }
 
 // === 🔹 3. HOOK UTAMA ===
-const PixelEventsHooks = () => {
+export default function PixelEventsHooks() {
   const { dataUser } = useAppSelector((state) => state.user);
 
   // === 🧩 Init Reddit Pixel ===
@@ -126,4 +126,4 @@ const PixelEventsHooks = () => {
   };
 };
 
-export default PixelEventsHooks;
+// export default PixelEventsHooks;
