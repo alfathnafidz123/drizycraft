@@ -259,7 +259,7 @@ const SeasonSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
                           <div key={i}>
                             <a href={`/product/${item.meta?.[0]?.title}`}>
                               <div className="overflow-hidden rounded-2xl transition-all group-hover:scale-105 group-hover:brightness-90 group-hover:shadow-lg">
-                                <NextImage
+                                <Image
                                   src={Array.isArray(item.imageUrl) ? item.imageUrl[0] : item.imageUrl}
                                   alt={item.name}
                                   width={300}
@@ -276,11 +276,11 @@ const SeasonSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
                 </Slider>
                 <Link prefetch={false}  href={`/category/${categoryName}`} className=' lg:hidden'>
                   <div className='mt-16 w-full justify-center flex gap-2 '>
-                    <div className='border border-white rounded-2xl px-4 py-2 flex items-center gap-2'>
-                      <span className='text-white'>Explore more</span>
+                    <div className='border border-[#1A214C] rounded-2xl px-4 py-2 flex items-center gap-2'>
+                      <span className='text-[#1A214C]'>Explore more</span>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 text-white"
+                        className="h-5 w-5 text-[#1A214C]"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"

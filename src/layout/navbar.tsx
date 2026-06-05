@@ -13,7 +13,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { fetchCart } from '@/lib/slices/cart';
@@ -55,6 +55,18 @@ export interface MenuState {
 interface SubMenuState {
   seasonal: boolean;
   craft: boolean;
+}
+
+interface ProductState {
+  name: string;
+}
+
+interface RecentProduct {
+  id: string;
+  title: string;
+  image: string | string[];
+  name: string;
+  product: ProductState;
 }
 
 const Navbar: React.FC = () => {
@@ -220,6 +232,56 @@ const Navbar: React.FC = () => {
   }, []);
 
   const token = localStorage.getItem("user_token");
+
+  const [recentProducts, setRecentProducts] = useState<RecentProduct[]>([]);
+
+  useEffect(() => {
+    const viewed = localStorage.getItem("recentProducts");
+
+    if (viewed) {
+      try {
+        setRecentProducts(JSON.parse(viewed));
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    const handler = () => {
+      const viewed = localStorage.getItem("recentProducts");
+      if (viewed) {
+        setRecentProducts(JSON.parse(viewed));
+      }
+    };
+
+    window.addEventListener("recentProductsUpdated", handler);
+
+    return () => {
+      window.removeEventListener("recentProductsUpdated", handler);
+    };
+  }, []);
+
+
+  const [showRecent, setShowRecent] = useState(false);
+
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: any) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+        setShowRecent(false);
+      }
+    };
+
+    document.addEventListener("touchstart", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("touchstart", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <GoogleOAuthProvider clientId='660205853013-i0r4emab9r16stvggpb9gu24gmd0mgqr.apps.googleusercontent.com'>
@@ -540,7 +602,13 @@ const Navbar: React.FC = () => {
                   className='!focus:border-none !focus:outline-none flex-grow truncate border-none bg-transparent text-sm tracking-wide !outline-none placeholder:tracking-wide placeholder:text-[#6F6F6F] focus:ring-0'
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
-                ></input>
+                  onTouchStart={() => setShowRecent(true)}
+                  onFocus={() => setShowRecent(true)}
+                  onBlur={() => {
+                    // delay biar klik item masih kebaca
+                    setTimeout(() => setShowRecent(false), 150);
+                  }}
+                />
                 <button
                   type="submit"
                   className='flex rounded-full bg-[#008ECC] cursor-pointer'
@@ -555,6 +623,7 @@ const Navbar: React.FC = () => {
                   </div>
                 </button>
               </form>
+
 
               <div className='font-katide-semibold flex flex-row justify-between pt-2 text-[14px]'>
                 <div ref={crafterRef} className='relative'>
@@ -1046,6 +1115,37 @@ const Navbar: React.FC = () => {
             </div>
           </div>
         </div>
+        {showRecent && recentProducts.length > 0 && (
+          <div className="absolute top-[70px] left-1/2 -translate-x-1/2 bg-white shadow-lg rounded-xl p-3 z-50">
+            <p className="text-md text-gray-400 mb-2">Recent</p>
+            <button
+              onClick={() => setShowRecent(false)}
+              className="absolute top-2 right-3 text-gray-400 hover:text-gray-700 text-lg"
+            >
+              ✕
+            </button>
+
+            {recentProducts.map((item, index) => (
+              <div
+                key={index}
+                className="flex items-center cursor-pointer px-3 py-2 gap-2 hover:bg-gray-100 rounded-md"
+                onMouseDown={() => {
+                  setShowRecent(false);
+                  router.push(`/product/${item.title}`);
+                }}
+              >
+                <Image
+                  src={Array.isArray(item.image) ? item.image[0] : item.image}
+                  alt={item.name}
+                  width={10}
+                  height={10}
+                  className="w-10 h-10 object-cover rounded-md"
+                />
+                <p className="text-gray-700">{item.product.name}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </nav>
       <nav className='sticky top-0 z-30 flex h-[139px] items-center bg-white lg:hidden'>
         <ModalLogin />
@@ -1053,7 +1153,7 @@ const Navbar: React.FC = () => {
           isOpen={isOpen}
           onClose={() => dispatch(setSubscriptionModalOpen(false))}
         />
-        <div className='relative flex h-full w-full flex-col justify-evenly px-2'>
+        <div ref={wrapperRef} className='relative flex h-full w-full flex-col justify-evenly px-2'>
           <div className='container mx-auto flex h-1/2 items-center justify-between lg:px-0'>
             <div className='flex gap-4'>
               <button
@@ -1163,7 +1263,14 @@ const Navbar: React.FC = () => {
                 className='w-full truncate border-none text-sm outline-none placeholder:text-gray-300'
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-              ></input>
+
+                onFocus={() => setShowRecent(true)}
+                onTouchStart={() => setShowRecent(true)} // 🔥 ini penting untuk HP
+
+                onBlur={() => {
+                  setTimeout(() => setShowRecent(false), 200);
+                }}
+              />
               <button
                 type="submit"
                 className='flex rounded-full bg-[#008ECC] cursor-pointer'
@@ -1175,7 +1282,9 @@ const Navbar: React.FC = () => {
                 />
               </button>
             </form>
+
           </div>
+
           {isSidebarOpen && (
             <div className='absolute left-0 top-full flex w-full'>
               <div
@@ -1533,7 +1642,40 @@ const Navbar: React.FC = () => {
               <div className='h-screen grow bg-black opacity-20'></div>
             </div>
           )}
+          {showRecent && recentProducts.length > 0 && (
+            <div className="absolute top-[130px] left-1/2 -translate-x-1/2 w-full max-w-[480px] z-[9999] bg-white shadow-lg rounded-xl p-3">
+              <p className="text-md text-gray-400 mb-2">Recent</p>
+              <button
+                onClick={() => setShowRecent(false)}
+                className="absolute top-2 right-3 text-gray-400 hover:text-gray-700 text-lg"
+              >
+                ✕
+              </button>
+
+              {recentProducts.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex items-center cursor-pointer px-3 py-2 gap-2 hover:bg-gray-100 rounded-md"
+                  onClick={() => {
+                    // setInputValue(item.name);
+                    setShowRecent(false);
+                    router.push(`/product/${item.title}`);
+                  }}
+                >
+                  <Image
+                    src={Array.isArray(item.image) ? item.image[0] : item.image}
+                    alt={item.name}
+                    width={10}
+                    height={10}
+                    className="w-10 h-10 object-cover rounded-md"
+                  />
+                  <p className="text-gray-800">{item.product.name}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
+
       </nav>
       <ModalRechargeCoin isOpen={showRecharge} onClose={() => { setShowRecharge(false) }} />
     </GoogleOAuthProvider>

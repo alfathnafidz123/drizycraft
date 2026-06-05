@@ -146,6 +146,8 @@ export default function ClientPage({ productData }: ClientPageProps) {
       // Simpan kembali ke localStorage
       localStorage.setItem("recentProducts", JSON.stringify(recent));
 
+      window.dispatchEvent(new Event("recentProductsUpdated"));
+
       // Map childSubCategory
       const childSubCategory = product.product.chilSubCategories;
 
@@ -645,17 +647,13 @@ export default function ClientPage({ productData }: ClientPageProps) {
                 </div>
                 {productData && (
                   <div className='w-full relative order-first lg:col-span-7'>
-                    <NextImage
+                    <Image
                       src={productData?.product?.imageUrl[selectedImage]}
                       alt='Product'
                       width={724}
                       height={300}
                       quality={70}
                       className='order-first w-full rounded-xl object-cover lg:order-last'
-                      classNames={{
-                        image: 'w-full rounded-xl object-cover'
-                      }}
-                      useSkeleton
                       priority={true}
                       loading='eager'
                     />

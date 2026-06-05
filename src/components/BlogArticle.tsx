@@ -18,12 +18,12 @@ const BlogArticle = ({ data }: { data: ArticleI }) => {
       >
         <Image
           src={data.banner ?? bannerArticle.src}
-          width={100}
-          height={100}
-          sizes='100vw'
+          width={440}
+          height={440}
+          // sizes='100vw'
           className='h-auto w-full'
           alt={data.title}
-          layout='responsive'
+          // layout='responsive'
         />
       </div>
       <div className='mt-4 flex flex-col justify-between px-0.5'>

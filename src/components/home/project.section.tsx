@@ -177,7 +177,7 @@ const ProjectSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
             {/* Card 3 */}
             <div className="relative rounded-xl overflow-hidden shadow group">
               <Image
-                src={kerryBproject.src}
+                src={projectImg1.src}
                 alt="Project 1"
                 fill
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
@@ -220,17 +220,14 @@ const ProjectSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
         <div className="hidden lg:block w-full py-4 bg-white">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {crafterData.slice(0, 5).map((item, index) => (
-              <div
-                key={index}
-                className="group relative aspect-square overflow-hidden rounded-xl cursor-pointer"
-              >
                 <Image
+                  key={index}
                   src={item.imageUrl}
                   alt={`Project ${index + 1}`}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-110"
+                  width={400}
+                  height={400}
+                  className="object-cover aspect-square w-full h-auto rounded-2xl"
                 />
-              </div>
             ))}
           </div>
         </div>
@@ -238,17 +235,14 @@ const ProjectSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
         <div className="lg:hidden block w-full bg-white px-4">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {crafterData.slice(0, 6).map((item, index) => (
-              <div
+              <Image
                 key={index}
-                className="group relative aspect-square overflow-hidden rounded-xl cursor-pointer"
-              >
-                <Image
-                  src={item.imageUrl}
-                  alt={`Project ${index + 1}`}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-110"
-                />
-              </div>
+                src={item.imageUrl}
+                alt={`Project ${index + 1}`}
+                width={320}
+                height={320}
+                className="object-cover aspect-square w-full h-auto rounded-2xl"
+              />
             ))}
           </div>
         </div>

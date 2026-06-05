@@ -14,7 +14,15 @@ import NextImage from '@/components/NextImage';
 
 import { CrafterI } from '@/interfaces/crafter.interfaces';
 
-import { defaultAvatar, projectLike, projectShare1, projectStars } from '~/images';
+import {
+  defaultAvatar,
+  projectLike,
+  projectShare1,
+  projectStars,
+} from '~/images';
+import { EyeOff, LockIcon } from 'lucide-react';
+import { useAppSelector } from '@/lib/store';
+import { data } from 'autoprefixer';
 interface ModalProps {
   onClick: () => void;
   onLike: (id: string) => void;
@@ -22,6 +30,7 @@ interface ModalProps {
 }
 const Project: React.FC<ModalProps> = ({ onClick, item, onLike }) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const { token, dataUser } = useAppSelector((state) => state.user);
 
   const togglePopover = () => {
     setIsPopoverOpen(!isPopoverOpen);
@@ -29,6 +38,10 @@ const Project: React.FC<ModalProps> = ({ onClick, item, onLike }) => {
   const onItemClick = () => {
     onClick && onClick();
   };
+
+  const isLiked = item.likes?.some(
+    (like) => like.user?.id === dataUser?.id
+  );
 
   const handleInstagram = async () => {
     if (navigator.share) {
@@ -60,13 +73,22 @@ const Project: React.FC<ModalProps> = ({ onClick, item, onLike }) => {
         <div className='font-katide-bold ms-1'>{item?.user?.displayName}</div>
       </div>
       <div className='relative mt-4'>
-        <NextImage
-          width={330}
-          height={205}
-          src={item.imageUrl as unknown as string}
-          classNames={{ image: 'max-h-[205px] w-full object-cover rounded-xl' }}
-          alt='gambar'
-        />
+        <div className="relative w-[330px] h-[205px]">
+          <NextImage
+            width={330}
+            height={205}
+            src={item.imageUrl as unknown as string}
+            classNames={{ image: 'max-h-[205px] w-full object-cover rounded-xl' }}
+            alt='gambar'
+          />
+          {item.restricted && (
+            <div className="absolute inset-0 rounded-xl backdrop-blur-md bg-black/30 flex flex-col items-center justify-center gap-2">
+                <EyeOff className="w-8 h-8 text-white" />
+              {/*<span className="text-white text-sm font-semibold tracking-wide">Restricted</span>*/}
+            </div>
+          )}
+
+        </div>
         <div
           // onClick={onItemClick}
           onClick={() => window.open(`/project/${item.id}`, '_blank')}
@@ -90,7 +112,10 @@ const Project: React.FC<ModalProps> = ({ onClick, item, onLike }) => {
               <Link className='mt-4 hover:text-[#FFBB3C]' href={`https://www.facebook.com/sharer/sharer.php?u=${process.env.NEXT_PUBLIC_URL}/project?id=${item.id}&quote=${item.description}`} target='_blank'>
                 <FaFacebook className='aspect-square h-[22px] w-[22px]' />
               </Link>
-              <Link className='mt-4 hover:text-[#FFBB3C]' href={`https://pinterest.com/pin/create/button/?description=${item.description}&url=${process.env.NEXT_PUBLIC_URL}/project?id=${item.id}&media=${item.imageUrl}`} target='_blank'>
+              <Link className='mt-4 hover:text-[#FFBB3C]' href={`https://pinterest.com/pin/create/button/?description
+              
+              ..
+              =${item.description}&url=${process.env.NEXT_PUBLIC_URL}/project?id=${item.id}&media=${item.imageUrl}`} target='_blank'>
                 <FaPinterest className='aspect-square h-[22px] w-[22px]' />
               </Link>
             </div>
@@ -113,15 +138,25 @@ const Project: React.FC<ModalProps> = ({ onClick, item, onLike }) => {
             className='flex w-[39px] flex-col'
             onClick={() => onLike(item.id)}
           >
-            <div className='flex h-[40px] flex-col items-center justify-center rounded-full bg-[#A5272B] hover:bg-[#872A2D]'>
+            <div
+              className={`flex h-[40px] flex-col items-center justify-center rounded-full transition-all duration-300 ${
+                isLiked
+                  ? 'bg-red-600 hover:bg-red-700'
+                  : 'bg-[#A5272B] hover:bg-[#872A2D]'
+              }`}
+            >
               <img
-                loading='lazy'
+                loading="lazy"
                 src={projectLike.src}
-                className='mx-auto h-[20px] transition-all duration-300 hover:scale-110'
+                className={`mx-auto h-[20px] transition-all duration-300 hover:scale-110 ${
+                  isLiked ? 'brightness-0 invert sepia saturate-1000 hue-rotate-320' : ''
+                }`}
               />
-
             </div>
-            <div className='font-katide-bold text-xs text-indigo-950'>
+
+            <div
+              className="font-katide-bold text-xs"
+            >
               {item.likeCount > 0 ? `${item.likeCount} Likes` : 'Like'}
             </div>
           </div>

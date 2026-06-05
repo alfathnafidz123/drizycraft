@@ -27,6 +27,7 @@ export interface CrafterI {
   time: number
   steps: CrafterStepsI[]
   tags: any[]
+  restricted: boolean
 }
 
 export interface CrafterStepsI {

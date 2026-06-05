@@ -403,8 +403,8 @@ export default function Membership() {
                     <div className='mt-6 flex flex-row justify-center lg:justify-between'>
                       <a
                         className="bg-[#EE4C73] h-12 w-[180px] text-[16px] text-center text-white px-6 py-2
-             rounded-full font-semibold shadow-md hover:bg-blue-700 transition-all
-             flex items-center justify-center"
+                         rounded-full font-semibold shadow-md hover:bg-blue-700 transition-all
+                         flex items-center justify-center"
                         href="#price"
                       >
                         GET UNLIMITED

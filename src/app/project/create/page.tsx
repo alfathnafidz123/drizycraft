@@ -20,6 +20,7 @@ import { router } from 'next/client';
 import { Cut, Draw, Embroidery, Laser, materialUsed, Print, trashBtn } from '~/images';
 import NextImage from '@/components/NextImage';
 import { FaTrash } from 'react-icons/fa';
+import { Trash2 } from 'lucide-react';
 
 export interface StarSummary {
   average: number
@@ -120,7 +121,25 @@ export default function Register() {
   const [stepImageUrls, setStepImageUrls] = useState<(string | null)[]>([]);
   const [stepUploading, setStepUploading] = useState<Record<number, boolean>>({});
 
+  // Hapus state products lama, ganti dengan ini
+  const [productSelections, setProductSelections] = useState<SingleValue<{ label: string; value: string }>[]>([null]);
+  const [dumpSelections, setDumpSelections] = useState<SingleValue<{ label: string; value: string }>[]>([null]);
+
   const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
+
+  // Tambah di bawah state products
+  const [activeTab, setActiveTab] = useState<'product' | 'dump'>('product');
+
+// Ganti loadOptions yang lama dengan dua fungsi terpisah
+  const loadProductOptions = (inputValue: string) =>
+    new Promise<{ label: string; value: string }[]>((resolve) => {
+      resolve(getProducts(inputValue));
+    });
+
+  const loadDumpOptions = (inputValue: string) =>
+    new Promise<{ label: string; value: string }[]>((resolve) => {
+      resolve(getProducts(`#${inputValue}`));
+    });
 
   const validateImageSize = (file: File): boolean => {
     if (file.size > MAX_IMAGE_SIZE) {
@@ -166,6 +185,7 @@ export default function Register() {
     }
   }
 
+
   const uploadImage = async (file: File): Promise<string> => {
     const formData = new FormData();
     formData.append("file", file);
@@ -193,110 +213,6 @@ export default function Register() {
       resolve(getProducts(inputValue));
     });
 
-  // const handleSubmit = async () => {
-  //   try {
-  //     // console.log("Mulai submit...");
-  //     // Upload image utama
-  //     const bodyFormData = new FormData();
-  //     bodyFormData.append("file", image![0]);
-  //     bodyFormData.append("type", "OTHER_URL");
-  //
-  //     const response = await fetch(
-  //       `${process.env.NEXT_PUBLIC_MEDIA_URL}/image`,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           Accept: "*/*",
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //         body: bodyFormData,
-  //       }
-  //     );
-  //
-  //     const imgResponse = await response.json();
-  //     // console.log("Main image upload response:", imgResponse);
-  //
-  //     if (!imgResponse?.data?.filename) {
-  //       throw new Error("Main image upload failed: filename not found");
-  //     }
-  //
-  //     const imageUrl = imgResponse.data.filename;
-  //
-  //     // Upload image setiap step
-  //     const stepImageUrls: string[] = [];
-  //     for (let i = 0; i < steps.length; i++) {
-  //       const stepImage = steps[i].image;
-  //       if (!stepImage || stepImage.length === 0) {
-  //         console.warn(`Step ${i + 1} belum memilih file, dilewati.`);
-  //         continue; // skip step tanpa file
-  //       }
-  //
-  //       const stepFormData = new FormData();
-  //       // Cast ke File supaya TS yakin
-  //       stepFormData.append("file", stepImage[0] as File);
-  //       stepFormData.append("type", "OTHER_URL");
-  //
-  //       try {
-  //         const stepRes = await fetch(`${process.env.NEXT_PUBLIC_MEDIA_URL}/image`, {
-  //           method: "POST",
-  //           headers: {
-  //             Accept: "*/*",
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //           body: stepFormData,
-  //         });
-  //
-  //         const stepJson = await stepRes.json();
-  //         // console.log(`Step ${i + 1} image upload response:`, stepJson);
-  //
-  //         const imageUrl = stepJson.data?.filename;
-  //         if (imageUrl) {
-  //           stepImageUrls.push(imageUrl);
-  //         } else {
-  //           console.warn(`Step ${i + 1} tidak dapat imageUrl`);
-  //         }
-  //       } catch (err) {
-  //         console.error(`Error upload step ${i + 1}:`, err);
-  //       }
-  //     }
-  //
-  //     // console.log("Semua step images:", stepImageUrls);
-  //
-  //     // Kirim data project + step
-  //     const payload = {
-  //       description,
-  //       imageUrl,
-  //       productIds: products.map((item) => item?.value),
-  //       operation: selectedOperations,
-  //       material: selectedMaterials,
-  //       time: parseInt(time),
-  //       difficulty: selectedDiff,
-  //       tags: tags,
-  //       steps: steps.map((step, idx) => ({
-  //         stepsNumber: step.stepsNumber,
-  //         description: step.description,
-  //         imageUrl: stepImageUrls[idx],
-  //         videoUrl: step.videoUrl || "",
-  //       })),
-  //     };
-  //
-  //     // console.log("Final payload yang akan dikirim:", payload);
-  //
-  //     const createRes = await axios.post(
-  //       `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/crafter`,
-  //       payload,
-  //       { headers: { Authorization: `Bearer ${token}` } }
-  //     );
-  //
-  //     // console.log("API create crafter response:", createRes.data);
-  //
-  //     toast.success("Upload Project Success (tanpa redirect)");
-  //     // window.location.href = "/project?upload=success";
-  //   } catch (error: any) {
-  //     console.error("Error in handleSubmit:", error);
-  //     toast.error(error.message || "Upload Project Failed");
-  //   }
-  // };
 
   const handleMainImageSelect = async (files: FileList | null) => {
     if (!files || !files[0]) return;
@@ -356,7 +272,10 @@ export default function Register() {
       const payload = {
         description,
         imageUrl: mainImageUrl,
-        productIds: products.map((item) => item?.value),
+        // Ganti baris productIds di payload
+        productIds: [...productSelections, ...dumpSelections]
+          .filter(Boolean)
+          .map((item) => item?.value),
         operation: selectedOperations,
         material: selectedMaterials,
         time: parseInt(time),
@@ -584,52 +503,141 @@ export default function Register() {
                 </div>
 
                 <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl w-full">
-                  <h2 className="mb-4 text-lg font-semibold text-[#1A214C]">
-                    The product file you're using <span className='text-red-500'>*</span>
-                  </h2>
-
-                  {/* Product 1 */}
-                  <div className="mb-4">
-                    <label className="mb-1 block text-sm font-semibold text-[#1A214C]">
-                      Search product 1
-                    </label>
-                    <Select
-                      cacheOptions
-                      loadOptions={loadOptions}
-                      defaultOptions
-                      onChange={(e) => setProducts(prev => [...prev, e])}
-                    />
-                  </div>
-
-                  {/* Product 2 */}
-                  <div className="mb-4">
-                    <div className="flex items-center justify-between">
-                      <label className="mb-1 block text-sm font-semibold text-[#1A214C]">
-                        Search product 2
-                      </label>
+                  {/* Header + Tab Toggle */}
+                  <div className="flex items-center justify-between mb-5">
+                    <div>
+                      <h2 className="text-lg font-semibold text-[#1A214C]">
+                        The product file you're using <span className="text-red-500">*</span>
+                      </h2>
+                      <p className="text-sm text-gray-400 mt-0.5">Select up to 10 products</p>
                     </div>
-                    <Select
-                      cacheOptions
-                      loadOptions={loadOptions}
-                      defaultOptions
-                      onChange={(e) => setProducts(prev => [...prev, e])}
-                    />
+                    <div className="flex gap-1 bg-gray-100 p-1 rounded-xl">
+                      <button
+                        type="button"
+                        onClick={() => setActiveTab('product')}
+                        className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                          activeTab === 'product'
+                            ? 'bg-white text-[#1A214C] shadow-sm'
+                            : 'text-gray-400 hover:text-gray-600'
+                        }`}
+                      >
+                        Drizy Craft
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setActiveTab('dump')}
+                        className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                          activeTab === 'dump'
+                            ? 'bg-white text-[#1A214C] shadow-sm'
+                            : 'text-gray-400 hover:text-gray-600'
+                        }`}
+                      >
+                        Drizy Breezy
+                      </button>
+                    </div>
                   </div>
 
-                  {/* Product 3 */}
-                  <div>
-                    <div className="flex items-center justify-between">
-                      <label className="mb-1 block text-sm font-semibold text-[#1A214C]">
-                        Search product 3
-                      </label>
+                  {/* Panel Product */}
+                  {activeTab === 'product' && (
+                    <div>
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">Drizy Craft</span>
+                      </div>
+
+                      {productSelections.map((val, i) => (
+                        <div key={i} className="flex items-center gap-2 mb-3">
+                          <div className="flex-1">
+                            <label className="mb-1 block text-sm font-semibold text-[#1A214C]">
+                              Drizy Craft Product {i + 1}
+                            </label>
+                            <Select
+                              cacheOptions
+                              loadOptions={loadProductOptions}
+                              defaultOptions
+                              value={val}
+                              onChange={(e) => {
+                                const updated = [...productSelections];
+                                updated[i] = e;
+                                setProductSelections(updated);
+                              }}
+                            />
+                          </div>
+                          {productSelections.length > 1 && (
+                            <button
+                              type="button"
+                              onClick={() => setProductSelections(productSelections.filter((_, idx) => idx !== i))}
+                              className="mt-5 p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all"
+                              aria-label="Remove"
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          )}
+                        </div>
+                      ))}
+
+                      <button
+                        type="button"
+                        onClick={() => setProductSelections([...productSelections, null])}
+                        className="mt-1 flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-gray-300 px-4 py-2.5 text-sm text-gray-400 hover:text-[#1A214C] hover:border-gray-400 hover:bg-gray-50 transition-all"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                        </svg>
+                        Add another product
+                      </button>
                     </div>
-                    <Select
-                      cacheOptions
-                      loadOptions={loadOptions}
-                      defaultOptions
-                      onChange={(e) => setProducts(prev => [...prev, e])}
-                    />
-                  </div>
+                  )}
+
+                  {/* Panel Dump */}
+                  {activeTab === 'dump' && (
+                    <div>
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">Drizy Breezy</span>
+                      </div>
+
+                      {dumpSelections.map((val, i) => (
+                        <div key={i} className="flex items-center gap-2 mb-3">
+                          <div className="flex-1">
+                            <label className="mb-1 block text-sm font-semibold text-[#1A214C]">
+                              Drizy Breezy Product {i + 1}
+                            </label>
+                            <Select
+                              cacheOptions
+                              loadOptions={loadDumpOptions}
+                              defaultOptions
+                              value={val}
+                              onChange={(e) => {
+                                const updated = [...dumpSelections];
+                                updated[i] = e;
+                                setDumpSelections(updated);
+                              }}
+                            />
+                          </div>
+                          {dumpSelections.length > 1 && (
+                            <button
+                              type="button"
+                              onClick={() => setDumpSelections(dumpSelections.filter((_, idx) => idx !== i))}
+                              className="mt-5 p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all"
+                              aria-label="Remove"
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          )}
+                        </div>
+                      ))}
+
+                      <button
+                        type="button"
+                        onClick={() => setDumpSelections([...dumpSelections, null])}
+                        className="mt-1 flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-gray-300 px-4 py-2.5 text-sm text-gray-400 hover:text-[#1A214C] hover:border-gray-400 hover:bg-gray-50 transition-all"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                        </svg>
+                        Add another dump ID
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl w-full">

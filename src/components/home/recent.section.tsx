@@ -12,6 +12,7 @@ import Link from "next/link";
 
 import NextImage from "@/components/NextImage";
 import { HomepageDataI } from '@/interfaces/product.interface';
+import Image from 'next/image';
 
 
 interface RecentProduct {
@@ -92,11 +93,11 @@ const RecentSection = ({ product }: { product: HomepageDataI }) => {
                             className="group block overflow-hidden rounded-2xl"
                           >
                             <div className="transition-all duration-300 group-hover:scale-105 group-hover:brightness-90 group-hover:shadow-lg rounded-2xl overflow-hidden">
-                              <NextImage
+                              <Image
                                 src={Array.isArray(item.image) ? item.image[0] : item.image}
                                 alt={item.name}
-                                width={300}
-                                height={300}
+                                width={200}
+                                height={200}
                                 className="object-cover w-full h-auto rounded-2xl"
                               />
                             </div>
@@ -118,8 +119,8 @@ const RecentSection = ({ product }: { product: HomepageDataI }) => {
                         <NextImage
                           src={Array.isArray(item.image) ? item.image[0] : item.image}
                           alt={item.name}
-                          width={300}
-                          height={300}
+                          width={240}
+                          height={240}
                           className="object-cover w-full h-auto rounded-2xl"
                         />
                       </div>
@@ -138,12 +139,12 @@ const RecentSection = ({ product }: { product: HomepageDataI }) => {
                   href={`/product/${item.title}`}
                   className="group block overflow-hidden rounded-2xl"
                 >
-                  <div className="w-full h-full transition-all duration-300 group-hover:scale-105 group-hover:brightness-90 group-hover:shadow-lg rounded-2xl overflow-hidden">
+                  <div className=" transition-all duration-300 group-hover:scale-105 group-hover:brightness-90 group-hover:shadow-lg rounded-2xl overflow-hidden">
                     <NextImage
                       src={Array.isArray(item.image) ? item.image[0] : item.image}
                       alt={item.name}
-                      width={300}
-                      height={300}
+                      width={240}
+                      height={240}
                       className="object-cover w-full h-auto rounded-2xl"
                     />
                   </div>

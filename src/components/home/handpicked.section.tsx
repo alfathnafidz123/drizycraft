@@ -15,6 +15,7 @@ import NextImage from "@/components/NextImage";
 
 import { getRelevantProduct, SortType } from '@/app/api/product/getProduct';
 import { HomepageDataI, productI } from '@/interfaces/product.interface';
+import Image from 'next/image';
 
 const HandPickedSection = ({ product }: { product: HomepageDataI }) => {
   const [loading, setLoading] = useState(false);
@@ -160,11 +161,11 @@ const HandPickedSection = ({ product }: { product: HomepageDataI }) => {
                         <div key={item.id} className="group block overflow-hidden rounded-2xl">
                           <div className="w-full h-full transition-all duration-300 group-hover:scale-105 group-hover:brightness-90 group-hover:shadow-lg rounded-2xl overflow-hidden">
                             <a href={`/product/${item.meta?.[0]?.title}`}>
-                              <NextImage
+                              <Image
                                   src={Array.isArray(item.imageUrl) ? item.imageUrl[0] : item.imageUrl}
                                   alt={item.name}
-                                  width={300}
-                                  height={300}
+                                  width={240}
+                                  height={240}
                                   className="object-cover w-full h-auto rounded-2xl"
                                 />
                             </a>
@@ -189,8 +190,8 @@ const HandPickedSection = ({ product }: { product: HomepageDataI }) => {
                       <NextImage
                           src={Array.isArray(item.imageUrl) ? item.imageUrl[0] : item.imageUrl}
                           alt={item.name}
-                          width={300}
-                          height={300}
+                          width={240}
+                          height={240}
                           className="object-cover w-full h-auto rounded-2xl"
                         />
                     </a>

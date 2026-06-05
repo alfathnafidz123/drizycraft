@@ -22,6 +22,7 @@ import {
   ResStories,
   StoryI,
 } from '@/interfaces/article.interfaces';
+import Image from 'next/image';
 
 const myFont = localFont({ src: '../../../public/fonts/Hastle.woff2' });
 
@@ -175,7 +176,9 @@ export default function Blog() {
                     className='group relative w-full lg:h-[240px]'
                     onClick={() => router.push(`story/${item.canonical}`)}
                   >
-                    <img
+                    <Image
+                      width={200}
+                      height={200}
                       src={item.storyItem[0].url}
                       className='w-full rounded-[12px] shadow-sm transition-all duration-300 ease-in-out group-hover:scale-110'
                       alt={item.title}

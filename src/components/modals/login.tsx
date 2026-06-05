@@ -110,7 +110,7 @@ const ModalLogin: React.FC = () => {
         dispatch(fetchDownloadRemaining(token!)),
       ]);
     } catch (error: any) {
-      toast('Login failed');
+      toast.error(error.response.data.message);
     } finally {
       setLoading(false);
     }

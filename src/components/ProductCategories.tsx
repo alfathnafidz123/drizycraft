@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import Link from 'next/link';
+import Image from 'next/image';
 
 
 interface ProductCategoriesProps {
@@ -39,7 +40,9 @@ const ProductCategories: React.FC<ProductCategoriesProps> = ({
           w-auto"
         /> */}
         <div className="h-full aspect-square ">
-          <img
+          <Image
+            width={100}
+            height={100}
             src={image} // ganti dengan path asli
             alt={name.split(' ')[0]}
             className="w-full h-full object-cover rounded-[12px]"

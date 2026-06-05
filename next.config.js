@@ -27,6 +27,23 @@ const nextConfig = {
       'drizy-media.quadrakaryasantosa.com',
       'lh3.googleusercontent.com',
     ],
+    formats: ["image/avif", "image/webp"],
+
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "media.drizycraft.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "drizycraft.com",
+        pathname: "/**",
+      },
+    ],
+
+    deviceSizes: [320, 420, 640, 768, 1024, 1280],
+    imageSizes: [64, 96, 128, 256, 384],
   },
   experimental: {
     optimizePackageImports: ['react-icons/*'],

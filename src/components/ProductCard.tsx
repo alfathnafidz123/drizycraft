@@ -36,6 +36,7 @@ import { getProductOwnedById } from '@/app/api/product/getProductOwnedById';
 import TrialDownloadSuccess from '@/components/modals/trial-download-success';
 import TrialExpired from '@/components/modals/trial-expired';
 import DownloadProgressModal from '@/components/DownloadProgressModal';
+import Image from 'next/image';
 
 interface ProductCardProps {
   data: productI;
@@ -419,7 +420,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <div className={containerClassNames()}>
           {generateSale()}
           <div className={cardClassNames()}>
-            <NextImage
+            <Image
               onClick={(e) => {
                 if (isDragging) {
                   e.preventDefault();
@@ -437,8 +438,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
               width={260}
               quality={60}
               className='h-auto w-full rounded-2xl object-cover '
-              classNames={{ image: 'h-auto w-full rounded-2xl object-cover' }}
-              useSkeleton={true}
+              // classNames={{ image: 'h-auto w-full rounded-2xl object-cover' }}
+              // useSkeleton={true}
             />
             <Link
               href={data?.meta?.[0]?.title ? `/product/${data.meta[0].title}` : '#'}

@@ -35,7 +35,7 @@ interface ModalProps {
 }
 
 export default function Register() {
-  const { token } = useAppSelector((state) => state.user);
+  const { token, dataUser } = useAppSelector((state) => state.user);
   const [crafterData, setCrafterData] = useState<CrafterI[]>([]);
   const [isPopUpShow, setIsPopUpShow] = useState(false);
   const [isUploadSuccessShow, setIsUploadSuccessShow] = useState(false);
@@ -60,10 +60,39 @@ export default function Register() {
   };
 
   const likeCrafterPost = async (id: string) => {
-    await likeCrafter({
-      token,
-      crafterId: id,
-    });
+    try {
+      await likeCrafter({
+        token,
+        crafterId: id,
+      });
+
+      setCrafterData((prev) =>
+        prev.map((item) => {
+          if (item.id !== id) return item;
+
+          const alreadyLiked = item.likes?.some(
+            (l) => l.user?.id === dataUser?.id
+          );
+
+          return {
+            ...item,
+            likeCount: alreadyLiked
+              ? item.likeCount - 1
+              : item.likeCount + 1,
+            likes: alreadyLiked
+              ? item.likes.filter((l) => l.user?.id !== dataUser?.id)
+              : [
+                ...item.likes,
+                {
+                  user: dataUser, // ✅ FIX STRUCTURE
+                },
+              ],
+          };
+        })
+      );
+    } catch (error) {
+      toast("Failed to like project");
+    }
   };
 
   useEffect(() => {

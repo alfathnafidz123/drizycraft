@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { useEffect, useState } from "react";
 const AffiliateBanner = dynamic(() => import('@/components/AffiliateBanner'));
 const SectionContainer = dynamic(() => import('@/components/container/sectionContainer'));
-const BestSellerSection = dynamic(() => import('@/components/home/best-seller.section'));
+const NewProductSection = dynamic(() => import('@/components/home/new-product.section'));
 const BundlesSection = dynamic(() => import('@/components/home/bundle.section'));
 const CrafterSection = dynamic(() => import('@/components/home/crafter.section'));
 const ExculsiveSection = dynamic(() => import('@/components/home/exclusive.section'));
@@ -48,6 +48,7 @@ import {
   cat10,
   cat12, cat13
 } from '~/images';
+import BestSellerSection from '@/components/home/best-seller.section';
 
 export const revalidate = 600
 export const dynamicParams = false
@@ -114,8 +115,9 @@ export default function ClientSections({
 
       {/*<JumbotronSection homeProduct={homeProduct} />*/}
       {/* <ProjectSection homeProduct={homeProduct} /> */}
-      <RecentSection product={homeProduct}/>
-      <HandPickedSection product={homeProduct}/>
+      {/*<RecentSection product={homeProduct}/>*/}
+      {/*<HandPickedSection product={homeProduct}/>*/}
+      <NewProductSection product={homeProduct.crafterData} />
       <ProjectSection homeProduct={homeProduct}/>
       <SeasonSection homeProduct={homeProduct} />
       <SectionContainer bgColor='white' className='flex items-center justify-center bg-white py-6 text-base font-bold leading-4 text-white max-md:px-5'>
@@ -160,7 +162,7 @@ export default function ClientSections({
       </h2>
       <TrendingSection homeProduct={homeProduct}/>
 
-      <CrafterSection product={homeProduct.crafterData} />
+      {/*<CrafterSection product={homeProduct.crafterData} />*/}
 
       <BestSellerSection product={homeProduct.bestSellerData} />
 
