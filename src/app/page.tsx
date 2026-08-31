@@ -118,7 +118,7 @@ export default async function HomePage() {
       </h2>
 
 
-      <JumbotronSection homeProduct={homeProduct} />
+      {/*<JumbotronSection homeProduct={homeProduct} />*/}
       <ErrorBoundary>
         <ClientSections
           homeProduct={homeProduct}

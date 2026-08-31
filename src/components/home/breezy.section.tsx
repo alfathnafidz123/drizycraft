@@ -1,52 +1,145 @@
 'use client';
 
-import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { FaAngleRight } from "@react-icons/all-files/fa/FaAngleRight";
+import { FaAngleLeft } from "@react-icons/all-files/fa/FaAngleLeft";
+import type { Key } from 'react';
+import type { StaticImport } from 'next/dist/shared/lib/get-img-props';
 
-import { useAppSelector } from "@/lib/store";
+type Craft = {
+  id: Key | null | undefined;
+  productUrl: string | StaticImport;
+  title: string;
+};
 
-import NextImage from "@/components/NextImage";
+const BreezySection = () => {
+  const [crafts, setCrafts] = useState<Craft[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-import { breezyBanner, breezyCloseBanner, breezyLogoBanner } from "~/images";
-const BreezyMemberModal = dynamic(() => import("@/components/modals/breezy-member"));
-const BreezyNonMemberModal = dynamic(() => import("@/components/modals/breezy-non-member"));
+  const token = localStorage.getItem("user_token");
 
-const BreezyBanner = () => {
-  const { token } = useAppSelector(state => state.user);
-  const { activeSubcription } = useAppSelector(state => state.subs);
-  const [show, setShow] = useState(true);
-  const [showMember, setShowMember] = useState(false);
-  const [showNonMember, setShowNonMember] = useState(false);
+  useEffect(() => {
+    const fetchCrafts = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch(
+          'https://api.drizycraft.com/crafter/dump/free?page=1&limit=8&sortType=Latest&isFavorite=All'
+        );
 
-  const handleShowModal = () => {
-    if (token && activeSubcription) {
-      setShowMember(true);
-    } else {
-      setShowNonMember(true);
-    }
-  }
+        if (!res.ok) {
+          throw new Error(`Failed to fetch: ${res.status}`);
+        }
 
-  return token && show ? (
-    <>
-      <div className='bg-[#61A9FA] w-full relative flex items-center justify-center py-8'>
-        <div className="w-full h-full absolute top-0 left-0 flex items-center justify-center object-cover xl:object-contain">
-          <NextImage priority={true} loading="eager" width={1000} height={200} alt='Breezy Banner' quality={70} src={breezyBanner.src} className='object-cover xl:object-contain h-full' classNames={{ image: 'h-full object-cover xl:object-contain' }} />
-        </div>
-        <div className='flex flex-row gap-2 lg:gap-[43px] w-full items-center justify-center z-10 max-md:px-4'>
-          <div className='flex flex-col lg:flex-row gap-2 lg:gap-[43px] lg:items-center justify-center max-md:flex-1'>
-            <p className='font-katide-regular text-[#1A214C] font-normal text-base max-w-[332px] text-start mt-2 lg:order-1 order-2'><span className='font-katide-semibold font-bold'>Unlimited access</span> to thousands of daily refreshed assets with easy drag-and-drop</p>
-            <NextImage priority={true} loading="eager" width={200} height={100} alt='Breezy Logo' src={breezyLogoBanner.src} className="lg:order-2 order-1" />
-            <div onClick={handleShowModal} className='order-3 cursor-pointer flex rounded-lg border-2 border-[#FFDE9F] bg-[#FFBB3C] px-4 py-2 shadow-lg font-katide-bold w-fit'>
-              ACCESS HERE!
+        const json = await res.json();
+        const items = json?.data ?? json ?? [];
+        setCrafts(items.slice(0, 8));
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Unknown error');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCrafts();
+  }, []);
+
+  return (
+    <div className="flex w-full justify-center">
+      <div className="mx-auto w-full overflow-hidden lg:min-h-[400px] lg:max-w-[1164px] px-4 lg:px-0">
+        <div className="flex flex-col pb-10 lg:pb-0 pt-2 font-bold">
+          <div className="mb-4 mt-4 flex max-w-[1164px] items-center justify-between">
+            <div className="flex items-center justify-center font-katide-bold text-[24px] leading-10 text-indigo-950">
+              Drizy Breezy
+              <span className="ms-2 bg-[#EE4C73] text-white text-[10px] font-katide-medium px-1.5 py-[5px] rounded-full leading-none shadow-sm">
+                NEW !
+              </span>
             </div>
+            <Link
+              prefetch={false}
+              href={`${process.env.NEXT_PUBLIC_BREEZY_URL}?token=${token}`}
+              target="_blank"
+              className="cursor-pointer flex-row gap-3 text-right text-base font-bold leading-none text-[#4065D1] flex"
+            >
+              <div>See All Design</div>
+              <FaAngleRight />
+            </Link>
           </div>
-          <NextImage onClick={() => setShow(false)} width={40} height={40} alt='close banner' src={breezyCloseBanner.src} className='cursor-pointer' />
+
+          <div className="lg:h-auto">
+            {loading && (
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-4">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="aspect-square w-full animate-pulse rounded-xl bg-gray-200"
+                  />
+                ))}
+              </div>
+            )}
+
+            {!loading && error && (
+              <p className="text-sm font-normal text-red-500">
+                Failed to load data
+              </p>
+            )}
+
+            {!loading && !error && crafts.length === 0 && (
+              <p className="text-sm font-normal text-gray-500">
+                No Data
+              </p>
+            )}
+
+            {!loading && !error && crafts.length > 0 && (
+              <div className='grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-4 mb-6'>
+                {crafts.map(
+                  (craft: {
+                    id: Key | null | undefined;
+                    productUrl: string | StaticImport;
+                    title: string;
+                  }) => (
+                    <div
+                      key={craft.id}
+                      className="flex flex-col items-center gap-2 shadow-lg rounded-xl border border-gray-200 p-3"
+                    >
+                      <div
+                        className="relative aspect-square w-full select-none overflow-hidden rounded-lg bg-white"
+                        onContextMenu={(e) => e.preventDefault()} // blok klik kanan
+                        onDragStart={(e) => e.preventDefault()} // blok drag
+                      >
+                        <Image
+                          src={craft.productUrl}
+                          alt={craft.title}
+                          fill
+                          draggable={false}
+                          className="pointer-events-none object-contain" // blok interaksi langsung ke <img>
+                          unoptimized
+                        />
+                        {/* layer transparan di atas gambar — sekaligus jadi penangkap klik kiri */}
+                        <div
+                          onClick={() => {
+                            window.open(
+                              `${process.env.NEXT_PUBLIC_BREEZY_URL}?token=${token}`,
+                              '_blank'
+                            );
+                          }}
+                          onContextMenu={(e) => e.preventDefault()}
+                          onDragStart={(e) => e.preventDefault()}
+                          className="absolute inset-0 z-10 cursor-pointer"
+                        />
+                      </div>
+                    </div>
+                  )
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
-      <BreezyMemberModal isOpen={showMember} onClose={() => setShowMember(false)} />
-      <BreezyNonMemberModal isOpen={showNonMember} onClose={() => setShowNonMember(false)} />
-    </>
-  ) : null
-}
+    </div>
+  );
+};
 
-export default BreezyBanner;
+export default BreezySection;

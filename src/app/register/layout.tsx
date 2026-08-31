@@ -14,7 +14,7 @@ import SEOJsonLD from '@/components/SEOJsonLD';
 // !STARTERCONF Look at @/constant/config to change them
 export const metadata: Metadata = {
   title: {
-    default: siteConfig.title,
+    default: 'Register',
     template: `%s | ${siteConfig.title}`,
   },
   description: siteConfig.description,
@@ -57,7 +57,7 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <SEOJsonLD />
+      {/*<SEOJsonLD />*/}
       <ToastContainer />
       {children}
     </>

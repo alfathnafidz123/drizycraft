@@ -25,10 +25,10 @@ interface SwipeToSlideProps {
 }
 
 const ProductSlider: React.FC<SwipeToSlideProps> = ({
-  items,
-  handleShowDetail,
-  more,
-}) => {
+                                                      items,
+                                                      handleShowDetail,
+                                                      more,
+                                                    }) => {
   const router = useRouter();
   const [isDragging, setIsDragging] = useState(false);
   const settings = {

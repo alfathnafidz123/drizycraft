@@ -7,7 +7,7 @@ const nextConfig = {
   // compiler: {
   //   removeConsole: true,
   // },
-
+  compress: true,
   eslint: {
     dirs: ['src'],
     ignoreDuringBuilds: true,

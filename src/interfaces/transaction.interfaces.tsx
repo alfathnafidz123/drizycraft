@@ -1,3 +1,5 @@
+import { MetaProductI } from '@/interfaces/product.interface';
+
 export interface TransactionResI {
   data: TransactionI[];
   meta: Meta;
@@ -53,6 +55,7 @@ export interface ProductI {
   updatedAt?: Date;
   deletedAt?: Date;
   authorId?: string;
+  meta: MetaProductI[];
 }
 
 export interface Meta {

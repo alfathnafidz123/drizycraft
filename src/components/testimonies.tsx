@@ -48,21 +48,21 @@ const Testimonies = () => {
       className='flex flex-col items-center pb-6'
     >
       <div className=' w-full bg-[#E1E3F4] max-md:pb-10 max-md:px-5'>
-        <div className="flex w-full items-center justify-center pt-12">
-          <a
-            href="https://www.facebook.com/groups/drizyfreebies"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              src={dgroupBanner.src}
-              alt="dgroup banner"
-              width={1200}
-              height={400}
-              className="rounded-[20px] object-cover h-[200px] lg:h-auto w-full"
-            />
-          </a>
-        </div>
+        {/*<div className="flex w-full items-center justify-center pt-12">*/}
+        {/*  <a*/}
+        {/*    href="https://www.facebook.com/groups/drizyfreebies"*/}
+        {/*    target="_blank"*/}
+        {/*    rel="noopener noreferrer"*/}
+        {/*  >*/}
+        {/*    <Image*/}
+        {/*      src={dgroupBanner.src}*/}
+        {/*      alt="dgroup banner"*/}
+        {/*      width={1200}*/}
+        {/*      height={400}*/}
+        {/*      className="rounded-[20px] object-cover h-[200px] lg:h-auto w-full"*/}
+        {/*    />*/}
+        {/*  </a>*/}
+        {/*</div>*/}
 
         <div className='font-katide-bold flex justify-center text-[24px] leading-6 text-indigo-950 mt-12 lg:mt-24'>
           Let’s Crafting!
@@ -296,7 +296,7 @@ const Testimonies = () => {
       <div className='mt-28 whitespace-nowrap text-2xl font-bold leading-7 text-indigo-950 max-md:mt-14'>
         Have Collaborated with :
       </div>
-      <div className='mt-10 flex flex-wrap justify-center gap-4 py-1.5 md:gap-5 xl:flex-nowrap xl:justify-between max-w-full max-md:px-5'>
+      <div className='mt-10 flex flex-wrap justify-center gap-4 py-1.5 md:gap-5 xl:justify-between max-w-full max-md:px-5'>
         <img
           loading='lazy'
           src={elegco.src}

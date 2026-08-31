@@ -10,7 +10,7 @@ const VIPBanner = dynamic(() => import('@/components/home/vip.banner'));
 export default function CookieConsentModal() {
   const [showConsent, setShowConsent] = useState(false);
   const [consentGiven, setConsentGiven] = useState(false);
-  const [cookieBannerClosed, setCookieBannerClosed] = useState(false);
+  const [cookieBannerClosed, setCookieBannerClosed] = useState(true);
 
   useEffect(() => {
     const consent = Cookies.get('cookieConsent');

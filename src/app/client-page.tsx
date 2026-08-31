@@ -8,7 +8,7 @@ const NewProductSection = dynamic(() => import('@/components/home/new-product.se
 const BundlesSection = dynamic(() => import('@/components/home/bundle.section'));
 const CrafterSection = dynamic(() => import('@/components/home/crafter.section'));
 const ExculsiveSection = dynamic(() => import('@/components/home/exclusive.section'));
-const BreezyBanner = dynamic(() => import('@/components/home/breezy.section'));
+const BreezySection = dynamic(() => import('@/components/home/breezy.section'));
 const SubscribeFreebiesSection = dynamic(() => import('@/components/home/subscribe.section'));
 const VectorSection = dynamic(() => import('@/components/home/vector.section'));
 const ProductCategories = dynamic(() => import('@/components/ProductCategories'));
@@ -111,15 +111,12 @@ export default function ClientSections({
 
   return (
     <main>
-      {/* <BreezyBanner /> */}
-
       {/*<JumbotronSection homeProduct={homeProduct} />*/}
       {/* <ProjectSection homeProduct={homeProduct} /> */}
       {/*<RecentSection product={homeProduct}/>*/}
       {/*<HandPickedSection product={homeProduct}/>*/}
-      <NewProductSection product={homeProduct.crafterData} />
-      <ProjectSection homeProduct={homeProduct}/>
-      <SeasonSection homeProduct={homeProduct} />
+
+      <NewProductSection />
       <SectionContainer bgColor='white' className='flex items-center justify-center bg-white py-6 text-base font-bold leading-4 text-white max-md:px-5'>
         <div className='flex w-full flex-col max-md:max-w-full  md:px-4 lg:px-0'>
           <div className='font-katide-bold whitespace-nowrap text-2xl text-indigo-950'>
@@ -137,6 +134,11 @@ export default function ClientSections({
           </div>
         </div>
       </SectionContainer>
+      <BreezySection />
+      <SeasonSection homeProduct={homeProduct} />
+      {/*<ProjectSection homeProduct={homeProduct}/>*/}
+
+
 
       {/* <SectionContainer
         bgColor='#E1E3F4'
@@ -160,26 +162,26 @@ export default function ClientSections({
       <h2 className="sr-only">
         Popular SVG Designs Loved by Crafters
       </h2>
-      <TrendingSection homeProduct={homeProduct}/>
+      {/*<TrendingSection homeProduct={homeProduct}/>*/}
 
       {/*<CrafterSection product={homeProduct.crafterData} />*/}
-
-      <BestSellerSection product={homeProduct.bestSellerData} />
+      {/**/}
+      {/*<BestSellerSection product={homeProduct.bestSellerData} />*/}
 
       {/* <BundlesSection product={homeProduct.bundleData} /> */}
 
-      {homeProduct.exclusiveData.length > 0 &&
-        <ExculsiveSection product={homeProduct.exclusiveData} />
-      }
+      {/*{homeProduct.exclusiveData.length > 0 &&*/}
+      {/*  <ExculsiveSection product={homeProduct.exclusiveData} />*/}
+      {/*}*/}
 
       {/* {homeProduct.vectorData.length > 0 &&
         <VectorSection product={homeProduct.vectorData} />
       } */}
 
-      <Testimonies />
+      {/*<Testimonies />*/}
 
-      <SubscribeFreebiesSection />
-      <AffiliateBanner />
+      {/*<SubscribeFreebiesSection />*/}
+      {/*<AffiliateBanner />*/}
 
 
       <CookieConsentBanner />

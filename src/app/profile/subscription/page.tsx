@@ -140,14 +140,6 @@ export default function Register() {
                   {subsData?.status === 'trialing' ? 'Free Trial' : subsData?.product}
                 </td>
               </tr>
-              <tr className='bg-gray-100'>
-                <td className='whitespace-nowrap border border-[#AAAAAA] px-6 py-4 text-[#1A214C]'>
-                  Remaining Drizy Coins
-                </td>
-                <td className='whitespace-nowrap border border-[#AAAAAA] px-6 py-4 text-[#AAAAAA]'>
-                  {subsData?.coin === -1 ? 'Unlimited' : subsData?.coin ?? 0} Drizy Coin
-                </td>
-              </tr>
               <tr className='bg-white'>
                 <td className='whitespace-nowrap border border-[#AAAAAA] px-6 py-4 text-[#1A214C]'>
                   Start Date
@@ -187,17 +179,12 @@ export default function Register() {
               }
             </button>
           }
-          {subsData?.product !== "Annual Access" &&
+          {!subsData &&
             <div className='w-full flex justify-center lg:justify-end'>
               <button
                 className="button-coin"
                 onClick={() => {
-                  if (subsData?.coin === -1) {
-                    toast.error("You have unlimited coin");
-                    return;
-                  } else {
-                    setShowRecharge(true);
-                  }
+                  window.location.replace('/membership')
                 }}>
                 <svg xmlns="http://www.w3.org/2000/svg">
                   <rect className="border-coin" pathLength="100"></rect>
@@ -220,7 +207,7 @@ export default function Register() {
                     ></path>
                   </svg>
                 </svg>
-                <div className="txt-upload bg-[#FFBB3C] hover:bg-[#ED9B37] rounded-2xl">Top Up Coin</div>
+                <div className="txt-upload bg-[#FFBB3C] hover:bg-[#ED9B37] rounded-2xl">See Package</div>
               </button>
             </div>
           }

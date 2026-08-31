@@ -11,10 +11,10 @@ import { siteConfig } from '@/constant/config';
 // !STARTERCONF Look at @/constant/config to change them
 export const metadata: Metadata = {
   title: {
-    default: siteConfig.title,
+    default: 'Free SVG',
     template: `%s | ${siteConfig.title}`,
   },
-  description: siteConfig.description,
+  description: 'Explore free SVG designs made by crafters, for crafters. Compatible with Cricut, Silhouette & more. Download instantly and start creating today.',
   robots: { index: true, follow: true },
   // !STARTERCONF this is the default favicon, you can generate your own from https://realfavicongenerator.net/
   // ! copy to /favicon folder
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     url: siteConfig.url,
     title: siteConfig.title,
-    description: siteConfig.description,
+    description: 'Explore free SVG designs made by crafters, for crafters. Compatible with Cricut, Silhouette & more. Download instantly and start creating today.',
     siteName: siteConfig.title,
     images: [`${siteConfig.url}/images/og.jpg`],
     type: 'website',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: siteConfig.title,
-    description: siteConfig.description,
+    description: 'Explore free SVG designs made by crafters, for crafters. Compatible with Cricut, Silhouette & more. Download instantly and start creating today.',
     images: [`${siteConfig.url}/images/og.jpg`],
   },
   authors: [

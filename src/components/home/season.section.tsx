@@ -21,6 +21,7 @@ import {
   seasonChristmas,
   seasonSnow,
   seasonSpring,
+  seasonSummer,
 } from '~/images';
 
 
@@ -37,7 +38,7 @@ const SeasonSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
     const getProduct = useCallback(async () => {
       try {
         setLoading(true);
-        const rawCategory = 'Spring SVG';
+        const rawCategory = 'Summer SVG';
         const category = decodeURIComponent(rawCategory.replace(/^"|"$/g, ''));
         setCategoryName(category);
         // console.log('Fetching products with params:', {
@@ -82,7 +83,7 @@ const SeasonSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
     };
 
     const calculateTimeLeft = () => {
-      const targetDate = new Date('2026-06-01T23:59:59');
+      const targetDate = new Date('2026-09-01T23:59:59');
       const now = new Date();
       const difference = targetDate.getTime() - now.getTime();
 
@@ -145,13 +146,13 @@ const SeasonSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
   return (
     <>
       <SectionContainer
-        className='flex flex-col items-center justify-center pt-[10px] text-center'
+        className='flex flex-col items-center justify-center pt-[10px] text-center lg:pb-16 sm:pb-0'
       >
-        <div className="relative w-full my-8 mx-4 sm:mx-6 lg:mx-8 lg:rounded-2xl overflow-hidden" style={{ backgroundImage: 'linear-gradient(to bottom, #9CFFF7, #DEE4B4)' }}>
+        <div className="relative w-full mt-8 mx-4 sm:mx-6 lg:mx-8 lg:rounded-2xl overflow-hidden" style={{ backgroundImage: 'linear-gradient(to bottom, #F2F597, #FF87A0)' }}>
           {/* Absolute Image on Right */}
           <div className="hidden lg:block absolute top-0 bottom-0 right-0 h-[250px]">
             <Image
-              src={seasonSpring}
+              src={seasonSummer}
               alt="Craft Banner Image"
               className="h-[250px] w-auto object-cover"
             />
@@ -167,11 +168,11 @@ const SeasonSection = ({ homeProduct }: { homeProduct: HomepageDataI }) => {
             </p>
             
             <h2 className="font-katide-extrabold text-[36px] sm:text-[40px] leading-[120%] text-[#1A214C] lg:text-[50px] mt-5 mb-6">
-              Fresh Picks for Spring
+              Hello Summer Crafts
             </h2>
 
             <p className="text-[16px] font-katide-regular text-[#1A214C] mb-4 max-w-xl leading-7">
-              Let your creativity blossom with soft florals, pastel palettes, and SVGs inspired by sunny skies, garden walks, and cheerful spring days.
+              Make your crafts pop with tropical vibes, fruity fun, and sunny ideas only for a limited time! Explore fresh SVG collections perfect for summer parties, beach days, and colorful DIY moments.
             </p>
           </div>
           {productList.length > 0 && (

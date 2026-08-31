@@ -15,6 +15,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
+import { IoClose } from '@react-icons/all-files/io5/IoClose';
 
 import { fetchCart } from '@/lib/slices/cart';
 import { fetchSubs, setSubscriptionModalOpen } from '@/lib/slices/subcription';
@@ -45,6 +46,7 @@ import {
 import ModalRechargeCoin from '@/components/modals/recharge-coin';
 import { OrderI } from '@/interfaces/product.interface';
 import { fetchDownloadRemaining } from '@/lib/slices/download';
+import { FaCrown } from '@react-icons/all-files/fa6/FaCrown';
 
 export interface MenuState {
   crafter: boolean;
@@ -101,6 +103,8 @@ const Navbar: React.FC = () => {
   const activeSubcription2 = useMemo(() => {
     return activeSubcriptionState;
   }, [activeSubcriptionState]);
+
+  const [isVisible, setIsVisible] = useState(true);
 
   const downloadRemaining = useAppSelector(state => state.download.remaining);
 
@@ -285,33 +289,60 @@ const Navbar: React.FC = () => {
 
   return (
     <GoogleOAuthProvider clientId='660205853013-i0r4emab9r16stvggpb9gu24gmd0mgqr.apps.googleusercontent.com'>
-      <nav className='sticky top-0 z-30 hidden h-[139px] items-center bg-white shadow-xl lg:flex'>
-        <ModalLogin />
-        <NonMemberModal
-          isOpen={isOpen}
-          onClose={() => dispatch(setSubscriptionModalOpen(false))}
-        />
-        <div className='container mx-auto flex w-[1164px] items-center justify-between'>
-          <Link href='/'>
-            <NextImage width={200} height={200} src={betaLogo.src} alt='Logo' className='object-contain' />
-          </Link>
+      <div className='sticky top-0 z-30'>
+        {!activeSubcriptionState.activeSubcription && isVisible && (
+          <div className='sticky flex w-full top-0 items-center justify-center bg-[#EE4C73]'>
+            <div className='container relative mx-auto flex w-[1164px] items-center justify-center text-center gap-4 p-2'>
+              <p className='font-katide-semibold text-white'>
+                Craft more,
+                <span className='font-katide-semibold text-[#ffffff]'> Worry less •  Custom Designs • Instant SVG Downloads</span>
+              </p>
+              <Link
+                href="/membership"
+                className='flex rounded-lg border-2 border-[#FFDE9F] bg-[#FFBB3C] px-4 py-0.5 shadow-lg me-8 lg:me-0'
+              >
+                Get Exclusive<span className='font-base'></span>
+              </Link>
 
-          <div className='flex flex-row'>
-            <div className='mr-2 flex flex-col '>
-              <select onChange={(e) => { setSelectedCategory(e.target.value) }} value={selectedCategory} className='font-katide-bold mb-2 mr-2 max-w-[130px] border-none text-sm outline-none ring-0 focus:ring-0'>
-                <option value='all'>All Product</option>
-                {/* <option value='Bundles'>Bundles</option> */}
-                <option value='Crafters'>Crafts</option>
-                <option value='Freebies'>Freebies</option>
-                {/* <option value='Membership'>Membership</option>
+              <button
+                onClick={() => setIsVisible(false)}
+                aria-label="Close banner"
+                className='absolute right-2 lg:right-0 top-1/2 -translate-y-1/2 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white text-white transition hover:bg-white/20'
+              >
+                <IoClose size={18} />
+              </button>
+            </div>
+          </div>
+        )}
+        <nav className='sticky top-0 z-30 hidden h-[139px] items-center bg-white shadow-xl lg:flex'>
+
+          <ModalLogin />
+          <NonMemberModal
+            isOpen={isOpen}
+            onClose={() => dispatch(setSubscriptionModalOpen(false))}
+          />
+
+          <div className='container mx-auto flex w-[1164px] items-center justify-between'>
+            <Link href='/'>
+              <NextImage width={200} height={200} src={betaLogo.src} alt='Logo' className='object-contain' />
+            </Link>
+
+            <div className='flex flex-row'>
+              <div className=' flex flex-col '>
+                <select onChange={(e) => { setSelectedCategory(e.target.value) }} value={selectedCategory} className='font-katide-bold mb-2 mr-1 max-w-[130px] border-none text-sm outline-none ring-0 focus:ring-0'>
+                  <option value='all'>All Product</option>
+                  {/* <option value='Bundles'>Bundles</option> */}
+                  <option value='Crafters'>Crafts</option>
+                  <option value='Freebies'>Freebies</option>
+                  {/* <option value='Membership'>Membership</option>
                 <option value='Vector'>Vector</option>
                 <option value='Print Template'>Print Template</option>
                 <option value='Time Limited Freebies'>
                   Time Limited Freebies
                 </option> */}
-              </select>
+                </select>
 
-              {/* <div ref={crafterRef} className='relative pt-[6px]'>
+                {/* <div ref={crafterRef} className='relative pt-[6px]'>
                 <label className=' font-katide-semibold flex h-[40px] w-[85%] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] text-[14px] hover:bg-[#CCE7EF] cursor-pointer'>
                   <button
                     id='crafter'
@@ -593,373 +624,446 @@ const Navbar: React.FC = () => {
                   </div>
                 </div>
               </div> */}
-            </div>
+              </div>
 
-            <div className='mr-2 flex flex-col'>
-              <form onSubmit={handleSearch} className='group flex h-[42px] w-[480px] items-center gap-4 rounded-full border border-solid border-blue-500 border-opacity-25 bg-[#F1F2FB] p-2 pl-4 pr-1 text-left text-sm font-normal leading-4 tracking-tighter text-[#6F6F6F] transition-all focus-within:bg-white'>
-                <input
-                  placeholder='Search for unique craft designs, categories, occasions...'
-                  className='!focus:border-none !focus:outline-none flex-grow truncate border-none bg-transparent text-sm tracking-wide !outline-none placeholder:tracking-wide placeholder:text-[#6F6F6F] focus:ring-0'
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onTouchStart={() => setShowRecent(true)}
-                  onFocus={() => setShowRecent(true)}
-                  onBlur={() => {
-                    // delay biar klik item masih kebaca
-                    setTimeout(() => setShowRecent(false), 150);
-                  }}
-                />
-                <button
-                  type="submit"
-                  className='flex rounded-full bg-[#008ECC] cursor-pointer'
-                >
-                  <img
-                    src={search.src}
-                    className='w-[32px] flex-grow transition-all duration-300 group-hover:w-0 group-hover:opacity-0'
-                    alt='search'
+              <div className='mr-1.5 flex flex-col'>
+                <form onSubmit={handleSearch} className='group flex h-[42px] w-full items-center gap-4 rounded-full border border-solid border-blue-500 border-opacity-25 bg-[#F1F2FB] p-2 pl-4 pr-1 text-left text-sm font-normal leading-4 tracking-tighter text-[#6F6F6F] transition-all focus-within:bg-white'>
+                  <input
+                    placeholder='Search for unique craft designs, categories, occasions...'
+                    className='!focus:border-none !focus:outline-none flex-grow truncate border-none bg-transparent text-sm tracking-wide !outline-none placeholder:tracking-wide placeholder:text-[#6F6F6F] focus:ring-0'
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onTouchStart={() => setShowRecent(true)}
+                    onFocus={() => setShowRecent(true)}
+                    onBlur={() => {
+                      // delay biar klik item masih kebaca
+                      setTimeout(() => setShowRecent(false), 150);
+                    }}
                   />
-                  <div className='w-0 overflow-hidden transition-all duration-300 group-hover:w-[80px]'>
-                    <p className='px-4 py-2 text-center text-white'>Search</p>
-                  </div>
-                </button>
-              </form>
-
-
-              <div className='font-katide-semibold flex flex-row justify-between pt-2 text-[14px]'>
-                <div ref={crafterRef} className='relative'>
-                  <label className=' font-katide-semibold flex h-[40px] w-[120px] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] text-[14px] hover:bg-[#CCE7EF] cursor-pointer'>
-                    <button
-                      id='crafter'
-                      className='crafter'
-                      onClick={() => {
-                        toggleMenu('crafter');
-                      }}
-                    ></button>
-                    Crafts
-                    <FaChevronDown className='' />
-                  </label>
-                  <div
-                    className={`${showMenu.crafter ? 'block' : 'hidden'
-                      } absolute top-16 z-10 min-w-[285px] justify-between overflow-hidden rounded-bl-3xl rounded-br-3xl bg-[#E4F6FB] `}
+                  <button
+                    type="submit"
+                    className='flex rounded-full bg-[#008ECC] cursor-pointer'
                   >
-                    <div className='font-katide-semibold flex'>
-                      <div className='relative flex w-full min-w-[285px] flex-col'>
-                        <div
-                          onClick={() => {
-                            router.push('/category/Featured');
-                          }}
-                          onMouseEnter={() =>
-                            setShowSubMenu((prev) => ({
-                              ...prev,
-                              seasonal: false,
-                              craft: false,
-                            }))
-                          }
-                          className='cursor-pointer group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                        >
-                          <p>Featured</p>
-                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                        </div>
-                        <div
-                          onClick={() => {
-                            router.push('/category/Premium SVG');
-                          }}
-                          onMouseEnter={() =>
-                            setShowSubMenu((prev) => ({
-                              ...prev,
-                              seasonal: false,
-                              craft: false,
-                            }))
-                          }
-                          className='cursor-pointer group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                        >
-                          <p>Premium SVG</p>
-                          <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                        </div>
-                        {/*<div*/}
-                        {/*  onMouseEnter={() =>*/}
-                        {/*    setShowSubMenu((prev) => ({*/}
-                        {/*      ...prev,*/}
-                        {/*      seasonal: false,*/}
-                        {/*      craft: false,*/}
-                        {/*    }))*/}
-                        {/*  }*/}
-                        {/*  className='cursor-pointer group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'*/}
-                        {/*>*/}
-                        {/*  <p>Exclusive Partners</p>*/}
-                        {/*  <MdArrowOutward className='opacity-0 group-hover:opacity-100' />*/}
-                        {/*</div>*/}
-                        <div
-                          onMouseEnter={() =>
-                            setShowSubMenu((prev) => ({
-                              ...prev,
-                              seasonal: true,
-                              craft: false,
-                            }))
-                          }
-                          // onMouseLeave={() => toggleSubMenu('seasonal')}
-                          className='cursor-pointer flex justify-between bg-[#E4F6FB] p-6 pl-8 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                        >
-                          <label>Seasonal</label>
-                          <MdArrowForwardIos />
-                        </div>
-                        <div
-                          onMouseEnter={() =>
-                            setShowSubMenu((prev) => ({
-                              ...prev,
-                              craft: true,
-                              seasonal: false,
-                            }))
-                          }
-                          // onMouseLeave={() => toggleSubMenu('craft')}
-                          className='cursor-pointer group flex justify-between bg-[#E4F6FB] p-6 pl-8 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                        >
-                          <label>
-                            Craft Design SVGs
-                            <button id='svgs' className='crafter'></button>
-                          </label>
-                          <MdArrowForwardIos />
-                        </div>
-                      </div>
-                      {showMenu.crafter && showSubMenu.seasonal ? (
-                        <div className='flex'>
-                          <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
-                            <div
-                              onClick={() => {
-                                router.push('/category/Summer SVG');
-                              }}
-                              className='cursor-pointer group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                            >
-                              <p>Summer SVG</p>
-                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                            </div>
-                            <div
-                              onClick={() => {
-                                router.push('/category/Fall SVG');
-                              }}
-                              className='cursor-pointer group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                            >
-                              <p>Fall SVG</p>
-                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                            </div>
-                            <div
-                              onClick={() => {
-                                router.push('/category/Halloween SVG');
-                              }}
-                              className='cursor-pointer group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                            >
-                              <p>Halloween SVG</p>
-                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                            </div>
-                            <div
-                              onClick={() => {
-                                router.push('/category/Thanksgiving SVG');
-                              }}
-                              className='cursor-pointer group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                            >
-                              <p>Thanksgiving SVG</p>
-                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                            </div>
-                            <div
-                              onClick={() => {
-                                router.push('/category/Winter SVG');
-                              }}
-                              className='cursor-pointer group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                            >
-                              <p>Winter SVG</p>
-                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                            </div>
-                          </div>
-                          <div className='h-full w-[1px] bg-[#E5E7EB]'></div>
-                          <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
-                            <div
-                              onClick={() => {
-                                router.push('/category/Christmas SVG');
-                              }}
-                              className='cursor-pointer group flex justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                            >
-                              <p>Christmas SVG</p>
-                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                            </div>
-                            <div
-                              onClick={() => {
-                                router.push('/category/Easter SVG');
-                              }}
-                              className='cursor-pointer group flex justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                            >
-                              <p>Easter SVG</p>
-                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                            </div>
-                            <div
-                              onClick={() => {
-                                router.push('/category/Spring SVG');
-                              }}
-                              className='cursor-pointer group flex justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                            >
-                              <p>Spring SVG</p>
-                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                            </div>
-                          </div>
-                        </div>
-                      ) : (
-                        <></>
-                      )}
-                      {showMenu.crafter && showSubMenu.craft ? (
-                        <div className='flex'>
-                          <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
-                            <div
-                              onClick={() => {
-                                router.push('/catalog-drizy-atelier');
-                              }}
-                              className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                            >
-                              <p>
-                                Drizy Atelier
-                                <span className="ms-1 bg-[#EE4C73] text-white text-[10px] font-katide-medium px-1.5 py-[2px] rounded-full leading-none shadow-sm">
-                                  NEW !
-                                </span>
-                              </p>
-                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                            </div>
-                            <div
-                              onClick={() => {
-                                router.push('/category/3D Shadow Box SVGs');
-                              }}
-                              className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                            >
-                              <p>Shadow Box SVG</p>
-                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                            </div>
-                            <div
-                              onClick={() => {
-                                router.push('/category/Cricut SVG');
-                              }}
-                              className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                            >
-                              <p>Cricut SVG</p>
-                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                            </div>
-                            <div
-                              onClick={() => {
-                                router.push('/category/SVG Cut files');
-                              }}
-                              className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                            >
-                              <p>SVG cut files</p>
-                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                            </div>
-                            <div
-                              onClick={() => {
-                                router.push('/category/T-Shirt Designs');
-                              }}
-                              className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                            >
-                              <p>Tshirt Designs</p>
-                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                            </div>
+                    <img
+                      src={search.src}
+                      className='w-[32px] flex-grow transition-all duration-300 group-hover:w-0 group-hover:opacity-0'
+                      alt='search'
+                    />
+                    <div className='w-0 overflow-hidden transition-all duration-300 group-hover:w-[80px]'>
+                      <p className='px-4 py-2 text-center text-white'>Search</p>
+                    </div>
+                  </button>
+                </form>
+
+
+                <div className='font-katide-semibold flex flex-row justify-between pt-2 gap-2 text-[14px]'>
+                  <div ref={crafterRef} className='relative'>
+                    <label className=' font-katide-semibold flex h-[40px] w-[120px] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] text-[14px] hover:bg-[#CCE7EF] cursor-pointer'>
+                      <button
+                        id='crafter'
+                        className='crafter'
+                        onClick={() => {
+                          toggleMenu('crafter');
+                        }}
+                      ></button>
+                      Crafts
+                      <FaChevronDown className='' />
+                    </label>
+                    <div
+                      className={`${showMenu.crafter ? 'block' : 'hidden'
+                      } absolute top-16 z-10 min-w-[285px] justify-between overflow-hidden rounded-bl-3xl rounded-br-3xl bg-[#E4F6FB] `}
+                    >
+                      <div className='font-katide-semibold flex'>
+                        <div className='relative flex w-full min-w-[285px] flex-col'>
+                          <div
+                            onClick={() => {
+                              router.push('/category/Featured');
+                            }}
+                            onMouseEnter={() =>
+                              setShowSubMenu((prev) => ({
+                                ...prev,
+                                seasonal: false,
+                                craft: false,
+                              }))
+                            }
+                            className='cursor-pointer group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                          >
+                            <p>Featured</p>
+                            <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
                           </div>
                           <div
                             onClick={() => {
-                              router.push('/category/Printable Crafts');
+                              router.push('/category');
                             }}
-                            className='h-full w-[1px] bg-[#E5E7EB]'
-                          ></div>
-                          <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
+                            onMouseEnter={() =>
+                              setShowSubMenu((prev) => ({
+                                ...prev,
+                                seasonal: false,
+                                craft: false,
+                              }))
+                            }
+                            className='cursor-pointer group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                          >
+                            <p>Best Seller</p>
+                            <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                          </div>
+                          <div
+                            onClick={() => {
+                              router.push('/category/Premium SVG');
+                            }}
+                            onMouseEnter={() =>
+                              setShowSubMenu((prev) => ({
+                                ...prev,
+                                seasonal: false,
+                                craft: false,
+                              }))
+                            }
+                            className='cursor-pointer group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                          >
+                            <p>Premium SVG</p>
+                            <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                          </div>
+                          {/*<div*/}
+                          {/*  onMouseEnter={() =>*/}
+                          {/*    setShowSubMenu((prev) => ({*/}
+                          {/*      ...prev,*/}
+                          {/*      seasonal: false,*/}
+                          {/*      craft: false,*/}
+                          {/*    }))*/}
+                          {/*  }*/}
+                          {/*  className='cursor-pointer group flex justify-between bg-[#E4F6FB] py-6 pl-8 pr-4 hover:bg-[#CBEAF2] hover:text-[#4065D1]'*/}
+                          {/*>*/}
+                          {/*  <p>Exclusive Partners</p>*/}
+                          {/*  <MdArrowOutward className='opacity-0 group-hover:opacity-100' />*/}
+                          {/*</div>*/}
+                          <div
+                            onMouseEnter={() =>
+                              setShowSubMenu((prev) => ({
+                                ...prev,
+                                seasonal: true,
+                                craft: false,
+                              }))
+                            }
+                            // onMouseLeave={() => toggleSubMenu('seasonal')}
+                            className='cursor-pointer flex justify-between bg-[#E4F6FB] p-6 pl-8 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                          >
+                            <label>Seasonal</label>
+                            <MdArrowForwardIos />
+                          </div>
+                          <div
+                            onMouseEnter={() =>
+                              setShowSubMenu((prev) => ({
+                                ...prev,
+                                craft: true,
+                                seasonal: false,
+                              }))
+                            }
+                            // onMouseLeave={() => toggleSubMenu('craft')}
+                            className='cursor-pointer group flex justify-between bg-[#E4F6FB] p-6 pl-8 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                          >
+                            <label>
+                              Craft Design SVGs
+                              <button id='svgs' className='crafter'></button>
+                            </label>
+                            <MdArrowForwardIos />
+                          </div>
+                        </div>
+                        {showMenu.crafter && showSubMenu.seasonal ? (
+                          <div className='flex'>
+                            <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
+                              <div
+                                onClick={() => {
+                                  router.push('/category/Summer SVG');
+                                }}
+                                className='cursor-pointer group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                              >
+                                <p>Summer SVG</p>
+                                <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                              </div>
+                              <div
+                                onClick={() => {
+                                  router.push('/category/Fall SVG');
+                                }}
+                                className='cursor-pointer group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                              >
+                                <p>Fall SVG</p>
+                                <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                              </div>
+                              <div
+                                onClick={() => {
+                                  router.push('/category/Halloween SVG');
+                                }}
+                                className='cursor-pointer group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                              >
+                                <p>Halloween SVG</p>
+                                <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                              </div>
+                              <div
+                                onClick={() => {
+                                  router.push('/category/Thanksgiving SVG');
+                                }}
+                                className='cursor-pointer group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                              >
+                                <p>Thanksgiving SVG</p>
+                                <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                              </div>
+                              <div
+                                onClick={() => {
+                                  router.push('/category/Winter SVG');
+                                }}
+                                className='cursor-pointer group flex flex-grow items-center justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                              >
+                                <p>Winter SVG</p>
+                                <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                              </div>
+                            </div>
+                            <div className='h-full w-[1px] bg-[#E5E7EB]'></div>
+                            <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
+                              <div
+                                onClick={() => {
+                                  router.push('/category/Christmas SVG');
+                                }}
+                                className='cursor-pointer group flex justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                              >
+                                <p>Christmas SVG</p>
+                                <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                              </div>
+                              <div
+                                onClick={() => {
+                                  router.push('/category/Easter SVG');
+                                }}
+                                className='cursor-pointer group flex justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                              >
+                                <p>Easter SVG</p>
+                                <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                              </div>
+                              <div
+                                onClick={() => {
+                                  router.push('/category/Spring SVG');
+                                }}
+                                className='cursor-pointer group flex justify-between py-6 pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                              >
+                                <p>Spring SVG</p>
+                                <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <></>
+                        )}
+                        {showMenu.crafter && showSubMenu.craft ? (
+                          <div className='flex'>
+                            <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
+                              <div
+                                onClick={() => {
+                                  router.push('/catalog-free-svg');
+                                }}
+                                className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                              >
+                                <p>
+                                  Free SVG
+                                  <span className="ms-1 bg-[#EE4C73] text-white text-[10px] font-katide-medium px-1.5 py-[2px] rounded-full leading-none shadow-sm">
+                                  NEW !
+                                </span>
+                                </p>
+                                <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                              </div>
+                              <div
+                                onClick={() => {
+                                  router.push('/category/3D Shadow Box SVGs');
+                                }}
+                                className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                              >
+                                <p>Shadow Box SVG</p>
+                                <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                              </div>
+                              <div
+                                onClick={() => {
+                                  router.push('/category/Cricut SVG');
+                                }}
+                                className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                              >
+                                <p>Cricut SVG</p>
+                                <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                              </div>
+                              <div
+                                onClick={() => {
+                                  router.push('/category/SVG Cut files');
+                                }}
+                                className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                              >
+                                <p>SVG cut files</p>
+                                <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                              </div>
+                              <div
+                                onClick={() => {
+                                  router.push('/category/T-Shirt Designs');
+                                }}
+                                className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                              >
+                                <p>Tshirt Designs</p>
+                                <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                              </div>
+                            </div>
                             <div
                               onClick={() => {
                                 router.push('/category/Printable Crafts');
                               }}
-                              className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                            >
-                              <p>Sublimation</p>
-                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                            </div>
-                            <div
-                              onClick={() => {
-                                router.push('/category/Paper Cut Templates');
-                              }}
-                              className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                            >
-                              <p>Papercut Templates</p>
-                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                            </div>
-                            <div
-                              onClick={() => {
-                                router.push('/category/Monogram Designs');
-                              }}
-                              className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                            >
-                              <p>Monogram Designs</p>
-                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                            </div>
-                            <div
-                              onClick={() => {
-                                router.push('/category/Card Making');
-                              }}
-                              className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                            >
-                              <p>Card Making</p>
-                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
-                            </div>
-                            <div
-                              onClick={() => {
-                                router.push('/category/Stickers SVG');
-                              }}
-                              className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
-                            >
-                              <p>Sticker SVG</p>
-                              <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                              className='h-full w-[1px] bg-[#E5E7EB]'
+                            ></div>
+                            <div className='flex min-w-[214px] flex-col whitespace-nowrap bg-white'>
+                              <div
+                                onClick={() => {
+                                  router.push('/category/Printable Crafts');
+                                }}
+                                className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                              >
+                                <p>Sublimation</p>
+                                <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                              </div>
+                              <div
+                                onClick={() => {
+                                  router.push('/category/Paper Cut Templates');
+                                }}
+                                className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                              >
+                                <p>Papercut Templates</p>
+                                <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                              </div>
+                              <div
+                                onClick={() => {
+                                  router.push('/category/Monogram Designs');
+                                }}
+                                className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                              >
+                                <p>Monogram Designs</p>
+                                <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                              </div>
+                              <div
+                                onClick={() => {
+                                  router.push('/category/Card Making');
+                                }}
+                                className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                              >
+                                <p>Card Making</p>
+                                <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                              </div>
+                              <div
+                                onClick={() => {
+                                  router.push('/category/Stickers SVG');
+                                }}
+                                className='cursor-pointer group flex flex-grow items-center justify-between pl-8 pr-2 hover:bg-[#CBEAF2] hover:text-[#4065D1]'
+                              >
+                                <p>Sticker SVG</p>
+                                <MdArrowOutward className='opacity-0 group-hover:opacity-100' />
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ) : (
-                        <></>
-                      )}
+                        ) : (
+                          <></>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="relative inline-block">
-                  <Link
-                    href="/catalog-drizy-atelier"
-                    id="freeSvg"
-                    className="flex h-[40px] w-[115px] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] px-4 py-3 hover:bg-[#CCE7EF] relative"
-                  >
-                    Drizy Atelier
-                  </Link>
-                  <span className="absolute -top-1.5 -right-0 bg-[#EE4C73] text-white text-[9px] font-katide-medium px-1.5 py-[3px] rounded-full leading-none shadow-sm">
+                  <div className="relative inline-block">
+                    <Link
+                      href="/catalog-free-svg"
+                      id="freeSvg"
+                      className="flex h-[40px] w-[115px] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] px-4 py-3 hover:bg-[#CCE7EF] relative"
+                    >
+                      Free SVG
+                    </Link>
+                    <span className="absolute -top-1.5 -right-0 bg-[#EE4C73] text-white text-[9px] font-katide-medium px-1.5 py-[3px] rounded-full leading-none shadow-sm">
                     NEW !
                   </span>
+                  </div>
+                  {/*<Link*/}
+                  {/*  href='/blog'*/}
+                  {/*  id='bundles'*/}
+                  {/*  className=' flex h-[40px] w-[100px] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] px-6 py-3 hover:bg-[#CCE7EF]'*/}
+                  {/*>*/}
+                  {/*  Blog*/}
+                  {/*</Link>*/}
+
+                  <Link
+                    href='/project'
+                    prefetch={false}
+                    className='font-katide-semibold flex w-[105px] h-[40px] items-center justify-center gap-2 rounded-full bg-[#008ECC] px-6 py-3 text-[14px] text-white hover:bg-[#4065D1]'
+                  >
+                    Project
+                  </Link>
+
+                  <div className='flex flex-row justify-between gap-4'>
+                    <a href={`${process.env.NEXT_PUBLIC_BREEZY_URL}?token=${token}`} target="_blank" className="breezy-btn">
+                      <strong className="breezy-strong">Breezy</strong>
+                      <div className="breezy-container-stars">
+                        <div className="breezy-stars"></div>
+                      </div>
+                      <div className="breezy-glow">
+                        <div className="breezy-circle"></div>
+                        <div className="breezy-circle"></div>
+                      </div>
+                    </a>
+
+                    {/*<Link*/}
+                    {/*  href='/membership'*/}
+                    {/*  className='font-katide-semibold flex h-[40px] w-[178px] items-center gap-3 rounded-full px-8 py-4 text-[14px] bg-[#EE4C73] text-white hover:bg-[#CE4768]'*/}
+                    {/*>*/}
+                    {/*  <img src={crownMember.src} alt='Membership' />*/}
+                    {/*  <p className='mt-0.5'>Membership</p>*/}
+                    {/*</Link>*/}
+                    {/*<div className="relative inline-block">*/}
+                    {/*  <Link*/}
+                    {/*    href='/membership'*/}
+                    {/*    className='font-katide-semibold flex h-[40px] w-[178px] items-center gap-3 rounded-full px-8 py-4 text-[14px] bg-[#7731C9] hover:bg-[#622da1] text-white '*/}
+                    {/*  >*/}
+                    {/*    <img src={crownMember.src} alt='Membership' />*/}
+                    {/*    <p className='mt-0.5'>*/}
+                    {/*      Membership*/}
+                    {/*    </p>*/}
+                    {/*  </Link>*/}
+                    {/*  <span className="absolute -top-2 -right-5 bg-[#FFBB3C] text-[#000000] text-[12px] font-katide-medium px-1.5 py-[3px] rounded-full leading-none shadow-sm">*/}
+                    {/*    Black Friday Sale !*/}
+                    {/*  </span>*/}
+                    {/*</div>*/}
+                  </div>
+
+                  <Link
+                    href='/membership'
+                    className='font-katide-semibold flex h-[40px] w-[134px] items-center justify-center gap-1 rounded-full px-2 py-4 text-[14px] bg-[#EE4C73] text-white hover:bg-[#CE4768]'
+                  >
+                    <img src={crownMember.src} alt='Membership' className="w-5 h-4" />
+                    <p className='mt-0.5'>Exclusive</p>
+                  </Link>
+
+                  {/* <a href="https://breezy.drizycraft.com" target="_blank" className="breezy-btn"> */}
+
+
+
                 </div>
-                <Link
-                  href='/blog'
-                  id='bundles'
-                  className=' flex h-[40px] w-[100px] items-center justify-center gap-2 rounded-full bg-[#e4f6fb] px-6 py-3 hover:bg-[#CCE7EF]'
-                >
-                  Blog
-                </Link>
-
-                {/* <a href="https://breezy.drizycraft.com" target="_blank" className="breezy-btn"> */}
-                <Link
-                  href='/project'
-                  prefetch={false}
-                  className='font-katide-semibold flex w-[105px] h-[40px] items-center justify-center gap-2 rounded-full bg-[#008ECC] px-6 py-3 text-[14px] text-white hover:bg-[#4065D1]'
-                >
-                  Project
-                </Link>
-
-
               </div>
-            </div>
 
-            <div className='flex flex-col pl-4'>
-              <div className='flex flex-row justify-between gap-[20px]'>
-                <button
-                  id='profilelogin'
-                  className='font-katide-bold flex h-[40px] w-[110px] justify-center items-center gap-2 rounded-full py-4 text-[14px] bg-[#e4f6fb] text-[#008ECC] hover:bg-[#C0E9F4]'
-                  // eslint-disable-next-line @typescript-eslint/no-empty-function
-                  onClick={!isLogin ? openModalLogin : openProfile}
-                >
-                  {isLogin ? (
+              <div className='flex flex-col pl-[6px] mr-2'>
+                <div className='flex flex-row justify-between gap-3'>
+                  <Link
+                    href='/cart'
+                    prefetch={false}
+                    className='relative rounded-full bg-[#e4f6fb] px-2 py-2 text-[#008ECC] transition-all hover:bg-[#C0E9F4]'
+                  >
+                    <img src={cart.src} alt='cart' />
+                    <div className='absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#008ECC] pt-0.5 text-[10px] text-[#e4f6fb] transition-all'>
+                      {cartData.length}
+                    </div>
+                  </Link>
+                  <button
+                    id='profilelogin'
+                    className={`font-katide-bold relative flex h-[40px] w-[110px] items-center justify-center gap-2 rounded-full py-4 text-[14px] bg-[#e4f6fb] text-[#008ECC] hover:bg-[#C0E9F4] ${
+                      activeSubcriptionState.subcription ? 'border-2 border-[#F0A93E]' : ''
+                    }`}
+                    // eslint-disable-next-line @typescript-eslint/no-empty-function
+                    onClick={!isLogin ? openModalLogin : openProfile}
+                  >
+                    {isLogin ? (
                       <>
                         <Image
                           src={dataUser?.avatar || account2.src}
@@ -970,183 +1074,150 @@ const Navbar: React.FC = () => {
                         />
                         <p>Profile</p>
                       </>
-                  ) : (
-                    <p>LOGIN</p>
-                  )}
-                </button>
-                <Link
-                  href='/cart'
-                  prefetch={false}
-                  className='relative rounded-full bg-[#e4f6fb] px-2 py-2 text-[#008ECC] transition-all hover:bg-[#C0E9F4]'
-                >
-                  <img src={cart.src} alt='cart' />
-                  <div className='absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#008ECC] pt-0.5 text-[10px] text-[#e4f6fb] transition-all'>
-                    {cartData.length}
-                  </div>
-                </Link>
-                <div className='relative'>
-                  <button
-                    id='coin'
-                    onClick={() => {
-                      if (isLogin) {
-                        setShowTopup(!showTopup);
-                      } else {
-                        openModalLogin();
-                      }
-                    }}
-                    className='font-katide-semibold flex h-[39px] items-center gap-4 rounded-full border border-solid border-gray-300 py-1 pl-0.5 pr-2 text-[10px] text-gray-300 hover:bg-[#E4F6FB]'
-                  >
-                    <img src={drizzyCoin.src} alt='cart' />
-                    <span className='font-katide-semibold text-[14px] text-[#008ECC]'>
-                      {isLogin && dataUser ? (
-                        activeSubcription2?.subcription?.status === "trialing" ? (
-                            <span className="flex items-center gap-1">
-                              {downloadRemaining}
-                            </span>
-                          ) : (coin === 0) ? (
-                          // <Image
-                          //   src={emptyCoin.src}
-                          //   alt='empty-coin'
-                          //   width={80}
-                          //   height={80}
-                          //   className='h-4 w-4'
-                          // />
-                          0
-                        ) : coin === -1 ? "♾️" : (
-                          coin
-                        )
-                      ) : (
-                        // <Image
-                        //   src={emptyCoin.src}
-                        //   alt='empty-coin'
-                        //   width={80}
-                        //   height={80}
-                        //   className='h-4 w-4'
-                        // />
-                        0
-                      )}
-                    </span>
-                    {activeSubcription2?.subcription?.status === "trialing" ? (
-                      // Tampilkan "DOWNLOAD" вместо "COIN" untuk trial
-                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                      </svg>
                     ) : (
-                      "COIN"
+                      <p>LOGIN</p>
+                    )}
+
+                    {activeSubcriptionState.subcription && (
+                      <span className="absolute -right-1 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#F0A93E] shadow-sm">
+                      <FaCrown size={10} className="text-white" />
+                    </span>
                     )}
                   </button>
-                  {showTopup &&
-                    <div className='rounded-xl absolute -bottom-40 right-0 bg-gray-50 p-2 w-52 z-50'>
-                      <div className='flex flex-col justify-center items-center gap-2 relative'>
-                        <div className='absolute right-1 top-1 cursor-pointer' onClick={() => setShowTopup(false)}>
-                          <IoCloseCircle />
-                        </div>
-                        <p className='font-katide-bold text-sm justify-center text-center'>
-                          {activeSubcription2?.subcription?.status === "trialing"
-                            ? "Your Trial Download Remaining"
-                            : "Your Drizy Coins"
-                          }
-                        </p>
-                        <img src={drizzyCoin.src} alt='cart' className='w-8 h-8' />
-                        <p className=''>
-                          {activeSubcription2?.subcription?.status === "trialing" ? (
-                            downloadRemaining
-                          ) : (coin === 0) ? (
-                            "0"
-                          ) : coin === -1 ? "♾️" : (
-                            coin
-                          )}
-                        </p>
-                        <Button
-                          onClick={() => {
-                            if (activeSubcription2?.subcription?.status === "trialing") {
-                              router.push('/select-plan');
-                            } else if (coin === -1) {
-                              toast('You have unlimited coin');
-                            } else {
-                              setShowRecharge(true);
-                            }
-                          }}
-                          className="font-katide-bold flex w-full items-center justify-center rounded-full border-none bg-[#008ECC] hover:bg-[#008ECC]/90 text-xs"
-                        >
-                          {activeSubcription2?.subcription?.status === "trialing" ? 'UPGRADE' : 'TOP UP HERE'}
-                        </Button>
 
-                      </div>
-                    </div>
-                  }
+                  {/*<div className='relative'>*/}
+                  {/*  <button*/}
+                  {/*    id='coin'*/}
+                  {/*    onClick={() => {*/}
+                  {/*      if (isLogin) {*/}
+                  {/*        setShowTopup(!showTopup);*/}
+                  {/*      } else {*/}
+                  {/*        openModalLogin();*/}
+                  {/*      }*/}
+                  {/*    }}*/}
+                  {/*    className='font-katide-semibold flex h-[39px] items-center gap-4 rounded-full border border-solid border-gray-300 py-1 pl-0.5 pr-2 text-[10px] text-gray-300 hover:bg-[#E4F6FB]'*/}
+                  {/*  >*/}
+                  {/*    <img src={drizzyCoin.src} alt='cart' />*/}
+                  {/*    <span className='font-katide-semibold text-[14px] text-[#008ECC]'>*/}
+                  {/*      {isLogin && dataUser ? (*/}
+                  {/*        activeSubcription2?.subcription?.status === "trialing" ? (*/}
+                  {/*            <span className="flex items-center gap-1">*/}
+                  {/*              {downloadRemaining}*/}
+                  {/*            </span>*/}
+                  {/*          ) : (coin === 0) ? (*/}
+                  {/*          // <Image*/}
+                  {/*          //   src={emptyCoin.src}*/}
+                  {/*          //   alt='empty-coin'*/}
+                  {/*          //   width={80}*/}
+                  {/*          //   height={80}*/}
+                  {/*          //   className='h-4 w-4'*/}
+                  {/*          // />*/}
+                  {/*          0*/}
+                  {/*        ) : coin === -1 ? "♾️" : (*/}
+                  {/*          coin*/}
+                  {/*        )*/}
+                  {/*      ) : (*/}
+                  {/*        // <Image*/}
+                  {/*        //   src={emptyCoin.src}*/}
+                  {/*        //   alt='empty-coin'*/}
+                  {/*        //   width={80}*/}
+                  {/*        //   height={80}*/}
+                  {/*        //   className='h-4 w-4'*/}
+                  {/*        // />*/}
+                  {/*        0*/}
+                  {/*      )}*/}
+                  {/*    </span>*/}
+                  {/*    {activeSubcription2?.subcription?.status === "trialing" ? (*/}
+                  {/*      // Tampilkan "DOWNLOAD" вместо "COIN" untuk trial*/}
+                  {/*      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">*/}
+                  {/*        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />*/}
+                  {/*      </svg>*/}
+                  {/*    ) : (*/}
+                  {/*      "COIN"*/}
+                  {/*    )}*/}
+                  {/*  </button>*/}
+                  {/*  {showTopup &&*/}
+                  {/*    <div className='rounded-xl absolute -bottom-40 right-0 bg-gray-50 p-2 w-52 z-50'>*/}
+                  {/*      <div className='flex flex-col justify-center items-center gap-2 relative'>*/}
+                  {/*        <div className='absolute right-1 top-1 cursor-pointer' onClick={() => setShowTopup(false)}>*/}
+                  {/*          <IoCloseCircle />*/}
+                  {/*        </div>*/}
+                  {/*        <p className='font-katide-bold text-sm justify-center text-center'>*/}
+                  {/*          {activeSubcription2?.subcription?.status === "trialing"*/}
+                  {/*            ? "Your Trial Download Remaining"*/}
+                  {/*            : "Your Drizy Coins"*/}
+                  {/*          }*/}
+                  {/*        </p>*/}
+                  {/*        <img src={drizzyCoin.src} alt='cart' className='w-8 h-8' />*/}
+                  {/*        <p className=''>*/}
+                  {/*          {activeSubcription2?.subcription?.status === "trialing" ? (*/}
+                  {/*            downloadRemaining*/}
+                  {/*          ) : (coin === 0) ? (*/}
+                  {/*            "0"*/}
+                  {/*          ) : coin === -1 ? "♾️" : (*/}
+                  {/*            coin*/}
+                  {/*          )}*/}
+                  {/*        </p>*/}
+                  {/*        <Button*/}
+                  {/*          onClick={() => {*/}
+                  {/*            if (activeSubcription2?.subcription?.status === "trialing") {*/}
+                  {/*              router.push('/select-plan');*/}
+                  {/*            } else if (coin === -1) {*/}
+                  {/*              toast('You have unlimited coin');*/}
+                  {/*            } else {*/}
+                  {/*              setShowRecharge(true);*/}
+                  {/*            }*/}
+                  {/*          }}*/}
+                  {/*          className="font-katide-bold flex w-full items-center justify-center rounded-full border-none bg-[#008ECC] hover:bg-[#008ECC]/90 text-xs"*/}
+                  {/*        >*/}
+                  {/*          {activeSubcription2?.subcription?.status === "trialing" ? 'UPGRADE' : 'TOP UP HERE'}*/}
+                  {/*        </Button>*/}
+
+                  {/*      </div>*/}
+                  {/*    </div>*/}
+                  {/*  }*/}
+                  {/*</div>*/}
+
                 </div>
-              </div>
 
-              <div className='flex flex-row justify-between gap-4 pt-[10px]'>
-                <a href={`https://breezy.drizycraft.com?token=${token}`} target="_blank" className="breezy-btn">
-                  <strong className="breezy-strong">Breezy</strong>
-                  <div className="breezy-container-stars">
-                    <div className="breezy-stars"></div>
-                  </div>
-                  <div className="breezy-glow">
-                    <div className="breezy-circle"></div>
-                    <div className="breezy-circle"></div>
-                  </div>
-                </a>
 
-                <Link
-                  href='/membership'
-                  className='font-katide-semibold flex h-[40px] w-[178px] items-center gap-3 rounded-full px-8 py-4 text-[14px] bg-[#EE4C73] text-white hover:bg-[#CE4768]'
-                >
-                  <img src={crownMember.src} alt='Membership' />
-                  <p className='mt-0.5'>Membership</p>
-                </Link>
-                {/*<div className="relative inline-block">*/}
-                {/*  <Link*/}
-                {/*    href='/membership'*/}
-                {/*    className='font-katide-semibold flex h-[40px] w-[178px] items-center gap-3 rounded-full px-8 py-4 text-[14px] bg-[#7731C9] hover:bg-[#622da1] text-white '*/}
-                {/*  >*/}
-                {/*    <img src={crownMember.src} alt='Membership' />*/}
-                {/*    <p className='mt-0.5'>*/}
-                {/*      Membership*/}
-                {/*    </p>*/}
-                {/*  </Link>*/}
-                {/*  <span className="absolute -top-2 -right-5 bg-[#FFBB3C] text-[#000000] text-[12px] font-katide-medium px-1.5 py-[3px] rounded-full leading-none shadow-sm">*/}
-                {/*    Black Friday Sale !*/}
-                {/*  </span>*/}
-                {/*</div>*/}
               </div>
             </div>
           </div>
-        </div>
-        {showRecent && recentProducts.length > 0 && (
-          <div className="absolute top-[70px] left-1/2 -translate-x-1/2 bg-white shadow-lg rounded-xl p-3 z-50">
-            <p className="text-md text-gray-400 mb-2">Recent</p>
-            <button
-              onClick={() => setShowRecent(false)}
-              className="absolute top-2 right-3 text-gray-400 hover:text-gray-700 text-lg"
-            >
-              ✕
-            </button>
-
-            {recentProducts.map((item, index) => (
-              <div
-                key={index}
-                className="flex items-center cursor-pointer px-3 py-2 gap-2 hover:bg-gray-100 rounded-md"
-                onMouseDown={() => {
-                  setShowRecent(false);
-                  router.push(`/product/${item.title}`);
-                }}
+          {showRecent && recentProducts.length > 0 && (
+            <div className="absolute top-[70px] left-1/2 -translate-x-1/2 bg-white shadow-lg rounded-xl p-3 z-50">
+              <p className="text-md text-gray-400 mb-2">Recent</p>
+              <button
+                onClick={() => setShowRecent(false)}
+                className="absolute top-2 right-3 text-gray-400 hover:text-gray-700 text-lg"
               >
-                <Image
-                  src={Array.isArray(item.image) ? item.image[0] : item.image}
-                  alt={item.name}
-                  width={10}
-                  height={10}
-                  className="w-10 h-10 object-cover rounded-md"
-                />
-                <p className="text-gray-700">{item.product.name}</p>
-              </div>
-            ))}
-          </div>
-        )}
-      </nav>
+                ✕
+              </button>
+
+              {recentProducts.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex items-center cursor-pointer px-3 py-2 gap-2 hover:bg-gray-100 rounded-md"
+                  onMouseDown={() => {
+                    setShowRecent(false);
+                    router.push(`/product/${item.title}`);
+                  }}
+                >
+                  <Image
+                    src={Array.isArray(item.image) ? item.image[0] : item.image}
+                    alt={item.name}
+                    width={10}
+                    height={10}
+                    className="w-10 h-10 object-cover rounded-md"
+                  />
+                  <p className="text-gray-700">{item.product.name}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </nav>
+      </div>
+
       <nav className='sticky top-0 z-30 flex h-[139px] items-center bg-white lg:hidden'>
         <ModalLogin />
         <NonMemberModal
@@ -1170,10 +1241,18 @@ const Navbar: React.FC = () => {
               </button>
               <button
                 id='profileLoginMobile'
-                className='flex h-8 w-8 items-center justify-center rounded-full bg-[#E4F6FB] text-[#008ECC]'
+                className={`relative flex h-8 w-8 items-center justify-center rounded-full bg-[#E4F6FB] text-[#008ECC] ${
+                  activeSubcriptionState.subcription ? 'border-2 border-[#F0A93E]' : ''
+                }`}
                 onClick={!isLogin ? openModalLogin : openProfile}
               >
                 <IoPerson className='h-4 w-4' />
+
+                {activeSubcriptionState.subcription && (
+                  <span className="absolute -right-1 -top-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[#F0A93E] shadow-sm">
+                    <FaCrown size={7} className="text-white" />
+                  </span>
+                )}
               </button>
             </div>
 
@@ -1318,6 +1397,15 @@ const Navbar: React.FC = () => {
                     </div>
                     <div
                       onClick={() => {
+                        router.push('/category');
+                        setSidebarOpen(false);
+                      }}
+                      className='ml-4 border-t-2 p-4'
+                    >
+                      <p className='font-katide-semibold'>Best Seller</p>
+                    </div>
+                    <div
+                      onClick={() => {
                         router.push('/category/Premium SVG');
                         setSidebarOpen(false);
                       }}
@@ -1430,13 +1518,13 @@ const Navbar: React.FC = () => {
                       <div className='ml-4'>
                         <div
                           onClick={() => {
-                            router.push('/catalog-drizy-atelier');
+                            router.push('/catalog-free-svg');
                             setSidebarOpen(false);
                           }}
                           className='ml-4 border-t-2 p-4'
                         >
                           <p className='font-katide-semibold'>
-                            Drizy Atelier
+                            Free SVG
                             <span className="ms-1 bg-[#EE4C73] text-white text-[10px] font-katide-medium px-1.5 py-[2px] rounded-full leading-none shadow-sm">
                               NEW !
                             </span>
@@ -1575,13 +1663,13 @@ const Navbar: React.FC = () => {
 
                 <div
                   onClick={() => {
-                    router.push('/catalog-drizy-atelier');
+                    router.push('/catalog-free-svg');
                     // router.push('/');
                     setSidebarOpen(false);
                   }}
                   className='border-t-2 p-4'
                 >
-                  <p className='font-katide-semibold'>Drizy Atelier
+                  <p className='font-katide-semibold'>Free SVG
                   <span className="ms-1 bg-[#EE4C73] text-white text-[10px] font-katide-medium px-1.5 py-[2px] rounded-full leading-none shadow-sm">
                     NEW !
                   </span>
@@ -1607,7 +1695,7 @@ const Navbar: React.FC = () => {
                 </div>
                 <div
                   onClick={() => {
-                    router.push(`https://breezy.drizycraft.com?token=${token}`);
+                    router.push(`${process.env.NEXT_PUBLIC_BREEZY_URL}?token=${token}`);
                     setSidebarOpen(false);
                   }}
                   className='border-t-2 p-4 flex flex-row gap-2 items-center'
@@ -1623,7 +1711,7 @@ const Navbar: React.FC = () => {
                   className='border-t-2 p-4 flex flex-row gap-2 items-center'
                 >
                   <img src={newBadge.src} />
-                  <p className='font-katide-semibold text-[#EE4C73]'>Membership</p>
+                    <p className='font-katide-semibold text-[#EE4C73]'>Exclusive</p>
                 </div>
                 {/*<div*/}
                 {/*  onClick={() => {*/}

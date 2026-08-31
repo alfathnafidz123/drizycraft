@@ -85,7 +85,7 @@ export default function RootLayout({
   return (
     <>
       {children}
-      <SEOJsonLD />
+      {/*<SEOJsonLD />*/}
     </>
   );
 }

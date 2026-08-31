@@ -12,16 +12,33 @@ import { toast } from 'react-toastify';
 import { useAppSelector } from '@/lib/store';
 
 import { Meta, TransactionI, TransactionResI } from '@/interfaces/transaction.interfaces';
+import NextImage from '@/components/NextImage';
+import Image from 'next/image';
+import { useRouter, useSearchParams } from 'next/navigation';
+import PostPurchaseModal from '@/components/modals/PostPurchaseModal';
 
 export default function Register() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [popupType, setPopupType] = useState<'free' | 'paid' | null>(null);
+
   const { token } = useAppSelector((state) => state.user);
   const [ordersData, setOrdersData] = useState<TransactionI[]>([]);
   const [meta, setMeta] = useState<Meta>();
   const [loading, setLoading] = useState<{ loading: boolean; id?: number }>({ loading: false });
   const [params, setParams] = useState({
     page: 1,
-    limit: 10,
+    limit: 5,
   })
+
+  useEffect(() => {
+    const popup = searchParams.get('popup');
+    if (popup === 'free' || popup === 'paid') {
+      setPopupType(popup);
+      // bersihkan query param dari URL supaya tidak muncul lagi saat refresh
+      router.replace('/profile/download');
+    }
+  }, []);
 
   const getTransactionData = async () => {
     try {
@@ -112,55 +129,77 @@ export default function Register() {
 
   return (
     <>
-      <div className='flex w-full flex-col gap-2'>
-        <table className='min-w-full border border-gray-300 border-collapse'>
-          <thead className='bg-gray-100'>
-          <tr className='text-center text-[#1A214C]'>
-            <th className='border border-gray-300 px-4 py-2'>Product</th>
-            <th className='border border-gray-300 px-4 py-2'>Download remaining</th>
-            <th className='border border-gray-300 px-4 py-2'>Expires</th>
-            <th className='border border-gray-300 px-4 py-2'></th>
-          </tr>
-          </thead>
-          <tbody className='text-[#1A214C]'>
+      {popupType && (
+        <PostPurchaseModal
+          type={popupType}
+          onClose={() => setPopupType(null)}
+        />
+      )}
+      <div className="flex w-full flex-col gap-4">
+        <div className="flex flex-col gap-4">
           {ordersData?.map((item, index) => (
-            <tr key={index} className='hover:bg-gray-50'>
-              <td className='border border-gray-300 px-4 py-2'>{item?.product?.name}</td>
-              <td className='border border-gray-300 px-4 py-2 '>
-                <FaInfinity />
-              </td>
-              <td className='border border-gray-300 px-4 py-2'>Never</td>
-              <td className='border border-gray-300 px-4 py-2'>
-                <button
-                  onClick={() => handleDownloadClick(item)}
-                  className='rounded-full bg-[#008ECC] px-6 py-2 font-semibold text-white'
-                >
-                  {loading.id === item.id && loading.loading ? (
-                    <Loader className='animate-spin' />
-                  ) : (
-                    "Download"
-                  )}
-                </button>
-              </td>
-            </tr>
+            <div
+              key={index}
+              className="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white transition-all hover:border-[#008ECC]/40 hover:shadow-lg sm:flex-row"
+            >
+              <div className="relative aspect-[260/180] w-full overflow-hidden bg-gray-50 sm:w-[220px] sm:flex-shrink-0">
+                <Image
+                  fill
+                  quality={60}
+                  sizes="(max-width: 640px) 100vw, 220px"
+                  className="object-cover object-center"
+                  src={item?.product?.imageUrl[0]}
+                  alt={item?.product?.name ?? ''}
+                />
+              </div>
+
+              <div className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+                <div className="flex flex-col gap-1 sm:flex-1">
+                  <h3 className="text-sm font-semibold text-[#1A214C]">
+                    {item?.product?.name}
+                  </h3>
+                  <p className="text-xs text-gray-500">
+                    {{ 0: 'Personal', 1: 'Commercial', 2: 'Business' }[item.licenseType] ?? '-'} License
+                  </p>
+                  <div className="flex w-full justify-end mt-3">
+                    <button
+                      onClick={() => handleDownloadClick(item)}
+                      disabled={loading.id === item.id && loading.loading}
+                      className="flex items-center justify-center rounded-full bg-[#008ECC] px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-[#0077AD] disabled:opacity-70 sm:w-[140px]"
+                    >
+                      {loading.id === item.id && loading.loading ? (
+                        <Loader className="animate-spin" size={16} />
+                      ) : (
+                        'Download'
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           ))}
-          </tbody>
-        </table>
+        </div>
 
         {meta?.hasNextPage && (
-          <div className='mt-8 flex w-full justify-center'>
-            <div onClick={() => { setParams(prev => ({ ...prev, page: prev.page + 1 })) }} className='flex items-center justify-center cursor-pointer text-center mt-10'>
-              {loading.loading
-                ? <Loader className='animate-spin' />
-                :
-                <div className='flex flex-row gap-1 items-center justify-center transition-all hover:text-white bg-white hover:bg-[#61A9FA] rounded-full px-3 py-1 border-black border'>
-                  <p>Load More</p>
+          <div className="mt-8 flex w-full justify-center">
+            <button
+              onClick={() =>
+                setParams((prev) => ({ ...prev, page: prev.page + 1 }))
+              }
+              disabled={loading.loading}
+              className="flex items-center justify-center gap-1.5 rounded-full border border-[#1A214C]/20 bg-white px-5 py-2 text-sm font-medium text-[#1A214C] transition-all hover:border-[#61A9FA] hover:bg-[#61A9FA] hover:text-white disabled:opacity-60"
+            >
+              {loading.loading ? (
+                <Loader className="animate-spin" size={16} />
+              ) : (
+                <>
+                  <span>Load More</span>
                   <IoChevronDown />
-                </div>}
-            </div>
+                </>
+              )}
+            </button>
           </div>
         )}
-        <div className='mt-8 flex w-full justify-center'></div>
       </div>
     </>
   );

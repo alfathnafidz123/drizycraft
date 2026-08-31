@@ -1,6 +1,6 @@
 import { GoogleAnalytics } from '@next/third-parties/google';
 // import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Metadata } from 'next';
+import { Metadata, Viewport } from 'next';
 // const Campaign = dynamic(() => import('@/components/campaign-wrapper'), { ssr: false, loading: () => <LoadingComponent /> });
 // import Navbar from '@/layout/navbar';
 // import dynamic from 'next/dynamic';
@@ -25,6 +25,7 @@ import AsyncCSSSlick from '@/layout/asyncCssSlick';
 import AsyncCSSThemeSlick from '@/layout/asyncCssThemeSlick';
 import { generateMetadata } from '@/lib/seo';
 import { disableConsole } from '@/lib/disableConsole';
+import ScrollToTop from '@/components/ScrollToTop';
 
 const Footer = lazy(() => import('@/layout/footer'));
 const Navbar = lazy(() => import('@/layout/navbar'));
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
   title: {
     default:
       "Drizy Craft – Premium SVG Cut Files for Cricut & Silhouette",
-    template: "%s",
+    template: "%s | Drizy Craft",
   },
   description:
     "Drizy Craft provides premium SVG cut files for Cricut & Silhouette. Unique designs, instant downloads, and creative assets for makers worldwide.",
@@ -60,6 +61,8 @@ export const metadata: Metadata = {
     canonical: "https://drizycraft.com",
   },
 
+  category: "e-commerce",
+
   robots: {
     index: true,
     follow: true,
@@ -75,11 +78,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "https://drizycraft.com",
-    title:
-      "Drizy Craft – Premium SVG Cut Files for Cricut & Silhouette",
+    title: "Drizy Craft – Premium SVG Cut Files for Cricut & Silhouette",
+    // FIX #3: description disamakan dengan description utama (sebelumnya beda kalimat).
+    // Konsistensi ini mencegah Google/social platform menampilkan info yang
+    // tidak sinkron antara hasil pencarian biasa vs saat link di-share.
     description:
-      "Premium SVG cut files for Cricut & Silhouette. Instant download and high-quality designs for craft creators.",
+      "Drizy Craft provides premium SVG cut files for Cricut & Silhouette. Unique designs, instant downloads, and creative assets for makers worldwide.",
     siteName: "Drizy Craft",
+    locale: "en_US", // tambahkan locale eksplisit untuk OG
     images: [
       {
         url: "https://drizycraft.com/og-image.jpg",
@@ -92,18 +98,26 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title:
-      "Drizy Craft – Premium SVG Cut Files for Cricut & Silhouette",
+    title: "Drizy Craft – Premium SVG Cut Files for Cricut & Silhouette",
+    // FIX #3: disamakan juga dengan description utama
     description:
-      "Premium SVG cut files, instant downloads, and creative craft designs.",
+      "Drizy Craft provides premium SVG cut files for Cricut & Silhouette. Unique designs, instant downloads, and creative assets for makers worldwide.",
     images: ["https://drizycraft.com/og-image.jpg"],
+    // FIX: tambahkan @handle Twitter/X kalau ada
+    // site: "@drizycraft",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#ffffff",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({ children, }: {
   children: React.ReactNode;
 }) {
-  disableConsole()
+  // disableConsole()
   return (
     <>
     <html className='!scroll-smooth' lang='en'>
@@ -240,6 +254,7 @@ export default function RootLayout({ children, }: {
             <Navbar />
           </Suspense>
           <Suspense fallback={<Loading />}>
+            <ScrollToTop/>
             <RootClientLayout>{children}</RootClientLayout>
             {/*{children}*/}
           </Suspense>

@@ -1,41 +1,69 @@
+// app/product/[id]/layout.tsx — FINAL VERSION
+// (setelah opengraph-image.tsx ditambahkan)
+//
+// PERUBAHAN dari versi sebelumnya:
+// - Hapus field `images` dari openGraph dan twitter
+//   → sudah di-handle otomatis oleh opengraph-image.tsx
+// - Hapus `getOptimizedImageUrl` — tidak lagi dibutuhkan
+// - Hapus `previousImages` dan `previousTwitterImages` — tidak relevan
+//   setelah images di-handle oleh file convention
+
 import { Metadata, ResolvingMetadata } from 'next';
 import * as React from 'react';
 
 import '@/styles/globals.css';
-// !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
+
 
 import { siteConfig } from '@/constant/config';
 import { ResArticleMetadata } from '@/interfaces/article.interfaces';
-import SEOJsonLD from '@/components/SEOJsonLD';
-import ErrorBoundary from '@/components/ErrorBoundary';
+
 type Props = {
   params: { id: string };
 };
-export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+
+const MAX_DESCRIPTION_LENGTH = 160;
+
+function truncateDescription(description: string): string {
+  const trimmed = (description || '').trim();
+  if (trimmed.length <= MAX_DESCRIPTION_LENGTH) return trimmed;
+  const sliced = trimmed.slice(0, MAX_DESCRIPTION_LENGTH);
+  const lastSpace = sliced.lastIndexOf(' ');
+  const safe = lastSpace > 50 ? sliced.slice(0, lastSpace) : sliced;
+  return `${safe.trimEnd()}...`;
+}
+
+const FALLBACK_METADATA: Metadata = {
+  title: `SVG Cut File | ${siteConfig.title}`,
+  description:
+    'Premium SVG cut files for Cricut & Silhouette. Instant download from Drizy Craft.',
+};
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
   const id = params.id;
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/product/meta/${id}`,
-    { cache: 'no-store' }
-  );
-  const resMetadata: ResArticleMetadata = await res.json();
 
-  const previousMetadata = await parent;
+  let resMetadata: ResArticleMetadata;
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/crafter/product/meta/${id}`,
+      { next: { revalidate: 3600 } }
+    );
 
-  const previousImages = previousMetadata.openGraph?.images || [];
-  const previousTwitterImages = previousMetadata.twitter?.images || [];
+    if (!res.ok) return FALLBACK_METADATA;
+    resMetadata = await res.json();
+  } catch (error) {
+    console.error(`[generateMetadata] Gagal fetch produk ${id}:`, error);
+    return FALLBACK_METADATA;
+  }
 
-  // Fungsi untuk menghasilkan URL gambar yang dioptimalkan
-  const getOptimizedImageUrl = (url: string, width: number) =>
-    `https://drizycraft.com/_next/image?url=${encodeURIComponent(url)}&w=${width}&q=75`;
-
-  // URL gambar yang dioptimalkan untuk OpenGraph dan Twitter
-  const ogImageUrl = getOptimizedImageUrl(resMetadata.data.image, 1200);
-  const twitterImageUrl = getOptimizedImageUrl(resMetadata.data.image, 1200);
+  if (!resMetadata?.data?.realTitle) return FALLBACK_METADATA;
 
   const title = resMetadata.data.realTitle;
+  const description = truncateDescription(resMetadata.data.description);
 
-  // helper: normalize title
   const cleanTitle = title
     .replace(/[-–]/g, ' ')
     .replace(/\s+/g, ' ')
@@ -44,92 +72,69 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 
   const words = cleanTitle.split(' ');
 
-  // keyword dasar
-  const baseKeywords = [
-    title,
-    cleanTitle,
-    `${title} svg`,
-    `${title} 3d svg`,
-    `${title} file`,
-  ];
-
-  // keyword kombinasi
-  const combinedKeywords = [
-    `${words.slice(0, 2).join(' ')}`,            // coffee grinder
-    `${words.slice(0, 2).join(' ')} storage`,    // coffee grinder storage
-    `${words.slice(0, 3).join(' ')}`,            // coffee grinder storage
-    `${words.join(' ')} svg`,                     // coffee grinder storage box 3d svg
-  ];
-
-  // keyword konteks niche
-  const nicheKeywords = [
-    "3d svg file",
-    "laser cut svg",
-    "cnc svg",
-    "digital svg product",
-    "svg for laser cutting",
-  ];
-
-  // gabungkan & hapus duplikat
   const keywords = Array.from(
     new Set([
-      "drizy craft",
-      "drizy",
-      ...baseKeywords,
-      ...combinedKeywords,
-      ...nicheKeywords,
+      'drizy craft',
+      'drizy',
+      title,
+      cleanTitle,
+      `${title} svg`,
+      `${title} 3d svg`,
+      `${title} file`,
+      `${words.slice(0, 2).join(' ')}`,
+      `${words.slice(0, 2).join(' ')} svg`,
+      `${words.slice(0, 3).join(' ')}`,
+      `${words.join(' ')} svg`,
+      '3d svg file',
+      'laser cut svg',
+      'cnc svg',
+      'digital svg product',
+      'svg for laser cutting',
     ])
   );
 
-
-
   return {
-    title: `${resMetadata.data.realTitle} | Drizy Craft`,
-    description: resMetadata.data.description,
+    // FIX: title tanpa duplikasi brand — template "%s | Drizy Craft"
+    // sudah di-set di root layout, jadi cukup pass title produk saja
+    title,
+    description,
     alternates: {
       canonical: `https://drizycraft.com/product/${id}`,
     },
     keywords,
-    robots: { index: true, follow: true },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+        'max-video-preview': -1,
+      },
+    },
     icons: {
       icon: '/favicon/favicon.ico',
       shortcut: '/favicon/favicon-16x16.png',
       apple: '/favicon/apple-touch-icon.png',
     },
-    manifest: `/favicon/site.webmanifest`,
+    manifest: '/favicon/site.webmanifest',
     openGraph: {
-      ...previousMetadata.openGraph,
       url: `https://drizycraft.com/product/${id}`,
-      title: resMetadata.data.realTitle,
-      description: resMetadata.data.description,
+      title,
+      description,
       siteName: siteConfig.title,
-      images: [
-        {
-          url: resMetadata.data.image,
-          secureUrl: ogImageUrl,
-          width: 1200,
-          height: 630,
-          alt: resMetadata.data.realTitle,
-          type: 'image/jpeg',
-        },
-        ...previousImages,
-      ],
+      // TIDAK ada field `images` di sini —
+      // Next.js otomatis pakai opengraph-image.tsx sebagai og:image
       type: 'website',
       locale: 'en_US',
     },
     twitter: {
       card: 'summary_large_image',
-      title: resMetadata.data.realTitle,
-      description: resMetadata.data.description,
-      images: [
-        {
-          url: resMetadata.data.image,
-          width: 1200,
-          height: 630,
-          alt: resMetadata.data.title,
-        },
-        ...previousTwitterImages,
-      ],
+      title,
+      description,
+      // TIDAK ada field `images` di sini —
+      // Next.js otomatis pakai opengraph-image.tsx sebagai twitter:image
     },
     authors: [
       {
@@ -140,15 +145,14 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
   };
 }
 
-export default function RootLayout({
-  children,
-}: {
+export default function ProductLayout({
+                                        children,
+                                      }: {
   children: React.ReactNode;
 }) {
   return (
     <>
       {children}
-      <SEOJsonLD />
     </>
   );
 }

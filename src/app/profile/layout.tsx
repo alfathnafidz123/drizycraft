@@ -66,7 +66,7 @@ export default function RootLayout({
             width={300}
             height={300}
           /> */}
-          <div className='max-w-[300px]'>
+          <div className='hidden md:block max-w-[300px]'>
             <ProfileLottie />
           </div>
         </div>

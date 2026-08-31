@@ -152,7 +152,7 @@ export default function CatalogCrafter() {
         </p>
 
         <p className='font-katide-bold mt-8 text-center text-[16px] text-[#1A214C] lg:text-start'>
-          At Drizy Studio, you'll be sure to find designs that perfectly match
+          At Drizy Craft, you'll be sure to find designs that perfectly match
           your needs.
         </p>
 

@@ -1,45 +1,43 @@
-# How to build & deploy
-# run script `npm run build`
-# run script `docker build --platform linux/amd64 -t registry.quadrakaryasantosa.com/drizy-client:v0.3 .`
-# run script `docker push registry.quadrakaryasantosa.com/drizy-client:v0.3`
-# =====================
-# 1️⃣ BUILDER
-# =====================
-FROM node:20-alpine AS builder
-
+# Stage 1: Install dependencies
+FROM node:20-alpine AS deps
 WORKDIR /app
 
-# WAJIB: install libc6 untuk sharp & swc
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache autoconf automake libtool nasm build-base pkgconfig
 
 COPY package*.json ./
-
-# PENTING: npm ci bukan npm i
 RUN npm ci
 
+# Stage 2: Build aplikasi
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-
-# DEBUG GUARD (anti exit 127)
-RUN node -v && npm -v
-RUN ls -la node_modules/.bin || true
-
+ENV NEXT_TELEMETRY_DISABLED 1
 RUN npm run build
 
-
-# =====================
-# 2️⃣ RUNNER
-# =====================
+# Stage 3: Runner (Production)
 FROM node:20-alpine AS runner
-
 WORKDIR /app
 
-ENV NODE_ENV=production
-ENV NODE_OPTIONS="--max-old-space-size=768"
+ENV NODE_ENV production
+ENV NEXT_TELEMETRY_DISABLED 1
 
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
+RUN apk add --no-cache libc6-compat vips-dev
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
 COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# install sharp dengan platform eksplisit untuk Alpine musl x64
+RUN npm install --platform=linuxmusl --arch=x64 sharp && chown -R nextjs:nodejs /app/node_modules
+
+USER nextjs
 
 EXPOSE 3000
+ENV PORT 3000
+ENV HOSTNAME "0.0.0.0"
 
 CMD ["node", "server.js"]

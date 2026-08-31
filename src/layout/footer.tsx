@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { useAppSelector } from '@/lib/store';
 
 import {
+  AIFree,
   AmexLogo,
   DinersClubLogo,
   DiscoverLogo,
@@ -17,10 +18,13 @@ import {
   JcbLogo,
   MasterCardLogo,
   StripeLogo,
-  VisaLogo, YCSC, YCSCHover
+  VisaLogo,
+  YCSC,
+  YCSCHover,
 } from '~/images';
 import NextImage from '@/components/NextImage';
 import { useState } from 'react';
+import Image from 'next/image';
 
 const Footer = () => {
   const { dataUser } = useAppSelector((state) => state.user);
@@ -28,14 +32,14 @@ const Footer = () => {
   const [isHover, setIsHover] = useState(false);
 
   return (
-    <footer className='flex flex-col items-center bg-[#1A214C] pb-7 pt-7 text-white'>
+    <footer className='flex flex-col items-center bg-[#f7f7f7] pb-7 pt-7 text-[#1a204c] border-t-2'>
       <div className='mt-8 w-full max-md:px-8 lg:mt-16 max-w-[1164px]'>
         <div className='grid grid-cols-2 text-left max-md:gap-10 lg:grid-cols-5 lg:flex-row'>
-          <div className="grid grid-cols-2 col-span-2 gap-x-4 lg:gap-x-14 gap-y-16">
+          <div className="grid grid-cols-3 col-span-2 gap-x-4 lg:gap-x-14 gap-y-16">
             <nav>
               <div className="font-katide-bold text-[18px]">Explore</div>
               <div className="font-katide-regular mt-7 flex flex-col gap-2 text-[14px] lg:mt-9 lg:gap-4">
-                <Link href='#'>Drizy Atelier</Link>
+                <Link href='/catalog-free-svg'>Free SVG</Link>
                 <Link href={{ pathname: "/catalog-crafter", query: { sortType: "Latest" } }}>Newest</Link>
                 <Link href="https://developers.drizycraft.com/">Drizy API</Link>
                 <Link href='/blog'>Blogs</Link>
@@ -51,15 +55,15 @@ const Footer = () => {
                 <Link href='/contact-us'>Contact Us</Link>
               </div>
             </nav>
-            <nav>
-              <div className="font-katide-bold text-[18px]">Categories</div>
-              <div className="font-katide-regular mt-7 flex flex-col gap-2 text-[14px] lg:mt-9 lg:gap-4">
-                <Link href="#" onClick={(e) => { e.preventDefault(); router.push('/category/3D Shadow Box SVGs'); }}>Shadow box</Link>
-                <Link href="#" onClick={(e) => { e.preventDefault(); router.push('/category/Paper Cut Templates'); }}>Paper Cut Template</Link>
-                <Link href="#" onClick={(e) => { e.preventDefault(); router.push('/category/Printable Crafts'); }}>Sublimation</Link>
-                <Link href="#" onClick={(e) => { e.preventDefault(); router.push('/category/Card Making'); }}>Card Making</Link>
-              </div>
-            </nav>
+            {/*<nav>*/}
+            {/*  /!*<div className="font-katide-bold text-[18px]">Categories</div>*!/*/}
+            {/*  /!*<div className="font-katide-regular mt-7 flex flex-col gap-2 text-[14px] lg:mt-9 lg:gap-4">*!/*/}
+            {/*  /!*  <Link href="#" onClick={(e) => { e.preventDefault(); router.push('/category/3D Shadow Box SVGs'); }}>Shadow box</Link>*!/*/}
+            {/*  /!*  <Link href="#" onClick={(e) => { e.preventDefault(); router.push('/category/Paper Cut Templates'); }}>Paper Cut Template</Link>*!/*/}
+            {/*  /!*  <Link href="#" onClick={(e) => { e.preventDefault(); router.push('/category/Printable Crafts'); }}>Sublimation</Link>*!/*/}
+            {/*  /!*  <Link href="#" onClick={(e) => { e.preventDefault(); router.push('/category/Card Making'); }}>Card Making</Link>*!/*/}
+            {/*  /!*</div>*!/*/}
+            {/*</nav>*/}
             <nav>
               <div className="font-katide-bold text-[18px]">Legal</div>
               <div className="font-katide-regular mt-7 flex flex-col gap-2 text-[14px] lg:mt-9 lg:gap-4">
@@ -72,7 +76,7 @@ const Footer = () => {
           </div>
           <nav className="hidden md:block col-span-2 md:col-span-1"></nav>
           {/*dekstop*/}
-          <nav className="mt-auto max-md:col-span-2 lg:flex hidden">
+          <nav className=" max-md:col-span-2 lg:flex hidden">
             <div className="font-katide-regular flex flex-col gap-1 text-[14px]">
               <div className="font-katide-bold">Contact us at:</div>
               <Link href="mailto:admin@drizystudio.com">admin@drizystudio.com</Link>
@@ -84,15 +88,15 @@ const Footer = () => {
                 <div className="font-katide-bold mb-3 text-[18px]">Secure Checkout</div>
                 <div className="text-sm">Safe checkout.</div>
                 <div className="text-sm">Trusted by millions.</div>
-                <div className="text-sm mt-3">
+                <div className="mt-3 inline-block w-fit bg-[#1a204c] rounded-xl text-sm">
                   <NextImage alt="stripe" src={StripeLogo} width={150} height={10} />
                 </div>
-                <div className="text-sm flex gap-2 mt-3 ">
+                <div className="text-sm flex gap-2 mt-3 items-center justify-center ">
                   <NextImage alt="stripe" src={MasterCardLogo} width={44} height={10} />
                   <NextImage alt="stripe" src={VisaLogo} width={44} height={10} />
                   <NextImage alt="stripe" src={AmexLogo} width={44} height={10} />
                 </div>
-                <div className="text-sm flex gap-2 mt-3 ">
+                <div className="text-sm flex gap-2 mt-3 items-center justify-center ">
                   <NextImage alt="stripe" src={DiscoverLogo} width={48} height={10} />
                   <NextImage alt="stripe" src={JcbLogo} width={36} height={10} />
                   <NextImage alt="stripe" src={DinersClubLogo} width={48} height={10} />
@@ -102,7 +106,7 @@ const Footer = () => {
           </nav>
           <nav className='lg:flex hidden flex-col mt-auto self-stretch max-md:col-span-2'>
             <div className='flex flex-col lg:px-2'>
-              <div className="mb-10 flex justify-center">
+              <div className="flex justify-center">
                 <img
                   alt="stripe"
                   src={isHover ? YCSCHover.src : YCSC.src}
@@ -110,6 +114,14 @@ const Footer = () => {
                   loading="lazy"
                   onMouseEnter={() => setIsHover(true)}
                   onMouseLeave={() => setIsHover(false)}
+                />
+              </div>
+              <div className="flex justify-center">
+                <Image
+                  alt="ai-free"
+                  src={AIFree}
+                  className="w-3/4"
+                  loading="lazy"
                 />
               </div>
               <div className='font-katide-regular text-[18px] max-md:text-center '>
@@ -137,7 +149,7 @@ const Footer = () => {
             <img
               loading='lazy'
               src={GuaranteeBadge.src}
-              className='mt-20'
+              className='mt-5'
               alt='Guarantee Badge'
             />
           </nav>
@@ -148,12 +160,17 @@ const Footer = () => {
                 <div className="font-katide-bold mb-3 text-[18px]">Secure Checkout</div>
                 <div className="text-sm">Safe checkout.</div>
                 <div className="text-sm">Trusted by millions.</div>
-
+                <Image
+                  alt="ai-free"
+                  src={AIFree}
+                  className="w-3/4 mt-4"
+                  loading="lazy"
+                />
               </div>
             </div>
             <div>
-              <div className="text-sm">
-                <NextImage alt="stripe" src={StripeLogo} width={200} height={10} className='w-full h-auto'/>
+              <div className="mt-3 inline-block w-fit bg-[#1a204c] p-0.5 rounded-xl text-sm">
+                <NextImage alt="stripe" src={StripeLogo} width={180} height={10} />
               </div>
               <div className="text-sm flex gap-x-4 mt-3 ">
                 <NextImage alt="stripe" src={MasterCardLogo} width={46} height={10} />

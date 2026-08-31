@@ -182,9 +182,29 @@ const ProductCard: React.FC<ProductCardProps> = ({
           setShowTrialExpiredModal(true);
         } else {
           if (activeSubcription.subcription !== undefined) {
+            // 🔑 cek limit transaksi harian khusus plan "Monthly Access"
+            if (subsData?.product === 'Monthly Access') {
+              try {
+                const todayRes = await axios.get(
+                  `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-transactions-today`,
+                  { headers: { Authorization: `Bearer ${token}` } }
+                );
+
+                if (todayRes.data.total >= 25) {
+                  toast.error(
+                    'You have reached your daily limit of 25 purchases for the Monthly Access plan. try again tomorrow.'
+                  );
+                  return;
+                }
+              } catch (error) {
+                toast.error('Failed to check your daily transaction limit.');
+                return;
+              }
+            }
+
             const payload: { [key: string]: string | number } = {
               productId: data.id,
-              licenseType: 0,
+              licenseType: 2,
             };
             await axios.post(
               `${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/buy-with-coin`,
@@ -353,7 +373,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     //     price = `$${data?.price[0] ?? 0}`;
     //   }
     // }
-    price = `${data?.coinPrice[0] ?? 0} Coin`;
+    price = `$${(data?.price?.[0] ?? 0).toFixed(2)} `;
 
     return price;
   };
@@ -401,12 +421,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const cardClassNames = () => {
     if (!isSlider) {
-      return ' flex h-auto w-full max-w-full mx-auto flex-col flex-nowrap items-start gap-[16px] rounded-2xl border-[#61A9FA] bg-[#fff] p-2 shadow-xl transition-none hover:border-[2px]';
+      return ' flex h-auto w-full max-w-full mx-auto flex-col flex-nowrap items-start rounded-2xl border-[#61A9FA] bg-[#fff] p-2 shadow-xl transition-none hover:border-[2px]';
     }
     if (data.author) {
-      return ' flex h-auto w-full max-w-full mx-auto flex-col flex-nowrap items-start gap-[16px] rounded-2xl border-[#61A9FA] bg-[#fff] p-2 shadow-xl transition-none hover:border-[2px]';
+      return ' flex h-auto w-full max-w-full mx-auto flex-col flex-nowrap items-start rounded-2xl border-[#61A9FA] bg-[#fff] p-2 shadow-xl transition-none hover:border-[2px]';
     }
-    return ' flex h-auto w-full max-w-full mx-auto flex-col flex-nowrap items-start gap-[16px] rounded-2xl border-[#61A9FA] bg-[#fff] p-2 shadow-xl transition-none hover:border-[2px]';
+    return ' flex h-auto w-full max-w-full mx-auto flex-col flex-nowrap items-start rounded-2xl border-[#61A9FA] bg-[#fff] p-2 shadow-xl transition-none hover:border-[2px]';
   };
 
   const isReady =
@@ -423,9 +443,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <Image
               onClick={(e) => {
                 if (isDragging) {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  return;
+                  // e.preventDefault();
+                  // e.stopPropagation();
+                  // return;
                 }
 
                 if (data?.meta?.[0]?.title) {
@@ -449,12 +469,61 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   e.stopPropagation();
                 }
               }}
-              className='relative z-[2] flex h-[50px] shrink-0 items-start justify-start self-stretch overflow-hidden text-left lg:text-[16px] text-[14px] font-semibold leading-[17.6px] text-[#1a204c]'
+              className='mt-4 mb-2 px-1 relative z-[2] flex shrink-0 items-start justify-start self-stretch overflow-hidden text-left lg:text-[16px] text-[14px] font-semibold leading-[17.6px] text-[#1a204c]'
             >
-              {data.name}
+              {data.name.length > 54 ? `${data.name.slice(0, 42)}...` : data.name}
             </Link>
             <div className='flex w-full justify-between gap-1'>
-              {token && activeSubcriptionState.subcription && (
+              {token && !activeSubcriptionState?.subcription  ? (
+                <button
+                  id={`show-detail-${data.id}`}
+                  type="button"
+                  // onClick={() => {
+                  //   if (ownerStatus) {
+                  //     getTransactionData(); // kalau sudah owned
+                  //   } else if (!token) {
+                  //     localStorage.setItem("productUrl", `/product/${data?.meta?.[0]?.title}`);
+                  //     window.location.href = "/free-trial";
+                  //   } else {
+                  //     handleDownload();
+                  //   }
+                  // }}
+                  onClick={(e) => {
+                    if (data?.meta) {
+                      router.push(`/product/${data?.meta[0].title}`);
+                    }
+                  }}
+                  className="pointer flex h-[37px] flex-grow flex-nowrap rounded-xl items-center px-1"
+                >
+                  {downloadLoading ? (
+                    <Loader className="animate-spin" />
+                  ) : (
+                    <>
+                      {ownerStatus ? (
+                        // ✅ Kalau sudah punya product
+                        <span className="font-katide-regular z-[5] flex flex-row gap-1 text-[14px] sm:text-[16px] md:text-[16px] lg:text-[16px] leading-[16px] text-[#777777] transition-all">
+                            OWNED
+                          </span>
+                      ) : (
+                                                <span className="font-katide-regular z-[5] flex flex-row gap-1 text-[14px] sm:text-[16px] md:text-[16px] lg:text-[16px] leading-[16px] text-[#777777] transition-all">
+                            {isDiscount &&
+                            !(activeSubcription && dataUser?.coin && dataUser?.coin !== 0) ? (
+                              <p className="font-katide-regular text-sm text-white line-through">
+                                ${data?.price[0]}
+                              </p>
+                            ) : null}
+                                                  {generatePrice()}
+                          </span>
+                      )}
+                        <span className="font-katide-bold absolute hidden items-center justify-center rounded-[8px] bg-[#4065D1] text-[16px] leading-[16px] group-hover:flex">
+                        <span className="scale-0 text-[#fff] group-hover:scale-100">
+                          {ownerStatus}
+                        </span>
+                      </span>
+                    </>
+                  )}
+                </button>
+              ) : activeSubcriptionState.subcription ? (
                 <button
                   id={`show-detail-${data.id}`}
                   type="button"
@@ -468,7 +537,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                       handleDownload();
                     }
                   }}
-                  className="pointer flex h-[37px] flex-grow flex-nowrap items-center justify-center gap-[8px] rounded-xl bg-[#2a3b80] p-[12px] group-hover:bg-[#4065D1]"
+                  className="pointer flex h-[37px] flex-grow flex-nowrap items-center justify-center gap-[8px] mt-2 rounded-xl bg-white border  border-[#2a3b80] p-[12px] group-hover:bg-[#2a3b80] group-hover:text-white"
                 >
                   {downloadLoading ? (
                     <Loader className="animate-spin" />
@@ -476,11 +545,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     <>
                       {ownerStatus ? (
                         // ✅ Kalau sudah punya product
-                        <span className="font-katide-bold z-[5] flex flex-row items-center gap-1 text-[14px] sm:text-[16px] md:text-[16px] lg:text-[16px] leading-[16px] text-[#fff] transition-all group-hover:scale-0">
+                        <span className="font-katide-bold z-[5] flex flex-row items-center gap-1 text-[14px] sm:text-[16px] text-[#2a3b80] md:text-[16px] lg:text-[16px] leading-[16px]  transition-all group-hover:scale-0">
                           OWNED
                         </span>
                       ) : (
-                        <span className="font-katide-bold z-[5] flex flex-row items-center gap-1 text-[14px] sm:text-[16px] md:text-[16px] lg:text-[16px] leading-[16px] text-[#fff] transition-all group-hover:scale-0">
+                        <span className="font-katide-bold z-[5] flex flex-row items-center gap-1 text-[14px] sm:text-[16px] md:text-[16px] text-[#2a3b80] lg:text-[16px] leading-[16px]  transition-all group-hover:scale-0">
                           {isDiscount &&
                           !(activeSubcription && dataUser?.coin && dataUser?.coin !== 0) ? (
                             <p className="font-katide-regular text-sm text-white line-through">
@@ -489,8 +558,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
                           ) : null}
                           {/*{generatePrice()}*/} DOWNLOAD NOW
                         </span>
-                          )}
-                        <span className="font-katide-bold absolute hidden items-center justify-center rounded-[8px] bg-[#4065D1] text-[16px] leading-[16px] group-hover:flex">
+                      )}
+                      <span className="font-katide-bold absolute hidden items-center justify-center rounded-[8px] bg-[#2a3b80] text-[16px] leading-[16px] group-hover:flex">
                         <span className="scale-0 text-[#fff] group-hover:scale-100">
                           {ownerStatus ? generateCTA() : generateCTA()}
                         </span>
@@ -498,22 +567,23 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     </>
                   )}
                 </button>
+              ):(
+                <div className=""></div>
               )}
-
-              {token && !ownerStatus && activeSubcriptionState.subcription && (
-                <button
-                  id={`add-${data.id}-cart`}
-                  type='button'
-                  onClick={handleCart}
-                  className='md:flex hidden items-center justify-center rounded-xl border-2 border-[#2a3b80] bg-white px-3.5'
-                >
-                  <img
-                    src={cartProduct.src}
-                    alt='cart'
-                    className='h-3 w-3 object-contain sm:h-5 sm:w-5'
-                  />
-                </button>
-              )}
+                {/*{!ownerStatus &&  (*/}
+                {/*    <button*/}
+                {/*        id={`add-${data.id}-cart`}*/}
+                {/*        type='button'*/}
+                {/*        onClick={handleCart}*/}
+                {/*        className='flex items-center justify-center rounded-xl border border-[#2a3b80] bg-white px-3.5'*/}
+                {/*    >*/}
+                {/*        <img*/}
+                {/*            src={cartProduct.src}*/}
+                {/*            alt='cart'*/}
+                {/*            className='h-4 w-4 object-cover sm:h-5 sm:w-5'*/}
+                {/*        />*/}
+                {/*    </button>*/}
+                {/*)}*/}
             </div>
             {data.author?.name && (
               <div className='flex flex-row items-center gap-1.5'>

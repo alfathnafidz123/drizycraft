@@ -12,8 +12,11 @@ import SEOJsonLD from '@/components/SEOJsonLD';
 // !STARTERCONF Look at @/constant/config to change them
 export const metadata: Metadata = {
   title: {
-    default: `Project | ${siteConfig.title}`,
+    default: `Project`,
     template: `%s | ${siteConfig.title}`,
+  },
+  alternates:{
+    canonical: 'https://drizycraft.com/project'
   },
   description: siteConfig.description,
   robots: { index: true, follow: true },
@@ -56,7 +59,7 @@ export default function RootLayout({
   return (
     <>
       {children}
-      <SEOJsonLD />
+      {/*<SEOJsonLD />*/}
     </>
   );
 }

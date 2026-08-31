@@ -126,15 +126,14 @@ export default function Register() {
         onClose={() => setIsUploadSuccessShow(false)}
       />
       {!activeSubcription &&
-        <section className='flex flex-col justify-between max-md:gap-14 lg:flex-row max-w-[1164px] mx-auto py-10 px-2 lg:px-0'>
-          <div className='flex-col'>
-            <p className='font-katide-bold text-[24px] leading-normal'>
-              Collect coins and earn more Drizy designs
-            </p>
-            <p className='font-katide-regular mt-6 text-[16px]'>
-              Become a member of Drizy and earn coins by simply sharing <br />
-              photos of your projects.
-            </p>
+        <section className='flex flex-col justify-center max-md:gap-14 lg:flex-row max-w-[1164px] mx-auto py-10 px-2 lg:px-0 lg:gap-8'>
+          <div className='flex-col items-center text-[#1A214C]'>
+            {/*<p className='font-katide-bold text-[48px] leading-normal'>*/}
+            {/*  Exclusive Feature: Project Uploads*/}
+            {/*</p>*/}
+            {/*<p className='font-katide-regular mt-6 text-[24px]'>*/}
+            {/*  Only Drizy Exclusive users can upload and showcase their projects. Upgrade now to unlock this feature.*/}
+            {/*</p>*/}
             <div className='mt-6 flex flex-row'>
               <img src={projectSign.src} loading='lazy' />
               <Link href="/register" className='self-center pl-5'>
@@ -147,8 +146,8 @@ export default function Register() {
             <div className='mt-6 flex flex-row'>
               <img src={projectSubscribe.src} loading='lazy' />
               <p className='self-center pl-5'>
-                <b>Subscribe:</b> Select one of our membership plans. <br />
-                Don't worry, we offer a <b>free trial</b> for you.{" "}
+                <b>Join Drizy Exclusive:</b> Project uploads are an exclusive feature <br/>only Drizy Exclusive members can
+                upload and showcase their projects.{' '}<br/>
                 <Link type='span' href="/membership" className='cursor-pointer text-[#4065D1]'>
                   Just click here!
                 </Link>
@@ -157,12 +156,11 @@ export default function Register() {
             <div className='mt-6 flex flex-row'>
               <img src={projectShare.src} loading='lazy'/>
               <p className='self-center pl-5'>
-                <b>Share:</b> Upload pictures of your projects to earn
-                <b> Drizy Coins.</b>
+                <b>Share:</b> Upload pictures of your projects results
               </p>
             </div>
           </div>
-          <img src={projectImage.src} className='' loading='lazy' />
+          <img src={projectImage.src} className='md:w-96' loading='lazy' />
         </section>
       }
       <div className='bg-[#EBECF5] w-full'>

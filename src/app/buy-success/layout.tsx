@@ -11,7 +11,7 @@ import { siteConfig } from '@/constant/config';
 // !STARTERCONF Look at @/constant/config to change them
 export const metadata: Metadata = {
   title: {
-    default: siteConfig.title,
+    default: 'Buy Successfully',
     template: `%s | ${siteConfig.title}`,
   },
   description: siteConfig.description,

@@ -14,7 +14,7 @@ export function generateMetadata({ title,
                                    image,
                                  }: SEOProps) {
   const metaTitle = title
-    ? `${title} | ${siteConfig.title}`
+    ? `${title}`
     : siteConfig.metaTitle;
 
   const metaDescription = description || siteConfig.description;

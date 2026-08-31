@@ -50,6 +50,8 @@ import {
   Comp4,
   Comp5,
   Comp6,
+  hoverPinterest,
+  hoverWA,
 } from '~/images';
 import { fetchCart } from '@/lib/slices/cart';
 import Image from 'next/image';
@@ -59,6 +61,17 @@ import TrialExpired from '@/components/modals/trial-expired';
 import { fetchDownloadRemaining } from '@/lib/slices/download';
 import { ProductI } from '@/interfaces/transaction.interfaces';
 import DownloadProgressModal from '@/components/DownloadProgressModal';
+// import { ProductJsonLd } from '@/components/seo/ProductJsonLd';
+import { itemPayment } from '@/app/api/billing/itemPayment';
+import Link from "next/link";
+import { FaFacebook } from '@react-icons/all-files/fa/FaFacebook';
+import { FaXTwitter } from '@react-icons/all-files/fa6/FaXTwitter';
+import { FaLinkedin } from '@react-icons/all-files/fa/FaLinkedin';
+import { FaTelegram } from '@react-icons/all-files/fa/FaTelegram';
+import { FaEnvelope } from '@react-icons/all-files/fa/FaEnvelope';
+import { FaLink } from '@react-icons/all-files/fa/FaLink';
+import {FaWhatsapp} from "@react-icons/all-files/fa6/FaWhatsapp";
+import {FaPinterest} from "@react-icons/all-files/fa6/FaPinterest";
 
 export interface StarSummary {
   average: number;
@@ -112,11 +125,11 @@ export default function ClientPage({ productData }: ClientPageProps) {
   const [selectedShortByOption, setSelectedShortByOption] = useState<SortType>(
     SortType.Latest
   );
-  const [showTrialModal, setShowTrialModal] = useState(false);
+  // const [showTrialModal, setShowTrialModal] = useState(false);
   const [modalProductName, setModalProductName] = useState('');
-  const [showTrialSuccessModal, setShowTrialSuccessModal] = useState(false);
-  const downloadRemaining = useAppSelector(state => state.download.remaining);
-  const [showTrialExpiredModal, setShowTrialExpiredModal] = useState(false);
+  // const [showTrialSuccessModal, setShowTrialSuccessModal] = useState(false);
+  // const downloadRemaining = useAppSelector(state => state.download.remaining);
+  // const [showTrialExpiredModal, setShowTrialExpiredModal] = useState(false);
 
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloadProgress, setDownloadProgress] = useState(0);
@@ -280,18 +293,19 @@ export default function ClientPage({ productData }: ClientPageProps) {
     if (token) {
       if (subsData?.status === "trialing" && orders.length >= 10) {
         toast.error("You reached the maximum download limit during the free trial period. Please upgrade your subscription to continue downloading.");
-        setShowTrialExpiredModal(true);
+        // setShowTrialExpiredModal(true);
       }else if (subsData?.status === "trialing" && orders.length === 9) {
         handleBuyPoint();
         setTimeout(() => {
-          setShowTrialExpiredModal(true);
+          // setShowTrialExpiredModal(true);
         }, 4000);
       } else {
         if (activeSubcription2.subcription !== undefined)
           handleBuyPoint();
         else
           // handleCart();
-          toast.error("You don't have enough coin to download this product, please top up your coin first!");
+          handlePayment();
+          // toast.error("You don't have enough coin to download this product, please top up your coin first!");
       }
     } else {
       dispatch(setOpenModal(true));
@@ -303,7 +317,7 @@ export default function ClientPage({ productData }: ClientPageProps) {
       setLoadingDownload(true);
       const payload: { [key: string]: string | number } = {
         productId: productData!.productId,
-        licenseType: type,
+        licenseType: 2,
       };
       if (refCode) {
         payload.refCode = refCode;
@@ -323,7 +337,7 @@ export default function ClientPage({ productData }: ClientPageProps) {
       await trackEvent(EventsEnum.Purchase, { productId: productData?.productId, productName: productData?.realTitle, productPrice: productData?.product.coinPrice[type], paymentType: 'coin' });
 
       if (subsData?.status === "trialing") {
-        setShowTrialSuccessModal(true);
+        // setShowTrialSuccessModal(true);
         toast.success(`Successfully buy ${productData?.product?.name}!`);
       } else {
         toast.success(`Successfully buy ${productData?.product?.name}!`);
@@ -469,6 +483,68 @@ export default function ClientPage({ productData }: ClientPageProps) {
     }
   };
 
+  const handlePayment = async () => {
+    try {
+      const priceMap = productData?.product?.price;
+      const selectedPrice = priceMap?.[type];
+
+      // validasi ketat: tipe lisensi ini harus ada dan berupa angka valid
+      if (
+        selectedPrice === undefined ||
+        selectedPrice === null ||
+        isNaN(Number(selectedPrice))
+      ) {
+        const availableTypes = priceMap ? Object.keys(priceMap).join(', ') : 'none';
+        toast.error('Tipe lisensi yang dipilih tidak tersedia untuk produk ini.');
+        console.error('Invalid license type selected:', {
+          type,
+          availableTypes,
+          priceMap,
+        });
+        return; // stop di sini, jangan lanjut ke itemPayment
+      }
+
+      const numericPrice = Number(selectedPrice);
+
+      // Validasi limit transaksi gratis jika harga produk 0
+      if (numericPrice === 0) {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/billing/get-free-transaction-today`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        // console.log(res);
+
+        const freeTotal = res?.data?.meta?.total ?? 0;
+
+        if (freeTotal > 3) {
+          toast.error('Daily limit reached, Join exclusive for unlimited download');
+          return; // stop proses jika sudah mencapai limit
+        }
+      }
+
+      const products: string[] = [productData!.productId];
+      const licenses: number[] = [Number(type)]; // tetap kirim index-nya, backend yang lookup
+      const affiliates: string[] = [''];
+
+      const data = await itemPayment({
+        productId: products,
+        licenseType: licenses,
+        affiliateId: affiliates,
+        token: token,
+      });
+
+      window.location.replace(data.data);
+    } catch (error) {
+      const err = error as AxiosError;
+      const errorData: any = err.response?.data;
+      toast.error(
+        (errorData?.message as string) ?? 'Error when generate payment!'
+      );
+    }
+  };
+
 
   const handleCart = async () => {
     try {
@@ -579,7 +655,7 @@ export default function ClientPage({ productData }: ClientPageProps) {
     //     price = `$${productData?.product.price[type] ?? 0}`;
     //   }
     // }
-    price = `${productData?.product?.coinPrice[type] ?? 0} Coin`;
+      price = `$${(productData?.product?.price[type] ?? 0).toFixed(2)} `;
     return price;
   };
 
@@ -603,6 +679,18 @@ export default function ClientPage({ productData }: ClientPageProps) {
   //
   //
   // }, [params]);
+
+    const handleCopyLink = async () => {
+        if (!productData?.product?.meta?.[0]?.title) return;
+        try {
+            await navigator.clipboard.writeText(
+                `${process.env.NEXT_PUBLIC_URL}/product/${productData.product.meta[0].title}`
+            );
+            toast.success('Link copied!');
+        } catch {
+            toast.error('Failed to copy link');
+        }
+    };
 
   return productData ? (
     <>
@@ -733,17 +821,20 @@ export default function ClientPage({ productData }: ClientPageProps) {
                         ? ''
                         : token
                           ? `${generatePrice()}`
-                          : 'FREE'
+                          : `${generatePrice()}`
                   }
                 </p>
               </div>
               <div className='flex flex-col gap-4 p-2 lg:w-5/6 lg:p-0'>
-                {/* {(!dataUser || dataUser?.coin === 0) ?
+                {token &&
+                !activeSubcription &&
+                (!dataUser || !ownerStatus) &&
+                productData?.product?.price[0] !== 0 ? (
                   <>
-                    <p className='font-katide-bold text-xs text-[#1A214C]'>
-                      License Option
+                    <p className='font-katide-bold text-md text-[#1A214C]'>
+                      License Option :
                     </p>
-                    <div className='flex justify-between gap-2'>
+                    <div className='flex justify-between'>
                       <button
                         onClick={() => {
                           setType(0);
@@ -782,9 +873,9 @@ export default function ClientPage({ productData }: ClientPageProps) {
                       </button>
                     </div>
                   </>
-                  :
+                ) : (
                   <div />
-                } */}
+                )}
                 <div className='flex w-full justify-between gap-2'>
                   {ownerStatus ? (
                     <button
@@ -811,7 +902,8 @@ export default function ClientPage({ productData }: ClientPageProps) {
 
                         if (!token) {
                           setModalProductName(productData.product?.name);
-                          setShowTrialModal(true);
+                          // setShowTrialModal(true);
+                          dispatch(setOpenModal(true));
                         } else {
                           handleBuy();
                         }
@@ -832,19 +924,19 @@ export default function ClientPage({ productData }: ClientPageProps) {
                       ) : subsData?.status === "trialing" && orders.length >= 10 ? (
                         'UNLOCK DOWNLOAD'
                       ) : !token ? (
-                        'DOWNLOAD FOR FREE'
+                        'SIGN UP TO DOWNLOAD'
                       ) : subsData?.coin === -1 ? (
                         'DOWNLOAD NOW'
                       ) : (
-                        'Buy with coin'
+                        'BUY'
                       )}
                     </button>
                   )}
-                  {token && !(subsData?.status === "trialing" && orders.length >= 10) && !ownerStatus && (
+                  {token && !activeSubcription && !ownerStatus && (
                     <button
                       type='button'
                       onClick={handleCart}
-                      className='flex h-[37px] items-center justify-center gap-[8px] rounded-[8px] border-2 border-gray-400 bg-white p-[12px] sm:pl-[24px] sm:pr-[24px]'
+                      className='flex items-center justify-center gap-[8px] rounded-[8px] border-2 border-gray-400 bg-white p-[12px] sm:pl-[24px] sm:pr-[24px]'
                     >
                       <img
                         src={cartProduct.src}
@@ -854,6 +946,75 @@ export default function ClientPage({ productData }: ClientPageProps) {
                     </button>
                   )}
                 </div>
+                  <p className='font-katide-bold text-md text-[#1A214C]'>
+                      Share :
+                  </p>
+                  <div className='flex w-full flex-wrap gap-x-1.5'>
+                      <Link href={
+                          productData?.title
+                              ? `https://id.pinterest.com/pin/create/button/?description=${productData.product?.name}&url=${process.env.NEXT_PUBLIC_URL}/product/${productData?.title}&media=${productData?.product?.imageUrl[0]}`
+                              : '#'
+                      } target='_blank' className='flex h-[35px] w-[35px] items-center justify-center rounded-full bg-red-600 text-white transition-transform hover:scale-105'>
+                          <FaPinterest size={24} />
+                      </Link>
+
+                      <Link href={
+                          productData?.title
+                              ? `https://api.whatsapp.com/send?text=${encodeURIComponent(`${productData.product?.name} ${process.env.NEXT_PUBLIC_URL}/product/${productData.title}`)}`
+                              : '#'
+                      } target='_blank' className='flex h-[35px] w-[35px] items-center justify-center rounded-full bg-green-600 text-white transition-transform hover:scale-105'>
+                          <FaWhatsapp size={24} />
+                      </Link>
+
+                      <Link href={
+                          productData?.title
+                              ? `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`${process.env.NEXT_PUBLIC_URL}/product/${productData.title}`)}`
+                              : '#'
+                      } target='_blank' className='flex h-[35px] w-[35px] items-center justify-center rounded-full bg-[#1877F2] text-white transition-transform hover:scale-105'>
+                          <FaFacebook size={24} />
+                      </Link>
+
+                      <Link href={
+                          productData?.title
+                              ? `https://twitter.com/intent/tweet?text=${encodeURIComponent(productData.product?.name ?? '')}&url=${encodeURIComponent(`${process.env.NEXT_PUBLIC_URL}/product/${productData.title}`)}`
+                              : '#'
+                      } target='_blank' className='flex h-[35px] w-[35px] items-center justify-center rounded-full bg-black text-white transition-transform hover:scale-105'>
+                          <FaXTwitter size={22} />
+                      </Link>
+
+                      <Link href={
+                          productData?.title
+                              ? `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${process.env.NEXT_PUBLIC_URL}/product/${productData.title}`)}`
+                              : '#'
+                      } target='_blank' className='flex h-[35px] w-[35px] items-center justify-center rounded-full bg-[#0A66C2] text-white transition-transform hover:scale-105'>
+                          <FaLinkedin size={24} />
+                      </Link>
+
+                      <Link href={
+                          productData?.title
+                              ? `https://t.me/share/url?url=${encodeURIComponent(`${process.env.NEXT_PUBLIC_URL}/product/${productData.title}`)}&text=${encodeURIComponent(productData.product?.name ?? '')}`
+                              : '#'
+                      } target='_blank' className='flex h-[35px] w-[35px] items-center justify-center rounded-full bg-[#26A5E4] text-white transition-transform hover:scale-105'>
+                          <FaTelegram size={24} />
+                      </Link>
+
+                      <Link href={
+                          productData?.title
+                              ? `mailto:?subject=${encodeURIComponent(productData.product?.name ?? '')}&body=${encodeURIComponent(`Check this out: ${process.env.NEXT_PUBLIC_URL}/product/${productData.title}`)}`
+                              : '#'
+                      } className='flex h-[35px] w-[35px] items-center justify-center rounded-full bg-gray-500 text-white transition-transform hover:scale-105'>
+                          <FaEnvelope size={22} />
+                      </Link>
+
+                      <button
+                          type='button'
+                          onClick={handleCopyLink}
+                          className='flex h-[35px] w-[35px] items-center justify-center rounded-full bg-[#4065D1] text-white transition-transform hover:scale-105'
+                      >
+                          <FaLink size={20} />
+                      </button>
+                  </div>
+
                 {dataUser?.affiliate && shortUrl === undefined && (
                   <button
                     onClick={() => {
@@ -875,6 +1036,102 @@ export default function ClientPage({ productData }: ClientPageProps) {
                 )}
 
                 <div className='mt-4 w-full border-t-2 border-[#1A214C]/15' />
+                {/*{!token ? (*/}
+                {/*  // Card jika user belum login / token kosong*/}
+                {/*  <div className="bg-[#E4F6FB] w-full rounded-xl relative overflow-hidden px-6">*/}
+                {/*    <div className="items-center my-6">*/}
+                {/*      <p className="font-katide-extrabold text-lg text-center text-[#1A214C] mb-4">*/}
+                {/*        Unlock Unlimited Craft Designs:*/}
+                {/*      </p>*/}
+                {/*      <ul className="text-[#61657D] text-sm font-katide-regular leading-relaxed mb-6 px-2 space-y-3">*/}
+                {/*        <li className="flex items-start gap-2">*/}
+                {/*          <Image src={CheckNonLoginAds} alt="check"/> Breezy – Drag & Drop.*/}
+                {/*        </li>*/}
+                {/*        <li className="flex items-start gap-2">*/}
+                {/*          <Image src={CheckNonLoginAds} alt="check"/> Unlimited access to all craft designs.*/}
+                {/*        </li>*/}
+                {/*        <li className="flex items-start gap-2">*/}
+                {/*          <Image src={CheckNonLoginAds} alt="check"/> Submit custom requests and get your own designs made.*/}
+                {/*        </li>*/}
+                {/*        <li className="flex items-start gap-2">*/}
+                {/*          <Image src={CheckNonLoginAds} alt="check"/> Fresh new designs daily from atelier.*/}
+                {/*        </li>*/}
+                {/*        <li className="flex items-start gap-2">*/}
+                {/*          <Image src={CheckNonLoginAds} alt="check"/> Includes full commercial & corporate license (POD friendly).*/}
+                {/*        </li>*/}
+                {/*      </ul>*/}
+                {/*    </div>*/}
+                {/*  </div>*/}
+                {/*) : activeSubcription ? (*/}
+                {/*  // Card jika sudah berlangganan*/}
+                {/*  <div className="bg-[#E4F6FB] w-full rounded-xl relative overflow-hidden px-6">*/}
+                {/*    <div className="items-center my-6">*/}
+                {/*      <p className="font-katide-extrabold text-lg text-center text-[#61657D] mb-4" style={{ letterSpacing: '0.2em' }}>*/}
+                {/*        COMPATIBILITY*/}
+                {/*      </p>*/}
+                {/*      <div className="flex w-full gap-2 mt-5 h-20 items-center justify-center">*/}
+                {/*        <div className="h-[66px]">*/}
+                {/*          <img*/}
+                {/*            alt="stripe"*/}
+                {/*            src={Comp1.src}*/}
+                {/*            className="w-full h-full object-contain"*/}
+                {/*          />*/}
+                {/*        </div>*/}
+                {/*        <div className="h-[70px]">*/}
+                {/*          <img*/}
+                {/*            alt="stripe"*/}
+                {/*            src={Comp2.src}*/}
+                {/*            className="w-full h-full object-contain"*/}
+                {/*          />*/}
+                {/*        </div>*/}
+                {/*        <div className="flex-1  flex">*/}
+                {/*          <img*/}
+                {/*            alt="stripe"*/}
+                {/*            src={Comp3.src}*/}
+                {/*            className="w-full h-full object-contain"*/}
+                {/*          />*/}
+                {/*        </div>*/}
+                {/*        <div className="h-[66px]">*/}
+                {/*          <img*/}
+                {/*            alt="stripe"*/}
+                {/*            src={Comp4.src}*/}
+                {/*            className="max-w-20 h-full object-contain"*/}
+                {/*          />*/}
+                {/*        </div>*/}
+                {/*      </div>*/}
+                {/*      <div className="flex w-full mt-5 gap-3 items-center justify-center">*/}
+                {/*        <div className="flex-1 justify-center items-center">*/}
+                {/*          <NextImage alt="stripe" src={Comp5} width={100} height={25} className="w-full h-auto items-center justify-center flex" classNames={{ image: `w-full` }} />*/}
+                {/*        </div>*/}
+                {/*        <div className="flex-1">*/}
+                {/*          <NextImage alt="stripe" src={Comp6} width={100} height={25} className="w-full h-auto items-center justify-center flex" classNames={{ image: `w-full` }} />*/}
+                {/*        </div>*/}
+                {/*      </div>*/}
+                {/*    </div>*/}
+                {/*  </div>*/}
+                {/*) : (*/}
+                {/*  // Card default jika punya token tapi belum subscribe*/}
+                {/*  <div className="bg-[#E4F6FB] w-full rounded-xl relative overflow-hidden px-6">*/}
+                {/*    <div className="items-center my-6">*/}
+                {/*      <p className="font-katide-extrabold text-lg text-center text-[#1A214C] mb-4">*/}
+                {/*        Pay ONCE, Create FOREVER!*/}
+                {/*      </p>*/}
+                {/*      <p className="text-[#61657D] text-sm leading-relaxed text-center mb-6 px-4">*/}
+                {/*        Get <span className="font-semibold">unlimited designs</span> for a year!*/}
+                {/*        <br />*/}
+                {/*        Upgrade to <span className="font-semibold">VIP+</span> and unlock ALL assets,*/}
+                {/*        <br />*/}
+                {/*        request custom designs, and sell your creations <span className="font-semibold">license-free!</span>*/}
+                {/*      </p>*/}
+                {/*      <a href="/membership">*/}
+                {/*        <button className="bg-[#ffb31f] hover:bg-[#f5a900] text-[#1A214C] font-semibold text-sm px-6 py-3 rounded-lg w-full">*/}
+                {/*          Subscribe & Download*/}
+                {/*        </button>*/}
+                {/*      </a>*/}
+                {/*    </div>*/}
+                {/*  </div>*/}
+                {/*)}*/}
+
                 {!token ? (
                   // Card jika user belum login / token kosong
                   <div className="bg-[#E4F6FB] w-full rounded-xl relative overflow-hidden px-6">
@@ -901,7 +1158,7 @@ export default function ClientPage({ productData }: ClientPageProps) {
                       </ul>
                     </div>
                   </div>
-                ) : activeSubcription ? (
+                ) : (activeSubcription || ownerStatus) ? (
                   // Card jika sudah berlangganan
                   <div className="bg-[#E4F6FB] w-full rounded-xl relative overflow-hidden px-6">
                     <div className="items-center my-6">
@@ -950,92 +1207,76 @@ export default function ClientPage({ productData }: ClientPageProps) {
                   </div>
                 ) : (
                   // Card default jika punya token tapi belum subscribe
-                  <div className="bg-[#E4F6FB] w-full rounded-xl relative overflow-hidden px-6">
-                    <div className="items-center my-6">
-                      <p className="font-katide-extrabold text-lg text-center text-[#1A214C] mb-4">
-                        Pay ONCE, Create FOREVER!
-                      </p>
-                      <p className="text-[#61657D] text-sm leading-relaxed text-center mb-6 px-4">
-                        Get <span className="font-semibold">unlimited designs</span> for a year!
-                        <br />
-                        Upgrade to <span className="font-semibold">VIP+</span> and unlock ALL assets,
-                        <br />
-                        request custom designs, and sell your creations <span className="font-semibold">license-free!</span>
-                      </p>
-                      <a href="/membership">
-                        <button className="bg-[#ffb31f] hover:bg-[#f5a900] text-[#1A214C] font-semibold text-sm px-6 py-3 rounded-lg w-full">
-                          Subscribe & Download
-                        </button>
-                      </a>
-                    </div>
+                  <div>
+                    <p className='text-lg font-semibold text-[#777777]'>
+                      License Terms
+                    </p>
+                    {type === 0 &&
+                      <ul className='list-disc text-[12px] text-[#777777]'>
+                        <li>Personal Use Only</li>
+                        <li>
+                          End Products Not For Resell, sub-license, share or
+                          (re)distribute any of the digital files
+                        </li>
+                        <li>
+                          You can give physical works as gifts, but not for commercial
+                          purposes such as trade, services or others
+                        </li>
+                        <li>
+                          Do not modify it to make a new work that is recognized as your
+                          work
+                        </li>
+                        <li>
+                          Digital files may not be shared or sold again, either offline
+                          or online on marketplace sites and the like
+                        </li>
+                      </ul>
+                    }
+                    {type === 1 &&
+                      <ul className='list-disc text-[12px] text-[#777777]'>
+                        <li>It can be for commercial purposes, by selling physical works made from our designs</li>
+                        <li>
+                          Can be used to trade physical products, craft fairs, gift services, craft services and other end product commercial purposes
+                        </li>
+                        <li>
+                          End Products Not For Resell, sub-license, share or (re)distribute any of the digital files
+                        </li>
+                        <li>
+                          Do not modify it to make a new work that is recognized as your work
+                        </li>
+                        <li>
+                          Digital files may not be shared or sold again, either offline or online on marketplace sites and the like
+                        </li>
+                        <li>
+                          Physical & Digital End Products (Read more)
+                        </li>
+                      </ul>
+                    }
+                    {type === 2 &&
+                      <ul className='list-disc text-[12px] text-[#777777]'>
+                        <li>Unlimited POD License</li>
+                        <li>It can be for commercial purposes, by selling physical works made from our designs</li>
+                        <li>
+                          Can be used to trade physical products, craft fairs, gift services, craft services and other end product commercial purposes
+                        </li>
+                        <li>
+                          End Products Not For Resell, sub-license, share or (re)distribute any of the digital files
+                        </li>
+                        <li>
+                          Do not modify it to make a new work that is recognized as your work
+                        </li>
+                        <li>
+                          Digital files may not be shared or sold again, either offline or online on marketplace sites and the like
+                        </li>
+                        <li>
+                          Physical & Digital End Products (Read more)
+                        </li>
+                      </ul>
+                    }
                   </div>
                 )}
 
-                {/* <p className='text-lg font-semibold text-[#777777]'>
-                  License Terms
-                </p> */}
-                {/* {type === 0 &&
-                  <ul className='list-disc text-[12px] text-[#777777]'>
-                    <li>Personal Use Only</li>
-                    <li>
-                      End Products Not For Resell, sub-license, share or
-                      (re)distribute any of the digital files
-                    </li>
-                    <li>
-                      You can give physical works as gifts, but not for commercial
-                      purposes such as trade, services or others
-                    </li>
-                    <li>
-                      Do not modify it to make a new work that is recognized as your
-                      work
-                    </li>
-                    <li>
-                      Digital files may not be shared or sold again, either offline
-                      or online on marketplace sites and the like
-                    </li>
-                  </ul>
-                }
-                {type === 1 &&
-                  <ul className='list-disc text-[12px] text-[#777777]'>
-                    <li>It can be for commercial purposes, by selling physical works made from our designs</li>
-                    <li>
-                      Can be used to trade physical products, craft fairs, gift services, craft services and other end product commercial purposes
-                    </li>
-                    <li>
-                      End Products Not For Resell, sub-license, share or (re)distribute any of the digital files
-                    </li>
-                    <li>
-                      Do not modify it to make a new work that is recognized as your work
-                    </li>
-                    <li>
-                      Digital files may not be shared or sold again, either offline or online on marketplace sites and the like
-                    </li>
-                    <li>
-                      Physical & Digital End Products (Read more)
-                    </li>
-                  </ul>
-                }
-                {type === 2 &&
-                  <ul className='list-disc text-[12px] text-[#777777]'>
-                    <li>Unlimited POD License</li>
-                    <li>It can be for commercial purposes, by selling physical works made from our designs</li>
-                    <li>
-                      Can be used to trade physical products, craft fairs, gift services, craft services and other end product commercial purposes
-                    </li>
-                    <li>
-                      End Products Not For Resell, sub-license, share or (re)distribute any of the digital files
-                    </li>
-                    <li>
-                      Do not modify it to make a new work that is recognized as your work
-                    </li>
-                    <li>
-                      Digital files may not be shared or sold again, either offline or online on marketplace sites and the like
-                    </li>
-                    <li>
-                      Physical & Digital End Products (Read more)
-                    </li>
-                  </ul>
-                } */}
+
               </div>
             </div>
           </div>
@@ -1232,20 +1473,20 @@ export default function ClientPage({ productData }: ClientPageProps) {
         product={showProductDetail.product}
         onClose={() => setShowProductDetail({ show: false })}
       />
-      <FreeTrialModal
-        isOpen={showTrialModal}
-        onClose={() => setShowTrialModal(false)}
-        productName={modalProductName}
-      />
-      <TrialDownloadSuccess
-        isOpen={showTrialSuccessModal}
-        onClose={() => setShowTrialSuccessModal(false)}
-        remaining={downloadRemaining}
-      />
-      <TrialExpired
-        isOpen={showTrialExpiredModal}
-        onClose={() => setShowTrialExpiredModal(false)}
-      />
+      {/*<FreeTrialModal*/}
+      {/*  isOpen={showTrialModal}*/}
+      {/*  onClose={() => setShowTrialModal(false)}*/}
+      {/*  productName={modalProductName}*/}
+      {/*/>*/}
+      {/*<TrialDownloadSuccess*/}
+      {/*  isOpen={showTrialSuccessModal}*/}
+      {/*  onClose={() => setShowTrialSuccessModal(false)}*/}
+      {/*  remaining={downloadRemaining}*/}
+      {/*/>*/}
+      {/*<TrialExpired*/}
+      {/*  isOpen={showTrialExpiredModal}*/}
+      {/*  onClose={() => setShowTrialExpiredModal(false)}*/}
+      {/*/>*/}
     </>
   ) : <LoadingComponent />;
 }

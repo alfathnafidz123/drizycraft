@@ -186,7 +186,7 @@ import project1 from './project-1.png';
 import projectLeftBg from './project-left-bg.webp'
 import projectImg1 from './projectSection/project1.webp';
 import projectGrid from './projectGrid.png';
-import projectImage from './projectImage.svg';
+import projectImage from './projectImage.png';
 import projectLike from './projectLike.svg';
 import projectPinterest from './projectPint.svg';
 import projectShare from './projectShare.svg';
@@ -290,8 +290,12 @@ import bannerMembershipNewYear from './banner-membership-new-year.png';
 import seasonChristmas from './season/christmas.png';
 import seasonSnow from "./season/snow.png";
 import seasonSpring from "./season/spring.webp";
+import seasonSummer from "./season/summer.webp";
+import AIFree from "./ai_free.svg";
 
 export {
+  AIFree,
+  seasonSummer,
   seasonSpring,
   seasonSnow,
   seasonChristmas,
